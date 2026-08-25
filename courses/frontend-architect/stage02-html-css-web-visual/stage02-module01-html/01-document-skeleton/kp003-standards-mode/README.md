@@ -8,7 +8,6 @@
 - [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
 - [动手编码：从 0 到 1 完成案例](#动手编码从-0-到-1-完成案例)
-- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
 
@@ -19,10 +18,10 @@
 1. 知道 `CSS1Compat` 表示当前文档处于标准模式。
 2. 理解默认 `content-box` 中 `width` 只表示内容区宽度。
 3. 理解 `border-box` 中声明宽度已经包含 padding 和 border。
-4. 能先手算盒子尺寸，再使用浏览器实际测量结果验证。
+4. 能先手算盒子尺寸，再用浏览器真实测量验证。
 
 > **本节核心知识是 Standards Mode 下的标准盒模型行为。**  
-> `document.compatMode` 与 `getBoundingClientRect()` 是实验辅助代码，只负责把文档模式和实际尺寸显示出来。
+> `document.compatMode` 与 `getBoundingClientRect()` 只是实验辅助代码。
 
 ## 理论讲解
 
@@ -34,17 +33,15 @@
 <!doctype html>
 ```
 
-现代浏览器通常进入 Standards Mode，可以读取：
+现代浏览器通常进入 Standards Mode：
 
 ```js
 document.compatMode // "CSS1Compat"
 ```
 
-标准模式表示浏览器按现代标准规则处理布局，而不是启用早期网页依赖的怪异兼容行为。
-
 ### 2. 默认 `content-box`
 
-假设一个盒子：
+假设元素声明：
 
 ```css
 width: 200px;
@@ -52,7 +49,7 @@ padding: 20px;
 border: 10px solid;
 ```
 
-默认 `box-sizing` 是 `content-box`，所以 `200px` 只计算内容区。
+默认 `box-sizing` 是 `content-box`，所以 `width: 200px` 只计算内容区。
 
 最终边框盒宽度：
 
@@ -68,7 +65,7 @@ border: 10px solid;
 box-sizing: border-box;
 ```
 
-此时 `width: 200px` 已经包含内容、padding 和 border，因此最终边框盒宽度仍然是：
+`width: 200px` 已经包含内容、padding 和 border，因此最终边框盒宽度仍是：
 
 ```text
 200px
@@ -78,16 +75,16 @@ box-sizing: border-box;
 
 ## 动手编码：从 0 到 1 完成案例
 
-### 第 0 步：先手算，不急着写测量代码
+### 第 0 步：先预测结果
 
-本次实验要比较两个盒子：
+本实验比较两个盒子：
 
 ```text
 content-box → 预计 260px
 border-box  → 预计 200px
 ```
 
-先记住这个预测，后面再让浏览器给答案。
+先手算，再让浏览器验证。
 
 ### 第 1 步：创建标准模式页面
 
@@ -107,9 +104,9 @@ border-box  → 预计 200px
 </html>
 ```
 
-第一行保证我们从标准模式开始实验。
+第一行保证实验从标准模式开始。
 
-### 第 2 步：先写公共盒子样式
+### 第 2 步：加入公共盒子样式
 
 在 `head` 中加入：
 
@@ -124,11 +121,9 @@ border-box  → 预计 200px
 </style>
 ```
 
-这一步只建立默认 `content-box` 条件。
+### 第 3 步：加入 `content-box`
 
-### 第 3 步：加入第一个盒子
-
-在 `body` 中加入：
+正文加入：
 
 ```html
 <h2>content-box</h2>
@@ -136,15 +131,15 @@ border-box  → 预计 200px
 <p id="content-result"></p>
 ```
 
-现在先观察视觉效果，并再次手算：
+再次手算：
 
 ```text
 200 + 40 + 20 = 260px
 ```
 
-### 第 4 步：加入第二个 `border-box`
+### 第 4 步：加入 `border-box`
 
-在样式中追加：
+样式中追加：
 
 ```css
 .border-box {
@@ -152,15 +147,13 @@ border-box  → 预计 200px
 }
 ```
 
-再在正文中加入：
+正文再加入：
 
 ```html
 <h2>border-box</h2>
 <div class="box border-box" id="border-box">width: 200px</div>
 <p id="border-result"></p>
 ```
-
-此时两个盒子都声明 `width: 200px`，但尺寸含义已经不同。
 
 ### 第 5 步：显示当前文档模式
 
@@ -172,17 +165,15 @@ border-box  → 预计 200px
 </script>
 ```
 
-> **实验辅助代码**：这一步只是在页面上证明当前为 `CSS1Compat`。
-
 刷新后应看到：
 
 ```text
 文档模式：CSS1Compat
 ```
 
-### 第 6 步：测量两个盒子的真实宽度
+### 第 6 步：测量真实宽度
 
-把脚本扩展为：
+扩展脚本：
 
 ```js
 const contentWidth =
@@ -191,122 +182,49 @@ const borderWidth =
   document.querySelector('#border-box').getBoundingClientRect().width;
 
 document.querySelector('#mode').textContent = document.compatMode;
-```
-
-然后输出结果：
-
-```js
 document.querySelector('#content-result').textContent =
   '实际边框盒宽度：' + contentWidth + 'px';
 document.querySelector('#border-result').textContent =
   '实际边框盒宽度：' + borderWidth + 'px';
 ```
 
-刷新页面，你应该得到：
+刷新后应得到：
 
 ```text
 content-box：260px
 border-box：200px
 ```
 
-这一步完成了：
-
-```text
-先预测
-  ↓
-浏览器布局
-  ↓
-实际测量
-  ↓
-验证预测
-```
-
 ### 第 7 步：修改参数再次验证
 
-例如把：
+临时把：
 
 ```css
 padding: 20px;
 ```
 
-临时改成：
+改成：
 
 ```css
 padding: 30px;
 ```
 
-先重新手算，再刷新页面验证。
+先手算，再刷新验证。实验结束后恢复 `20px`。
 
-实验结束后恢复 `20px`，使文件与仓库最终源码一致。
+### 第 8 步：完成案例并对照最终源码
 
----
+恢复原值后，你的代码应与仓库最终 [`index.html`](./index.html) 一致。
 
-## 完整源码讲解
+本节总结：
 
-仓库最终 [`index.html`](./index.html) 为：
+- **核心代码**：标准 DOCTYPE、`.box` 的盒模型声明、`.border-box { box-sizing: border-box; }`。
+- **实验辅助代码**：`document.compatMode` 与 `getBoundingClientRect()`，只负责证明当前模式和实际尺寸。
 
-```html
-<!doctype html>
-<!--
-  KP003：Standards Mode
-
-  当前文件有标准 DOCTYPE，因此 document.compatMode 应为 CSS1Compat。
-
-  两个盒子都声明 width: 200px：
-  - content-box 的 200px 只计算内容区，外部宽度还要加 padding 和 border。
-  - border-box 的 200px 已经包含 padding 和 border。
--->
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <title>KP003：Standards Mode</title>
-
-  <style>
-    .box {
-      width: 200px;
-      padding: 20px;
-      border: 10px solid;
-      margin-bottom: 12px;
-    }
-
-    .border-box {
-      box-sizing: border-box;
-    }
-  </style>
-</head>
-<body>
-  <h1>标准模式下的盒模型证据</h1>
-  <p>文档模式：<strong id="mode"></strong></p>
-
-  <h2>content-box</h2>
-  <div class="box" id="content-box">width: 200px</div>
-  <p id="content-result"></p>
-
-  <h2>border-box</h2>
-  <div class="box border-box" id="border-box">width: 200px</div>
-  <p id="border-result"></p>
-
-  <script>
-    const contentWidth =
-      document.querySelector('#content-box').getBoundingClientRect().width;
-    const borderWidth =
-      document.querySelector('#border-box').getBoundingClientRect().width;
-
-    document.querySelector('#mode').textContent = document.compatMode;
-    document.querySelector('#content-result').textContent =
-      '实际边框盒宽度：' + contentWidth + 'px';
-    document.querySelector('#border-result').textContent =
-      '实际边框盒宽度：' + borderWidth + 'px';
-  </script>
-</body>
-</html>
-```
-
-其中真正要理解的是 `.box` 与 `.border-box` 的尺寸语义；脚本只负责测量和展示。
+最终源码以 [`index.html`](./index.html) 为准，不在 README 中重复整份粘贴。
 
 ## 运行案例
 
-直接用浏览器打开 [`index.html`](./index.html)，或在当前目录运行：
+直接打开 [`index.html`](./index.html)，或执行：
 
 ```bash
 python3 -m http.server 8080
@@ -318,7 +236,7 @@ python3 -m http.server 8080
 http://localhost:8080/index.html
 ```
 
-建议先遮住页面结果，自己手算后再对照。
+建议先自己手算，再查看页面输出。
 
 ## 效果验证
 
@@ -327,4 +245,4 @@ http://localhost:8080/index.html
 - `document.compatMode = CSS1Compat`。
 - `content-box` 实际边框盒宽度为 `260px`。
 - `border-box` 实际边框盒宽度为 `200px`。
-- 修改 width、padding 或 border 后，你能先算出新结果，再由浏览器验证。
+- 修改 width、padding 或 border 后，能够先计算再由浏览器验证。
