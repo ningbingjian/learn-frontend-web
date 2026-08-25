@@ -11,7 +11,6 @@
 - [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
-- [课后练习](#课后练习)
 
 ## 学习目标
 
@@ -191,7 +190,7 @@ const contentWidth =
 const borderWidth =
   document.querySelector('#border-box').getBoundingClientRect().width;
 
- document.querySelector('#mode').textContent = document.compatMode;
+document.querySelector('#mode').textContent = document.compatMode;
 ```
 
 然后输出结果：
@@ -329,9 +328,3 @@ http://localhost:8080/index.html
 - `content-box` 实际边框盒宽度为 `260px`。
 - `border-box` 实际边框盒宽度为 `200px`。
 - 修改 width、padding 或 border 后，你能先算出新结果，再由浏览器验证。
-
-## 课后练习
-
-1. 把 `width` 改成 `300px`，分别计算两个盒子的最终宽度。
-2. 把 border 改成 `5px`，不要先运行，先写出你的预测。
-3. 用一句话解释：为什么两个盒子都写 `width: 200px`，实际外部宽度却不同？
