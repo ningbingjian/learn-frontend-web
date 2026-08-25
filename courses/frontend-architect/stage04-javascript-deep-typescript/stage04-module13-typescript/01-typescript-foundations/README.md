@@ -57,10 +57,10 @@ npm install
 | TS-KP002 | 静态类型检查与 JavaScript 运行时的边界 | [文档](./kp002-static-type-checking-runtime-boundary/README.md) · [源码](./kp002-static-type-checking-runtime-boundary/src/main.ts) · [练习](./kp002-static-type-checking-runtime-boundary/exercise/README.md) | 已完成 |
 | TS-KP003 | TypeScript 的擦除型类型系统 | [文档](./kp003-erased-type-system/README.md) · [源码](./kp003-erased-type-system/src/main.ts) · [练习](./kp003-erased-type-system/exercise/README.md) | 已完成 |
 | TS-KP004 | 类型安全不是运行时数据校验 | [文档](./kp004-types-vs-runtime-validation/README.md) · [源码](./kp004-types-vs-runtime-validation/src/main.ts) · [练习](./kp004-types-vs-runtime-validation/exercise/README.md) | 已完成 |
-| TS-KP005 | TypeScript 的设计目标与非目标 | `kp005-design-goals/` | 待生成 |
-| TS-KP006 | 渐进式类型系统与 JavaScript 迁移 | `kp006-gradual-typing-migration/` | 待生成 |
-| TS-KP007 | 结构化类型系统基本直觉 | `kp007-structural-typing-intuition/` | 待生成 |
-| TS-KP008 | 编译期错误与运行时错误的区别 | `kp008-compile-time-vs-runtime-errors/` | 待生成 |
+| TS-KP005 | TypeScript 的设计目标与非目标 | [文档](./kp005-design-goals/README.md) · [源码](./kp005-design-goals/src/main.ts) · [练习](./kp005-design-goals/exercise/README.md) | 已完成 |
+| TS-KP006 | 渐进式类型系统与 JavaScript 迁移 | [文档](./kp006-gradual-typing-migration/README.md) · [源码](./kp006-gradual-typing-migration/src/main.ts) · [练习](./kp006-gradual-typing-migration/exercise/README.md) | 已完成 |
+| TS-KP007 | 结构化类型系统基本直觉 | [文档](./kp007-structural-typing-intuition/README.md) · [源码](./kp007-structural-typing-intuition/src/main.ts) · [练习](./kp007-structural-typing-intuition/exercise/README.md) | 已完成 |
+| TS-KP008 | 编译期错误与运行时错误的区别 | [文档](./kp008-compile-time-vs-runtime-errors/README.md) · [源码](./kp008-compile-time-vs-runtime-errors/src/main.ts) · [练习](./kp008-compile-time-vs-runtime-errors/exercise/README.md) | 已完成 |
 
 ### Lesson 01.2：安装、编译与执行
 
@@ -87,6 +87,6 @@ npm install
 
 ## 当前进度
 
-- Lesson 01.1：4/8 已完成。
-- Chapter 01：4/16 已完成。
-- 下一知识点：TS-KP005「TypeScript 的设计目标与非目标」。
+- Lesson 01.1：8/8 已完成。
+- Chapter 01：8/16 已完成。
+- 下一知识点：TS-KP009「安装 TypeScript 与版本管理」。
