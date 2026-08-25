@@ -8,7 +8,6 @@
 - [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
 - [动手编码：从 0 到 1 完成案例](#动手编码从-0-到-1-完成案例)
-- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
 
@@ -20,7 +19,7 @@
 2. 正确使用 `lang` 声明文档主语言，并知道局部内容可以覆盖语言。
 3. 理解 `dir="ltr"`、`dir="rtl"` 与 `dir="auto"` 的作用。
 4. 知道方向未知的独立文本可以使用 `bdi` 做双向文本隔离。
-5. 能通过 `document.documentElement` 验证根元素的真实属性。
+5. 能通过 `document.documentElement` 验证根元素属性。
 
 > **本节核心代码是 `html`、`lang`、`dir` 与局部语言/方向声明。**  
 > `document.documentElement` 和 `getComputedStyle()` 只是实验辅助代码。
@@ -54,9 +53,9 @@ document.documentElement
 <html lang="zh-CN">
 ```
 
-它可以帮助读屏发音、翻译工具、搜索引擎以及断词算法理解页面内容。
+它可以帮助读屏发音、翻译工具、搜索引擎和断词算法理解内容。
 
-如果页面中有局部英文，可以单独覆盖：
+局部外语内容可以单独覆盖：
 
 ```html
 <p lang="en">This is English.</p>
@@ -100,7 +99,7 @@ dir 表示整体方向
 bdi 可以隔离独立文本
 ```
 
-### 第 1 步：先写最小文档骨架
+### 第 1 步：写最小文档骨架
 
 创建 `index.html`：
 
@@ -117,13 +116,13 @@ bdi 可以隔离独立文本
 </html>
 ```
 
-当前最值得关注的是：
+当前核心是：
 
 ```html
 <html lang="zh-CN" dir="ltr">
 ```
 
-它同时声明了页面主语言和整体书写方向。
+它同时声明页面主语言和整体书写方向。
 
 ### 第 2 步：加入主语言和局部语言内容
 
@@ -134,9 +133,9 @@ bdi 可以隔离独立文本
 <p lang="en">This paragraph declares English locally.</p>
 ```
 
-第一段继承根元素的 `zh-CN`；第二段通过自己的 `lang="en"` 覆盖语言。
+第一段继承 `zh-CN`；第二段通过 `lang="en"` 覆盖语言。
 
-### 第 3 步：加入方向未知的独立文本
+### 第 3 步：加入独立方向文本
 
 继续加入：
 
@@ -144,9 +143,9 @@ bdi 可以隔离独立文本
 <p>订单号：<bdi>INV-2026-001</bdi></p>
 ```
 
-`bdi` 的重点不是改变订单号内容，而是把它的双向文本方向与周围内容隔离。
+`bdi` 用来隔离这段独立文本的双向方向影响。
 
-### 第 4 步：准备根元素验证区域
+### 第 4 步：准备验证区域
 
 加入：
 
@@ -154,8 +153,6 @@ bdi 可以隔离独立文本
 <h2>当前根元素属性</h2>
 <pre id="result"></pre>
 ```
-
-接下来用辅助代码把浏览器实际解析到的根元素信息显示出来。
 
 ### 第 5 步：取得真实根元素
 
@@ -167,11 +164,11 @@ bdi 可以隔离独立文本
 </script>
 ```
 
-> **实验辅助代码**：`document.documentElement` 就是浏览器解析后的 `<html>` 元素。
+> 这是实验辅助代码，只用于读取浏览器解析后的 `<html>` 元素。
 
 ### 第 6 步：输出语言和方向
 
-把脚本补充为：
+补充为：
 
 ```js
 const root = document.documentElement;
@@ -184,7 +181,7 @@ document.querySelector('#result').textContent = [
 ].join('\n');
 ```
 
-刷新后应看到类似：
+刷新后应看到：
 
 ```text
 标签名：HTML
@@ -195,16 +192,16 @@ dir：ltr
 
 ### 第 7 步：改成 RTL 做对照
 
-临时把根元素改成：
+临时改成：
 
 ```html
 <html lang="ar" dir="rtl">
 ```
 
-刷新页面，观察：
+刷新后观察：
 
-- 页面整体方向发生变化。
-- 输出中的 `lang` 变成 `ar`。
+- 页面整体方向变化。
+- `lang` 变成 `ar`。
 - `dir` 与计算方向变成 `rtl`。
 - 局部英文段落仍保留自己的 `lang="en"`。
 
@@ -214,56 +211,16 @@ dir：ltr
 <html lang="zh-CN" dir="ltr">
 ```
 
----
+### 第 8 步：完成案例并对照最终源码
 
-## 完整源码讲解
+恢复后，你的代码应与仓库最终 [`index.html`](./index.html) 一致。
 
-仓库最终 [`index.html`](./index.html) 为：
+本节总结：
 
-```html
-<!doctype html>
-<!--
-  KP005：html 根元素
+- **核心代码**：根元素 `<html>`、`lang`、`dir`、局部 `lang` 与 `bdi`。
+- **实验辅助代码**：`document.documentElement` 和 `getComputedStyle()`，只用于验证解析结果。
 
-  html 是整个文档的根元素。
-  - lang 表示文档主语言。
-  - dir 表示文档整体书写方向。
-  - 局部外语可以在局部元素上单独声明 lang。
-  - 方向未知的独立文本可以使用 bdi 隔离。
--->
-<html lang="zh-CN" dir="ltr">
-<head>
-  <meta charset="utf-8">
-  <title>KP005：html 根元素</title>
-</head>
-<body>
-  <h1>文档语言与方向</h1>
-
-  <p>这是一段中文正文。</p>
-  <p lang="en">This paragraph declares English locally.</p>
-  <p>订单号：<bdi>INV-2026-001</bdi></p>
-
-  <h2>当前根元素属性</h2>
-  <pre id="result"></pre>
-
-  <script>
-    const root = document.documentElement;
-
-    document.querySelector('#result').textContent = [
-      '标签名：' + root.tagName,
-      'lang：' + root.lang,
-      'dir：' + root.dir,
-      '计算方向：' + getComputedStyle(root).direction
-    ].join('\n');
-  </script>
-</body>
-</html>
-```
-
-可以把源码理解成两层：
-
-- **核心 HTML**：根元素属性、局部 `lang`、`bdi`。
-- **实验辅助代码**：读取根元素并显示解析结果。
+最终源码直接查看 [`index.html`](./index.html)，README 不再重复整份源码。
 
 ## 运行案例
 
