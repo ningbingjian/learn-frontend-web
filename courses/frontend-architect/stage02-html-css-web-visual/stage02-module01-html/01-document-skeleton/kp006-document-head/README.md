@@ -11,7 +11,6 @@
 - [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
-- [课后练习](#课后练习)
 
 ## 学习目标
 
@@ -190,7 +189,7 @@ document.querySelector('#result').textContent = [
 
 ```text
 title       → 标签页 + document.title
- description → 辅助输出中的 description
+description → 辅助输出中的 description
 body 文本    → 不会自动变化
 ```
 
@@ -275,9 +274,3 @@ http://localhost:8080/index.html
 - 页面正文位于 `body`。
 - 辅助输出能列出 `head` 子元素并读到 description。
 - 修改 `title` 或 description 后，对应结果会同步变化。
-
-## 课后练习
-
-1. 新增一个 `<meta name="author" content="your-name">`，观察正文是否变化。
-2. 把一个普通 `<p>` 故意写进 `head`，再到 Elements 面板观察浏览器最终把它放到了哪里。
-3. 用自己的话解释 `head` 和页面中的 `<header>` 有什么根本区别。
