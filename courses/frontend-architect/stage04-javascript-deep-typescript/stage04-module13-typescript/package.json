@@ -1,0 +1,12 @@
+{
+  "name": "frontend-architect-typescript-course",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "check": "tsc --noEmit -p",
+    "build": "tsc -p"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}

@@ -30,13 +30,27 @@ formatOrderTotal(199, 2)
 formatOrderTotal(199, '2')
 ```
 
-然后执行：
+然后进入 TypeScript 模块根目录：
 
 ```bash
-npx tsc exercise/main.ts --noEmit --strict --target ES2022
+cd courses/frontend-architect/stage04-javascript-deep-typescript/stage04-module13-typescript
+```
+
+首次学习本模块时先安装一次共享依赖：
+
+```bash
+npm install
+```
+
+执行练习类型检查：
+
+```bash
+npx tsc ./01-typescript-foundations/kp001-typescript-javascript-relationship/exercise/main.ts --noEmit --strict --target ES2022
 ```
 
 确认 TypeScript 能在程序运行前指出参数类型错误。
+
+> 本练习复用模块根目录中的 TypeScript 依赖，不需要在当前知识点目录再次安装一套 `node_modules`。
 
 ## 思考题
 

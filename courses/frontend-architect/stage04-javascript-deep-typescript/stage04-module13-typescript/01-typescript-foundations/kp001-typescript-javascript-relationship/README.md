@@ -1,36 +1,32 @@
 # TS-KP001：TypeScript 与 JavaScript 的关系
 
-> [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
 
 ## 文档目录
 
 - [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
 - [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
-- [课后练习](#课后练习)
 
 ## 学习目标
 
 学完本节后，你应该能够：
 
 1. 用自己的话说明 TypeScript 与 JavaScript 的关系。
-2. 知道 TypeScript 在 JavaScript 语法基础上增加了类型语法和静态检查能力。
-3. 知道常规 TypeScript 工程最终仍然会得到 JavaScript。
+2. 知道 TypeScript 在 JavaScript 语法和运行时语义基础上增加了开发期类型能力。
+3. 知道常规 TypeScript 工程经过编译后仍然得到 JavaScript。
 4. 能亲手完成一次“编写 TS → 类型检查 → 编译 → 运行 JS”的最小流程。
-5. 能区分本节核心代码和实验辅助代码。
+5. 能区分 TypeScript 类型代码和为了观察实验而加入的工程辅助代码。
 
-> **本节核心代码**：TypeScript 类型标注，例如 `value: number` 与函数返回值 `: string`。
+> **本节核心代码**：`value: number`、`: string` 等 TypeScript 类型标注，以及它们形成的函数类型约定。
 >
-> **实验辅助代码**：`package.json`、`tsconfig.json`、npm scripts、故意写错的调用。它们用于观察现象，本节不要求一次掌握全部配置。
-
----
+> **实验辅助代码**：共享 `package.json`、`tsconfig.base.json`、当前知识点的 `tsconfig.json`、npm 命令以及故意制造的错误调用。它们用于完成实验，本节不要求一次掌握全部配置。
 
 ## 理论讲解
 
-### 1. JavaScript 负责真正的运行时行为
+### 1. JavaScript 负责运行时行为
 
 先看普通 JavaScript：
 
@@ -42,7 +38,7 @@ function formatPrice(value) {
 console.log(formatPrice(499));
 ```
 
-浏览器或 Node.js 真正执行的是 JavaScript 运行时逻辑。
+真正运行这段逻辑的是浏览器或 Node.js 的 JavaScript 运行时。
 
 但是下面的调用也可以被写出来：
 
@@ -50,7 +46,7 @@ console.log(formatPrice(499));
 formatPrice('499');
 ```
 
-如果传入的数据不符合程序预期，问题可能直到运行时才暴露。
+如果数据不符合程序预期，问题可能直到运行时才暴露。
 
 ### 2. TypeScript 在 JavaScript 上增加类型信息
 
@@ -62,47 +58,47 @@ function formatPrice(value: number): string {
 }
 ```
 
-新增的部分是：
+新增的类型信息是：
 
 ```text
 value: number
       ↓
 参数应该是 number
 
-:string
+: string
       ↓
 函数应该返回 string
 ```
 
-于是：
+于是正确调用：
 
 ```ts
 formatPrice(499);
 ```
 
-符合类型要求，而：
+能够通过类型检查，而：
 
 ```ts
 formatPrice('499');
 ```
 
-会在类型检查阶段被发现。
+会在程序真正运行之前被 TypeScript 发现。
 
-### 3. TypeScript 并没有创造另一套运行时
+### 3. TypeScript 没有创造另一套业务运行时
 
-先记住最基础的一条链路：
+先建立最重要的一条链路：
 
 ```text
 TypeScript 源码
       ↓
-类型检查 / 编译处理
+类型检查 / 编译
       ↓
 JavaScript
       ↓
 浏览器 / Node.js
 ```
 
-例如 TypeScript：
+例如 TypeScript 源码：
 
 ```ts
 function formatPrice(value: number): string {
@@ -110,7 +106,7 @@ function formatPrice(value: number): string {
 }
 ```
 
-常规编译后得到的 JavaScript 大致是：
+常规编译后的 JavaScript 大致为：
 
 ```js
 function formatPrice(value) {
@@ -118,26 +114,24 @@ function formatPrice(value) {
 }
 ```
 
-类型标注已经不在普通 JavaScript 产物中。
+`number`、`string` 这些类型标注不再出现在普通 JavaScript 产物里。
 
-类型擦除会在 **TS-KP003** 专门学习；本节先建立直觉即可。
+具体的类型擦除机制会在 **TS-KP003** 单独学习；本节只建立直觉。
 
-### 4. TypeScript 与 JavaScript 的关系
+### 4. TypeScript 和 JavaScript 不是二选一
 
-现阶段先记住：
+现阶段可以这样理解：
 
 ```text
 JavaScript
-负责运行时行为
+负责语言的运行时行为
 
 TypeScript
-建立在 JavaScript 生态和语义基础上
-并增加开发期类型能力
+建立在 JavaScript 之上
+增加静态类型分析和开发工具能力
 ```
 
-所以学习 TypeScript 并不是把 JavaScript 推翻重学。
-
-正确关系更像：
+所以学习 TypeScript 不是把 JavaScript 推翻重学，而是在已有 JavaScript 基础上继续增加类型系统能力：
 
 ```text
 JavaScript 基础
@@ -145,52 +139,70 @@ JavaScript 基础
 TypeScript 类型系统
 ```
 
-这也是为什么学习 TypeScript 不能跳过 JavaScript。
+这也是为什么不能跳过 JavaScript 基础直接只学 TypeScript 语法。
 
 ### 5. 关于“直接运行 TypeScript”
 
-现代部分运行时可以直接接受某些 TypeScript 文件或可擦除类型语法。
-
-但这不会改变本节的核心认识：
+现代部分运行时能够直接接受某些 TypeScript 文件或可擦除类型语法，但这不会改变本节的核心认识：
 
 ```text
 TypeScript 类型信息主要服务于开发期分析
 运行时行为仍然遵循 JavaScript 语义
 ```
 
-具体运行方式会在后面的安装、编译与执行章节学习。
-
----
+不同运行方式会在 TS-KP009～TS-KP015 继续学习。
 
 ## 动手编码：从 0 到 1
 
-不要先复制最终 `src/main.ts`。建议从空目录开始跟着写。
+不要先复制最终 [`src/main.ts`](./src/main.ts)。建议按照下面步骤自己创建、修改、检查和运行。
 
 ### 第 0 步：明确实验目标
 
 我们只验证三件事：
 
-1. TypeScript 能继续写熟悉的 JavaScript 风格代码。
-2. 加入类型以后，错误调用能在运行前被发现。
-3. TypeScript 编译以后得到的是 JavaScript。
+1. `.ts` 文件可以继续写熟悉的 JavaScript 风格代码。
+2. 加入类型以后，错误调用可以在运行前被发现。
+3. TypeScript 编译以后可以得到 JavaScript，再交给 Node.js 执行。
 
 最终链路：
 
 ```text
 src/main.ts
     ↓
-npm run check
+TypeScript 类型检查
     ↓
-npm run build
+TypeScript 编译
     ↓
 dist/main.js
     ↓
-npm run start
+Node.js 执行 JavaScript
 ```
 
-### 第 1 步：创建最小文件
+### 第 1 步：准备共享 TypeScript 环境
 
-创建：
+本模块不再为每个 KP 重复安装一套 TypeScript。先进入 TypeScript 模块根目录：
+
+```bash
+cd courses/frontend-architect/stage04-javascript-deep-typescript/stage04-module13-typescript
+```
+
+第一次学习本模块时执行：
+
+```bash
+npm install
+```
+
+模块根目录的 `package.json` 统一提供 TypeScript 依赖，`tsconfig.base.json` 统一提供基础严格模式配置。
+
+**为什么这样做？**
+
+如果 550 个知识点都各自维护一份 `package.json` 和 `node_modules`，会产生大量重复文件和依赖。共享工具链更接近真实工程，也更容易维护。
+
+> 共享工程配置是实验辅助设施，不是 TS-KP001 的核心知识。
+
+### 第 2 步：创建最小 TypeScript 文件
+
+在当前知识点目录创建：
 
 ```text
 src/
@@ -204,13 +216,13 @@ const productName = 'Mechanical Keyboard';
 const price = 499;
 ```
 
-这段代码看起来和普通 JavaScript 一样。
+**为什么先这样写？**
 
-**为什么这样写？**
+因为 TypeScript 并不要求每个变量都显式写类型。我们先保留最熟悉的 JavaScript 写法，再观察后面新增的 TypeScript 类型语法。
 
-因为 TypeScript 不是要求所有代码都写显式类型。这里先保留熟悉的 JavaScript 写法，让后面新增的类型语法更容易观察。
+当前代码本身没有明显的 TypeScript 专属语法。
 
-### 第 2 步：先写运行行为
+### 第 3 步：先写 JavaScript 风格的运行逻辑
 
 继续加入：
 
@@ -218,7 +230,7 @@ const price = 499;
 console.log(`${productName}: ¥${price}`);
 ```
 
-当前代码：
+当前文件：
 
 ```ts
 const productName = 'Mechanical Keyboard';
@@ -227,9 +239,11 @@ const price = 499;
 console.log(`${productName}: ¥${price}`);
 ```
 
-到这里，我们还没有使用最明显的 TypeScript 专属类型语法。
+**本步观察什么？**
 
-### 第 3 步：加入类型标注
+`.ts` 文件并不是一种和 JavaScript 完全无关的新语言。大量普通 JavaScript 代码本身就是合法的 TypeScript 输入。
+
+### 第 4 步：第一次加入 TypeScript 类型标注
 
 增加函数：
 
@@ -245,7 +259,7 @@ function formatPrice(value: number): string {
 console.log(`${productName}: ${formatPrice(price)}`);
 ```
 
-现在完整代码是：
+此时文件为：
 
 ```ts
 const productName = 'Mechanical Keyboard';
@@ -258,95 +272,78 @@ function formatPrice(value: number): string {
 console.log(`${productName}: ${formatPrice(price)}`);
 ```
 
-**本步要观察什么？**
+**本步新增了什么？**
 
 ```ts
 value: number
 ```
 
-和：
+表示参数约定为 `number`。
 
 ```ts
 : string
 ```
 
-就是我们第一次显式加入的 TypeScript 类型信息。
+表示函数返回值约定为 `string`。
 
-### 第 4 步：加入最小工程配置
+这两处就是本节最核心的 TypeScript 代码。
 
-创建 `package.json`：
+### 第 5 步：创建当前知识点的最小编译配置
 
-```json
-{
-  "name": "ts-kp001-typescript-javascript-relationship",
-  "private": true,
-  "version": "1.0.0",
-  "scripts": {
-    "check": "tsc --noEmit",
-    "build": "tsc",
-    "start": "node dist/main.js"
-  },
-  "devDependencies": {
-    "typescript": "7.0.2"
-  }
-}
-```
-
-再创建 `tsconfig.json`：
+当前知识点仍然保留一个很小的 `tsconfig.json`：
 
 ```json
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "strict": true,
     "rootDir": "src",
-    "outDir": "dist",
-    "noEmitOnError": true
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts"]
 }
 ```
 
-本节只需要知道：
+它不再重复声明 TypeScript 版本和全部编译选项，而是继承模块根目录的：
 
 ```text
-strict
+tsconfig.base.json
+```
+
+这里只需要知道：
+
+```text
+extends
   ↓
-开启严格类型检查
+复用模块基础配置
+
+rootDir
+  ↓
+当前源码位于 src/
 
 outDir
   ↓
-JavaScript 输出到 dist/
-
-noEmitOnError
-  ↓
-存在类型错误时不生成产物
+当前 JavaScript 输出到 dist/
 ```
 
-这些配置后面会单独学习。
+这些配置后面会专门学习。
 
-### 第 5 步：第一次类型检查
+### 第 6 步：第一次运行类型检查
 
-安装依赖：
+仍然在 TypeScript 模块根目录执行：
 
 ```bash
-npm install
+npm run check -- ./01-typescript-foundations/kp001-typescript-javascript-relationship/tsconfig.json
 ```
 
-运行：
+当前正确代码应该通过检查。
 
-```bash
-npm run check
-```
+**为什么此时程序还没有运行？**
 
-当前代码应该通过检查。
+因为这个命令只要求 TypeScript 分析代码是否合法，并不执行 `formatPrice()` 的业务逻辑。
 
-> 安装 TypeScript 和 `tsc` 命令会在 TS-KP009、TS-KP010 详细学习，这里把它们当作实验工具即可。
+### 第 7 步：故意制造一个类型错误
 
-### 第 6 步：故意制造类型错误
-
-暂时把：
+临时把：
 
 ```ts
 formatPrice(price)
@@ -361,7 +358,7 @@ formatPrice('499')
 再次执行：
 
 ```bash
-npm run check
+npm run check -- ./01-typescript-foundations/kp001-typescript-javascript-relationship/tsconfig.json
 ```
 
 应该看到类似含义的错误：
@@ -370,152 +367,67 @@ npm run check
 string 不能作为 number 参数传入
 ```
 
-最重要的是观察错误出现的时间：
+最重要的是观察错误发生的时间：
 
 ```text
-程序还没有真正运行
+还没有真正运行程序
       ↓
-TypeScript 已经发现类型不匹配
+TypeScript 已经发现调用不符合类型约定
 ```
 
-这行错误代码只是**实验辅助代码**，观察完成后恢复 `formatPrice(price)`。
+这行错误调用只是实验辅助代码。验证完成后恢复：
 
-### 第 7 步：编译并查看 JavaScript
+```ts
+formatPrice(price)
+```
 
-恢复正确代码后运行：
+### 第 8 步：编译 TypeScript
+
+恢复正确代码后执行：
 
 ```bash
-npm run build
+npm run build -- ./01-typescript-foundations/kp001-typescript-javascript-relationship/tsconfig.json
 ```
 
-会生成：
+当前知识点目录会生成：
 
 ```text
 dist/
 └── main.js
 ```
 
-打开 `dist/main.js`，重点比较：
+**为什么要看编译产物？**
 
-TypeScript：
+因为本节要亲手证明 TypeScript 和 JavaScript 的关系，而不是只记定义。
+
+### 第 9 步：对比 TypeScript 和 JavaScript
+
+TypeScript 中有：
 
 ```ts
 function formatPrice(value: number): string
 ```
 
-JavaScript：
+打开生成的 `dist/main.js`，对应代码中不会再保留这些普通类型标注：
 
 ```js
 function formatPrice(value)
 ```
 
-你已经亲手观察到：
+现在可以得到实验结论：
 
 ```text
 类型信息参与开发期检查
       ↓
-常规编译产物仍是 JavaScript
+常规编译产物是 JavaScript
 ```
 
-### 第 8 步：运行最终 JavaScript
+### 第 10 步：真正运行 JavaScript
 
 执行：
 
 ```bash
-npm run start
-```
-
-预期结果：
-
-```text
-Mechanical Keyboard: ¥499.00
-```
-
-本案例真正被 Node.js 执行的是：
-
-```text
-dist/main.js
-```
-
-到这里，TS-KP001 的核心实验完成。
-
----
-
-## 完整源码讲解
-
-最终 [`src/main.ts`](./src/main.ts)：
-
-```ts
-const productName = 'Mechanical Keyboard';
-const price = 499;
-
-function formatPrice(value: number): string {
-  return `¥${value.toFixed(2)}`;
-}
-
-const label = `${productName}: ${formatPrice(price)}`;
-
-console.log(label);
-```
-
-### 1. JavaScript 风格代码
-
-```ts
-const productName = 'Mechanical Keyboard';
-const price = 499;
-```
-
-没有显式类型标注。TypeScript 可以根据初始化值进行类型推断，后续章节会详细学习。
-
-### 2. 本节核心 TypeScript 代码
-
-```ts
-function formatPrice(value: number): string {
-```
-
-它表达了函数的类型约定：
-
-```text
-输入 number
-   ↓
-formatPrice
-   ↓
-输出 string
-```
-
-### 3. 真正的运行时逻辑
-
-```ts
-return `¥${value.toFixed(2)}`;
-```
-
-数字格式化和字符串拼接仍然属于 JavaScript 的运行时行为。
-
-### 4. 类型检查发生在调用关系上
-
-```ts
-formatPrice(price)
-```
-
-TypeScript 会检查 `price` 能否作为 `number` 参数传入；真正运行时执行的是编译后的 JavaScript。
-
----
-
-## 运行案例
-
-进入当前目录：
-
-```bash
-cd courses/frontend-architect/stage04-javascript-deep-typescript/stage04-module13-typescript/01-typescript-foundations/kp001-typescript-javascript-relationship
-```
-
-依次执行：
-
-```bash
-npm install
-npm run check
-npm run build
-npm run start
+node ./01-typescript-foundations/kp001-typescript-javascript-relationship/dist/main.js
 ```
 
 预期输出：
@@ -524,37 +436,95 @@ npm run start
 Mechanical Keyboard: ¥499.00
 ```
 
----
+真正交给 Node.js 执行的是：
+
+```text
+dist/main.js
+```
+
+而不是 `number`、`string` 这些类型标注本身。
+
+### 第 11 步：完成案例并对照最终源码
+
+到这里，你已经从最小文件亲手完成了：
+
+```text
+JavaScript 风格代码
+      ↓
+加入 TypeScript 类型标注
+      ↓
+类型检查
+      ↓
+故意制造类型错误
+      ↓
+恢复正确代码
+      ↓
+编译成 JavaScript
+      ↓
+Node.js 运行 JavaScript
+```
+
+最终源码直接查看 [`src/main.ts`](./src/main.ts)，README 不再重复粘贴整份最终文件。
+
+本节最后只需要分清两层：
+
+- **核心代码**：`value: number`、`: string` 以及由它们表达的类型约定。
+- **实验辅助代码**：模块共享 `package.json`、`tsconfig.base.json`、本知识点 `tsconfig.json`、npm 命令和故意制造的错误调用。
+
+## 运行案例
+
+进入 TypeScript 模块根目录：
+
+```bash
+cd courses/frontend-architect/stage04-javascript-deep-typescript/stage04-module13-typescript
+```
+
+首次运行先安装一次依赖：
+
+```bash
+npm install
+```
+
+类型检查：
+
+```bash
+npm run check -- ./01-typescript-foundations/kp001-typescript-javascript-relationship/tsconfig.json
+```
+
+编译：
+
+```bash
+npm run build -- ./01-typescript-foundations/kp001-typescript-javascript-relationship/tsconfig.json
+```
+
+运行生成的 JavaScript：
+
+```bash
+node ./01-typescript-foundations/kp001-typescript-javascript-relationship/dist/main.js
+```
+
+预期输出：
+
+```text
+Mechanical Keyboard: ¥499.00
+```
+
+配套练习见顶部的 [`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 
-请亲手完成四项验证：
+请亲手完成下面五项验证：
 
-1. `npm run check`：正确代码无类型错误。
-2. 临时改为 `formatPrice('499')`：类型检查应失败。
-3. `npm run build`：确认生成 `dist/main.js`。
-4. 打开 `dist/main.js`：确认 `: number`、`: string` 不再存在，然后 `npm run start` 得到正确输出。
+1. `.ts` 文件中的普通 JavaScript 风格代码可以继续存在。
+2. `npm run check -- .../tsconfig.json` 能让正确代码通过类型检查。
+3. 临时改为 `formatPrice('499')` 后，程序尚未真正运行，TypeScript 就能指出参数类型不匹配。
+4. `npm run build -- .../tsconfig.json` 能生成当前知识点的 `dist/main.js`。
+5. 打开 `dist/main.js` 后能够确认 `: number`、`: string` 不再存在，并能运行得到 `Mechanical Keyboard: ¥499.00`。
 
-如果四项都能解释清楚，就不是“看懂了”，而是真的完成了本节实验。
-
----
-
-## 课后练习
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。
-
-你需要给订单金额函数补充类型，并验证错误的字符串数量能够在运行前被 TypeScript 发现。
-
-参考答案：[`solution/main.ts`](./solution/main.ts)。
-
-建议先独立完成，再查看答案。
-
-### 本节验收标准
-
-你应该能够不背定义、直接解释下面这条链路：
+最终你应该能够不背定义，直接解释：
 
 ```text
-我写 TypeScript
+我编写 TypeScript
       ↓
 开发阶段进行类型检查
       ↓
@@ -563,12 +533,4 @@ Mechanical Keyboard: ¥499.00
 JavaScript 运行时执行程序行为
 ```
 
-并能够自己写出：
-
-```ts
-function formatPrice(value: number): string {
-  return `¥${value.toFixed(2)}`;
-}
-```
-
-再通过“错误调用 → 类型检查 → 查看编译产物 → 运行 JavaScript”证明自己的理解。
+并能说明为什么学习 TypeScript 仍然需要扎实的 JavaScript 基础。
