@@ -1,28 +1,67 @@
 # KP007：`body` 与页面主体
 
 > 节点：`node-02-01-01-01-01-02-02-01`  
-> [返回模块索引](../../README.md) · [打开源码](./index.html)
+> [返回模块索引](../../README.md) · [打开最终源码](./index.html)
 
 ## 文档目录
 
+- [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
-- [源码讲解](#源码讲解)
+- [动手编码：从 0 到 1 完成案例](#动手编码从-0-到-1-完成案例)
+- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
+- [课后练习](#课后练习)
+
+## 学习目标
+
+学完本节后，你应该能够：
+
+1. 知道一个 HTML Document 只有一个可靠的 `body`。
+2. 区分 `body` 与 `main`：前者是整个文档主体，后者是主要内容地标。
+3. 理解 SPA、微前端或独立组件应该使用普通元素作为挂载点，而不是创建新的 `body`。
+4. 能通过 DOM 结果验证页面最终只有一个 `body`。
+
+> **本节核心代码是 `body`、`main` 以及普通业务挂载节点。**  
+> 统计 `body` / `main` 数量和列出子元素的 JavaScript 属于实验辅助代码。
 
 ## 理论讲解
 
 ### 1. 单一文档主体
 
-`body` 表示 HTML 文档主体。一个 Document 只能有一个可靠的 `body`，可以通过 `document.body` 获取它。页面主要可见和可交互内容都位于其中。
+`body` 表示 HTML 文档主体：
+
+```html
+<body>
+  ...页面内容...
+</body>
+```
+
+一个 Document 只有一个可靠的 `body`，浏览器中可以通过：
+
+```js
+document.body
+```
+
+取得它。
 
 ### 2. `body` 与 `main`
 
-`body` 包含整个页面主体；`main` 只表示页面的主要任务或主要内容地标。一个页面还可以在 `body` 中包含 `header`、`footer`、导航和辅助内容。
+两者不是同一个概念：
 
-### 3. 业务挂载节点
+```text
+body
+├── header
+├── main
+├── footer
+└── 其他页面内容
+```
 
-SPA、微前端或独立组件不应创建第二个 `body`。它们应使用普通元素作为挂载点：
+`body` 包含整个页面主体；`main` 只表达页面最主要的任务或内容区域。
+
+### 3. 业务挂载点
+
+SPA、微前端或组件应用应该挂载到普通元素：
 
 ```html
 <main>
@@ -30,21 +69,258 @@ SPA、微前端或独立组件不应创建第二个 `body`。它们应使用普�
 </main>
 ```
 
-## 源码讲解
+而不是再写一个新的 `body`。
 
-[`index.html`](./index.html) 只有一个 `body`，内部按顺序放置 `header`、`main`、`footer` 和结果区域。两个子应用使用普通 `div` 作为挂载点。
+---
 
-脚本统计 `body`、`main` 的数量，并列出 `body` 的直接子元素，用解析后的 DOM 证明页面结构。
+## 动手编码：从 0 到 1 完成案例
+
+### 第 0 步：明确最终结构
+
+我们要做一个很常见的页面骨架：
+
+```text
+body
+├── header
+├── main
+│   ├── order-app
+│   └── help-app
+├── footer
+└── 结构验证区域
+```
+
+重点是：无论页面里有多少区域或子应用，仍然只有一个 `body`。
+
+### 第 1 步：创建唯一的 `body`
+
+创建 `index.html`：
+
+```html
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP007：body 页面主体</title>
+</head>
+<body>
+  <h1>订单管理</h1>
+</body>
+</html>
+```
+
+到这里页面只有一个主体。
+
+### 第 2 步：加入页面级结构
+
+把 `body` 内容调整为：
+
+```html
+<header>
+  <p>站点名称</p>
+</header>
+
+<main>
+  <h1>订单管理</h1>
+</main>
+
+<footer>
+  <p>版权信息</p>
+</footer>
+```
+
+现在可以清楚看到：
+
+- `header`、`main`、`footer` 都属于 `body`。
+- `main` 只是 `body` 内部的一块主要内容区域。
+
+### 第 3 步：加入两个业务挂载点
+
+在 `main` 中加入：
+
+```html
+<div id="order-app">
+  订单应用挂载点
+</div>
+
+<div id="help-app">
+  帮助应用挂载点
+</div>
+```
+
+这里故意使用普通 `div`。
+
+正确思路是：
+
+```text
+一个 Document
+   ↓
+一个 body
+   ↓
+body 内可以有多个应用挂载节点
+```
+
+### 第 4 步：准备结构输出区域
+
+在 `footer` 后加入：
+
+```html
+<h2>当前文档结构</h2>
+<pre id="result"></pre>
+```
+
+### 第 5 步：统计实际 `body` 和 `main`
+
+在 `body` 末尾加入：
+
+```html
+<script>
+  document.querySelector('#result').textContent = [
+    'body 数量：' + document.querySelectorAll('body').length,
+    'main 数量：' + document.querySelectorAll('main').length
+  ].join('\n');
+</script>
+```
+
+> **实验辅助代码**：这里只是在检查浏览器解析后的 DOM 数量。
+
+刷新后应看到：
+
+```text
+body 数量：1
+main 数量：1
+```
+
+### 第 6 步：列出 `body` 的直接子元素
+
+把脚本补充为：
+
+```js
+const directChildren = Array.from(
+  document.body.children,
+  element => element.tagName.toLowerCase()
+);
+
+document.querySelector('#result').textContent = [
+  'body 数量：' + document.querySelectorAll('body').length,
+  'main 数量：' + document.querySelectorAll('main').length,
+  'body 直接子元素：' + directChildren.join(', ')
+].join('\n');
+```
+
+现在可以从真实 DOM 中看到 `body` 下有哪些一级结构。
+
+### 第 7 步：故意尝试第二个 `body`
+
+建议复制一份文件，在副本中尝试：
+
+```html
+<body>
+  ...
+</body>
+
+<body>
+  第二个主体？
+</body>
+```
+
+不要只看源码，打开开发者工具 Elements 面板检查浏览器最终 DOM。
+
+你会发现 HTML 解析器不会给你两个可独立工作的文档主体。
+
+实验结束后回到正确版本：只保留一个 `body`。
+
+---
+
+## 完整源码讲解
+
+仓库最终 [`index.html`](./index.html) 为：
+
+```html
+<!doctype html>
+<!--
+  KP007：body 与页面主体
+
+  一个 HTML Document 只有一个 body。
+  body 内部可以继续包含 header、main、footer 和多个应用挂载节点。
+  子应用不应该再生成新的 body。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP007：body 页面主体</title>
+</head>
+<body>
+  <header>
+    <p>站点名称</p>
+  </header>
+
+  <main>
+    <h1>订单管理</h1>
+
+    <div id="order-app">
+      订单应用挂载点
+    </div>
+
+    <div id="help-app">
+      帮助应用挂载点
+    </div>
+  </main>
+
+  <footer>
+    <p>版权信息</p>
+  </footer>
+
+  <h2>当前文档结构</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const directChildren = Array.from(
+      document.body.children,
+      element => element.tagName.toLowerCase()
+    );
+
+    document.querySelector('#result').textContent = [
+      'body 数量：' + document.querySelectorAll('body').length,
+      'main 数量：' + document.querySelectorAll('main').length,
+      'body 直接子元素：' + directChildren.join(', ')
+    ].join('\n');
+  </script>
+</body>
+</html>
+```
+
+其中：
+
+- `body` 是整个页面主体。
+- `main` 是主要内容区域。
+- 两个 `div` 是业务挂载点。
+- 脚本只用于验证最终 DOM。
 
 ## 运行案例
 
-使用浏览器打开 [`index.html`](./index.html)，查看结构统计。可以复制文件，在副本中尝试加入第二个 `body`，然后使用开发者工具 Elements 面板查看浏览器最终生成的 DOM。
+直接打开 [`index.html`](./index.html)，或执行：
 
-如需通过本地服务器访问，在当前目录执行 `python3 -m http.server 8080`。
+```bash
+python3 -m http.server 8080
+```
+
+然后访问：
+
+```text
+http://localhost:8080/index.html
+```
 
 ## 效果验证
 
-- `body` 数量应为 `1`。
-- `main` 数量应为 `1`。
-- 两个业务挂载点都应位于同一个 `main` 中。
-- 添加第二个 `body` 标签后，浏览器不应产生两个可独立使用的文档主体。
+最终应确认：
+
+- `body` 数量为 `1`。
+- `main` 数量为 `1`。
+- `order-app` 和 `help-app` 都位于同一个 `main` 中。
+- 即使源码中故意再写第二个 `body`，浏览器也不会生成两个正常独立的页面主体。
+
+## 课后练习
+
+1. 在 `body` 中再增加一个 `nav`，预测 `body` 直接子元素输出会怎么变化。
+2. 在 `main` 中增加第三个业务挂载节点，确认是否需要新增 `body`。
+3. 用自己的话解释：`body` 和 `main` 为什么不能互相替代？
