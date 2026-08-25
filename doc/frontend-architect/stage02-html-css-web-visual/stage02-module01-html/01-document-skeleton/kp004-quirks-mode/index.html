@@ -1,0 +1,40 @@
+<!--
+  KP004：Quirks Mode
+
+  这个文件故意没有 <!doctype html>。
+  因此现代浏览器通常会让 document.compatMode 返回 BackCompat。
+
+  学习完成后，请复制本文件：
+  1. 在副本第一行添加 <!doctype html>。
+  2. 刷新两份文件。
+  3. 比较 compatMode 和盒子宽度。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP004：Quirks Mode</title>
+
+  <style>
+    .box {
+      width: 200px;
+      padding: 20px;
+      border: 10px solid;
+    }
+  </style>
+</head>
+<body>
+  <h1>故意进入怪异模式的页面</h1>
+  <p>document.compatMode：<strong id="mode"></strong></p>
+
+  <div class="box" id="box">
+    width: 200px；padding: 20px；border: 10px
+  </div>
+  <p>实际边框盒宽度：<strong id="width"></strong></p>
+
+  <script>
+    document.querySelector('#mode').textContent = document.compatMode;
+    document.querySelector('#width').textContent =
+      document.querySelector('#box').getBoundingClientRect().width + 'px';
+  </script>
+</body>
+</html>

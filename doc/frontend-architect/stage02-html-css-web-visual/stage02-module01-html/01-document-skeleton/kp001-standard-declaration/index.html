@@ -1,0 +1,34 @@
+<!doctype html>
+<!--
+  KP001：HTML 标准声明
+
+  学习动作：
+  1. 先打开页面，观察结果是 CSS1Compat。
+  2. 删除第一行 <!doctype html>，保存并刷新。
+  3. 再观察结果是否变成 BackCompat。
+  4. 恢复第一行。
+
+  这个实验只验证一件事：DOCTYPE 决定文档采用哪种兼容模式。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP001：HTML 标准声明</title>
+</head>
+<body>
+  <h1>HTML 标准声明</h1>
+  <p>下面的数据直接来自当前文档。</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const lines = [
+      'document.compatMode = ' + document.compatMode,
+      'document.doctype.name = ' + (document.doctype?.name ?? '不存在'),
+      'doctype 节点类型 = ' + (document.doctype?.constructor.name ?? '不存在')
+    ];
+
+    document.querySelector('#result').textContent = lines.join('\n');
+  </script>
+</body>
+</html>

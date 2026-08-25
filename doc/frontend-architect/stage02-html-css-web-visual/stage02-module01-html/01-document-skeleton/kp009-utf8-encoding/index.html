@@ -1,0 +1,42 @@
+<!doctype html>
+<!--
+  KP009：UTF-8
+
+  这个文件必须以 UTF-8 保存，并在 head 中尽早声明：
+  <meta charset="utf-8">
+
+  页面同时展示中文、拉丁扩展字符、货币符号和 Emoji。
+  如果文件字节、响应声明和 meta 声明一致，这些字符应正确显示。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP009：UTF-8 编码</title>
+</head>
+<body>
+  <h1>UTF-8 字符样本</h1>
+
+  <ul>
+    <li>中文：前端架构师</li>
+    <li>拉丁扩展：café</li>
+    <li>货币符号：€ ¥</li>
+    <li>Emoji：😀 👍🏽</li>
+    <li>阿拉伯文：مرحبا</li>
+  </ul>
+
+  <h2>“中文”的 UTF-8 字节</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const text = '中文';
+    const bytes = new TextEncoder().encode(text);
+    const hex = Array.from(
+      bytes,
+      value => value.toString(16).padStart(2, '0')
+    );
+
+    document.querySelector('#result').textContent =
+      text + ' → ' + hex.join(' ');
+  </script>
+</body>
+</html>
