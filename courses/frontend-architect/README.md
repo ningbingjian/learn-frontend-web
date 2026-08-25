@@ -138,8 +138,8 @@
 
 > 本阶段改为按模块维护，不再设置阶段级 README：
 >
-> - [Stage 02 · Module 01：HTML 文档、语义与原生能力](./frontend-architect/stage02-html-css-web-visual/stage02-module01-html/README.md)
-> - [Stage 02 · Module 02：CSS 语言基础与层叠系统](./frontend-architect/stage02-html-css-web-visual/stage02-module02-css/README.md)
+> - [Stage 02 · Module 01：HTML 文档、语义与原生能力](./stage02-html-css-web-visual/stage02-module01-html/README.md)
+> - [Stage 02 · Module 02：CSS 语言基础与层叠系统](./stage02-html-css-web-visual/stage02-module02-css/README.md)
 
 ### 模块 4：HTML 与语义化页面
 
