@@ -16,15 +16,14 @@ try {
 
 const candidate: unknown = JSON.parse(rawJson);
 
-const isValidUser =
+if (
   typeof candidate === 'object' &&
   candidate !== null &&
   'id' in candidate &&
   'name' in candidate &&
   typeof candidate.id === 'number' &&
-  typeof candidate.name === 'string';
-
-if (isValidUser) {
+  typeof candidate.name === 'string'
+) {
   console.log(`safe user id=${candidate.id.toFixed(0)}, name=${candidate.name}`);
 } else {
   console.log('runtime validation rejected invalid user');

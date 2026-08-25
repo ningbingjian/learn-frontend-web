@@ -15,14 +15,14 @@
 学完本节后，你应该能够：
 
 1. 解释为什么写了 `User` 类型也不能证明网络、JSON、存储中的真实数据符合 `User`。
-2. 理解 TypeScript 类型只描述静态模型，不会自动检查运行时字节或对象内容。
+2. 理解 TypeScript 类型只描述静态模型，不会自动检查运行时对象内容。
 3. 亲手验证“一段代码能通过类型检查，但错误 JSON 仍然可以在运行时制造异常”。
 4. 知道外部数据应先被当作不可信输入，再做运行时校验。
 5. 区分 TypeScript 类型建模和运行时 Schema/Guard 校验的职责。
 
 > **本节核心知识**：`type User` 描述“我们希望数据是什么”，运行时检查负责确认“数据实际上是什么”。
 >
-> **实验辅助代码**：`unknown`、`typeof`、`in` 等检查语法用于完成最小运行时验证；这些语法后面会在类型收窄章节深入学习。
+> **实验辅助代码**：`unknown`、`typeof`、`in` 等检查语法用于完成最小运行时验证；这些语法后面会在专门章节深入学习。
 
 ## 理论讲解
 
@@ -190,14 +190,7 @@ try {
 }
 ```
 
-编译并运行：
-
-```bash
-npm run build -- ./01-typescript-foundations/kp004-types-vs-runtime-validation/tsconfig.json
-node ./01-typescript-foundations/kp004-types-vs-runtime-validation/dist/main.js
-```
-
-应该看到类似：
+编译并运行后，应看到类似：
 
 ```text
 unsafe runtime error: unsafeUser.id.toFixed is not a function
@@ -223,21 +216,26 @@ const candidate: unknown = JSON.parse(rawJson);
 
 > 我们暂时不假设这个外部值一定符合 User。
 
-### 第 6 步：加入最小运行时检查
+### 第 6 步：直接检查真实运行时结构
 
 继续写：
 
 ```ts
-const isValidUser =
+if (
   typeof candidate === 'object' &&
   candidate !== null &&
   'id' in candidate &&
   'name' in candidate &&
   typeof candidate.id === 'number' &&
-  typeof candidate.name === 'string';
+  typeof candidate.name === 'string'
+) {
+  console.log(`safe user id=${candidate.id.toFixed(0)}, name=${candidate.name}`);
+} else {
+  console.log('runtime validation rejected invalid user');
+}
 ```
 
-这里真正检查的是运行时值本身：
+这里检查的不是“类型名称”，而是运行时值本身：
 
 ```text
 candidate 是对象吗？
@@ -247,27 +245,9 @@ name 存在吗？
 name 真的是 string 吗？
 ```
 
-### 第 7 步：只有验证成功才进入业务逻辑
+因为当前 JSON 的 `id` 是字符串，所以会进入拒绝分支。
 
-继续写：
-
-```ts
-if (isValidUser) {
-  console.log(`safe user id=${candidate.id.toFixed(0)}, name=${candidate.name}`);
-} else {
-  console.log('runtime validation rejected invalid user');
-}
-```
-
-再次编译运行。
-
-这次错误 JSON 不会被当作合法用户继续使用，而是得到：
-
-```text
-runtime validation rejected invalid user
-```
-
-### 第 8 步：把 JSON 改正确再验证
+### 第 7 步：把 JSON 改正确再验证
 
 临时把数据改成：
 
@@ -281,9 +261,9 @@ const rawJson = '{"id":42,"name":"Ada"}';
 safe user id=42, name=Ada
 ```
 
-观察后恢复错误 JSON，保留仓库中的“失败样本”。
+观察后恢复错误 JSON，保留仓库中的失败样本。
 
-### 第 9 步：完成案例并对照最终源码
+### 第 8 步：完成案例并对照最终源码
 
 最终代码查看 [`src/main.ts`](./src/main.ts)。
 
