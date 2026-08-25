@@ -8,7 +8,6 @@
 - [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
 - [动手编码：从 0 到 1 完成案例](#动手编码从-0-到-1-完成案例)
-- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
 
@@ -36,7 +35,7 @@
 </body>
 ```
 
-一个 Document 只有一个可靠的 `body`，浏览器中可以通过：
+一个 Document 只有一个可靠的 `body`，可以通过：
 
 ```js
 document.body
@@ -76,7 +75,7 @@ SPA、微前端或组件应用应该挂载到普通元素：
 
 ### 第 0 步：明确最终结构
 
-我们要做一个很常见的页面骨架：
+我们要做一个常见页面骨架：
 
 ```text
 body
@@ -88,7 +87,7 @@ body
 └── 结构验证区域
 ```
 
-重点是：无论页面里有多少区域或子应用，仍然只有一个 `body`。
+无论页面里有多少区域或子应用，仍然只有一个 `body`。
 
 ### 第 1 步：创建唯一的 `body`
 
@@ -106,8 +105,6 @@ body
 </body>
 </html>
 ```
-
-到这里页面只有一个主体。
 
 ### 第 2 步：加入页面级结构
 
@@ -127,10 +124,7 @@ body
 </footer>
 ```
 
-现在可以清楚看到：
-
-- `header`、`main`、`footer` 都属于 `body`。
-- `main` 只是 `body` 内部的一块主要内容区域。
+现在可以清楚看到 `header`、`main`、`footer` 都属于同一个 `body`。
 
 ### 第 3 步：加入两个业务挂载点
 
@@ -145,8 +139,6 @@ body
   帮助应用挂载点
 </div>
 ```
-
-这里故意使用普通 `div`。
 
 正确思路是：
 
@@ -180,8 +172,6 @@ body 内可以有多个应用挂载节点
 </script>
 ```
 
-> **实验辅助代码**：这里只是在检查浏览器解析后的 DOM 数量。
-
 刷新后应看到：
 
 ```text
@@ -191,7 +181,7 @@ main 数量：1
 
 ### 第 6 步：列出 `body` 的直接子元素
 
-把脚本补充为：
+把脚本扩展为：
 
 ```js
 const directChildren = Array.from(
@@ -206,7 +196,7 @@ document.querySelector('#result').textContent = [
 ].join('\n');
 ```
 
-现在可以从真实 DOM 中看到 `body` 下有哪些一级结构。
+现在可以直接看到浏览器解析后的一级结构。
 
 ### 第 7 步：故意尝试第二个 `body`
 
@@ -222,78 +212,20 @@ document.querySelector('#result').textContent = [
 </body>
 ```
 
-不要只看源码，打开开发者工具 Elements 面板检查浏览器最终 DOM。
-
-你会发现 HTML 解析器不会给你两个可独立工作的文档主体。
+打开 Elements 面板查看浏览器最终 DOM。不要只看源码文本。
 
 实验结束后回到正确版本：只保留一个 `body`。
 
----
+### 第 8 步：完成案例并对照最终源码
 
-## 完整源码讲解
+恢复后，你的代码应与仓库最终 [`index.html`](./index.html) 一致。
 
-仓库最终 [`index.html`](./index.html) 为：
+本节总结：
 
-```html
-<!doctype html>
-<!--
-  KP007：body 与页面主体
+- **核心代码**：唯一的 `body`、其中的 `header` / `main` / `footer`，以及普通业务挂载节点。
+- **实验辅助代码**：DOM 数量统计和子元素列表，只用于证明浏览器最终结构。
 
-  一个 HTML Document 只有一个 body。
-  body 内部可以继续包含 header、main、footer 和多个应用挂载节点。
-  子应用不应该再生成新的 body。
--->
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <title>KP007：body 页面主体</title>
-</head>
-<body>
-  <header>
-    <p>站点名称</p>
-  </header>
-
-  <main>
-    <h1>订单管理</h1>
-
-    <div id="order-app">
-      订单应用挂载点
-    </div>
-
-    <div id="help-app">
-      帮助应用挂载点
-    </div>
-  </main>
-
-  <footer>
-    <p>版权信息</p>
-  </footer>
-
-  <h2>当前文档结构</h2>
-  <pre id="result"></pre>
-
-  <script>
-    const directChildren = Array.from(
-      document.body.children,
-      element => element.tagName.toLowerCase()
-    );
-
-    document.querySelector('#result').textContent = [
-      'body 数量：' + document.querySelectorAll('body').length,
-      'main 数量：' + document.querySelectorAll('main').length,
-      'body 直接子元素：' + directChildren.join(', ')
-    ].join('\n');
-  </script>
-</body>
-</html>
-```
-
-其中：
-
-- `body` 是整个页面主体。
-- `main` 是主要内容区域。
-- 两个 `div` 是业务挂载点。
-- 脚本只用于验证最终 DOM。
+最终源码直接查看 [`index.html`](./index.html)，README 不再重复整份源码。
 
 ## 运行案例
 

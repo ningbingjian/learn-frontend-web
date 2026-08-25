@@ -8,7 +8,6 @@
 - [学习目标](#学习目标)
 - [理论讲解](#理论讲解)
 - [动手编码：从 0 到 1 完成案例](#动手编码从-0-到-1-完成案例)
-- [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
 
@@ -18,8 +17,8 @@
 
 1. 知道 `head` 是文档元信息和资源声明的容器，而不是页面顶部的可见区域。
 2. 认识 `title`、`meta` 等常见 `head` 子元素。
-3. 区分“浏览器标签页信息”和“body 中的可见正文”。
-4. 能通过修改 `title`、description 等内容观察它们各自影响的位置。
+3. 区分浏览器标签页信息和 `body` 中的可见正文。
+4. 能通过修改 `title`、description 等内容观察各自影响的位置。
 
 > **本节核心代码是 `head` 中的 `meta`、`title` 等元信息。**  
 > 遍历 `document.head.children`、读取 `document.title` 等 JavaScript 只是实验辅助代码。
@@ -53,9 +52,9 @@
 
 ### 3. `head` 不是页面页眉
 
-Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用 `header` 等元素表达。
+Logo、导航、通知条、页面标题等可见内容属于 `body`，通常使用 `header` 等元素表达。
 
-如果把普通正文元素错误写进 `head`，HTML 解析器可能自动结束 `head`，导致最终 DOM 与源码缩进不一致。
+如果把普通正文元素错误写进 `head`，HTML 解析器可能自动结束 `head`，导致最终 DOM 与源码缩进不同。
 
 ---
 
@@ -63,7 +62,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 
 ### 第 0 步：明确观察目标
 
-这一节要同时观察三个位置：
+本节同时观察三个位置：
 
 ```text
 浏览器标签页
@@ -71,9 +70,9 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 浏览器解析后的 head 内容
 ```
 
-这样才能真正理解 `head` 与“页面顶部可见区域”的区别。
+这样才能真正理解 `head` 和“页面顶部可见区域”的区别。
 
-### 第 1 步：先写最小文档
+### 第 1 步：写最小文档
 
 创建 `index.html`：
 
@@ -94,7 +93,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 运行后先观察：
 
 - `h1` 和段落出现在页面正文。
-- `title` 出现在浏览器标签页，而不是正文里。
+- `title` 出现在浏览器标签页，而不是正文中。
 
 ### 第 2 步：加入 viewport
 
@@ -104,7 +103,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ```
 
-这属于机器可读的页面配置，不会直接产生正文。
+它属于机器可读配置，不会直接产生正文。
 
 ### 第 3 步：加入 description
 
@@ -114,15 +113,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 <meta name="description" content="演示 head 中的机器可读信息">
 ```
 
-刷新页面后，正文仍然不会多出一行“演示 head 中的机器可读信息”。
-
-这说明：
-
-```text
-存在于 HTML 中
-≠
-一定直接显示在页面正文
-```
+刷新后，正文仍然不会自动显示这段 description。
 
 ### 第 4 步：准备观察区域
 
@@ -133,7 +124,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 <pre id="result"></pre>
 ```
 
-### 第 5 步：读取 `head` 的子元素
+### 第 5 步：读取 `head` 子元素
 
 在 `body` 末尾加入：
 
@@ -146,7 +137,7 @@ Logo、导航、通知条、页面标题等可见内容属于 `body`，通常用
 </script>
 ```
 
-> **实验辅助代码**：这一步只是把浏览器实际解析到的 `head` 子元素名称收集起来。
+> 这是实验辅助代码，只用于把浏览器解析到的 `head` 子元素名称收集起来。
 
 ### 第 6 步：读取 title 和 description
 
@@ -163,91 +154,40 @@ document.querySelector('#result').textContent = [
 ].join('\n');
 ```
 
-刷新后，你应该同时看到：
+刷新后应同时看到：
 
 - 标签页标题来自 `title`。
-- 正文仍只有 `body` 中的内容。
-- 页面下方的辅助输出列出了 `head` 中的 `meta`、`title` 等元素。
+- 正文仍只显示 `body` 中的内容。
+- 辅助输出列出 `head` 中的 `meta`、`title` 等元素。
 
 ### 第 7 步：修改元信息做对照
 
-把：
+临时把：
 
 ```html
 <title>KP006：head 元信息</title>
 ```
 
-临时改成：
+改成：
 
 ```html
 <title>新的标签页标题</title>
 ```
 
-再把 description 的 `content` 改掉。
-
-刷新并分别观察：
-
-```text
-title       → 标签页 + document.title
-description → 辅助输出中的 description
-body 文本    → 不会自动变化
-```
+再修改 description 的 `content`，刷新后分别观察标签页和辅助输出。
 
 实验结束后恢复仓库原值。
 
----
+### 第 8 步：完成案例并对照最终源码
 
-## 完整源码讲解
+恢复后，你的代码应与仓库最终 [`index.html`](./index.html) 一致。
 
-仓库最终 [`index.html`](./index.html) 为：
+本节总结：
 
-```html
-<!doctype html>
-<!--
-  KP006：head 与机器可读信息
+- **核心代码**：`head` 中的 `meta charset`、viewport、description 和 `title`。
+- **实验辅助代码**：`document.head.children`、`document.title` 和 DOM 查询，只用于验证元信息确实位于 `head`。
 
-  head 保存文档元信息和资源声明，不是页面顶部的视觉区域。
-  下面的 title、meta 都不会作为正文直接显示。
-
-  请在浏览器中同时观察：
-  1. 标签页标题。
-  2. 页面正文。
-  3. 脚本输出的 head 子元素。
--->
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="演示 head 中的机器可读信息">
-  <title>KP006：head 元信息</title>
-</head>
-<body>
-  <h1>页面正文位于 body</h1>
-  <p>标签页标题来自 head 中的 title。</p>
-
-  <h2>head 的实际内容</h2>
-  <pre id="result"></pre>
-
-  <script>
-    const tags = Array.from(
-      document.head.children,
-      element => element.tagName.toLowerCase()
-    );
-
-    const description =
-      document.querySelector('meta[name="description"]').content;
-
-    document.querySelector('#result').textContent = [
-      'document.title：' + document.title,
-      'head 子元素：' + tags.join(', '),
-      'description：' + description
-    ].join('\n');
-  </script>
-</body>
-</html>
-```
-
-核心 HTML 位于 `head`；脚本只负责证明这些元信息确实存在，并把它们展示出来。
+最终源码以 [`index.html`](./index.html) 为准，README 不再重复粘贴整份源码。
 
 ## 运行案例
 
@@ -273,4 +213,4 @@ http://localhost:8080/index.html
 - `meta` 不会作为正文直接显示。
 - 页面正文位于 `body`。
 - 辅助输出能列出 `head` 子元素并读到 description。
-- 修改 `title` 或 description 后，对应结果会同步变化。
+- 修改 `title` 或 description 后，对应结果同步变化。
