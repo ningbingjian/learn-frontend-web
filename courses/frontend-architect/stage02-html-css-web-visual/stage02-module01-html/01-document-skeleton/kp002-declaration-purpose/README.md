@@ -11,7 +11,6 @@
 - [完整源码讲解](#完整源码讲解)
 - [运行案例](#运行案例)
 - [效果验证](#效果验证)
-- [课后练习](#课后练习)
 
 ## 学习目标
 
@@ -315,9 +314,3 @@ http://localhost:8080/index.html
 - 删除 DOCTYPE 后，`document.compatMode` 为 `BackCompat`。
 - 同一个浏览器中，Grid 和 Dialog API 的检测结果不会因为删除 DOCTYPE 而改变。
 - 能解释为什么“标准模式”和“浏览器功能支持”不能混为一谈。
-
-## 课后练习
-
-1. 保留 DOCTYPE，把 Grid 检测改成 `CSS.supports('display', 'flex')`，观察结果。
-2. 删除 DOCTYPE 后重新执行同一个 Flex 检测，比较文档模式和功能支持是否同步变化。
-3. 用自己的话解释：为什么 `<!doctype html>` 不是“开启现代浏览器功能”的开关？
