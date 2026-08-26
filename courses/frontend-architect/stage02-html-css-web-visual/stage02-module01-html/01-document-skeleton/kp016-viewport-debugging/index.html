@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+  KP016：viewport 调试方式
+  将常用 viewport、screen、DPR 数据集中输出，配合设备模拟和真机调试。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP016：viewport 调试方式</title>
+</head>
+<body>
+  <h1>Viewport 调试面板</h1>
+
+  <p>
+    <input type="text" placeholder="真机上点击以调起键盘">
+  </p>
+
+  <pre id="result"></pre>
+
+  <script>
+    function render() {
+      const viewport = window.visualViewport;
+      const visualSize = viewport
+        ? viewport.width.toFixed(2) + ' x ' + viewport.height.toFixed(2)
+        : '不支持';
+      const scale = viewport ? viewport.scale : '不支持';
+      const orientation = screen.orientation?.type ?? '未知';
+
+      document.querySelector('#result').textContent = [
+        'inner = ' + window.innerWidth + ' x ' + window.innerHeight,
+        'client = ' + document.documentElement.clientWidth + ' x ' + document.documentElement.clientHeight,
+        'visual = ' + visualSize,
+        'scale = ' + scale,
+        'screen = ' + screen.width + ' x ' + screen.height,
+        'devicePixelRatio = ' + window.devicePixelRatio,
+        'orientation = ' + orientation
+      ].join('\n');
+    }
+
+    render();
+    window.addEventListener('resize', render);
+    window.addEventListener('orientationchange', render);
+    window.visualViewport?.addEventListener('resize', render);
+    window.visualViewport?.addEventListener('scroll', render);
+  </script>
+</body>
+</html>

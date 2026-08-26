@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+  KP021：社交标题与摘要
+  核心：页面基础元信息与社交元信息表达一致的页面主题。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>HTML 元信息指南 - Frontend Lab</title>
+  <meta
+    name="description"
+    content="从 title 到社交分享卡片，理解网页 head 中的关键元信息。"
+  >
+  <meta
+    property="og:title"
+    content="HTML 元信息指南"
+  >
+  <meta
+    property="og:description"
+    content="从 title 到社交分享卡片，理解网页 head 中的关键元信息。"
+  >
+</head>
+<body>
+  <h1>社交标题与摘要实验</h1>
+  <pre id="result"></pre>
+
+  <script>
+    function getMeta(selector) {
+      return document.querySelector(selector)?.content || '(缺失)';
+    }
+
+    document.querySelector('#result').textContent = [
+      'title：' + document.title,
+      'description：' + getMeta('meta[name="description"]'),
+      'og:title：' + getMeta('meta[property="og:title"]'),
+      'og:description：' + getMeta('meta[property="og:description"]')
+    ].join('\n');
+  </script>
+</body>
+</html>

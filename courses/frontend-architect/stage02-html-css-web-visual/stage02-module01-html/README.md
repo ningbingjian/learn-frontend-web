@@ -1,6 +1,3 @@
-
-
-
 # Stage 02 · Module 01：HTML 学习索引
 
 > **目录标识**：`stage02-module01-html`
@@ -25,8 +22,8 @@ kp001-standard-declaration/
 
 |  顺序 | 章节                        | 目录                             | 知识点 | 当前状态  |
 | --: | ------------------------- | ------------------------------ | --: | ----- |
-|  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 10/16 |
-|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 0/14  |
+|  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
+|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 0/14  |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
@@ -63,12 +60,12 @@ kp001-standard-declaration/
 | KP008 | 容错解析 | 1. 解析器自动纠错<br>2. 段落隐式结束<br>3. 源码与 DOM 对照 | [文档](./01-document-skeleton/kp008-error-tolerant-parsing/README.md) · [源码](./01-document-skeleton/kp008-error-tolerant-parsing/index.html) | 已完成 |
 | KP009 | UTF-8 | 1. 字符与字节<br>2. UTF-8 声明与文件编码<br>3. 多语言文本与字节观察 | [文档](./01-document-skeleton/kp009-utf8-encoding/README.md) · [源码](./01-document-skeleton/kp009-utf8-encoding/index.html) | 已完成 |
 | KP010 | 乱码诊断 | 1. 编码与解码不一致<br>2. 常见乱码表现<br>3. 按链路定位错误 | [文档](./01-document-skeleton/kp010-mojibake-diagnosis/README.md) · [源码](./01-document-skeleton/kp010-mojibake-diagnosis/index.html) | 已完成 |
-| KP011 | `lang` | 1. 页面主语言<br>2. 局部语言覆盖<br>3. 语言标签与辅助技术 | `kp011-lang-attribute/` | 待生成 |
-| KP012 | `dir` | 1. `ltr` 与 `rtl`<br>2. `auto` 自动判断<br>3. 方向继承与局部覆盖 | `kp012-dir-attribute/` | 待生成 |
-| KP013 | 设备宽度 | 1. viewport 元信息<br>2. `width=device-width`<br>3. 移动端默认布局宽度 | `kp013-device-width/` | 待生成 |
-| KP014 | 初始缩放 | 1. `initial-scale`<br>2. CSS 像素与缩放比例<br>3. 用户缩放可访问性 | `kp014-initial-scale/` | 待生成 |
-| KP015 | 布局视口与视觉视口 | 1. 两类视口定义<br>2. 缩放和键盘的影响<br>3. 视口尺寸 API | `kp015-layout-and-visual-viewport/` | 待生成 |
-| KP016 | 调试方式 | 1. 设备模拟<br>2. 真实设备验证<br>3. 视口数据读取 | `kp016-viewport-debugging/` | 待生成 |
+| KP011 | `lang` | 1. 页面主语言<br>2. 局部语言覆盖<br>3. 语言标签与辅助技术 | [文档](./01-document-skeleton/kp011-lang-attribute/README.md) · [源码](./01-document-skeleton/kp011-lang-attribute/index.html) | 已完成 |
+| KP012 | `dir` | 1. `ltr` 与 `rtl`<br>2. `auto` 自动判断<br>3. 方向继承与局部覆盖 | [文档](./01-document-skeleton/kp012-dir-attribute/README.md) · [源码](./01-document-skeleton/kp012-dir-attribute/index.html) | 已完成 |
+| KP013 | 设备宽度 | 1. viewport 元信息<br>2. `width=device-width`<br>3. 移动端默认布局宽度 | [文档](./01-document-skeleton/kp013-device-width/README.md) · [源码](./01-document-skeleton/kp013-device-width/index.html) | 已完成 |
+| KP014 | 初始缩放 | 1. `initial-scale`<br>2. CSS 像素与缩放比例<br>3. 用户缩放可访问性 | [文档](./01-document-skeleton/kp014-initial-scale/README.md) · [源码](./01-document-skeleton/kp014-initial-scale/index.html) | 已完成 |
+| KP015 | 布局视口与视觉视口 | 1. 两类视口定义<br>2. 缩放和键盘的影响<br>3. 视口尺寸 API | [文档](./01-document-skeleton/kp015-layout-and-visual-viewport/README.md) · [源码](./01-document-skeleton/kp015-layout-and-visual-viewport/index.html) | 已完成 |
+| KP016 | 调试方式 | 1. 设备模拟<br>2. 真实设备验证<br>3. 视口数据读取 | [文档](./01-document-skeleton/kp016-viewport-debugging/README.md) · [源码](./01-document-skeleton/kp016-viewport-debugging/index.html) | 已完成 |
 
 </details>
 
@@ -79,20 +76,20 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP017 | `title` | 1. 元素语法与位置<br>2. 标签页和历史记录用途<br>3. 标题内容组织 | `kp017-document-title/` | 待生成 |
-| KP018 | 动态标题 | 1. `document.title`<br>2. 路由状态同步<br>3. 未读状态与标题恢复 | `kp018-dynamic-title/` | 待生成 |
-| KP019 | description | 1. `meta` 声明方式<br>2. 摘要内容编写<br>3. 页面唯一性与搜索展示 | `kp019-meta-description/` | 待生成 |
-| KP020 | canonical | 1. `rel="canonical"`<br>2. 规范 URL 选择<br>3. 参数页与重复内容 | `kp020-canonical-url/` | 待生成 |
-| KP021 | 标题与摘要 | 1. 社交元信息字段<br>2. 页面标题与摘要一致性<br>3. 平台回退策略 | `kp021-social-title-description/` | 待生成 |
-| KP022 | 分享图片 | 1. 图片地址与绝对 URL<br>2. 尺寸、比例和格式<br>3. 抓取缓存与更新验证 | `kp022-social-share-image/` | 待生成 |
-| KP023 | 图标 | 1. favicon 声明<br>2. 类型与尺寸选择<br>3. 多设备图标回退 | `kp023-site-icons/` | 待生成 |
-| KP024 | 主题颜色 | 1. `theme-color` 语法<br>2. 明暗主题媒体条件<br>3. 不支持环境的回退 | `kp024-theme-color/` | 待生成 |
-| KP025 | stylesheet | 1. `rel` 与 `href`<br>2. `media` 条件<br>3. 加载顺序与阻塞行为 | `kp025-stylesheet-link/` | 待生成 |
-| KP026 | 内联与外联 | 1. 作用范围与复用<br>2. 缓存和请求成本<br>3. CSP 与维护边界 | `kp026-inline-vs-external-resources/` | 待生成 |
-| KP027 | 普通、defer、async | 1. 解析与下载时序<br>2. 执行顺序保证<br>3. 使用场景选择 | `kp027-script-defer-async/` | 待生成 |
-| KP028 | module | 1. `type="module"`<br>2. 导入、作用域和严格模式<br>3. 延迟执行与跨域要求 | `kp028-module-script/` | 待生成 |
-| KP029 | preconnect 与 dns-prefetch | 1. DNS 与连接阶段<br>2. `crossorigin` 配置<br>3. 连接预算和适用来源 | `kp029-preconnect-dns-prefetch/` | 待生成 |
-| KP030 | preload 与 prefetch | 1. 当前页与未来页资源<br>2. `as`、类型和优先级<br>3. 重复下载与带宽风险 | `kp030-preload-prefetch/` | 待生成 |
+| KP017 | `title` | 1. 元素语法与位置<br>2. 标签页和历史记录用途<br>3. 标题内容组织 | [文档](./02-metadata-resources/kp017-document-title/README.md) · [源码](./02-metadata-resources/kp017-document-title/index.html) | 已完成 |
+| KP018 | 动态标题 | 1. `document.title`<br>2. 路由状态同步<br>3. 未读状态与标题恢复 | [文档](./02-metadata-resources/kp018-dynamic-title/README.md) · [源码](./02-metadata-resources/kp018-dynamic-title/index.html) | 已完成 |
+| KP019 | description | 1. `meta` 声明方式<br>2. 摘要内容编写<br>3. 页面唯一性与搜索展示 | [文档](./02-metadata-resources/kp019-meta-description/README.md) · [源码](./02-metadata-resources/kp019-meta-description/index.html) | 已完成 |
+| KP020 | canonical | 1. `rel="canonical"`<br>2. 规范 URL 选择<br>3. 参数页与重复内容 | [文档](./02-metadata-resources/kp020-canonical-url/README.md) · [源码](./02-metadata-resources/kp020-canonical-url/index.html) | 已完成 |
+| KP021 | 标题与摘要 | 1. 社交元信息字段<br>2. 页面标题与摘要一致性<br>3. 平台回退策略 | [文档](./02-metadata-resources/kp021-social-title-description/README.md) · [源码](./02-metadata-resources/kp021-social-title-description/index.html) | 已完成 |
+| KP022 | 分享图片 | 1. 图片地址与绝对 URL<br>2. 尺寸、比例和格式<br>3. 抓取缓存与更新验证 | [文档](./02-metadata-resources/kp022-social-share-image/README.md) · [源码](./02-metadata-resources/kp022-social-share-image/index.html) | 已完成 |
+| KP023 | 图标 | 1. favicon 声明<br>2. 类型与尺寸选择<br>3. 多设备图标回退 | [文档](./02-metadata-resources/kp023-site-icons/README.md) · [源码](./02-metadata-resources/kp023-site-icons/index.html) | 已完成 |
+| KP024 | 主题颜色 | 1. `theme-color` 语法<br>2. 明暗主题媒体条件<br>3. 不支持环境的回退 | [文档](./02-metadata-resources/kp024-theme-color/README.md) · [源码](./02-metadata-resources/kp024-theme-color/index.html) | 已完成 |
+| KP025 | stylesheet | 1. `rel` 与 `href`<br>2. `media` 条件<br>3. 加载顺序与阻塞行为 | [文档](./02-metadata-resources/kp025-stylesheet-link/README.md) · [源码](./02-metadata-resources/kp025-stylesheet-link/index.html) | 已完成 |
+| KP026 | 内联与外联 | 1. 作用范围与复用<br>2. 缓存和请求成本<br>3. CSP 与维护边界 | [文档](./02-metadata-resources/kp026-inline-vs-external-resources/README.md) · [源码](./02-metadata-resources/kp026-inline-vs-external-resources/index.html) | 已完成 |
+| KP027 | 普通、defer、async | 1. 解析与下载时序<br>2. 执行顺序保证<br>3. 使用场景选择 | [文档](./02-metadata-resources/kp027-script-defer-async/README.md) · [源码](./02-metadata-resources/kp027-script-defer-async/index.html) | 已完成 |
+| KP028 | module | 1. `type="module"`<br>2. 导入、作用域和严格模式<br>3. 延迟执行与跨域要求 | [文档](./02-metadata-resources/kp028-module-script/README.md) · [源码](./02-metadata-resources/kp028-module-script/index.html) | 已完成 |
+| KP029 | preconnect 与 dns-prefetch | 1. DNS 与连接阶段<br>2. `crossorigin` 配置<br>3. 连接预算和适用来源 | [文档](./02-metadata-resources/kp029-preconnect-dns-prefetch/README.md) · [源码](./02-metadata-resources/kp029-preconnect-dns-prefetch/index.html) | 已完成 |
+| KP030 | preload 与 prefetch | 1. 当前页与未来页资源<br>2. `as`、类型和优先级<br>3. 重复下载与带宽风险 | [文档](./02-metadata-resources/kp030-preload-prefetch/README.md) · [源码](./02-metadata-resources/kp030-preload-prefetch/index.html) | 已完成 |
 
 </details>
 

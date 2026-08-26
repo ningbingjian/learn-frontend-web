@@ -1,0 +1,30 @@
+<!doctype html>
+<!--
+  KP019：meta description
+  核心：在 head 中提供准确、页面相关的摘要。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>HTML 元信息指南</title>
+  <meta
+    name="description"
+    content="通过可运行案例学习 HTML title、description、canonical 和社交分享元信息。"
+  >
+</head>
+<body>
+  <h1>HTML 元信息指南</h1>
+  <p>description 位于 head 中，因此使用下面的诊断区域观察它。</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const description = document.querySelector(
+      'meta[name="description"]'
+    );
+
+    document.querySelector('#result').textContent =
+      'description：' + description.content;
+  </script>
+</body>
+</html>
