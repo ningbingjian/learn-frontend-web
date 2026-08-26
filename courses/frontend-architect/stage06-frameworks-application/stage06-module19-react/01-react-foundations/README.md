@@ -2,7 +2,7 @@
 
 > [返回 React 模块索引](../README.md)
 
-本 Chapter 负责建立 React 的第一层认知：React 解决什么问题、React 与 React DOM 如何分工、React 是库还是框架、稳定版与 Canary 的区别，以及如何建立现代 React 学习环境。
+本 Chapter 负责建立 React 的第一层认知：React 解决什么问题、React 与 React DOM 如何分工、React 是库还是框架、稳定版与 Canary 的区别，以及如何建立和调试现代 React 学习环境。
 
 | 编号 | 知识点 | 包含内容 | 文档与源码 | 状态 |
 |---|---|---|---|---|
@@ -13,11 +13,12 @@
 | RE-KP005 | React Compiler 1.0 已稳定的版本认知 | 1. Compiler 定位 2. Stable 3. 后续学习边界 | [文档](./kp005-react-compiler-version/README.md) · [源码](./kp005-react-compiler-version/src/main.jsx) | 已完成 |
 | RE-KP006 | Create React App 已弃用及迁移方向 | 1. CRA 历史定位 2. 弃用背景 3. 现代建项方式 | [文档](./kp006-cra-deprecation/README.md) · [源码](./kp006-cra-deprecation/src/main.jsx) | 已完成 |
 | RE-KP007 | 使用 Vite 建立最小 React 学习工程 | 1. Vite 角色 2. React 插件 3. 最小项目结构 | [文档](./kp007-vite-react-project/README.md) · [源码](./kp007-vite-react-project/src/main.jsx) | 已完成 |
-| RE-KP008 | 开发模式与生产模式差异 | 1. Dev 2. Production 3. 构建结果 | `kp008-dev-production-mode/` | 待生成 |
-| RE-KP009 | React DevTools 安装与基础使用 | 1. Components 2. Profiler 3. 基础检查 | `kp009-react-devtools/` | 待生成 |
-| RE-KP010 | Fast Refresh 的作用与状态保留边界 | 1. HMR 2. Fast Refresh 3. 状态保留与重置 | `kp010-fast-refresh/` | 待生成 |
+| RE-KP008 | 开发模式与生产模式差异 | 1. Dev / Production 2. `import.meta.env` 3. build / preview | [文档](./kp008-dev-production-mode/README.md) · [源码](./kp008-dev-production-mode/src/main.jsx) | 已完成 |
+| RE-KP009 | React DevTools 安装与基础使用 | 1. Components 2. Props / State 3. Profiler 入门 | [文档](./kp009-react-devtools/README.md) · [源码](./kp009-react-devtools/src/main.jsx) | 已完成 |
+| RE-KP010 | Fast Refresh 的作用与状态保留边界 | 1. HMR 2. Fast Refresh 3. Refresh Boundary | [文档](./kp010-fast-refresh/README.md) · [源码](./kp010-fast-refresh/src/App.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 01：**7 / 10**
-- 下一知识点：**RE-KP008：开发模式与生产模式差异**
+- Chapter 01：**10 / 10，已完成**
+- 下一 Chapter：**Chapter 02：JSX、React Element 与组件模型**
+- 下一知识点：**RE-KP011：JSX 的定位与语法边界**
