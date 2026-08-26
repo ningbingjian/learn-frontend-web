@@ -1,0 +1,31 @@
+<!doctype html>
+<!--
+  KP011：lang 页面语言声明
+  核心：根元素声明主语言，局部内容按需要覆盖。
+  JavaScript 仅用于观察继承后的语言关系。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP011：lang 页面语言声明</title>
+</head>
+<body>
+  <h1>页面语言实验</h1>
+
+  <p id="zh-text">这段内容继承页面的 zh-CN。</p>
+  <p id="en-text" lang="en">Hello, semantic HTML.</p>
+  <p id="ja-text" lang="ja">こんにちは、HTML。</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const ids = ['zh-text', 'en-text', 'ja-text'];
+    const lines = ids.map(id => {
+      const element = document.querySelector('#' + id);
+      return id + ' -> ' + element.closest('[lang]').lang;
+    });
+
+    document.querySelector('#result').textContent = lines.join('\n');
+  </script>
+</body>
+</html>

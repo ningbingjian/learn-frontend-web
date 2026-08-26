@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+  KP012：dir 文本方向
+  核心：ltr / rtl / auto，以及方向继承。
+-->
+<html lang="zh-CN" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>KP012：dir 文本方向</title>
+</head>
+<body>
+  <h1>文本方向实验</h1>
+
+  <p id="default-text">中文页面默认从左向右。</p>
+
+  <section dir="rtl" lang="ar">
+    <p id="rtl-text">مرحبا بالعالم</p>
+  </section>
+
+  <p id="auto-rtl" dir="auto">مرحبا HTML 2026</p>
+  <p id="auto-ltr" dir="auto">HTML مرحبا 2026</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const ids = ['default-text', 'rtl-text', 'auto-rtl', 'auto-ltr'];
+    const lines = ids.map(id => {
+      const element = document.querySelector('#' + id);
+      return id + ' -> ' + getComputedStyle(element).direction;
+    });
+
+    document.querySelector('#result').textContent = lines.join('\n');
+  </script>
+</body>
+</html>
