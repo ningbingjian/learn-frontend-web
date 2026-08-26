@@ -1,6 +1,3 @@
-
-
-
 # Stage 02 · Module 01：HTML 学习索引
 
 > **目录标识**：`stage02-module01-html`
@@ -25,7 +22,7 @@ kp001-standard-declaration/
 
 |  顺序 | 章节                        | 目录                             | 知识点 | 当前状态  |
 | --: | ------------------------- | ------------------------------ | --: | ----- |
-|  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 10/16 |
+|  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 0/14  |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 0/14  |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
@@ -63,12 +60,12 @@ kp001-standard-declaration/
 | KP008 | 容错解析 | 1. 解析器自动纠错<br>2. 段落隐式结束<br>3. 源码与 DOM 对照 | [文档](./01-document-skeleton/kp008-error-tolerant-parsing/README.md) · [源码](./01-document-skeleton/kp008-error-tolerant-parsing/index.html) | 已完成 |
 | KP009 | UTF-8 | 1. 字符与字节<br>2. UTF-8 声明与文件编码<br>3. 多语言文本与字节观察 | [文档](./01-document-skeleton/kp009-utf8-encoding/README.md) · [源码](./01-document-skeleton/kp009-utf8-encoding/index.html) | 已完成 |
 | KP010 | 乱码诊断 | 1. 编码与解码不一致<br>2. 常见乱码表现<br>3. 按链路定位错误 | [文档](./01-document-skeleton/kp010-mojibake-diagnosis/README.md) · [源码](./01-document-skeleton/kp010-mojibake-diagnosis/index.html) | 已完成 |
-| KP011 | `lang` | 1. 页面主语言<br>2. 局部语言覆盖<br>3. 语言标签与辅助技术 | `kp011-lang-attribute/` | 待生成 |
-| KP012 | `dir` | 1. `ltr` 与 `rtl`<br>2. `auto` 自动判断<br>3. 方向继承与局部覆盖 | `kp012-dir-attribute/` | 待生成 |
-| KP013 | 设备宽度 | 1. viewport 元信息<br>2. `width=device-width`<br>3. 移动端默认布局宽度 | `kp013-device-width/` | 待生成 |
-| KP014 | 初始缩放 | 1. `initial-scale`<br>2. CSS 像素与缩放比例<br>3. 用户缩放可访问性 | `kp014-initial-scale/` | 待生成 |
-| KP015 | 布局视口与视觉视口 | 1. 两类视口定义<br>2. 缩放和键盘的影响<br>3. 视口尺寸 API | `kp015-layout-and-visual-viewport/` | 待生成 |
-| KP016 | 调试方式 | 1. 设备模拟<br>2. 真实设备验证<br>3. 视口数据读取 | `kp016-viewport-debugging/` | 待生成 |
+| KP011 | `lang` | 1. 页面主语言<br>2. 局部语言覆盖<br>3. 语言标签与辅助技术 | [文档](./01-document-skeleton/kp011-lang-attribute/README.md) · [源码](./01-document-skeleton/kp011-lang-attribute/index.html) | 已完成 |
+| KP012 | `dir` | 1. `ltr` 与 `rtl`<br>2. `auto` 自动判断<br>3. 方向继承与局部覆盖 | [文档](./01-document-skeleton/kp012-dir-attribute/README.md) · [源码](./01-document-skeleton/kp012-dir-attribute/index.html) | 已完成 |
+| KP013 | 设备宽度 | 1. viewport 元信息<br>2. `width=device-width`<br>3. 移动端默认布局宽度 | [文档](./01-document-skeleton/kp013-device-width/README.md) · [源码](./01-document-skeleton/kp013-device-width/index.html) | 已完成 |
+| KP014 | 初始缩放 | 1. `initial-scale`<br>2. CSS 像素与缩放比例<br>3. 用户缩放可访问性 | [文档](./01-document-skeleton/kp014-initial-scale/README.md) · [源码](./01-document-skeleton/kp014-initial-scale/index.html) | 已完成 |
+| KP015 | 布局视口与视觉视口 | 1. 两类视口定义<br>2. 缩放和键盘的影响<br>3. 视口尺寸 API | [文档](./01-document-skeleton/kp015-layout-and-visual-viewport/README.md) · [源码](./01-document-skeleton/kp015-layout-and-visual-viewport/index.html) | 已完成 |
+| KP016 | 调试方式 | 1. 设备模拟<br>2. 真实设备验证<br>3. 视口数据读取 | [文档](./01-document-skeleton/kp016-viewport-debugging/README.md) · [源码](./01-document-skeleton/kp016-viewport-debugging/index.html) | 已完成 |
 
 </details>
 
