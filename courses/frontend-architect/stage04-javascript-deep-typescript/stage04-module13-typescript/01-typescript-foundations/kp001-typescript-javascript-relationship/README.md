@@ -1,6 +1,6 @@
 # TS-KP001：TypeScript 与 JavaScript 的关系
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -508,8 +508,6 @@ node ./01-typescript-foundations/kp001-typescript-javascript-relationship/dist/m
 ```text
 Mechanical Keyboard: ¥499.00
 ```
-
-配套练习见顶部的 [`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 
