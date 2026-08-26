@@ -24,7 +24,7 @@ kp001-standard-declaration/
 | --: | ------------------------- | ------------------------------ | --: | ----- |
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
-|  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 0/14  |
+|  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 6/14  |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
@@ -100,12 +100,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP031 | `h1`～`h6` | 1. 六级标题语义<br>2. 标题与视觉字号<br>3. 文档结构导航 | `kp031-heading-levels/` | 待生成 |
-| KP032 | 层级连续性 | 1. 层级递进<br>2. 跳级问题<br>3. 页面大纲检查 | `kp032-heading-continuity/` | 待生成 |
-| KP033 | 主标题 | 1. 页面主题表达<br>2. `h1` 数量与上下文<br>3. 标题和文档标题配合 | `kp033-page-main-heading/` | 待生成 |
-| KP034 | 组件标题 | 1. 组件嵌入上下文<br>2. 标题级别由外部决定<br>3. 可复用组件策略 | `kp034-component-heading/` | 待生成 |
-| KP035 | `p` | 1. 段落内容模型<br>2. 段落自动闭合<br>3. 与普通容器的区别 | `kp035-paragraph/` | 待生成 |
-| KP036 | 换行与分隔 | 1. `br` 强制换行<br>2. `hr` 主题分隔<br>3. 段落和 CSS 间距选择 | `kp036-line-break-and-separator/` | 待生成 |
+| KP031 | `h1`～`h6` | 1. 六级标题语义<br>2. 标题与视觉字号<br>3. 文档结构导航 | [文档](./03-text-semantics/kp031-heading-levels/README.md) · [源码](./03-text-semantics/kp031-heading-levels/index.html) | 已完成 |
+| KP032 | 层级连续性 | 1. 层级递进<br>2. 跳级问题<br>3. 页面大纲检查 | [文档](./03-text-semantics/kp032-heading-continuity/README.md) · [源码](./03-text-semantics/kp032-heading-continuity/index.html) | 已完成 |
+| KP033 | 主标题 | 1. 页面主题表达<br>2. `h1` 数量与上下文<br>3. 标题和文档标题配合 | [文档](./03-text-semantics/kp033-page-main-heading/README.md) · [源码](./03-text-semantics/kp033-page-main-heading/index.html) | 已完成 |
+| KP034 | 组件标题 | 1. 组件嵌入上下文<br>2. 标题级别由外部决定<br>3. 可复用组件策略 | [文档](./03-text-semantics/kp034-component-heading/README.md) · [源码](./03-text-semantics/kp034-component-heading/index.html) | 已完成 |
+| KP035 | `p` | 1. 段落内容模型<br>2. 段落自动闭合<br>3. 与普通容器的区别 | [文档](./03-text-semantics/kp035-paragraph/README.md) · [源码](./03-text-semantics/kp035-paragraph/index.html) | 已完成 |
+| KP036 | 换行与分隔 | 1. `br` 强制换行<br>2. `hr` 主题分隔<br>3. 段落和 CSS 间距选择 | [文档](./03-text-semantics/kp036-line-break-and-separator/README.md) · [源码](./03-text-semantics/kp036-line-break-and-separator/index.html) | 已完成 |
 | KP037 | `em` 与 `strong` | 1. 语气强调<br>2. 内容重要性<br>3. 嵌套与语义强度 | `kp037-emphasis-and-importance/` | 待生成 |
 | KP038 | `b`、`i`、`mark`、`small` | 1. 视觉提醒与术语语气<br>2. 高亮相关性<br>3. 附属说明文本 | `kp038-text-level-semantics/` | 待生成 |
 | KP039 | `blockquote` 与 `q` | 1. 块级与行内引用<br>2. `cite` 属性<br>3. 引号显示与来源说明 | `kp039-blockquote-and-q/` | 待生成 |
