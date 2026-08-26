@@ -7,9 +7,9 @@
 | 编号 | 知识点 | 包含内容 | 文档与源码 | 状态 |
 |---|---|---|---|---|
 | RE-KP001 | React 解决的问题与声明式 UI | 1. UI 状态一致性问题 2. 命令式与声明式对比 3. `状态 → 视图` 心智模型 | [文档](./kp001-react-declarative-ui/README.md) · [源码](./kp001-react-declarative-ui/src/main.jsx) | 已完成 |
-| RE-KP002 | React、React DOM 与 Renderer 的职责边界 | 1. React 核心 2. React DOM 3. Renderer | `kp002-react-reactdom-renderer/` | 待生成 |
-| RE-KP003 | React Library 与 React Framework 的区别 | 1. React Core 2. Framework 3. 应用能力边界 | `kp003-library-vs-framework/` | 待生成 |
-| RE-KP004 | React 19.2.x 稳定线与 Canary/Experimental 渠道 | 1. Stable 2. Canary 3. Experimental | `kp004-release-channels/` | 待生成 |
+| RE-KP002 | React、React DOM 与 Renderer 的职责边界 | 1. React 核心 2. React DOM 3. Renderer | [文档](./kp002-react-reactdom-renderer/README.md) · [源码](./kp002-react-reactdom-renderer/src/main.jsx) | 已完成 |
+| RE-KP003 | React Library 与 React Framework 的区别 | 1. React Core 2. Framework 3. 应用能力边界 | [文档](./kp003-library-vs-framework/README.md) · [源码](./kp003-library-vs-framework/src/main.jsx) | 已完成 |
+| RE-KP004 | React 19.2.x 稳定线与 Canary/Experimental 渠道 | 1. Stable 2. Canary 3. Experimental | [文档](./kp004-release-channels/README.md) · [源码](./kp004-release-channels/src/main.jsx) | 已完成 |
 | RE-KP005 | React Compiler 1.0 已稳定的版本认知 | 1. Compiler 定位 2. Stable 3. 后续学习边界 | `kp005-react-compiler-version/` | 待生成 |
 | RE-KP006 | Create React App 已弃用及迁移方向 | 1. CRA 历史定位 2. 弃用背景 3. 现代建项方式 | `kp006-cra-deprecation/` | 待生成 |
 | RE-KP007 | 使用 Vite 建立最小 React 学习工程 | 1. Vite 角色 2. React 插件 3. 最小项目结构 | `kp007-vite-react-project/` | 待生成 |
@@ -19,5 +19,5 @@
 
 ## 当前进度
 
-- Chapter 01：**1 / 10**
-- 下一知识点：**RE-KP002：React、React DOM 与 Renderer 的职责边界**
+- Chapter 01：**4 / 10**
+- 下一知识点：**RE-KP005：React Compiler 1.0 已稳定的版本认知**
