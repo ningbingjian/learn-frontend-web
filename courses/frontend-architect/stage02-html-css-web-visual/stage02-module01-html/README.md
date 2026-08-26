@@ -23,7 +23,7 @@ kp001-standard-declaration/
 |  顺序 | 章节                        | 目录                             | 知识点 | 当前状态  |
 | --: | ------------------------- | ------------------------------ | --: | ----- |
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
-|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 0/14  |
+|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 6/14  |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 0/14  |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
@@ -76,12 +76,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP017 | `title` | 1. 元素语法与位置<br>2. 标签页和历史记录用途<br>3. 标题内容组织 | `kp017-document-title/` | 待生成 |
-| KP018 | 动态标题 | 1. `document.title`<br>2. 路由状态同步<br>3. 未读状态与标题恢复 | `kp018-dynamic-title/` | 待生成 |
-| KP019 | description | 1. `meta` 声明方式<br>2. 摘要内容编写<br>3. 页面唯一性与搜索展示 | `kp019-meta-description/` | 待生成 |
-| KP020 | canonical | 1. `rel="canonical"`<br>2. 规范 URL 选择<br>3. 参数页与重复内容 | `kp020-canonical-url/` | 待生成 |
-| KP021 | 标题与摘要 | 1. 社交元信息字段<br>2. 页面标题与摘要一致性<br>3. 平台回退策略 | `kp021-social-title-description/` | 待生成 |
-| KP022 | 分享图片 | 1. 图片地址与绝对 URL<br>2. 尺寸、比例和格式<br>3. 抓取缓存与更新验证 | `kp022-social-share-image/` | 待生成 |
+| KP017 | `title` | 1. 元素语法与位置<br>2. 标签页和历史记录用途<br>3. 标题内容组织 | [文档](./02-metadata-resources/kp017-document-title/README.md) · [源码](./02-metadata-resources/kp017-document-title/index.html) | 已完成 |
+| KP018 | 动态标题 | 1. `document.title`<br>2. 路由状态同步<br>3. 未读状态与标题恢复 | [文档](./02-metadata-resources/kp018-dynamic-title/README.md) · [源码](./02-metadata-resources/kp018-dynamic-title/index.html) | 已完成 |
+| KP019 | description | 1. `meta` 声明方式<br>2. 摘要内容编写<br>3. 页面唯一性与搜索展示 | [文档](./02-metadata-resources/kp019-meta-description/README.md) · [源码](./02-metadata-resources/kp019-meta-description/index.html) | 已完成 |
+| KP020 | canonical | 1. `rel="canonical"`<br>2. 规范 URL 选择<br>3. 参数页与重复内容 | [文档](./02-metadata-resources/kp020-canonical-url/README.md) · [源码](./02-metadata-resources/kp020-canonical-url/index.html) | 已完成 |
+| KP021 | 标题与摘要 | 1. 社交元信息字段<br>2. 页面标题与摘要一致性<br>3. 平台回退策略 | [文档](./02-metadata-resources/kp021-social-title-description/README.md) · [源码](./02-metadata-resources/kp021-social-title-description/index.html) | 已完成 |
+| KP022 | 分享图片 | 1. 图片地址与绝对 URL<br>2. 尺寸、比例和格式<br>3. 抓取缓存与更新验证 | [文档](./02-metadata-resources/kp022-social-share-image/README.md) · [源码](./02-metadata-resources/kp022-social-share-image/index.html) | 已完成 |
 | KP023 | 图标 | 1. favicon 声明<br>2. 类型与尺寸选择<br>3. 多设备图标回退 | `kp023-site-icons/` | 待生成 |
 | KP024 | 主题颜色 | 1. `theme-color` 语法<br>2. 明暗主题媒体条件<br>3. 不支持环境的回退 | `kp024-theme-color/` | 待生成 |
 | KP025 | stylesheet | 1. `rel` 与 `href`<br>2. `media` 条件<br>3. 加载顺序与阻塞行为 | `kp025-stylesheet-link/` | 待生成 |
