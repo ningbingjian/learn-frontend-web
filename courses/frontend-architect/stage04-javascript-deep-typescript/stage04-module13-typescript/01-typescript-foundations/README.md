@@ -70,10 +70,10 @@ npm install
 | TS-KP010 | `tsc` 基本使用 | [文档](./kp010-tsc-basics/README.md) · [源码](./kp010-tsc-basics/src/main.ts) · [练习](./kp010-tsc-basics/exercise/README.md) | 已完成 |
 | TS-KP011 | `.ts`、`.tsx`、`.mts`、`.cts` 文件 | [文档](./kp011-typescript-file-extensions/README.md) · [源码](./kp011-typescript-file-extensions/src/) · [练习](./kp011-typescript-file-extensions/exercise/README.md) | 已完成 |
 | TS-KP012 | 源码到 JavaScript 的 Emit 过程 | [文档](./kp012-emit-process/README.md) · [源码](./kp012-emit-process/src/main.ts) · [练习](./kp012-emit-process/exercise/README.md) | 已完成 |
-| TS-KP013 | `--noEmit` 与只类型检查 | `kp013-no-emit-type-checking/` | 待生成 |
-| TS-KP014 | Watch Mode | `kp014-watch-mode/` | 待生成 |
-| TS-KP015 | 直接运行 TypeScript 的现代方式与限制 | `kp015-direct-typescript-execution/` | 待生成 |
-| TS-KP016 | 编辑器语言服务与语言服务体系概念 | `kp016-language-service/` | 待生成 |
+| TS-KP013 | `--noEmit` 与只类型检查 | [文档](./kp013-no-emit-type-checking/README.md) · [源码](./kp013-no-emit-type-checking/src/main.ts) · [练习](./kp013-no-emit-type-checking/exercise/README.md) | 已完成 |
+| TS-KP014 | Watch Mode | [文档](./kp014-watch-mode/README.md) · [源码](./kp014-watch-mode/src/main.ts) · [练习](./kp014-watch-mode/exercise/README.md) | 已完成 |
+| TS-KP015 | 直接运行 TypeScript 的现代方式与限制 | [文档](./kp015-direct-typescript-execution/README.md) · [源码](./kp015-direct-typescript-execution/src/main.ts) · [练习](./kp015-direct-typescript-execution/exercise/README.md) | 已完成 |
+| TS-KP016 | 编辑器语言服务与语言服务体系概念 | [文档](./kp016-language-service/README.md) · [源码](./kp016-language-service/src/) · [练习](./kp016-language-service/exercise/README.md) | 已完成 |
 
 ## 完成标准
 
@@ -88,6 +88,7 @@ npm install
 ## 当前进度
 
 - Lesson 01.1：8/8 已完成。
-- Lesson 01.2：4/8 已完成。
-- Chapter 01：12/16 已完成。
-- 下一知识点：TS-KP013「`--noEmit` 与只类型检查」。
+- Lesson 01.2：8/8 已完成。
+- Chapter 01 原子知识点：16/16 已完成。
+- `Lab 01`：待生成。
+- 下一步建议：先完成 `Lab 01`，再进入 Chapter 02 的 TS-KP017「`string`」。
