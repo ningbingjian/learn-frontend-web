@@ -64,12 +64,12 @@ npm install
 
 ### Lesson 01.2：安装、编译与执行
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP009 | 安装 TypeScript 与版本管理 | `kp009-installation-version-management/` | 待生成 |
-| TS-KP010 | `tsc` 基本使用 | `kp010-tsc-basics/` | 待生成 |
-| TS-KP011 | `.ts`、`.tsx`、`.mts`、`.cts` 文件 | `kp011-typescript-file-extensions/` | 待生成 |
-| TS-KP012 | 源码到 JavaScript 的 Emit 过程 | `kp012-emit-process/` | 待生成 |
+| TS-KP009 | 安装 TypeScript 与版本管理 | [文档](./kp009-installation-version-management/README.md) · [源码](./kp009-installation-version-management/src/main.ts) · [练习](./kp009-installation-version-management/exercise/README.md) | 已完成 |
+| TS-KP010 | `tsc` 基本使用 | [文档](./kp010-tsc-basics/README.md) · [源码](./kp010-tsc-basics/src/main.ts) · [练习](./kp010-tsc-basics/exercise/README.md) | 已完成 |
+| TS-KP011 | `.ts`、`.tsx`、`.mts`、`.cts` 文件 | [文档](./kp011-typescript-file-extensions/README.md) · [源码](./kp011-typescript-file-extensions/src/) · [练习](./kp011-typescript-file-extensions/exercise/README.md) | 已完成 |
+| TS-KP012 | 源码到 JavaScript 的 Emit 过程 | [文档](./kp012-emit-process/README.md) · [源码](./kp012-emit-process/src/main.ts) · [练习](./kp012-emit-process/exercise/README.md) | 已完成 |
 | TS-KP013 | `--noEmit` 与只类型检查 | `kp013-no-emit-type-checking/` | 待生成 |
 | TS-KP014 | Watch Mode | `kp014-watch-mode/` | 待生成 |
 | TS-KP015 | 直接运行 TypeScript 的现代方式与限制 | `kp015-direct-typescript-execution/` | 待生成 |
@@ -88,5 +88,6 @@ npm install
 ## 当前进度
 
 - Lesson 01.1：8/8 已完成。
-- Chapter 01：8/16 已完成。
-- 下一知识点：TS-KP009「安装 TypeScript 与版本管理」。
+- Lesson 01.2：4/8 已完成。
+- Chapter 01：12/16 已完成。
+- 下一知识点：TS-KP013「`--noEmit` 与只类型检查」。
