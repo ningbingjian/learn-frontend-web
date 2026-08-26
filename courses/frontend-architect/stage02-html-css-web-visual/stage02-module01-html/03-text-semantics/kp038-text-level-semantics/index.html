@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP038：文本级语义</title>
+  <style>
+    b { font-weight: normal; text-decoration: underline; }
+    i { font-style: normal; }
+    mark { background: none; border-bottom: 2px solid currentColor; }
+    small { font-size: 1em; }
+  </style>
+</head>
+<body>
+  <h1>b、i、mark、small</h1>
+
+  <p>本次测试使用 <b>Chrome DevTools</b> 观察 DOM。</p>
+  <p>浏览器会创建一棵 <i>DOM tree</i>。</p>
+  <p>搜索“HTML”：学习 <mark>HTML</mark> 语义化结构。</p>
+  <p><small>示例仅用于学习，不代表生产配置建议。</small></p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const result = [...document.querySelectorAll('b, i, mark, small')]
+      .map(element => `${element.tagName.toLowerCase()} -> ${element.textContent}`)
+      .join('\n');
+
+    document.querySelector('#result').textContent = result;
+  </script>
+</body>
+</html>

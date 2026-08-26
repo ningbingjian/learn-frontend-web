@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP039：blockquote 与 q</title>
+</head>
+<body>
+  <h1>块级引用与行内引用</h1>
+
+  <blockquote cite="https://example.com/html-semantics">
+    <p>语义化 HTML 描述内容是什么，而不是只描述它长什么样。</p>
+  </blockquote>
+  <p>来源：HTML 语义学习示例</p>
+
+  <p>
+    评审时常听到一句话：
+    <q cite="https://example.com/review-notes">先写语义，再考虑样式。</q>
+  </p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const items = [...document.querySelectorAll('blockquote, q')]
+      .map(element => `${element.tagName.toLowerCase()} cite -> ${element.cite}`);
+
+    document.querySelector('#result').textContent = items.join('\n');
+  </script>
+</body>
+</html>
