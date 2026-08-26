@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+  KP026：内联资源与外联资源
+  核心：同时对照 inline CSS/JS 与 external CSS/JS。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP026：内联与外联资源</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .inline-note {
+      font-style: italic;
+      text-decoration: underline;
+    }
+  </style>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="external-card">
+    <h1>内联与外联资源实验</h1>
+    <p class="inline-note">这段样式来自 HTML 中的内联 style。</p>
+    <p id="external-status">等待外部 app.js...</p>
+    <p id="inline-status">等待内联 script...</p>
+    <h2>Resource Timing 中的外部资源</h2>
+    <pre id="resources">等待 load 事件...</pre>
+  </main>
+
+  <script>
+    document.querySelector('#inline-status').textContent =
+      '内联 script 已执行';
+
+    window.addEventListener('load', () => {
+      const resources = performance
+        .getEntriesByType('resource')
+        .map(entry => new URL(entry.name).pathname.split('/').pop())
+        .filter(Boolean);
+
+      document.querySelector('#resources').textContent =
+        resources.join('\n') || '(没有可显示的资源记录)';
+    });
+  </script>
+</body>
+</html>
