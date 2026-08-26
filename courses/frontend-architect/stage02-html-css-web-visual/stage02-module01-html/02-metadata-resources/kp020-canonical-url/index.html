@@ -1,0 +1,33 @@
+<!doctype html>
+<!--
+  KP020：canonical
+  核心：为相同或高度相似内容声明首选 URL。
+  canonical 不会让浏览器自动跳转。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>HTML 元信息指南</title>
+  <link
+    rel="canonical"
+    href="https://example.com/guides/html-metadata"
+  >
+</head>
+<body>
+  <h1>Canonical 规范 URL 实验</h1>
+  <pre id="result"></pre>
+
+  <script>
+    const canonical = document.querySelector(
+      'link[rel="canonical"]'
+    );
+
+    document.querySelector('#result').textContent = [
+      '当前地址：' + location.href,
+      'canonical：' + canonical.href,
+      '',
+      '结论：canonical 是首选地址声明，不是浏览器重定向。'
+    ].join('\n');
+  </script>
+</body>
+</html>
