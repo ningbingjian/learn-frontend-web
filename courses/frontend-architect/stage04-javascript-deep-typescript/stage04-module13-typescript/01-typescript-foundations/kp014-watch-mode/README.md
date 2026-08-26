@@ -1,6 +1,6 @@
 # TS-KP014：Watch Mode
 
-> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -253,5 +253,3 @@ npx tsc -p ./01-typescript-foundations/kp014-watch-mode/tsconfig.json --watch
 - 类型错误出现和消失都能被自动感知。
 - `--watch` 改变的是反馈方式，不改变类型规则本身。
 - 知道 `watchOptions` 是处理特殊文件系统监听问题的入口。
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。

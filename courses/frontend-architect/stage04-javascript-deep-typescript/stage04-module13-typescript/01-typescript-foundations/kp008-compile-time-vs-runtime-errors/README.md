@@ -1,6 +1,6 @@
 # TS-KP008：编译期错误与运行时错误的区别
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -276,5 +276,3 @@ node ./01-typescript-foundations/kp008-compile-time-vs-runtime-errors/dist/main.
 3. 损坏 JSON 在类型检查阶段没有问题，但运行解析时抛出异常。
 4. 能解释为什么“没有类型错误”和“程序不会出错”不是同一个结论。
 5. 能为三类问题分别选择 TypeScript、运行时错误处理和业务规则/测试。
-
-配套练习见 [`exercise/README.md`](./exercise/README.md)。

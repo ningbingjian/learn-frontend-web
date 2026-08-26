@@ -1,6 +1,6 @@
 # TS-KP005：TypeScript 的设计目标与非目标
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -299,5 +299,3 @@ node ./01-typescript-foundations/kp005-design-goals/dist/main.js
 3. 运行后 `150%` 折扣会得到业务上可疑的负值。
 4. 能解释为什么第二种问题不能只依赖 TypeScript 自动解决。
 5. 能把“类型检查、运行时校验、业务规则、测试”分配到正确职责。
-
-配套练习见 [`exercise/README.md`](./exercise/README.md)。

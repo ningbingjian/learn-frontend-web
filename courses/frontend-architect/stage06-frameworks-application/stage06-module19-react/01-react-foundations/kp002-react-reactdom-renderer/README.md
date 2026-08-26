@@ -1,6 +1,6 @@
 # RE-KP002：React、React DOM 与 Renderer 的职责边界
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -438,12 +438,6 @@ npm run dev -- ./01-react-foundations/kp002-react-reactdom-renderer --config ./v
 ```
 
 打开终端中 Vite 给出的本地地址。
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp002-react-reactdom-renderer/exercise --config ./vite.config.js
-```
 
 ## 效果验证
 

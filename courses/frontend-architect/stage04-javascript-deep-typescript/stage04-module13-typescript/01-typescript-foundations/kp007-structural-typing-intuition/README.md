@@ -1,6 +1,6 @@
 # TS-KP007：结构化类型系统基本直觉
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -302,5 +302,3 @@ Billing Service
 3. 多出来的 `id`、`email`、`version` 为什么没有妨碍这两个变量满足 `HasName`？
 4. 缺少 `name` 或 `name` 不是 `string` 为什么会失败？
 5. “看结构不看类型名字”这句话的适用范围是什么？
-
-配套练习见 [`exercise/README.md`](./exercise/README.md)。

@@ -1,6 +1,6 @@
 # RE-KP007：使用 Vite 建立最小 React 学习工程
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开样式](./src/styles.css) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开样式](./src/styles.css)
 
 ## 文档目录
 
@@ -631,12 +631,6 @@ npm run build -- ./01-react-foundations/kp007-vite-react-project --config ./vite
 
 ```bash
 npm run preview -- ./01-react-foundations/kp007-vite-react-project --config ./vite.config.js
-```
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp007-vite-react-project/exercise --config ./vite.config.js
 ```
 
 ## 效果验证
