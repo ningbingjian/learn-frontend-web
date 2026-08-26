@@ -1,6 +1,6 @@
 # TS-KP016：编辑器语言服务与语言服务体系概念
 
-> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -291,5 +291,3 @@ npx tsc -p ./01-typescript-foundations/kp016-language-service/tsconfig.json
 - Rename 是基于符号关系，而不是简单文本替换。
 - 能解释传统 `tsserver` 与 TypeScript 7 LSP 语言服务器在架构上的关系。
 - 能说明为什么编辑器反馈不能替代 CI 中的独立类型检查。
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。

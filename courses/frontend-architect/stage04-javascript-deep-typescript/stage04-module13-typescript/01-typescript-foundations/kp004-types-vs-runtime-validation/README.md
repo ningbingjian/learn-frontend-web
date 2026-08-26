@@ -1,6 +1,6 @@
 # TS-KP004：类型安全不是运行时数据校验
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -283,8 +283,6 @@ npm run check -- ./01-typescript-foundations/kp004-types-vs-runtime-validation/t
 npm run build -- ./01-typescript-foundations/kp004-types-vs-runtime-validation/tsconfig.json
 node ./01-typescript-foundations/kp004-types-vs-runtime-validation/dist/main.js
 ```
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 

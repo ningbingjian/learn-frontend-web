@@ -1,6 +1,6 @@
 # RE-KP001：React 解决的问题与声明式 UI
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -469,8 +469,6 @@ npm run build -- ./01-react-foundations/kp001-react-declarative-ui --config ./vi
 3. 点击按钮后切换为 `Offline`。
 4. 状态标签、卡片样式、标题、说明和按钮文字一起变化。
 5. 再次点击能够恢复在线状态。
-
-配套练习见 [`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 

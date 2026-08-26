@@ -1,6 +1,6 @@
 # RE-KP006：Create React App 已弃用及迁移方向
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -412,12 +412,6 @@ npm run dev -- ./01-react-foundations/kp006-cra-deprecation --config ./vite.conf
 cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
 npm install
 npm run dev -- ./01-react-foundations/kp006-cra-deprecation --config ./vite.config.js
-```
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp006-cra-deprecation/exercise --config ./vite.config.js
 ```
 
 ## 效果验证

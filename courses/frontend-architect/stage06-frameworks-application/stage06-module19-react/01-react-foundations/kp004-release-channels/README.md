@@ -1,6 +1,6 @@
 # RE-KP004：React 19.2.x 稳定线与 Canary / Experimental 渠道
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -448,12 +448,6 @@ cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-re
 
 ```bash
 npm run dev -- ./01-react-foundations/kp004-release-channels --config ./vite.config.js
-```
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp004-release-channels/exercise --config ./vite.config.js
 ```
 
 ## 效果验证

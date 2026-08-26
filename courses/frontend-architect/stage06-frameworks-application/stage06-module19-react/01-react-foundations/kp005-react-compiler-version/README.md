@@ -1,6 +1,6 @@
 # RE-KP005：React Compiler 1.0 已稳定的版本认知
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -446,12 +446,6 @@ npm install
 
 ```bash
 npm run dev -- ./01-react-foundations/kp005-react-compiler-version --config ./vite.config.js
-```
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp005-react-compiler-version/exercise --config ./vite.config.js
 ```
 
 ## 效果验证

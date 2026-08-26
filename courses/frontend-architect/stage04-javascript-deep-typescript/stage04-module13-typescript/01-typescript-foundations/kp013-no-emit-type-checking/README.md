@@ -1,6 +1,6 @@
 # TS-KP013：`--noEmit` 与只类型检查
 
-> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -261,5 +261,3 @@ npx tsc -p ./01-typescript-foundations/kp013-no-emit-type-checking/tsconfig.json
 - 临时写错 `timeoutMs` 后仍然会得到类型错误。
 - 能准确解释 `noEmit` 与 `noEmitOnError` 的区别。
 - 能说明为什么“构建工具负责转换 + tsc 负责类型检查”是一种常见工程分工。
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。

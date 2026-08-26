@@ -1,6 +1,6 @@
 # TS-KP006：渐进式类型系统与 JavaScript 迁移
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -316,5 +316,3 @@ node ./01-typescript-foundations/kp006-gradual-typing-migration/dist/main.js
 3. `Product` 可以表达新系统内部更严格的状态。
 4. `normalizeProduct()` 把不确定性集中在一个转换边界里。
 5. 能解释为什么渐进迁移的目标是持续缩小 `any` 和动态区域，而不是长期保留它们。
-
-配套练习见 [`exercise/README.md`](./exercise/README.md)。

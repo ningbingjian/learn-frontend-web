@@ -1,6 +1,6 @@
 # TS-KP002：静态类型检查与 JavaScript 运行时的边界
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -267,8 +267,6 @@ npm run check -- ./01-typescript-foundations/kp002-static-type-checking-runtime-
 npm run build -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
 node ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/dist/main.js
 ```
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 

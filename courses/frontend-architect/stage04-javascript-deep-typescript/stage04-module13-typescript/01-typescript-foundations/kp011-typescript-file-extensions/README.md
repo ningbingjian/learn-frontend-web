@@ -1,6 +1,6 @@
 # TS-KP011：`.ts`、`.tsx`、`.mts`、`.cts` 文件
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开源码目录](./src) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开源码目录](./src)
 
 ## 文档目录
 

@@ -1,6 +1,6 @@
 # TS-KP015：直接运行 TypeScript 的现代方式与限制
 
-> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -277,5 +277,3 @@ node ./01-typescript-foundations/kp015-direct-typescript-execution/src/main.ts
 - `examples/no-type-check.ts` 能证明“直接执行成功”和“类型正确”是两件事。
 - `enum` 例子说明不是所有 TypeScript 专属语法都能靠简单 stripping 处理。
 - 能解释为什么大型工程仍然需要 `tsc` / 构建工具 / 完整 runner。
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。

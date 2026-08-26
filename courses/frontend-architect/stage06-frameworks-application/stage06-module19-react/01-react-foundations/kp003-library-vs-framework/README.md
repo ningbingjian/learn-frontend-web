@@ -1,6 +1,6 @@
 # RE-KP003：React Library 与 React Framework 的区别
 
-> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
 ## 文档目录
 
@@ -412,12 +412,6 @@ cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-re
 
 ```bash
 npm run dev -- ./01-react-foundations/kp003-library-vs-framework --config ./vite.config.js
-```
-
-练习：
-
-```bash
-npm run dev -- ./01-react-foundations/kp003-library-vs-framework/exercise --config ./vite.config.js
 ```
 
 ## 效果验证

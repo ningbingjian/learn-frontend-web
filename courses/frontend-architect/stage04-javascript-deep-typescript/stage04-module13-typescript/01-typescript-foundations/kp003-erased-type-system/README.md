@@ -1,6 +1,6 @@
 # TS-KP003：TypeScript 的擦除型类型系统
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts) · [打开练习](./exercise/README.md)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
 
 ## 文档目录
 
@@ -276,8 +276,6 @@ npm run check -- ./01-typescript-foundations/kp003-erased-type-system/tsconfig.j
 npm run build -- ./01-typescript-foundations/kp003-erased-type-system/tsconfig.json
 node ./01-typescript-foundations/kp003-erased-type-system/dist/main.js
 ```
-
-练习入口：[`exercise/README.md`](./exercise/README.md)。
 
 ## 效果验证
 
