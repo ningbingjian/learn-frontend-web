@@ -1,0 +1,11 @@
+body {
+  background: white;
+  color: black;
+}
+
+.card {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}

@@ -1,0 +1,28 @@
+<!doctype html>
+<!--
+  KP025：外部样式表
+  核心：link rel="stylesheet"、href 和 media。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP025：stylesheet</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./print.css" media="print">
+</head>
+<body>
+  <main class="card">
+    <h1>外部样式表实验</h1>
+    <p>屏幕样式来自 <code>styles.css</code>，打印样式来自 <code>print.css</code>。</p>
+    <pre id="result"></pre>
+  </main>
+
+  <script>
+    const links = [...document.querySelectorAll('link[rel="stylesheet"]')];
+    document.querySelector('#result').textContent = links.map(link => [
+      'href=' + link.href,
+      'media=' + (link.media || 'all')
+    ].join(' | ')).join('\n');
+  </script>
+</body>
+</html>
