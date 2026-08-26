@@ -1,0 +1,31 @@
+<!doctype html>
+<!--
+  KP033：页面主标题
+  title 负责浏览器文档标题，h1 负责正文可见主主题。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>支付设置 - Cloud Console</title>
+</head>
+<body>
+  <h1 id="main-heading">支付设置</h1>
+
+  <h2>默认支付方式</h2>
+  <p>管理账号默认使用的支付方式。</p>
+
+  <h2>账单联系人</h2>
+  <p>管理账单通知接收人。</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const h1 = document.querySelector('#main-heading');
+    document.querySelector('#result').textContent = [
+      'document.title：' + document.title,
+      'h1：' + h1.textContent,
+      'h1 数量：' + document.querySelectorAll('h1').length
+    ].join('\n');
+  </script>
+</body>
+</html>

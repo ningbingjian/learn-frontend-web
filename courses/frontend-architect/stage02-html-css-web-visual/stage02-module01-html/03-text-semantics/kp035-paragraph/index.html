@@ -1,0 +1,36 @@
+<!doctype html>
+<!--
+  KP035：p 段落元素
+  包含一个故意错误的 p > div 结构，用于观察浏览器容错解析。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP035：p 段落元素</title>
+  <style>
+    p { margin-block: 1.5rem; }
+  </style>
+</head>
+<body>
+  <p>HTML 负责描述页面内容的结构与语义。</p>
+  <p>CSS 负责页面内容的视觉表现。</p>
+
+  <div>这个 div 是普通容器，不自动表示文本段落。</div>
+
+  <section id="experiment">
+    <p id="broken-paragraph">
+      段落开始
+      <div id="inner-div">块级 div</div>
+      段落后续文本
+    </p>
+  </section>
+
+  <h2>浏览器最终解析结果</h2>
+  <pre id="result"></pre>
+
+  <script>
+    document.querySelector('#result').textContent =
+      document.querySelector('#experiment').innerHTML.trim();
+  </script>
+</body>
+</html>
