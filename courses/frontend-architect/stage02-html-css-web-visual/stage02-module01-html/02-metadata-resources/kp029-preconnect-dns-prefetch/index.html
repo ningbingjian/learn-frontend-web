@@ -1,0 +1,34 @@
+<!doctype html>
+<!--
+  KP029：preconnect 与 dns-prefetch
+  核心：提前准备未来会访问的第三方来源连接。
+  JavaScript 仅用于把 head 中的声明打印出来。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP029：preconnect 与 dns-prefetch</title>
+
+  <link rel="dns-prefetch" href="//example.com">
+  <link rel="preconnect" href="https://example.com">
+  <link rel="preconnect" href="https://www.w3.org" crossorigin>
+</head>
+<body>
+  <h1>来源连接提示实验</h1>
+  <p>打开 DevTools 的 Network / Timing 面板，观察页面加载时的连接准备行为。</p>
+
+  <pre id="result"></pre>
+
+  <script>
+    const links = [...document.querySelectorAll(
+      'link[rel="dns-prefetch"], link[rel="preconnect"]'
+    )];
+
+    document.querySelector('#result').textContent = links
+      .map(link => {
+        return `${link.rel} -> ${link.href} -> crossorigin=${link.crossOrigin || 'none'}`;
+      })
+      .join('\n');
+  </script>
+</body>
+</html>
