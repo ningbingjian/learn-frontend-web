@@ -23,7 +23,7 @@ kp001-standard-declaration/
 |  顺序 | 章节                        | 目录                             | 知识点 | 当前状态  |
 | --: | ------------------------- | ------------------------------ | --: | ----- |
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
-|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 6/14  |
+|  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 12/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 0/14  |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
@@ -82,12 +82,12 @@ kp001-standard-declaration/
 | KP020 | canonical | 1. `rel="canonical"`<br>2. 规范 URL 选择<br>3. 参数页与重复内容 | [文档](./02-metadata-resources/kp020-canonical-url/README.md) · [源码](./02-metadata-resources/kp020-canonical-url/index.html) | 已完成 |
 | KP021 | 标题与摘要 | 1. 社交元信息字段<br>2. 页面标题与摘要一致性<br>3. 平台回退策略 | [文档](./02-metadata-resources/kp021-social-title-description/README.md) · [源码](./02-metadata-resources/kp021-social-title-description/index.html) | 已完成 |
 | KP022 | 分享图片 | 1. 图片地址与绝对 URL<br>2. 尺寸、比例和格式<br>3. 抓取缓存与更新验证 | [文档](./02-metadata-resources/kp022-social-share-image/README.md) · [源码](./02-metadata-resources/kp022-social-share-image/index.html) | 已完成 |
-| KP023 | 图标 | 1. favicon 声明<br>2. 类型与尺寸选择<br>3. 多设备图标回退 | `kp023-site-icons/` | 待生成 |
-| KP024 | 主题颜色 | 1. `theme-color` 语法<br>2. 明暗主题媒体条件<br>3. 不支持环境的回退 | `kp024-theme-color/` | 待生成 |
-| KP025 | stylesheet | 1. `rel` 与 `href`<br>2. `media` 条件<br>3. 加载顺序与阻塞行为 | `kp025-stylesheet-link/` | 待生成 |
-| KP026 | 内联与外联 | 1. 作用范围与复用<br>2. 缓存和请求成本<br>3. CSP 与维护边界 | `kp026-inline-vs-external-resources/` | 待生成 |
-| KP027 | 普通、defer、async | 1. 解析与下载时序<br>2. 执行顺序保证<br>3. 使用场景选择 | `kp027-script-defer-async/` | 待生成 |
-| KP028 | module | 1. `type="module"`<br>2. 导入、作用域和严格模式<br>3. 延迟执行与跨域要求 | `kp028-module-script/` | 待生成 |
+| KP023 | 图标 | 1. favicon 声明<br>2. 类型与尺寸选择<br>3. 多设备图标回退 | [文档](./02-metadata-resources/kp023-site-icons/README.md) · [源码](./02-metadata-resources/kp023-site-icons/index.html) | 已完成 |
+| KP024 | 主题颜色 | 1. `theme-color` 语法<br>2. 明暗主题媒体条件<br>3. 不支持环境的回退 | [文档](./02-metadata-resources/kp024-theme-color/README.md) · [源码](./02-metadata-resources/kp024-theme-color/index.html) | 已完成 |
+| KP025 | stylesheet | 1. `rel` 与 `href`<br>2. `media` 条件<br>3. 加载顺序与阻塞行为 | [文档](./02-metadata-resources/kp025-stylesheet-link/README.md) · [源码](./02-metadata-resources/kp025-stylesheet-link/index.html) | 已完成 |
+| KP026 | 内联与外联 | 1. 作用范围与复用<br>2. 缓存和请求成本<br>3. CSP 与维护边界 | [文档](./02-metadata-resources/kp026-inline-vs-external-resources/README.md) · [源码](./02-metadata-resources/kp026-inline-vs-external-resources/index.html) | 已完成 |
+| KP027 | 普通、defer、async | 1. 解析与下载时序<br>2. 执行顺序保证<br>3. 使用场景选择 | [文档](./02-metadata-resources/kp027-script-defer-async/README.md) · [源码](./02-metadata-resources/kp027-script-defer-async/index.html) | 已完成 |
+| KP028 | module | 1. `type="module"`<br>2. 导入、作用域和严格模式<br>3. 延迟执行与跨域要求 | [文档](./02-metadata-resources/kp028-module-script/README.md) · [源码](./02-metadata-resources/kp028-module-script/index.html) | 已完成 |
 | KP029 | preconnect 与 dns-prefetch | 1. DNS 与连接阶段<br>2. `crossorigin` 配置<br>3. 连接预算和适用来源 | `kp029-preconnect-dns-prefetch/` | 待生成 |
 | KP030 | preload 与 prefetch | 1. 当前页与未来页资源<br>2. `as`、类型和优先级<br>3. 重复下载与带宽风险 | `kp030-preload-prefetch/` | 待生成 |
 
