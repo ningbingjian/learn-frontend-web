@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP041：code 与 pre</title>
+  <style>
+    pre {
+      max-width: 32rem;
+      overflow-x: auto;
+      border: 1px solid currentColor;
+      padding: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>代码与预格式化文本</h1>
+
+  <p>使用 <code>document.querySelector()</code> 查询元素。</p>
+
+  <pre><code>const message = 'hello';
+console.log(message);</code></pre>
+
+  <pre id="html-example"><code>&lt;h1&gt;Hello&lt;/h1&gt;</code></pre>
+
+  <pre id="spacing">第一行
+    第二行保留四个空格
+第三行</pre>
+
+  <pre id="result"></pre>
+
+  <script>
+    const htmlExample = document.querySelector('#html-example code').textContent;
+    document.querySelector('#result').textContent = '实际文本：' + htmlExample;
+  </script>
+</body>
+</html>

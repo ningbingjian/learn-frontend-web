@@ -1,0 +1,45 @@
+<!doctype html>
+<!--
+  KP034：组件标题
+  同一组件在不同页面上下文中使用不同标题层级。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>KP034：组件标题</title>
+  <style>
+    .component-title { font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>文章详情</h1>
+
+  <section>
+    <h2>正文扩展</h2>
+    <div id="nested-component"></div>
+  </section>
+
+  <div id="top-component"></div>
+  <pre id="result"></pre>
+
+  <script>
+    function renderRelated(container, level) {
+      const section = document.createElement('section');
+      const heading = document.createElement('h' + level);
+      heading.className = 'component-title';
+      heading.textContent = '相关推荐';
+      section.append(heading);
+      container.append(section);
+    }
+
+    renderRelated(document.querySelector('#top-component'), 2);
+    renderRelated(document.querySelector('#nested-component'), 3);
+
+    const titles = document.querySelectorAll('h1, h2, h3');
+    document.querySelector('#result').textContent = Array.from(
+      titles,
+      item => item.tagName + '：' + item.textContent
+    ).join('\n');
+  </script>
+</body>
+</html>
