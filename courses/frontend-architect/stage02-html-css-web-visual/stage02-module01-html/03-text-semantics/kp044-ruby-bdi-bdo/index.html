@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP044：ruby、bdi、bdo</title>
+  <style>
+    body {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: system-ui, sans-serif;
+      line-height: 1.8;
+    }
+
+    ruby {
+      font-size: 1.4rem;
+    }
+
+    .compare {
+      padding: 12px;
+      border: 1px solid #ccc;
+      margin-block: 10px;
+    }
+
+    pre {
+      padding: 16px;
+      background: #f4f4f4;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>注音与双向文本实验</h1>
+
+  <h2>1. ruby 注音</h2>
+  <p>
+    <ruby>
+      漢
+      <rt>hàn</rt>
+    </ruby>
+  </p>
+
+  <p>
+    <ruby>
+      語
+      <rp>(</rp>
+      <rt>yǔ</rt>
+      <rp>)</rp>
+    </ruby>
+  </p>
+
+  <h2>2. bdi 隔离动态文本</h2>
+  <ol>
+    <li><bdi dir="auto">Alice</bdi>：120 分</li>
+    <li><bdi dir="auto">محمد</bdi>：118 分</li>
+    <li><bdi dir="auto">דניאל</bdi>：115 分</li>
+  </ol>
+
+  <p class="compare">未隔离：用户 محمد - 42 条消息</p>
+  <p class="compare">已隔离：用户 <bdi dir="auto">محمد</bdi> - 42 条消息</p>
+
+  <h2>3. bdo 强制覆盖方向</h2>
+  <p>原始文本：ABC 123</p>
+  <p>强制 RTL：<bdo dir="rtl">ABC 123</bdo></p>
+
+  <h2>实验辅助输出</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const isolated = [...document.querySelectorAll('bdi')];
+    const override = document.querySelector('bdo');
+
+    document.querySelector('#result').textContent = [
+      ...isolated.map(item =>
+        `${item.textContent} -> direction: ${getComputedStyle(item).direction}`
+      ),
+      `bdo -> dir=${override.dir}, text=${override.textContent}`
+    ].join('\n');
+  </script>
+</body>
+</html>
