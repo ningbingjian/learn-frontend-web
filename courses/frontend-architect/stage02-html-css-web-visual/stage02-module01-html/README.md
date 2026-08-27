@@ -24,7 +24,7 @@ kp001-standard-declaration/
 | --: | ------------------------- | ------------------------------ | --: | ----- |
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
-|  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 12/14 |
+|  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
@@ -112,8 +112,8 @@ kp001-standard-declaration/
 | KP040 | `cite` 元素 | 1. 作品标题语义<br>2. 与作者姓名的区别<br>3. 与引用结构组合 | [文档](./03-text-semantics/kp040-cite-element/README.md) · [源码](./03-text-semantics/kp040-cite-element/index.html) | 已完成 |
 | KP041 | `code`、`pre` | 1. 代码语义<br>2. 空白和换行保留<br>3. 转义与长代码处理 | [文档](./03-text-semantics/kp041-code-and-pre/README.md) · [源码](./03-text-semantics/kp041-code-and-pre/index.html) | 已完成 |
 | KP042 | `kbd`、`samp`、`var` | 1. 用户输入<br>2. 程序输出<br>3. 变量和占位符 | [文档](./03-text-semantics/kp042-kbd-samp-var/README.md) · [源码](./03-text-semantics/kp042-kbd-samp-var/index.html) | 已完成 |
-| KP043 | `abbr`、`dfn` | 1. 缩写及完整含义<br>2. 术语首次定义<br>3. 可理解性和提示边界 | `kp043-abbr-and-dfn/` | 待生成 |
-| KP044 | `ruby`、`bdi`、`bdo` | 1. 注音标注<br>2. 双向文本隔离<br>3. 方向强制覆盖 | `kp044-ruby-bdi-bdo/` | 待生成 |
+| KP043 | `abbr`、`dfn` | 1. 缩写及完整含义<br>2. 术语首次定义<br>3. 可理解性和提示边界 | [文档](./03-text-semantics/kp043-abbr-and-dfn/README.md) · [源码](./03-text-semantics/kp043-abbr-and-dfn/index.html) | 已完成 |
+| KP044 | `ruby`、`bdi`、`bdo` | 1. 注音标注<br>2. 双向文本隔离<br>3. 方向强制覆盖 | [文档](./03-text-semantics/kp044-ruby-bdi-bdo/README.md) · [源码](./03-text-semantics/kp044-ruby-bdi-bdo/index.html) | 已完成 |
 
 </details>
 

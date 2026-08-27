@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP043：abbr 与 dfn</title>
+  <style>
+    body {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    abbr,
+    dfn {
+      text-decoration: none;
+      font-style: normal;
+    }
+
+    pre {
+      padding: 16px;
+      background: #f4f4f4;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>缩写与术语定义实验</h1>
+
+  <p>
+    我们使用
+    <abbr title="HyperText Markup Language">HTML</abbr>
+    描述页面结构。
+  </p>
+
+  <p>
+    <abbr title="Cascading Style Sheets">CSS</abbr>
+    （层叠样式表）负责页面表现层。
+  </p>
+
+  <p>
+    <dfn id="semantic-html">语义化 HTML</dfn>
+    是根据内容含义选择 HTML 元素，而不是只根据视觉样式选择标签。
+  </p>
+
+  <p>
+    <dfn id="api">
+      <abbr title="Application Programming Interface">API</abbr>
+    </dfn>
+    （应用程序编程接口）是一组供软件之间交互使用的规则。
+  </p>
+
+  <p>
+    后文再次提到 API 时，不需要再次使用 dfn。
+    <a href="#api">查看 API 的首次定义</a>
+  </p>
+
+  <h2>实验辅助输出</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const abbreviations = [...document.querySelectorAll('abbr')];
+    const definitions = [...document.querySelectorAll('dfn')];
+
+    document.querySelector('#result').textContent = [
+      `abbr 数量：${abbreviations.length}`,
+      ...abbreviations.map(item => `${item.textContent} -> ${item.title}`),
+      `dfn 数量：${definitions.length}`,
+      ...definitions.map(item => `定义：${item.textContent.trim()} #${item.id}`)
+    ].join('\n');
+  </script>
+</body>
+</html>
