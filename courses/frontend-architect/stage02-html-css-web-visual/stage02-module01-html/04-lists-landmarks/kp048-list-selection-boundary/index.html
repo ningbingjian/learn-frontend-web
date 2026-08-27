@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP048 - 列表选择边界</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    nav, section, .prose { margin: 24px 0; padding: 16px; border: 1px solid #bbb; border-radius: 10px; }
+    dl { display: grid; grid-template-columns: 8rem 1fr; gap: 6px 16px; }
+    dd { margin: 0; }
+    pre { padding: 12px; background: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h1>根据内容关系选择结构</h1>
+
+  <nav aria-label="课程章节">
+    <ul>
+      <li><a href="#features">产品能力</a></li>
+      <li><a href="#steps">开通流程</a></li>
+      <li><a href="#meta">套餐信息</a></li>
+    </ul>
+  </nav>
+
+  <section id="features">
+    <h2>产品能力：无序集合</h2>
+    <ul>
+      <li>消息通知</li>
+      <li>文件上传</li>
+      <li>数据导出</li>
+    </ul>
+  </section>
+
+  <section id="steps">
+    <h2>开通流程：有序步骤</h2>
+    <ol>
+      <li>创建账号</li>
+      <li>验证邮箱</li>
+      <li>进入控制台</li>
+    </ol>
+  </section>
+
+  <section id="meta">
+    <h2>套餐信息：名称与描述</h2>
+    <dl>
+      <dt>套餐</dt><dd>Pro</dd>
+      <dt>周期</dt><dd>按月</dd>
+    </dl>
+  </section>
+
+  <div class="prose">
+    <p>列表标签不是为了产生缩进、圆点或编号。</p>
+    <p>当内容本质是正文，就继续使用段落。</p>
+  </div>
+
+  <h2>元素数量</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const tags = ['ul', 'ol', 'dl', 'nav', 'p'];
+    document.querySelector('#result').textContent = tags
+      .map(tag => `${tag}: ${document.querySelectorAll(tag).length}`)
+      .join('\n');
+  </script>
+</body>
+</html>

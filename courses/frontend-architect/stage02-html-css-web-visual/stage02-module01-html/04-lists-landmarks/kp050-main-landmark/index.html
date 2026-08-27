@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP050 - main 主内容地标</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    header, main, footer { margin: 18px 0; padding: 16px; border: 1px solid #bbb; border-radius: 10px; }
+    main { outline: 2px solid currentColor; }
+    section { margin: 18px 0; padding: 12px; border: 1px dashed #aaa; }
+    pre { background: #f4f4f4; padding: 12px; }
+  </style>
+</head>
+<body>
+  <a href="#main-content">跳到主要内容</a>
+
+  <header>
+    <p><strong>Frontend Learning Lab</strong></p>
+    <nav aria-label="站点导航">
+      <a href="#main-content">课程</a>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <h1>HTML 语义课程</h1>
+    <p>这里是当前页面最主要的课程内容。</p>
+
+    <section>
+      <h2>课程简介</h2>
+      <p>学习 HTML 的内容结构和语义。</p>
+    </section>
+
+    <section>
+      <h2>学习目标</h2>
+      <p>能够根据内容角色选择正确元素。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Frontend Learning Lab</p>
+  </footer>
+
+  <h2>主区观察</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const mains = [...document.querySelectorAll('main')];
+    const visibleMains = mains.filter(main => !main.hidden);
+
+    document.querySelector('#result').textContent = [
+      `main 总数：${mains.length}`,
+      `可见 main 数量：${visibleMains.length}`,
+      `main 的父元素：${mains[0].parentElement.tagName.toLowerCase()}`
+    ].join('\n');
+  </script>
+</body>
+</html>
