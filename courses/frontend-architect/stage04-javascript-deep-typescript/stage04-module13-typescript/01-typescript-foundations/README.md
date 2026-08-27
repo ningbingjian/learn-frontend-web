@@ -75,6 +75,12 @@ npm install
 | TS-KP015 | 直接运行 TypeScript 的现代方式与限制 | [文档](./kp015-direct-typescript-execution/README.md) · [源码](./kp015-direct-typescript-execution/src/main.ts) | 已完成 |
 | TS-KP016 | 编辑器语言服务与语言服务体系概念 | [文档](./kp016-language-service/README.md) · [源码](./kp016-language-service/src/) | 已完成 |
 
+### Lab 01：最小 TypeScript 工程综合实验
+
+| 实验 | 内容 | 文档与源码 | 状态 |
+|---|---|---|---|
+| Lab 01 | 类型检查通过、错误仍 Emit、运行时输入边界 | [文档与源码](./lab01-minimal-typescript-project/README.md) | 已完成 |
+
 ## 完成标准
 
 一个知识点只有同时满足下面条件才标记为“已完成”：
@@ -90,5 +96,6 @@ npm install
 - Lesson 01.1：8/8 已完成。
 - Lesson 01.2：8/8 已完成。
 - Chapter 01 原子知识点：16/16 已完成。
-- `Lab 01`：待生成。
-- 下一步建议：先完成 `Lab 01`，再进入 Chapter 02 的 TS-KP017「`string`」。
+- Lab 01：已完成。
+- Chapter 01：已完成。
+- 下一章：[Chapter 02：基础类型与类型推断](../02-basic-types-inference/README.md)。
