@@ -25,15 +25,15 @@
 | 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
 | TS-KP024 | `any` | [文档](./kp024-any/README.md) · [源码](./kp024-any/src/main.ts) | 已完成 |
-| TS-KP025 | `unknown` | `kp025-unknown/` | 待生成 |
-| TS-KP026 | `never` | `kp026-never/` | 待生成 |
-| TS-KP027 | `void` | `kp027-void/` | 待生成 |
-| TS-KP028 | `object` | `kp028-object/` | 待生成 |
+| TS-KP025 | `unknown` | [文档](./kp025-unknown/README.md) · [源码](./kp025-unknown/src/main.ts) | 已完成 |
+| TS-KP026 | `never` | [文档](./kp026-never/README.md) · [源码](./kp026-never/src/main.ts) | 已完成 |
+| TS-KP027 | `void` | [文档](./kp027-void/README.md) · [源码](./kp027-void/src/main.ts) | 已完成 |
+| TS-KP028 | `object` | [文档](./kp028-object/README.md) · [源码](./kp028-object/src/main.ts) | 已完成 |
 | TS-KP029 | `{}` 与 `Object` 的差异 | `kp029-empty-object-vs-object/` | 待生成 |
 
 ### Lesson 02.3：推断与上下文类型
 
-| 编号 | 知识点 | 文档与源码 | 状态 |
+| 编号 | 知识点 | 知识点目录 | 状态 |
 |---|---|---|---|
 | TS-KP030 | 变量类型推断 | `kp030-variable-type-inference/` | 待生成 |
 | TS-KP031 | 函数返回值推断 | `kp031-return-type-inference/` | 待生成 |
@@ -57,7 +57,7 @@
 ## 当前进度
 
 - Lesson 02.1：7/7 已完成。
-- Lesson 02.2：1/6 已完成。
+- Lesson 02.2：5/6 已完成。
 - Lesson 02.3：0/6。
-- Chapter 02：8/19 已完成。
-- 下一知识点：TS-KP025「`unknown`」。
+- Chapter 02：12/19 已完成。
+- 下一知识点：TS-KP029「`{}` 与 `Object` 的差异」。
