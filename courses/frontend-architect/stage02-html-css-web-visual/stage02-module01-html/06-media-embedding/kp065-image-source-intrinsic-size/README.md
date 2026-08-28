@@ -168,7 +168,7 @@ img {
 
 **运行后观察**：缩窄窗口时图片不会溢出页面。
 
-### 第 5 步：打印固有尺寸和渲染尺寸
+### 第 5 步：打印固有尺寸、HTML 属性和渲染尺寸
 
 ```html
 <pre id="result"></pre>
@@ -179,7 +179,7 @@ img {
     document.querySelector('#result').textContent = [
       `src：${image.getAttribute('src')}`,
       `natural：${image.naturalWidth} × ${image.naturalHeight}`,
-      `HTML 属性：${image.width} × ${image.height}`,
+      `HTML 属性：${image.getAttribute('width')} × ${image.getAttribute('height')}`,
       `渲染尺寸：${image.clientWidth} × ${image.clientHeight}`
     ].join('\n');
   }
@@ -189,9 +189,9 @@ img {
 </script>
 ```
 
-**为什么这样写**：把三个不同层面的尺寸放到同一页对比。
+**为什么这样写**：`getAttribute('width')` / `getAttribute('height')` 明确读取 HTML 内容属性，`clientWidth` / `clientHeight` 明确读取最终布局后的渲染尺寸，避免把两个层面混在一起。
 
-**运行后观察**：窗口缩小时，`clientWidth` 会变化，而图片资源的固有尺寸保持稳定。
+**运行后观察**：窗口缩小时，`clientWidth` 会变化，而 HTML 属性值和图片资源的固有尺寸保持稳定。
 
 ## 运行案例
 
@@ -210,8 +210,8 @@ python3 -m http.server 8000
 1. Network 中能看到 `hero.svg` 请求。
 2. 页面显示图片，不依赖外网。
 3. `naturalWidth / naturalHeight` 显示资源固有尺寸。
-4. 缩窄浏览器后，渲染宽度变化，但宽高比保持稳定。
-5. 删除 CSS 后，HTML 尺寸属性仍然存在。
+4. `getAttribute('width') / getAttribute('height')` 显示 HTML 中声明的尺寸属性。
+5. 缩窄浏览器后，`clientWidth / clientHeight` 变化，但 HTML 属性和宽高比信息保持稳定。
 6. 删除 `width` / `height` 再刷新并使用慢速网络，可以对比浏览器在资源完成前可利用的布局信息差异。
 
 ## 本节核心代码与实验辅助代码
@@ -231,4 +231,4 @@ python3 -m http.server 8000
 
 - `hero.svg`：为了让案例完全本地可运行的教学图片资源；
 - CSS：用于展示响应式缩放；
-- JavaScript：只负责输出 `naturalWidth`、HTML 属性尺寸和渲染尺寸，不属于 `img[src]` 核心语法。
+- JavaScript：只负责输出 `naturalWidth`、HTML 内容属性尺寸和 `clientWidth` 渲染尺寸，不属于 `img[src]` 核心语法。
