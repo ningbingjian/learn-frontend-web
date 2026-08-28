@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP063 - target 目标页</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 28px; line-height: 1.7; }
+    pre { padding: 14px; background: #f6f8fa; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>target 目标页</h1>
+  <p>这个文件会被 `_self`、`_blank`、命名窗口或 iframe 加载。</p>
+  <pre id="result"></pre>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+
+    document.querySelector('#result').textContent = [
+      `query：${params.toString() || '(none)'}`,
+      `window.name：${window.name || '(empty)'}`,
+      `是否顶层上下文：${window.top === window}`
+    ].join('\n');
+  </script>
+</body>
+</html>

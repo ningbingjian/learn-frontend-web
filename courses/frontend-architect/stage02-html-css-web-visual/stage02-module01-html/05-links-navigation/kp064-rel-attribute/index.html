@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP064 - rel 属性</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    section { margin: 28px 0; padding: 20px; border: 1px solid #d0d7de; border-radius: 12px; }
+    li { margin: 8px 0; }
+    pre { padding: 14px; overflow: auto; background: #f6f8fa; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>rel 链接关系实验</h1>
+  <p>分别观察 <code>noopener</code>、<code>noreferrer</code> 和其他关系 token 的职责。</p>
+
+  <section>
+    <h2>1. opener / referrer 对照</h2>
+    <ul>
+      <li>
+        <a data-rel-demo href="./receiver.html?case=plain" target="plainRelWindow">
+          普通命名窗口
+        </a>
+      </li>
+      <li>
+        <a data-rel-demo href="./receiver.html?case=noopener" target="noopenerRelWindow" rel="noopener">
+          使用 noopener
+        </a>
+      </li>
+      <li>
+        <a data-rel-demo href="./receiver.html?case=noreferrer" target="noreferrerRelWindow" rel="noreferrer">
+          使用 noreferrer
+        </a>
+      </li>
+    </ul>
+    <p>在各自打开的 receiver 页面中，对比 <code>window.opener</code> 和 <code>document.referrer</code>。</p>
+  </section>
+
+  <section>
+    <h2>2. 其他关系类型</h2>
+    <ul>
+      <li><a data-rel-demo href="https://example.com" rel="external">external 示例</a></li>
+      <li><a data-rel-demo href="https://example.com" rel="nofollow">nofollow 示例</a></li>
+      <li><a data-rel-demo href="https://example.com" rel="ugc">ugc 示例</a></li>
+      <li><a data-rel-demo href="https://example.com" rel="sponsored">sponsored 示例</a></li>
+      <li><a data-rel-demo href="https://example.com" target="_blank" rel="noopener sponsored">noopener + sponsored</a></li>
+    </ul>
+    <p><code>external</code>、<code>nofollow</code>、<code>ugc</code>、<code>sponsored</code> 不会因为 rel 本身就强制新开窗口。</p>
+  </section>
+
+  <section>
+    <h2>实验辅助：rel token 列表</h2>
+    <pre id="relations"></pre>
+  </section>
+
+  <script>
+    const rows = [...document.querySelectorAll('a[data-rel-demo]')].map(link =>
+      `${link.textContent.trim()} → rel=[${[...link.relList].join(', ')}]`
+    );
+
+    document.querySelector('#relations').textContent = rows.join('\n');
+  </script>
+</body>
+</html>
