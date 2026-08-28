@@ -27,7 +27,7 @@ kp001-standard-declaration/
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
-|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
+|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 6/16  |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
@@ -164,12 +164,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP065 | 地址与固有尺寸 | 1. `src` 资源地址<br>2. 图片固有尺寸<br>3. `width`、`height` 与布局稳定 | `kp065-image-source-intrinsic-size/` | 待生成 |
-| KP066 | 替代文本 | 1. 信息图片描述<br>2. 装饰图片空 `alt`<br>3. 加载失败和辅助技术体验 | `kp066-alternative-text/` | 待生成 |
-| KP067 | `figure` | 1. 独立内容单元<br>2. 图片、代码和图表场景<br>3. 与正文引用关系 | `kp067-figure-element/` | 待生成 |
-| KP068 | `figcaption` | 1. 图注语义<br>2. 与 `figure` 的归属<br>3. 前置和后置位置 | `kp068-figcaption-element/` | 待生成 |
-| KP069 | srcset | 1. 像素密度描述符<br>2. 宽度描述符<br>3. 浏览器候选选择 | `kp069-srcset/` | 待生成 |
-| KP070 | sizes | 1. 图片插槽宽度<br>2. 媒体条件匹配<br>3. 与 `w` 描述符配合 | `kp070-sizes/` | 待生成 |
+| KP065 | 地址与固有尺寸 | 1. `src` 资源地址<br>2. 图片固有尺寸<br>3. `width`、`height` 与布局稳定 | [文档](./06-media-embedding/kp065-image-source-intrinsic-size/README.md) · [源码](./06-media-embedding/kp065-image-source-intrinsic-size/index.html) | 已完成 |
+| KP066 | 替代文本 | 1. 信息图片描述<br>2. 装饰图片空 `alt`<br>3. 加载失败和辅助技术体验 | [文档](./06-media-embedding/kp066-alternative-text/README.md) · [源码](./06-media-embedding/kp066-alternative-text/index.html) | 已完成 |
+| KP067 | `figure` | 1. 独立内容单元<br>2. 图片、代码和图表场景<br>3. 与正文引用关系 | [文档](./06-media-embedding/kp067-figure-element/README.md) · [源码](./06-media-embedding/kp067-figure-element/index.html) | 已完成 |
+| KP068 | `figcaption` | 1. 图注语义<br>2. 与 `figure` 的归属<br>3. 前置和后置位置 | [文档](./06-media-embedding/kp068-figcaption-element/README.md) · [源码](./06-media-embedding/kp068-figcaption-element/index.html) | 已完成 |
+| KP069 | srcset | 1. 像素密度描述符<br>2. 宽度描述符<br>3. 浏览器候选选择 | [文档](./06-media-embedding/kp069-srcset/README.md) · [源码](./06-media-embedding/kp069-srcset/index.html) | 已完成 |
+| KP070 | sizes | 1. 图片插槽宽度<br>2. 媒体条件匹配<br>3. 与 `w` 描述符配合 | [文档](./06-media-embedding/kp070-sizes/README.md) · [源码](./06-media-embedding/kp070-sizes/index.html) | 已完成 |
 | KP071 | `picture` | 1. 艺术方向<br>2. `source` 匹配顺序<br>3. `img` 必需回退 | `kp071-picture-element/` | 待生成 |
 | KP072 | `source` 类型 | 1. `type` 格式提示<br>2. `media` 条件<br>3. 格式回退与请求选择 | `kp072-source-type/` | 待生成 |
 | KP073 | 控制与策略 | 1. `controls`<br>2. `autoplay`、`muted`、`playsinline`<br>3. `preload` 加载策略 | `kp073-media-controls-policy/` | 待生成 |
