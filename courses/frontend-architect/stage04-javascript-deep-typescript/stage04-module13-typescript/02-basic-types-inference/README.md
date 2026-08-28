@@ -38,9 +38,9 @@
 | TS-KP030 | 变量类型推断 | [文档](./kp030-variable-type-inference/README.md) · [源码](./kp030-variable-type-inference/src/main.ts) | 已完成 |
 | TS-KP031 | 函数返回值推断 | [文档](./kp031-return-type-inference/README.md) · [源码](./kp031-return-type-inference/src/main.ts) | 已完成 |
 | TS-KP032 | Contextual Typing | [文档](./kp032-contextual-typing/README.md) · [源码](./kp032-contextual-typing/src/main.ts) | 已完成 |
-| TS-KP033 | Best Common Type | `kp033-best-common-type/` | 待生成 |
-| TS-KP034 | Literal Widening | `kp034-literal-widening/` | 待生成 |
-| TS-KP035 | 控制流类型分析概览 | `kp035-control-flow-analysis-overview/` | 待生成 |
+| TS-KP033 | Best Common Type | [文档](./kp033-best-common-type/README.md) · [源码](./kp033-best-common-type/src/main.ts) | 已完成 |
+| TS-KP034 | Literal Widening | [文档](./kp034-literal-widening/README.md) · [源码](./kp034-literal-widening/src/main.ts) | 已完成 |
+| TS-KP035 | 控制流类型分析概览 | [文档](./kp035-control-flow-analysis-overview/README.md) · [源码](./kp035-control-flow-analysis-overview/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -58,6 +58,6 @@
 
 - Lesson 02.1：7/7 已完成。
 - Lesson 02.2：6/6 已完成。
-- Lesson 02.3：3/6 已完成。
-- Chapter 02：16/19 已完成。
-- 下一知识点：TS-KP033「Best Common Type」。
+- Lesson 02.3：6/6 已完成。
+- Chapter 02：19/19 已完成。
+- Chapter 02 已完成，下一步进入 Chapter 03 的 TS-KP036「`T[]` 与 `Array<T>`」。
