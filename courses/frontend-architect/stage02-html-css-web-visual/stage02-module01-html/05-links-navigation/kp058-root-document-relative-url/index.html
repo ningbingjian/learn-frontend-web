@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP058 - 根相对与文档相对</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.7; max-width: 960px; margin: 40px auto; padding: 0 20px; }
+    .links { display: grid; gap: 10px; margin: 24px 0; }
+    a { width: fit-content; }
+    pre { padding: 16px; background: #f5f5f5; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>根相对与文档相对路径</h1>
+  <p>当前页面：<code id="current-url"></code></p>
+
+  <div class="links">
+    <a data-demo href="/05-links-navigation/kp058-root-document-relative-url/index.html?type=root#demo">
+      根相对地址：从 origin 路径根开始
+    </a>
+    <a data-demo href="./index.html?type=current#demo">
+      文档相对地址：当前目录
+    </a>
+    <a data-demo href="../kp057-absolute-relative-url/index.html">
+      文档相对地址：返回上一级后进入 KP057
+    </a>
+  </div>
+
+  <h2>解析结果</h2>
+  <pre id="result"></pre>
+
+  <script>
+    document.querySelector('#current-url').textContent = location.href;
+
+    const lines = [...document.querySelectorAll('a[data-demo]')].flatMap((link) => [
+      link.textContent.trim(),
+      `raw: ${link.getAttribute('href')}`,
+      `resolved: ${link.href}`,
+      ''
+    ]);
+
+    document.querySelector('#result').textContent = lines.join('\n');
+  </script>
+</body>
+</html>
