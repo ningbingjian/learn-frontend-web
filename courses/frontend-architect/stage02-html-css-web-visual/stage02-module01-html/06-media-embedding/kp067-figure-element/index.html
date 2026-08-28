@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP067 - figure 独立内容</title>
+  <style>
+    body { max-width: 820px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    figure { margin: 28px 0; padding: 18px; border: 1px solid #bbb; }
+    figure img { display: block; max-width: 100%; height: auto; }
+    figcaption { margin-top: 12px; }
+    .brand { padding: 12px; background: #f5f5f5; }
+    pre { background: #f5f5f5; padding: 16px; }
+  </style>
+</head>
+<body>
+  <header class="brand"><strong>课程平台</strong></header>
+
+  <main>
+    <h1>性能优化报告</h1>
+    <p>本轮优化后，页面首屏加载时间下降了约一半。如图 1 所示，优化后的数据明显更低。</p>
+
+    <figure id="performance-figure">
+      <img
+        src="./chart.svg"
+        alt="首屏加载时间从优化前 2.4 秒下降到优化后 1.1 秒"
+        width="720"
+        height="360"
+      >
+      <figcaption>图 1：性能优化前后的首屏加载时间</figcaption>
+    </figure>
+
+    <h2>DOM 结构</h2>
+    <pre id="result"></pre>
+  </main>
+
+  <script>
+    const figure = document.querySelector('#performance-figure');
+    const children = [...figure.children].map(element => element.tagName);
+    document.querySelector('#result').textContent = `figure 直接子元素：${children.join(' -> ')}`;
+  </script>
+</body>
+</html>
