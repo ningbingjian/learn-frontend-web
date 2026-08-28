@@ -16,15 +16,15 @@
 | TS-KP018 | `number` | [文档](./kp018-number/README.md) · [源码](./kp018-number/src/main.ts) | 已完成 |
 | TS-KP019 | `boolean` | [文档](./kp019-boolean/README.md) · [源码](./kp019-boolean/src/main.ts) | 已完成 |
 | TS-KP020 | `bigint` | [文档](./kp020-bigint/README.md) · [源码](./kp020-bigint/src/main.ts) | 已完成 |
-| TS-KP021 | `symbol` | `kp021-symbol/` | 待生成 |
-| TS-KP022 | `null` | `kp022-null/` | 待生成 |
-| TS-KP023 | `undefined` | `kp023-undefined/` | 待生成 |
+| TS-KP021 | `symbol` | [文档](./kp021-symbol/README.md) · [源码](./kp021-symbol/src/main.ts) | 已完成 |
+| TS-KP022 | `null` | [文档](./kp022-null/README.md) · [源码](./kp022-null/src/main.ts) | 已完成 |
+| TS-KP023 | `undefined` | [文档](./kp023-undefined/README.md) · [源码](./kp023-undefined/src/main.ts) | 已完成 |
 
 ### Lesson 02.2：特殊类型
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP024 | `any` | `kp024-any/` | 待生成 |
+| TS-KP024 | `any` | [文档](./kp024-any/README.md) · [源码](./kp024-any/src/main.ts) | 已完成 |
 | TS-KP025 | `unknown` | `kp025-unknown/` | 待生成 |
 | TS-KP026 | `never` | `kp026-never/` | 待生成 |
 | TS-KP027 | `void` | `kp027-void/` | 待生成 |
@@ -33,7 +33,7 @@
 
 ### Lesson 02.3：推断与上下文类型
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
 | TS-KP030 | 变量类型推断 | `kp030-variable-type-inference/` | 待生成 |
 | TS-KP031 | 函数返回值推断 | `kp031-return-type-inference/` | 待生成 |
@@ -56,8 +56,8 @@
 
 ## 当前进度
 
-- Lesson 02.1：4/7 已完成。
-- Lesson 02.2：0/6。
+- Lesson 02.1：7/7 已完成。
+- Lesson 02.2：1/6 已完成。
 - Lesson 02.3：0/6。
-- Chapter 02：4/19 已完成。
-- 下一知识点：TS-KP021「`symbol`」。
+- Chapter 02：8/19 已完成。
+- 下一知识点：TS-KP025「`unknown`」。
