@@ -15,9 +15,10 @@
 | RE-KP047 | 嵌套状态更新与结构设计 | 1. Nested State 2. 多层复制 3. 扁平化思维 | [文档](./kp047-nested-state-design/README.md) · [源码](./kp047-nested-state-design/src/main.jsx) | 已完成 |
 | RE-KP048 | 函数式更新 | 1. Updater Function 2. Previous State 3. 连续更新 | [文档](./kp048-functional-state-updates/README.md) · [源码](./kp048-functional-state-updates/src/main.jsx) | 已完成 |
 | RE-KP049 | 惰性初始化 | 1. Initializer Function 2. 首次初始化 3. 成本边界 | [文档](./kp049-lazy-state-initialization/README.md) · [源码](./kp049-lazy-state-initialization/src/main.jsx) | 已完成 |
-| RE-KP050 | 避免把可推导值存入 State | 1. Derived Value 2. Single Source 3. 冗余 State | `kp050-avoid-redundant-state/` | 待生成 |
+| RE-KP050 | 避免把可推导值存入 State | 1. Derived Value 2. Single Source 3. 冗余 State | [文档](./kp050-avoid-redundant-state/README.md) · [源码](./kp050-avoid-redundant-state/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 05：**9 / 10**
-- 下一知识点：**RE-KP050：避免把可推导值存入 State**
+- Chapter 05：**10 / 10，已完成**
+- 下一 Chapter：**Chapter 06：Render Snapshot、Batching 与更新队列**
+- 下一知识点：**RE-KP051：每次 Render 都得到状态快照**
