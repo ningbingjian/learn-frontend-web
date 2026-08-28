@@ -26,7 +26,7 @@ kp001-standard-declaration/
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
-|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
+|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 6/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
@@ -146,12 +146,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP057 | 绝对与相对地址 | 1. URL 组成<br>2. 绝对地址解析<br>3. 相对地址解析基准 | `kp057-absolute-relative-url/` | 待生成 |
-| KP058 | 根相对与文档相对 | 1. `/` 根相对路径<br>2. `./` 与 `../` 文档相对路径<br>3. 子路径部署影响 | `kp058-root-document-relative-url/` | 待生成 |
-| KP059 | 页面片段 | 1. `#id` 目标定位<br>2. 滚动与焦点行为<br>3. URL 编码和历史记录 | `kp059-fragment-navigation/` | 待生成 |
-| KP060 | mailto、tel、download | 1. 邮件和电话协议<br>2. 下载文件名建议<br>3. 平台行为与安全限制 | `kp060-mailto-tel-download/` | 待生成 |
-| KP061 | 自描述文本 | 1. 链接目的表达<br>2. 脱离上下文仍可理解<br>3. 可访问名称与重复链接 | `kp061-descriptive-link-text/` | 待生成 |
-| KP062 | 新窗口提示 | 1. 行为预期告知<br>2. 键盘和读屏体验<br>3. 产品场景取舍 | `kp062-new-window-notice/` | 待生成 |
+| KP057 | 绝对与相对地址 | 1. URL 组成<br>2. 绝对地址解析<br>3. 相对地址解析基准 | [文档](./05-links-navigation/kp057-absolute-relative-url/README.md) · [源码](./05-links-navigation/kp057-absolute-relative-url/index.html) | 已完成 |
+| KP058 | 根相对与文档相对 | 1. `/` 根相对路径<br>2. `./` 与 `../` 文档相对路径<br>3. 子路径部署影响 | [文档](./05-links-navigation/kp058-root-document-relative-url/README.md) · [源码](./05-links-navigation/kp058-root-document-relative-url/index.html) | 已完成 |
+| KP059 | 页面片段 | 1. `#id` 目标定位<br>2. 滚动与焦点行为<br>3. URL 编码和历史记录 | [文档](./05-links-navigation/kp059-fragment-navigation/README.md) · [源码](./05-links-navigation/kp059-fragment-navigation/index.html) | 已完成 |
+| KP060 | mailto、tel、download | 1. 邮件和电话协议<br>2. 下载文件名建议<br>3. 平台行为与安全限制 | [文档](./05-links-navigation/kp060-mailto-tel-download/README.md) · [源码](./05-links-navigation/kp060-mailto-tel-download/index.html) | 已完成 |
+| KP061 | 自描述文本 | 1. 链接目的表达<br>2. 脱离上下文仍可理解<br>3. 可访问名称与重复链接 | [文档](./05-links-navigation/kp061-descriptive-link-text/README.md) · [源码](./05-links-navigation/kp061-descriptive-link-text/index.html) | 已完成 |
+| KP062 | 新窗口提示 | 1. 行为预期告知<br>2. 键盘和读屏体验<br>3. 产品场景取舍 | [文档](./05-links-navigation/kp062-new-window-notice/README.md) · [源码](./05-links-navigation/kp062-new-window-notice/index.html) | 已完成 |
 | KP063 | `target` | 1. `_self` 与 `_blank`<br>2. 命名浏览上下文<br>3. iframe 和窗口定位 | `kp063-target-attribute/` | 待生成 |
 | KP064 | `rel` | 1. `noopener`<br>2. `noreferrer`<br>3. 链接关系类型和安全边界 | `kp064-rel-attribute/` | 待生成 |
 
