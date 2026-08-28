@@ -34,7 +34,7 @@
         `src：${image.getAttribute('src')}`,
         `resolved src：${image.src}`,
         `natural：${image.naturalWidth} × ${image.naturalHeight}`,
-        `HTML 属性：${image.width} × ${image.height}`,
+        `HTML 属性：${image.getAttribute('width')} × ${image.getAttribute('height')}`,
         `渲染尺寸：${image.clientWidth} × ${image.clientHeight}`
       ].join('\n');
     }
