@@ -26,7 +26,7 @@ kp001-standard-declaration/
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
-|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 6/8   |
+|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
@@ -152,8 +152,8 @@ kp001-standard-declaration/
 | KP060 | mailto、tel、download | 1. 邮件和电话协议<br>2. 下载文件名建议<br>3. 平台行为与安全限制 | [文档](./05-links-navigation/kp060-mailto-tel-download/README.md) · [源码](./05-links-navigation/kp060-mailto-tel-download/index.html) | 已完成 |
 | KP061 | 自描述文本 | 1. 链接目的表达<br>2. 脱离上下文仍可理解<br>3. 可访问名称与重复链接 | [文档](./05-links-navigation/kp061-descriptive-link-text/README.md) · [源码](./05-links-navigation/kp061-descriptive-link-text/index.html) | 已完成 |
 | KP062 | 新窗口提示 | 1. 行为预期告知<br>2. 键盘和读屏体验<br>3. 产品场景取舍 | [文档](./05-links-navigation/kp062-new-window-notice/README.md) · [源码](./05-links-navigation/kp062-new-window-notice/index.html) | 已完成 |
-| KP063 | `target` | 1. `_self` 与 `_blank`<br>2. 命名浏览上下文<br>3. iframe 和窗口定位 | `kp063-target-attribute/` | 待生成 |
-| KP064 | `rel` | 1. `noopener`<br>2. `noreferrer`<br>3. 链接关系类型和安全边界 | `kp064-rel-attribute/` | 待生成 |
+| KP063 | `target` | 1. `_self` 与 `_blank`<br>2. 命名浏览上下文<br>3. iframe 和窗口定位 | [文档](./05-links-navigation/kp063-target-attribute/README.md) · [源码](./05-links-navigation/kp063-target-attribute/index.html) | 已完成 |
+| KP064 | `rel` | 1. `noopener`<br>2. `noreferrer`<br>3. 链接关系类型和安全边界 | [文档](./05-links-navigation/kp064-rel-attribute/README.md) · [源码](./05-links-navigation/kp064-rel-attribute/index.html) | 已完成 |
 
 </details>
 
