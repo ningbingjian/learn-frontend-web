@@ -25,7 +25,7 @@ kp001-standard-declaration/
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
-|  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 6/12  |
+|  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
@@ -130,12 +130,12 @@ kp001-standard-declaration/
 | KP048 | 选择边界 | 1. 列表与普通段落<br>2. 列表与导航<br>3. 列表类型选择依据 | [文档](./04-lists-landmarks/kp048-list-selection-boundary/README.md) · [源码](./04-lists-landmarks/kp048-list-selection-boundary/index.html) | 已完成 |
 | KP049 | `header`、`footer` | 1. 页面级页眉页脚<br>2. 分区级页眉页脚<br>3. 嵌套上下文语义 | [文档](./04-lists-landmarks/kp049-header-and-footer/README.md) · [源码](./04-lists-landmarks/kp049-header-and-footer/index.html) | 已完成 |
 | KP050 | `main` | 1. 主内容地标<br>2. 页面唯一可见主区<br>3. 与 `body` 和分区的关系 | [文档](./04-lists-landmarks/kp050-main-landmark/README.md) · [源码](./04-lists-landmarks/kp050-main-landmark/index.html) | 已完成 |
-| KP051 | `nav` | 1. 主要导航集合<br>2. 多个导航的命名<br>3. 普通链接组的选择边界 | `kp051-nav-landmark/` | 待生成 |
-| KP052 | `aside` | 1. 间接相关内容<br>2. 页面级与文章级侧栏<br>3. 与主内容的独立性 | `kp052-aside/` | 待生成 |
-| KP053 | 独立内容 | 1. `article` 独立语义<br>2. 可分发与可复用判断<br>3. 标题和作者信息 | `kp053-independent-content/` | 待生成 |
-| KP054 | 嵌套文章 | 1. 评论与回复结构<br>2. 父子文章关系<br>3. 标题层级和归属 | `kp054-nested-article/` | 待生成 |
-| KP055 | 主题分区 | 1. `section` 主题分组<br>2. 标题要求<br>3. 页面章节组织 | `kp055-thematic-section/` | 待生成 |
-| KP056 | 与 div 区分 | 1. 有无主题语义<br>2. 标题和地标影响<br>3. 纯样式容器选择 | `kp056-section-vs-div/` | 待生成 |
+| KP051 | `nav` | 1. 主要导航集合<br>2. 多个导航的命名<br>3. 普通链接组的选择边界 | [文档](./04-lists-landmarks/kp051-nav-landmark/README.md) · [源码](./04-lists-landmarks/kp051-nav-landmark/index.html) | 已完成 |
+| KP052 | `aside` | 1. 间接相关内容<br>2. 页面级与文章级侧栏<br>3. 与主内容的独立性 | [文档](./04-lists-landmarks/kp052-aside/README.md) · [源码](./04-lists-landmarks/kp052-aside/index.html) | 已完成 |
+| KP053 | 独立内容 | 1. `article` 独立语义<br>2. 可分发与可复用判断<br>3. 标题和作者信息 | [文档](./04-lists-landmarks/kp053-independent-content/README.md) · [源码](./04-lists-landmarks/kp053-independent-content/index.html) | 已完成 |
+| KP054 | 嵌套文章 | 1. 评论与回复结构<br>2. 父子文章关系<br>3. 标题层级和归属 | [文档](./04-lists-landmarks/kp054-nested-article/README.md) · [源码](./04-lists-landmarks/kp054-nested-article/index.html) | 已完成 |
+| KP055 | 主题分区 | 1. `section` 主题分组<br>2. 标题要求<br>3. 页面章节组织 | [文档](./04-lists-landmarks/kp055-thematic-section/README.md) · [源码](./04-lists-landmarks/kp055-thematic-section/index.html) | 已完成 |
+| KP056 | 与 div 区分 | 1. 有无主题语义<br>2. 标题和地标影响<br>3. 纯样式容器选择 | [文档](./04-lists-landmarks/kp056-section-vs-div/README.md) · [源码](./04-lists-landmarks/kp056-section-vs-div/index.html) | 已完成 |
 
 </details>
 
