@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP045 - ul 无序列表</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    .panel { padding: 18px; border: 1px solid #bbb; border-radius: 10px; }
+    ul ul { margin-top: 6px; }
+    pre { padding: 12px; background: #f4f4f4; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>课程能力清单</h1>
+
+  <div class="panel">
+    <ul id="skills">
+      <li>语义化 HTML</li>
+      <li>响应式 CSS</li>
+      <li>
+        现代 JavaScript
+        <ul>
+          <li>模块化</li>
+          <li>异步编程</li>
+          <li>DOM 操作</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2>结构观察</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const skills = document.querySelector('#skills');
+    const directItems = skills.querySelectorAll(':scope > li');
+    const nestedLists = skills.querySelectorAll('ul');
+
+    document.querySelector('#result').textContent =
+      `第一层 li 数量：${directItems.length}\n嵌套 ul 数量：${nestedLists.length}`;
+  </script>
+</body>
+</html>

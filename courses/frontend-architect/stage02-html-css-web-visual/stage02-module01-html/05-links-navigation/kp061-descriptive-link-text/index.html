@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP061 - 自描述链接文本</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.7; max-width: 960px; margin: 40px auto; padding: 0 20px; }
+    .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    article { padding: 16px; border: 1px solid #ddd; border-radius: 10px; }
+    pre { padding: 16px; background: #f5f5f5; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>自描述链接文本</h1>
+
+  <div class="cards">
+    <article id="html-course">
+      <h2>HTML 语义化</h2>
+      <p>学习文本、列表、表单和页面地标。</p>
+      <a data-demo href="#html-course">查看 HTML 语义化课程详情</a>
+    </article>
+
+    <article id="css-course">
+      <h2>CSS 布局</h2>
+      <p>学习 Flexbox、Grid 和响应式布局。</p>
+      <a data-demo href="#css-course">查看 CSS 布局课程详情</a>
+    </article>
+
+    <article id="js-course">
+      <h2>JavaScript 基础</h2>
+      <p>学习语法、DOM 和异步编程。</p>
+      <a data-demo href="#js-course">查看 JavaScript 基础课程详情</a>
+    </article>
+  </div>
+
+  <section id="pricing">
+    <h2>ARIA 名称对照</h2>
+    <p>
+      <a id="short-link" data-demo href="#pricing" aria-label="查看 Pro 套餐价格">
+        查看价格
+      </a>
+    </p>
+    <p>这个链接用于观察可见文本与 <code>aria-label</code> 的区别，不代表所有链接都应该添加 aria-label。</p>
+  </section>
+
+  <h2>只看链接摘要</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const links = [...document.querySelectorAll('a[data-demo]')];
+    const lines = links.map((link) => {
+      const visibleText = link.textContent.trim();
+      const ariaLabel = link.getAttribute('aria-label');
+      return `${visibleText} -> ${link.getAttribute('href')} | aria-label: ${ariaLabel ?? '(none)'}`;
+    });
+
+    document.querySelector('#result').textContent = lines.join('\n');
+  </script>
+</body>
+</html>

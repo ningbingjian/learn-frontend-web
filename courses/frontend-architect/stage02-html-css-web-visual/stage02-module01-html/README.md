@@ -25,8 +25,8 @@ kp001-standard-declaration/
 |  01 | [文档骨架与解析入口](#chapter-01)  | `01-document-skeleton/`        |  16 | 16/16 |
 |  02 | [元信息与资源声明](#chapter-02)   | `02-metadata-resources/`       |  14 | 14/14 |
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
-|  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 0/12  |
-|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 0/8   |
+|  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
+|  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 6/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 0/16  |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
@@ -124,18 +124,18 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP045 | `ul` | 1. 无序集合语义<br>2. `li` 子元素<br>3. 嵌套列表结构 | `kp045-unordered-list/` | 待生成 |
-| KP046 | `ol` | 1. 有序步骤语义<br>2. `start` 与 `reversed`<br>3. `li[value]` 编号控制 | `kp046-ordered-list/` | 待生成 |
-| KP047 | `dl`、`dt`、`dd` | 1. 名称与描述关系<br>2. 一对多组合<br>3. 术语表和元数据场景 | `kp047-description-list/` | 待生成 |
-| KP048 | 选择边界 | 1. 列表与普通段落<br>2. 列表与导航<br>3. 列表类型选择依据 | `kp048-list-selection-boundary/` | 待生成 |
-| KP049 | `header`、`footer` | 1. 页面级页眉页脚<br>2. 分区级页眉页脚<br>3. 嵌套上下文语义 | `kp049-header-and-footer/` | 待生成 |
-| KP050 | `main` | 1. 主内容地标<br>2. 页面唯一可见主区<br>3. 与 `body` 和分区的关系 | `kp050-main-landmark/` | 待生成 |
-| KP051 | `nav` | 1. 主要导航集合<br>2. 多个导航的命名<br>3. 普通链接组的选择边界 | `kp051-nav-landmark/` | 待生成 |
-| KP052 | `aside` | 1. 间接相关内容<br>2. 页面级与文章级侧栏<br>3. 与主内容的独立性 | `kp052-aside/` | 待生成 |
-| KP053 | 独立内容 | 1. `article` 独立语义<br>2. 可分发与可复用判断<br>3. 标题和作者信息 | `kp053-independent-content/` | 待生成 |
-| KP054 | 嵌套文章 | 1. 评论与回复结构<br>2. 父子文章关系<br>3. 标题层级和归属 | `kp054-nested-article/` | 待生成 |
-| KP055 | 主题分区 | 1. `section` 主题分组<br>2. 标题要求<br>3. 页面章节组织 | `kp055-thematic-section/` | 待生成 |
-| KP056 | 与 div 区分 | 1. 有无主题语义<br>2. 标题和地标影响<br>3. 纯样式容器选择 | `kp056-section-vs-div/` | 待生成 |
+| KP045 | `ul` | 1. 无序集合语义<br>2. `li` 子元素<br>3. 嵌套列表结构 | [文档](./04-lists-landmarks/kp045-unordered-list/README.md) · [源码](./04-lists-landmarks/kp045-unordered-list/index.html) | 已完成 |
+| KP046 | `ol` | 1. 有序步骤语义<br>2. `start` 与 `reversed`<br>3. `li[value]` 编号控制 | [文档](./04-lists-landmarks/kp046-ordered-list/README.md) · [源码](./04-lists-landmarks/kp046-ordered-list/index.html) | 已完成 |
+| KP047 | `dl`、`dt`、`dd` | 1. 名称与描述关系<br>2. 一对多组合<br>3. 术语表和元数据场景 | [文档](./04-lists-landmarks/kp047-description-list/README.md) · [源码](./04-lists-landmarks/kp047-description-list/index.html) | 已完成 |
+| KP048 | 选择边界 | 1. 列表与普通段落<br>2. 列表与导航<br>3. 列表类型选择依据 | [文档](./04-lists-landmarks/kp048-list-selection-boundary/README.md) · [源码](./04-lists-landmarks/kp048-list-selection-boundary/index.html) | 已完成 |
+| KP049 | `header`、`footer` | 1. 页面级页眉页脚<br>2. 分区级页眉页脚<br>3. 嵌套上下文语义 | [文档](./04-lists-landmarks/kp049-header-and-footer/README.md) · [源码](./04-lists-landmarks/kp049-header-and-footer/index.html) | 已完成 |
+| KP050 | `main` | 1. 主内容地标<br>2. 页面唯一可见主区<br>3. 与 `body` 和分区的关系 | [文档](./04-lists-landmarks/kp050-main-landmark/README.md) · [源码](./04-lists-landmarks/kp050-main-landmark/index.html) | 已完成 |
+| KP051 | `nav` | 1. 主要导航集合<br>2. 多个导航的命名<br>3. 普通链接组的选择边界 | [文档](./04-lists-landmarks/kp051-nav-landmark/README.md) · [源码](./04-lists-landmarks/kp051-nav-landmark/index.html) | 已完成 |
+| KP052 | `aside` | 1. 间接相关内容<br>2. 页面级与文章级侧栏<br>3. 与主内容的独立性 | [文档](./04-lists-landmarks/kp052-aside/README.md) · [源码](./04-lists-landmarks/kp052-aside/index.html) | 已完成 |
+| KP053 | 独立内容 | 1. `article` 独立语义<br>2. 可分发与可复用判断<br>3. 标题和作者信息 | [文档](./04-lists-landmarks/kp053-independent-content/README.md) · [源码](./04-lists-landmarks/kp053-independent-content/index.html) | 已完成 |
+| KP054 | 嵌套文章 | 1. 评论与回复结构<br>2. 父子文章关系<br>3. 标题层级和归属 | [文档](./04-lists-landmarks/kp054-nested-article/README.md) · [源码](./04-lists-landmarks/kp054-nested-article/index.html) | 已完成 |
+| KP055 | 主题分区 | 1. `section` 主题分组<br>2. 标题要求<br>3. 页面章节组织 | [文档](./04-lists-landmarks/kp055-thematic-section/README.md) · [源码](./04-lists-landmarks/kp055-thematic-section/index.html) | 已完成 |
+| KP056 | 与 div 区分 | 1. 有无主题语义<br>2. 标题和地标影响<br>3. 纯样式容器选择 | [文档](./04-lists-landmarks/kp056-section-vs-div/README.md) · [源码](./04-lists-landmarks/kp056-section-vs-div/index.html) | 已完成 |
 
 </details>
 
@@ -146,12 +146,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP057 | 绝对与相对地址 | 1. URL 组成<br>2. 绝对地址解析<br>3. 相对地址解析基准 | `kp057-absolute-relative-url/` | 待生成 |
-| KP058 | 根相对与文档相对 | 1. `/` 根相对路径<br>2. `./` 与 `../` 文档相对路径<br>3. 子路径部署影响 | `kp058-root-document-relative-url/` | 待生成 |
-| KP059 | 页面片段 | 1. `#id` 目标定位<br>2. 滚动与焦点行为<br>3. URL 编码和历史记录 | `kp059-fragment-navigation/` | 待生成 |
-| KP060 | mailto、tel、download | 1. 邮件和电话协议<br>2. 下载文件名建议<br>3. 平台行为与安全限制 | `kp060-mailto-tel-download/` | 待生成 |
-| KP061 | 自描述文本 | 1. 链接目的表达<br>2. 脱离上下文仍可理解<br>3. 可访问名称与重复链接 | `kp061-descriptive-link-text/` | 待生成 |
-| KP062 | 新窗口提示 | 1. 行为预期告知<br>2. 键盘和读屏体验<br>3. 产品场景取舍 | `kp062-new-window-notice/` | 待生成 |
+| KP057 | 绝对与相对地址 | 1. URL 组成<br>2. 绝对地址解析<br>3. 相对地址解析基准 | [文档](./05-links-navigation/kp057-absolute-relative-url/README.md) · [源码](./05-links-navigation/kp057-absolute-relative-url/index.html) | 已完成 |
+| KP058 | 根相对与文档相对 | 1. `/` 根相对路径<br>2. `./` 与 `../` 文档相对路径<br>3. 子路径部署影响 | [文档](./05-links-navigation/kp058-root-document-relative-url/README.md) · [源码](./05-links-navigation/kp058-root-document-relative-url/index.html) | 已完成 |
+| KP059 | 页面片段 | 1. `#id` 目标定位<br>2. 滚动与焦点行为<br>3. URL 编码和历史记录 | [文档](./05-links-navigation/kp059-fragment-navigation/README.md) · [源码](./05-links-navigation/kp059-fragment-navigation/index.html) | 已完成 |
+| KP060 | mailto、tel、download | 1. 邮件和电话协议<br>2. 下载文件名建议<br>3. 平台行为与安全限制 | [文档](./05-links-navigation/kp060-mailto-tel-download/README.md) · [源码](./05-links-navigation/kp060-mailto-tel-download/index.html) | 已完成 |
+| KP061 | 自描述文本 | 1. 链接目的表达<br>2. 脱离上下文仍可理解<br>3. 可访问名称与重复链接 | [文档](./05-links-navigation/kp061-descriptive-link-text/README.md) · [源码](./05-links-navigation/kp061-descriptive-link-text/index.html) | 已完成 |
+| KP062 | 新窗口提示 | 1. 行为预期告知<br>2. 键盘和读屏体验<br>3. 产品场景取舍 | [文档](./05-links-navigation/kp062-new-window-notice/README.md) · [源码](./05-links-navigation/kp062-new-window-notice/index.html) | 已完成 |
 | KP063 | `target` | 1. `_self` 与 `_blank`<br>2. 命名浏览上下文<br>3. iframe 和窗口定位 | `kp063-target-attribute/` | 待生成 |
 | KP064 | `rel` | 1. `noopener`<br>2. `noreferrer`<br>3. 链接关系类型和安全边界 | `kp064-rel-attribute/` | 待生成 |
 
