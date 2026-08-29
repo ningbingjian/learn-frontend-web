@@ -29,7 +29,7 @@ kp001-standard-declaration/
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
-|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
+|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 6/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
 
@@ -208,12 +208,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP089 | action 与 method | 1. 提交目标地址<br>2. GET 查询参数<br>3. POST 请求体 | `kp089-form-action-method/` | 待生成 |
-| KP090 | enctype | 1. 默认 URL 编码<br>2. `multipart/form-data`<br>3. 文件上传与编码选择 | `kp090-form-enctype/` | 待生成 |
-| KP091 | name 与 value | 1. 成功控件规则<br>2. 键值对构造<br>3. 同名字段与 `FormData` | `kp091-control-name-value/` | 待生成 |
-| KP092 | disabled 与 readonly | 1. 可编辑性区别<br>2. 焦点和提交行为<br>3. 适用控件范围 | `kp092-disabled-readonly/` | 待生成 |
-| KP093 | text、search、email、url、tel | 1. 输入语义选择<br>2. 移动键盘提示<br>3. 内置校验与自动填充 | `kp093-text-like-inputs/` | 待生成 |
-| KP094 | password | 1. 密码遮挡<br>2. `autocomplete` 场景<br>3. 显示切换与安全边界 | `kp094-password-input/` | 待生成 |
+| KP089 | action 与 method | 1. 提交目标地址<br>2. GET 查询参数<br>3. POST 请求体 | [文档](./08-forms-validation/kp089-form-action-method/README.md) · [源码](./08-forms-validation/kp089-form-action-method/index.html) | 已完成 |
+| KP090 | enctype | 1. 默认 URL 编码<br>2. `multipart/form-data`<br>3. 文件上传与编码选择 | [文档](./08-forms-validation/kp090-form-enctype/README.md) · [源码](./08-forms-validation/kp090-form-enctype/index.html) | 已完成 |
+| KP091 | name 与 value | 1. 成功控件规则<br>2. 键值对构造<br>3. 同名字段与 `FormData` | [文档](./08-forms-validation/kp091-control-name-value/README.md) · [源码](./08-forms-validation/kp091-control-name-value/index.html) | 已完成 |
+| KP092 | disabled 与 readonly | 1. 可编辑性区别<br>2. 焦点和提交行为<br>3. 适用控件范围 | [文档](./08-forms-validation/kp092-disabled-readonly/README.md) · [源码](./08-forms-validation/kp092-disabled-readonly/index.html) | 已完成 |
+| KP093 | text、search、email、url、tel | 1. 输入语义选择<br>2. 移动键盘提示<br>3. 内置校验与自动填充 | [文档](./08-forms-validation/kp093-text-like-inputs/README.md) · [源码](./08-forms-validation/kp093-text-like-inputs/index.html) | 已完成 |
+| KP094 | password | 1. 密码遮挡<br>2. `autocomplete` 场景<br>3. 显示切换与安全边界 | [文档](./08-forms-validation/kp094-password-input/README.md) · [源码](./08-forms-validation/kp094-password-input/index.html) | 已完成 |
 | KP095 | number、range | 1. 数值与范围输入<br>2. `min`、`max`、`step`<br>3. 精度和文本型数字边界 | `kp095-number-range-inputs/` | 待生成 |
 | KP096 | date、time 等 | 1. 日期时间控件类型<br>2. 提交值格式<br>3. 时区与浏览器回退 | `kp096-date-time-inputs/` | 待生成 |
 | KP097 | checkbox、radio | 1. 多选与单选语义<br>2. `checked` 和提交值<br>3. 同名分组 | `kp097-checkbox-radio/` | 待生成 |
