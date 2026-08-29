@@ -25,22 +25,22 @@
 | 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
 | TS-KP024 | `any` | [文档](./kp024-any/README.md) · [源码](./kp024-any/src/main.ts) | 已完成 |
-| TS-KP025 | `unknown` | `kp025-unknown/` | 待生成 |
-| TS-KP026 | `never` | `kp026-never/` | 待生成 |
-| TS-KP027 | `void` | `kp027-void/` | 待生成 |
-| TS-KP028 | `object` | `kp028-object/` | 待生成 |
-| TS-KP029 | `{}` 与 `Object` 的差异 | `kp029-empty-object-vs-object/` | 待生成 |
+| TS-KP025 | `unknown` | [文档](./kp025-unknown/README.md) · [源码](./kp025-unknown/src/main.ts) | 已完成 |
+| TS-KP026 | `never` | [文档](./kp026-never/README.md) · [源码](./kp026-never/src/main.ts) | 已完成 |
+| TS-KP027 | `void` | [文档](./kp027-void/README.md) · [源码](./kp027-void/src/main.ts) | 已完成 |
+| TS-KP028 | `object` | [文档](./kp028-object/README.md) · [源码](./kp028-object/src/main.ts) | 已完成 |
+| TS-KP029 | `{}` 与 `Object` 的差异 | [文档](./kp029-empty-object-vs-object/README.md) · [源码](./kp029-empty-object-vs-object/src/main.ts) | 已完成 |
 
 ### Lesson 02.3：推断与上下文类型
 
 | 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP030 | 变量类型推断 | `kp030-variable-type-inference/` | 待生成 |
-| TS-KP031 | 函数返回值推断 | `kp031-return-type-inference/` | 待生成 |
-| TS-KP032 | Contextual Typing | `kp032-contextual-typing/` | 待生成 |
-| TS-KP033 | Best Common Type | `kp033-best-common-type/` | 待生成 |
-| TS-KP034 | Literal Widening | `kp034-literal-widening/` | 待生成 |
-| TS-KP035 | 控制流类型分析概览 | `kp035-control-flow-analysis-overview/` | 待生成 |
+| TS-KP030 | 变量类型推断 | [文档](./kp030-variable-type-inference/README.md) · [源码](./kp030-variable-type-inference/src/main.ts) | 已完成 |
+| TS-KP031 | 函数返回值推断 | [文档](./kp031-return-type-inference/README.md) · [源码](./kp031-return-type-inference/src/main.ts) | 已完成 |
+| TS-KP032 | Contextual Typing | [文档](./kp032-contextual-typing/README.md) · [源码](./kp032-contextual-typing/src/main.ts) | 已完成 |
+| TS-KP033 | Best Common Type | [文档](./kp033-best-common-type/README.md) · [源码](./kp033-best-common-type/src/main.ts) | 已完成 |
+| TS-KP034 | Literal Widening | [文档](./kp034-literal-widening/README.md) · [源码](./kp034-literal-widening/src/main.ts) | 已完成 |
+| TS-KP035 | 控制流类型分析概览 | [文档](./kp035-control-flow-analysis-overview/README.md) · [源码](./kp035-control-flow-analysis-overview/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -57,7 +57,7 @@
 ## 当前进度
 
 - Lesson 02.1：7/7 已完成。
-- Lesson 02.2：1/6 已完成。
-- Lesson 02.3：0/6。
-- Chapter 02：8/19 已完成。
-- 下一知识点：TS-KP025「`unknown`」。
+- Lesson 02.2：6/6 已完成。
+- Lesson 02.3：6/6 已完成。
+- Chapter 02：19/19 已完成。
+- Chapter 02 已完成，下一步进入 Chapter 03 的 TS-KP036「`T[]` 与 `Array<T>`」。
