@@ -37,12 +37,15 @@
   <script>
     const form = document.querySelector('#profile-form');
     const result = document.querySelector('#result');
+    const requestTarget = location.protocol === 'http:' || location.protocol === 'https:'
+      ? form.action
+      : 'https://example.test/profile';
 
     document.querySelector('#inspect-urlencoded').addEventListener('click', () => {
       const textOnly = new URLSearchParams();
       textOnly.set('nickname', form.elements.nickname.value);
 
-      const request = new Request(form.action, {
+      const request = new Request(requestTarget, {
         method: 'POST',
         body: textOnly
       });
@@ -56,7 +59,7 @@
 
     document.querySelector('#inspect-multipart').addEventListener('click', () => {
       const data = new FormData(form);
-      const request = new Request(form.action, {
+      const request = new Request(requestTarget, {
         method: 'POST',
         body: data
       });
