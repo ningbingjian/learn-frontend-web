@@ -37,12 +37,12 @@
 
 ### Lesson 03.2：对象类型
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP044 | 匿名对象类型 | `kp044-anonymous-object-types/` | 待生成 |
-| TS-KP045 | 可选属性 | `kp045-optional-properties/` | 待生成 |
-| TS-KP046 | `readonly` 属性 | `kp046-readonly-properties/` | 待生成 |
-| TS-KP047 | 索引签名 | `kp047-index-signatures/` | 待生成 |
+| TS-KP044 | 匿名对象类型 | [文档](./kp044-anonymous-object-types/README.md) · [源码](./kp044-anonymous-object-types/src/main.ts) | 已完成 |
+| TS-KP045 | 可选属性 | [文档](./kp045-optional-properties/README.md) · [源码](./kp045-optional-properties/src/main.ts) | 已完成 |
+| TS-KP046 | `readonly` 属性 | [文档](./kp046-readonly-properties/README.md) · [源码](./kp046-readonly-properties/src/main.ts) | 已完成 |
+| TS-KP047 | 索引签名 | [文档](./kp047-index-signatures/README.md) · [源码](./kp047-index-signatures/src/main.ts) | 已完成 |
 | TS-KP048 | 数字索引与字符串索引 | `kp048-number-string-index/` | 待生成 |
 | TS-KP049 | Excess Property Checking | `kp049-excess-property-checking/` | 待生成 |
 | TS-KP050 | 对象字面量的新鲜度直觉 | `kp050-object-literal-freshness/` | 待生成 |
@@ -70,6 +70,6 @@
 ## 当前进度
 
 - Lesson 03.1：8/8 已完成。
-- Lesson 03.2：0/8。
-- Chapter 03：8/16 已完成。
-- 数组与 Tuple 部分已完成，下一知识点：TS-KP044「匿名对象类型」。
+- Lesson 03.2：4/8 已完成。
+- Chapter 03：12/16 已完成。
+- 下一知识点：TS-KP048「数字索引与字符串索引」。
