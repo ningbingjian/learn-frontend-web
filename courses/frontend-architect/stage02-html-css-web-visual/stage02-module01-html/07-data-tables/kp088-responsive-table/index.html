@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP088 响应式数据表格</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1000px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    .table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid #bbb; }
+    .table-scroll:focus { outline: 3px solid currentColor; outline-offset: 3px; }
+    table { border-collapse: collapse; width: 100%; min-width: 760px; }
+    th, td { border: 1px solid #ccc; padding: 10px 12px; text-align: left; white-space: nowrap; }
+    thead th { position: sticky; top: 0; background: #f1f1f1; }
+    tbody th { position: sticky; left: 0; background: #fff; }
+    pre { padding: 16px; background: #f6f6f6; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1 id="pricing-title">SaaS 套餐比较</h1>
+  <p id="scroll-hint">小屏可横向滚动查看全部列；关键决策列“套餐”“月价”放在最前面。</p>
+
+  <div
+    id="table-scroll"
+    class="table-scroll"
+    role="region"
+    aria-labelledby="pricing-title"
+    aria-describedby="scroll-hint"
+    tabindex="0"
+  >
+    <table>
+      <caption>2026 年标准套餐能力比较</caption>
+      <thead>
+        <tr>
+          <th scope="col">套餐</th>
+          <th scope="col">月价</th>
+          <th scope="col">用户数</th>
+          <th scope="col">存储</th>
+          <th scope="col">API 调用</th>
+          <th scope="col">SLA</th>
+          <th scope="col">支持方式</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Starter</th>
+          <td>¥99</td>
+          <td>5</td>
+          <td>20 GB</td>
+          <td>10 万 / 月</td>
+          <td>99.5%</td>
+          <td>邮件</td>
+        </tr>
+        <tr>
+          <th scope="row">Pro</th>
+          <td>¥299</td>
+          <td>20</td>
+          <td>200 GB</td>
+          <td>100 万 / 月</td>
+          <td>99.9%</td>
+          <td>邮件 + 工单</td>
+        </tr>
+        <tr>
+          <th scope="row">Enterprise</th>
+          <td>联系销售</td>
+          <td>不限</td>
+          <td>1 TB+</td>
+          <td>自定义</td>
+          <td>99.99%</td>
+          <td>专属支持</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>响应式观察</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const scrollArea = document.querySelector('#table-scroll');
+    const headers = [...scrollArea.querySelectorAll('thead th')];
+    const result = document.querySelector('#result');
+
+    function renderObservation() {
+      const needsScroll = scrollArea.scrollWidth > scrollArea.clientWidth;
+
+      result.textContent = [
+        `viewport 宽度：${window.innerWidth}px`,
+        `滚动区域可视宽度：${scrollArea.clientWidth}px`,
+        `表格内容总宽度：${scrollArea.scrollWidth}px`,
+        `需要横向滚动：${needsScroll ? '是' : '否'}`,
+        `表头顺序：${headers.map(item => item.textContent.trim()).join(' -> ')}`,
+        `当前横向滚动位置：${Math.round(scrollArea.scrollLeft)}px`
+      ].join('\n');
+    }
+
+    window.addEventListener('resize', renderObservation);
+    scrollArea.addEventListener('scroll', renderObservation, { passive: true });
+    renderObservation();
+  </script>
+</body>
+</html>
