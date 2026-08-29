@@ -37,10 +37,10 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 | 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
 | TS-KP055 | `interface` 基础 | [文档](./kp055-interface-basics/README.md) · [源码](./kp055-interface-basics/src/main.ts) | 已完成 |
-| TS-KP056 | 接口继承 | `kp056-interface-extends/` | 待生成 |
-| TS-KP057 | 多接口继承 | `kp057-multiple-interface-extends/` | 待生成 |
-| TS-KP058 | 接口声明合并 | `kp058-interface-declaration-merging/` | 待生成 |
-| TS-KP059 | 接口调用签名 | `kp059-interface-call-signatures/` | 待生成 |
+| TS-KP056 | 接口继承 | [文档](./kp056-interface-extends/README.md) · [源码](./kp056-interface-extends/src/main.ts) | 已完成 |
+| TS-KP057 | 多接口继承 | [文档](./kp057-multiple-interface-extends/README.md) · [源码](./kp057-multiple-interface-extends/src/main.ts) | 已完成 |
+| TS-KP058 | 接口声明合并 | [文档](./kp058-interface-declaration-merging/README.md) · [源码](./kp058-interface-declaration-merging/src/main.ts) | 已完成 |
+| TS-KP059 | 接口调用签名 | [文档](./kp059-interface-call-signatures/README.md) · [源码](./kp059-interface-call-signatures/src/main.ts) | 已完成 |
 | TS-KP060 | 接口构造签名 | `kp060-interface-construct-signatures/` | 待生成 |
 
 ### Lesson 04.3：如何选择
@@ -56,9 +56,9 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 
 1. 先把 `type` 理解成“给一个类型表达式取名字”，不要把它误解成创建新的运行时类型。
 2. `type` 可以给对象、原始类型、Tuple、联合类型等多种类型取名；本批先从对象结构和别名引用开始。
-3. `interface` 先理解成“给对象形状建立可复用契约”，继承、声明合并等能力后续逐节展开。
+3. `interface` 不只可以描述普通属性，也可以通过继承、声明合并、调用签名和构造签名描述更丰富的对象契约。
 4. TypeScript 兼容性主要看结构，而不是 Java/C# 风格的显式名义关系。
-5. 不急着在本章开头争论 `type` 和 `interface` 谁更好；先分别掌握能力，再在 Lesson 04.3 做选择。
+5. 不急着争论 `type` 和 `interface` 谁更好；先分别掌握能力，再在 Lesson 04.3 做选择。
 6. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
@@ -74,7 +74,7 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 ## 当前进度
 
 - Lesson 04.1：3/3 已完成。
-- Lesson 04.2：1/6 已完成。
+- Lesson 04.2：5/6 已完成。
 - Lesson 04.3：0/4。
-- Chapter 04：4/13 已完成。
-- 下一知识点：TS-KP056「接口继承」。
+- Chapter 04：8/13 已完成。
+- 下一知识点：TS-KP060「接口构造签名」。
