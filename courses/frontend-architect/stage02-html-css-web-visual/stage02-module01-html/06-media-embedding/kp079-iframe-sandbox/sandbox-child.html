@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sandbox 子页面</title>
+</head>
+<body>
+  <h1>sandbox 子页面</h1>
+  <p id="script-status">脚本未执行（初始文本）</p>
+  <p id="storage-status">尚未测试 Storage</p>
+
+  <script>
+    const caseName = new URLSearchParams(location.search).get('case') ?? 'unknown';
+    document.querySelector('#script-status').textContent = '脚本已执行';
+
+    try {
+      localStorage.setItem('sandbox-demo', '1');
+      document.querySelector('#storage-status').textContent = 'localStorage 可用';
+    } catch (error) {
+      document.querySelector('#storage-status').textContent = `localStorage 被限制：${error.name}`;
+    }
+
+    parent.postMessage({
+      type: 'sandbox-demo',
+      case: caseName,
+      status: 'script-ran'
+    }, '*');
+  </script>
+</body>
+</html>
