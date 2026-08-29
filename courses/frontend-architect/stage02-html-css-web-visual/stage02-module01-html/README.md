@@ -27,7 +27,7 @@ kp001-standard-declaration/
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
-|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 12/16 |
+|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
@@ -176,10 +176,10 @@ kp001-standard-declaration/
 | KP074 | 多资源回退 | 1. 多个 `source` 顺序<br>2. 媒体格式兼容<br>3. 最终提示内容 | [文档](./06-media-embedding/kp074-media-source-fallback/README.md) · [源码](./06-media-embedding/kp074-media-source-fallback/index.html) | 已完成 |
 | KP075 | `track` | 1. 字幕轨道类型<br>2. `srclang` 与 `label`<br>3. 默认轨道和 cue | [文档](./06-media-embedding/kp075-track-element/README.md) · [源码](./06-media-embedding/kp075-track-element/index.html) | 已完成 |
 | KP076 | 可访问替代 | 1. 字幕与文字稿<br>2. 音频描述<br>3. 无法播放时的内容替代 | [文档](./06-media-embedding/kp076-accessible-media-alternative/README.md) · [源码](./06-media-embedding/kp076-accessible-media-alternative/index.html) | 已完成 |
-| KP077 | 标题与尺寸 | 1. iframe 可访问标题<br>2. 宽高和纵横比<br>3. 布局稳定与边界 | `kp077-iframe-title-size/` | 待生成 |
-| KP078 | 懒加载 | 1. `loading="lazy"`<br>2. 首屏 iframe 选择<br>3. 网络与性能验证 | `kp078-iframe-lazy-loading/` | 待生成 |
-| KP079 | sandbox | 1. 默认限制集合<br>2. 常用许可令牌<br>3. 最小权限和组合风险 | `kp079-iframe-sandbox/` | 待生成 |
-| KP080 | allow 与来源信任 | 1. Permissions Policy<br>2. 功能许可范围<br>3. 来源校验与跨窗口通信 | `kp080-iframe-permissions-trust/` | 待生成 |
+| KP077 | 标题与尺寸 | 1. iframe 可访问标题<br>2. 宽高和纵横比<br>3. 布局稳定与边界 | [文档](./06-media-embedding/kp077-iframe-title-size/README.md) · [源码](./06-media-embedding/kp077-iframe-title-size/index.html) | 已完成 |
+| KP078 | 懒加载 | 1. `loading="lazy"`<br>2. 首屏 iframe 选择<br>3. 网络与性能验证 | [文档](./06-media-embedding/kp078-iframe-lazy-loading/README.md) · [源码](./06-media-embedding/kp078-iframe-lazy-loading/index.html) | 已完成 |
+| KP079 | sandbox | 1. 默认限制集合<br>2. 常用许可令牌<br>3. 最小权限和组合风险 | [文档](./06-media-embedding/kp079-iframe-sandbox/README.md) · [源码](./06-media-embedding/kp079-iframe-sandbox/index.html) | 已完成 |
+| KP080 | allow 与来源信任 | 1. Permissions Policy<br>2. 功能许可范围<br>3. 来源校验与跨窗口通信 | [文档](./06-media-embedding/kp080-iframe-permissions-trust/README.md) · [源码](./06-media-embedding/kp080-iframe-permissions-trust/index.html) | 已完成 |
 
 </details>
 
