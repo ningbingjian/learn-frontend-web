@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320">
+  <rect width="720" height="320" fill="#f8fafc"/>
+  <rect x="55" y="105" width="150" height="100" rx="18" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <rect x="285" y="105" width="150" height="100" rx="18" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <rect x="515" y="105" width="150" height="100" rx="18" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+  <path d="M205 155 H275" stroke="#475569" stroke-width="5"/><path d="M265 145 L280 155 L265 165" fill="#475569"/>
+  <path d="M435 155 H505" stroke="#475569" stroke-width="5"/><path d="M495 145 L510 155 L495 165" fill="#475569"/>
+  <text x="130" y="165" text-anchor="middle" font-family="system-ui" font-size="24" fill="#1e3a8a">浏览器</text>
+  <text x="360" y="165" text-anchor="middle" font-family="system-ui" font-size="24" fill="#166534">CDN</text>
+  <text x="590" y="165" text-anchor="middle" font-family="system-ui" font-size="24" fill="#92400e">源站</text>
+</svg>

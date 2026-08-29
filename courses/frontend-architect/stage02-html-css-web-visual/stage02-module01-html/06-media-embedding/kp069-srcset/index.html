@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP069 - srcset</title>
+  <style>
+    body { max-width: 900px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    img { display: block; border: 1px solid #bbb; margin-bottom: 12px; }
+    #density-image { width: 400px; max-width: 100%; height: auto; }
+    #width-image { width: min(100%, 640px); height: auto; }
+    pre { padding: 16px; background: #f5f5f5; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>srcset 候选选择</h1>
+
+  <h2>像素密度描述符</h2>
+  <img
+    id="density-image"
+    src="./density-400.svg"
+    srcset="./density-400.svg 1x, ./density-800.svg 2x"
+    alt="像素密度候选示意图"
+    width="400"
+    height="225"
+  >
+
+  <h2>宽度描述符</h2>
+  <img
+    id="width-image"
+    src="./width-640.svg"
+    srcset="./width-320.svg 320w, ./width-640.svg 640w, ./width-960.svg 960w"
+    alt="宽度候选示意图"
+  >
+
+  <h2>浏览器实际选择</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const densityImage = document.querySelector('#density-image');
+    const widthImage = document.querySelector('#width-image');
+    const result = document.querySelector('#result');
+
+    function fileName(url) {
+      return url ? new URL(url).pathname.split('/').pop() : '尚未选择';
+    }
+
+    function render() {
+      result.textContent = [
+        `viewport：${window.innerWidth}px`,
+        `devicePixelRatio：${window.devicePixelRatio}`,
+        `density currentSrc：${fileName(densityImage.currentSrc)}`,
+        `width currentSrc：${fileName(widthImage.currentSrc)}`,
+        `width rendered：${widthImage.clientWidth}px`
+      ].join('\n');
+    }
+
+    window.addEventListener('load', render);
+    window.addEventListener('resize', render);
+    densityImage.addEventListener('load', render);
+    widthImage.addEventListener('load', render);
+  </script>
+</body>
+</html>

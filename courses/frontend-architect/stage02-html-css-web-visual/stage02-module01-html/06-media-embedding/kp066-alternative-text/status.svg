@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240" viewBox="0 0 640 240">
+  <rect width="640" height="240" rx="24" fill="#ecfdf5"/>
+  <circle cx="120" cy="120" r="62" fill="#10b981"/>
+  <path d="M88 120 L110 142 L154 96" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="220" y="105" font-family="system-ui, sans-serif" font-size="30" fill="#065f46">Build passed</text>
+  <text x="220" y="150" font-family="system-ui, sans-serif" font-size="22" fill="#047857">128 / 128 tests passed</text>
+</svg>

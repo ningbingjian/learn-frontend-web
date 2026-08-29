@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP065 - 图片地址与固有尺寸</title>
+  <style>
+    body { max-width: 860px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    #hero { max-width: 100%; height: auto; display: block; border: 1px solid #bbb; }
+    pre { padding: 16px; background: #f5f5f5; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>图片地址与固有尺寸</h1>
+  <p>缩放浏览器窗口，对比图片的固有尺寸、HTML 属性尺寸和最终渲染尺寸。</p>
+
+  <img
+    id="hero"
+    src="./hero.svg"
+    alt="蓝色课程封面示意图"
+    width="800"
+    height="450"
+  >
+
+  <h2>尺寸观察</h2>
+  <pre id="result">图片加载中……</pre>
+
+  <script>
+    const image = document.querySelector('#hero');
+    const result = document.querySelector('#result');
+
+    function renderInfo() {
+      result.textContent = [
+        `src：${image.getAttribute('src')}`,
+        `resolved src：${image.src}`,
+        `natural：${image.naturalWidth} × ${image.naturalHeight}`,
+        `HTML 属性：${image.getAttribute('width')} × ${image.getAttribute('height')}`,
+        `渲染尺寸：${image.clientWidth} × ${image.clientHeight}`
+      ].join('\n');
+    }
+
+    if (image.complete) renderInfo();
+    image.addEventListener('load', renderInfo);
+    window.addEventListener('resize', renderInfo);
+  </script>
+</body>
+</html>
