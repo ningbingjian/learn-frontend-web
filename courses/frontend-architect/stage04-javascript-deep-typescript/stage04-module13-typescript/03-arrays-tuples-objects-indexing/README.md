@@ -43,10 +43,10 @@
 | TS-KP045 | 可选属性 | [文档](./kp045-optional-properties/README.md) · [源码](./kp045-optional-properties/src/main.ts) | 已完成 |
 | TS-KP046 | `readonly` 属性 | [文档](./kp046-readonly-properties/README.md) · [源码](./kp046-readonly-properties/src/main.ts) | 已完成 |
 | TS-KP047 | 索引签名 | [文档](./kp047-index-signatures/README.md) · [源码](./kp047-index-signatures/src/main.ts) | 已完成 |
-| TS-KP048 | 数字索引与字符串索引 | `kp048-number-string-index/` | 待生成 |
-| TS-KP049 | Excess Property Checking | `kp049-excess-property-checking/` | 待生成 |
-| TS-KP050 | 对象字面量的新鲜度直觉 | `kp050-object-literal-freshness/` | 待生成 |
-| TS-KP051 | 嵌套对象类型设计 | `kp051-nested-object-type-design/` | 待生成 |
+| TS-KP048 | 数字索引与字符串索引 | [文档](./kp048-number-string-index/README.md) · [源码](./kp048-number-string-index/src/main.ts) | 已完成 |
+| TS-KP049 | Excess Property Checking | [文档](./kp049-excess-property-checking/README.md) · [源码](./kp049-excess-property-checking/src/main.ts) | 已完成 |
+| TS-KP050 | 对象字面量的新鲜度直觉 | [文档](./kp050-object-literal-freshness/README.md) · [源码](./kp050-object-literal-freshness/src/main.ts) | 已完成 |
+| TS-KP051 | 嵌套对象类型设计 | [文档](./kp051-nested-object-type-design/README.md) · [源码](./kp051-nested-object-type-design/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -70,6 +70,6 @@
 ## 当前进度
 
 - Lesson 03.1：8/8 已完成。
-- Lesson 03.2：4/8 已完成。
-- Chapter 03：12/16 已完成。
-- 下一知识点：TS-KP048「数字索引与字符串索引」。
+- Lesson 03.2：8/8 已完成。
+- Chapter 03：16/16 已完成。
+- Chapter 03 已完成，下一步进入 Chapter 04 的 TS-KP052「`type` 基础」。
