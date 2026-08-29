@@ -28,7 +28,7 @@ kp001-standard-declaration/
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
-|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 6/8   |
+|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
@@ -196,8 +196,8 @@ kp001-standard-declaration/
 | KP084 | colgroup、col | 1. 列分组结构<br>2. `span` 跨列<br>3. 可设置样式的范围 | [文档](./07-data-tables/kp084-colgroup-col/README.md) · [源码](./07-data-tables/kp084-colgroup-col/index.html) | 已完成 |
 | KP085 | th 与 scope | 1. 行列标题单元格<br>2. `scope="row"`<br>3. `scope="col"` | [文档](./07-data-tables/kp085-th-scope/README.md) · [源码](./07-data-tables/kp085-th-scope/index.html) | 已完成 |
 | KP086 | headers 与 id | 1. 复杂表头标识<br>2. 数据格关联多个表头<br>3. 读屏关系验证 | [文档](./07-data-tables/kp086-headers-id/README.md) · [源码](./07-data-tables/kp086-headers-id/index.html) | 已完成 |
-| KP087 | rowspan、colspan | 1. 跨行跨列语法<br>2. 网格坐标变化<br>3. 复杂度与可访问性 | `kp087-rowspan-colspan/` | 待生成 |
-| KP088 | 小屏策略 | 1. 横向滚动容器<br>2. 关键列优先级<br>3. 保留表格语义的响应式方案 | `kp088-responsive-table/` | 待生成 |
+| KP087 | rowspan、colspan | 1. 跨行跨列语法<br>2. 网格坐标变化<br>3. 复杂度与可访问性 | [文档](./07-data-tables/kp087-rowspan-colspan/README.md) · [源码](./07-data-tables/kp087-rowspan-colspan/index.html) | 已完成 |
+| KP088 | 小屏策略 | 1. 横向滚动容器<br>2. 关键列优先级<br>3. 保留表格语义的响应式方案 | [文档](./07-data-tables/kp088-responsive-table/README.md) · [源码](./07-data-tables/kp088-responsive-table/index.html) | 已完成 |
 
 </details>
 
