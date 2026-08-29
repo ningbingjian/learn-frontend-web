@@ -28,7 +28,7 @@ kp001-standard-declaration/
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
-|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
+|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 6/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
@@ -190,12 +190,12 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP081 | table、tr、td | 1. 表格数据适用场景<br>2. 行与数据单元格<br>3. 规则网格结构 | `kp081-table-tr-td/` | 待生成 |
-| KP082 | thead、tbody、tfoot | 1. 表头、主体和表尾分组<br>2. 解析器自动插入 `tbody`<br>3. 样式与脚本选择 | `kp082-table-sections/` | 待生成 |
-| KP083 | caption | 1. 表格标题<br>2. 可访问名称<br>3. 与周围正文的区别 | `kp083-table-caption/` | 待生成 |
-| KP084 | colgroup、col | 1. 列分组结构<br>2. `span` 跨列<br>3. 可设置样式的范围 | `kp084-colgroup-col/` | 待生成 |
-| KP085 | th 与 scope | 1. 行列标题单元格<br>2. `scope="row"`<br>3. `scope="col"` | `kp085-th-scope/` | 待生成 |
-| KP086 | headers 与 id | 1. 复杂表头标识<br>2. 数据格关联多个表头<br>3. 读屏关系验证 | `kp086-headers-id/` | 待生成 |
+| KP081 | table、tr、td | 1. 表格数据适用场景<br>2. 行与数据单元格<br>3. 规则网格结构 | [文档](./07-data-tables/kp081-table-tr-td/README.md) · [源码](./07-data-tables/kp081-table-tr-td/index.html) | 已完成 |
+| KP082 | thead、tbody、tfoot | 1. 表头、主体和表尾分组<br>2. 解析器自动插入 `tbody`<br>3. 样式与脚本选择 | [文档](./07-data-tables/kp082-table-sections/README.md) · [源码](./07-data-tables/kp082-table-sections/index.html) | 已完成 |
+| KP083 | caption | 1. 表格标题<br>2. 可访问名称<br>3. 与周围正文的区别 | [文档](./07-data-tables/kp083-table-caption/README.md) · [源码](./07-data-tables/kp083-table-caption/index.html) | 已完成 |
+| KP084 | colgroup、col | 1. 列分组结构<br>2. `span` 跨列<br>3. 可设置样式的范围 | [文档](./07-data-tables/kp084-colgroup-col/README.md) · [源码](./07-data-tables/kp084-colgroup-col/index.html) | 已完成 |
+| KP085 | th 与 scope | 1. 行列标题单元格<br>2. `scope="row"`<br>3. `scope="col"` | [文档](./07-data-tables/kp085-th-scope/README.md) · [源码](./07-data-tables/kp085-th-scope/index.html) | 已完成 |
+| KP086 | headers 与 id | 1. 复杂表头标识<br>2. 数据格关联多个表头<br>3. 读屏关系验证 | [文档](./07-data-tables/kp086-headers-id/README.md) · [源码](./07-data-tables/kp086-headers-id/index.html) | 已完成 |
 | KP087 | rowspan、colspan | 1. 跨行跨列语法<br>2. 网格坐标变化<br>3. 复杂度与可访问性 | `kp087-rowspan-colspan/` | 待生成 |
 | KP088 | 小屏策略 | 1. 横向滚动容器<br>2. 关键列优先级<br>3. 保留表格语义的响应式方案 | `kp088-responsive-table/` | 待生成 |
 
