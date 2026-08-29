@@ -30,10 +30,10 @@
 | TS-KP037 | 只读数组 `readonly T[]` / `ReadonlyArray<T>` | [文档](./kp037-readonly-array/README.md) · [源码](./kp037-readonly-array/src/main.ts) | 已完成 |
 | TS-KP038 | Tuple 基础 | [文档](./kp038-tuple-basics/README.md) · [源码](./kp038-tuple-basics/src/main.ts) | 已完成 |
 | TS-KP039 | 可选 Tuple 元素 | [文档](./kp039-optional-tuple-elements/README.md) · [源码](./kp039-optional-tuple-elements/src/main.ts) | 已完成 |
-| TS-KP040 | Rest Tuple 元素 | `kp040-rest-tuple-elements/` | 待生成 |
-| TS-KP041 | Named Tuple Elements | `kp041-named-tuple-elements/` | 待生成 |
-| TS-KP042 | Readonly Tuple | `kp042-readonly-tuple/` | 待生成 |
-| TS-KP043 | Variadic Tuple Types | `kp043-variadic-tuple-types/` | 待生成 |
+| TS-KP040 | Rest Tuple 元素 | [文档](./kp040-rest-tuple-elements/README.md) · [源码](./kp040-rest-tuple-elements/src/main.ts) | 已完成 |
+| TS-KP041 | Named Tuple Elements | [文档](./kp041-named-tuple-elements/README.md) · [源码](./kp041-named-tuple-elements/src/main.ts) | 已完成 |
+| TS-KP042 | Readonly Tuple | [文档](./kp042-readonly-tuple/README.md) · [源码](./kp042-readonly-tuple/src/main.ts) | 已完成 |
+| TS-KP043 | Variadic Tuple Types | [文档](./kp043-variadic-tuple-types/README.md) · [源码](./kp043-variadic-tuple-types/src/main.ts) | 已完成 |
 
 ### Lesson 03.2：对象类型
 
@@ -69,7 +69,7 @@
 
 ## 当前进度
 
-- Lesson 03.1：4/8 已完成。
+- Lesson 03.1：8/8 已完成。
 - Lesson 03.2：0/8。
-- Chapter 03：4/16 已完成。
-- 下一知识点：TS-KP040「Rest Tuple 元素」。
+- Chapter 03：8/16 已完成。
+- 数组与 Tuple 部分已完成，下一知识点：TS-KP044「匿名对象类型」。
