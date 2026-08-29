@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP084 - colgroup、col</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 2rem; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #888; padding: 0.5rem 0.75rem; }
+    .dimension-column { width: 10rem; background: #f6f6f6; }
+    .metric-column { width: 8rem; background: #fbfbfb; }
+    th:nth-child(n + 2), td:nth-child(n + 2) { text-align: right; }
+    pre { border: 1px solid #bbb; padding: 0.75rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>列分组</h1>
+
+    <table id="sales-table">
+      <caption>渠道销售数据</caption>
+      <colgroup>
+        <col class="dimension-column">
+        <col span="2" class="metric-column">
+      </colgroup>
+      <thead>
+        <tr><th>渠道</th><th>订单量</th><th>收入</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>官网</td><td>1280</td><td>38 万元</td></tr>
+        <tr><td>小程序</td><td>960</td><td>27 万元</td></tr>
+      </tbody>
+    </table>
+
+    <pre id="inspection"></pre>
+  </main>
+
+  <script>
+    const columns = [...document.querySelectorAll('#sales-table col')];
+    const representedCount = columns.reduce((total, column) => total + column.span, 0);
+    const details = columns.map((column, index) => {
+      return `COL ${index + 1}: span=${column.span}, class=${column.className}`;
+    });
+
+    document.querySelector('#inspection').textContent = [
+      `实际 col 元素数量: ${columns.length}`,
+      `合计表示逻辑列数: ${representedCount}`,
+      ...details
+    ].join('\n');
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP086 - headers 与 id</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 2rem; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #888; padding: 0.5rem 0.75rem; text-align: left; }
+    pre { border: 1px solid #bbb; padding: 0.75rem; margin-top: 1rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>复杂表头关联</h1>
+
+    <table id="quarter-table">
+      <caption>产品季度销量与收入</caption>
+      <thead>
+        <tr>
+          <th id="product" rowspan="2">产品</th>
+          <th id="q1" colspan="2">第一季度</th>
+          <th id="q2" colspan="2">第二季度</th>
+        </tr>
+        <tr>
+          <th id="q1-sales" headers="q1">销量</th>
+          <th id="q1-revenue" headers="q1">收入</th>
+          <th id="q2-sales" headers="q2">销量</th>
+          <th id="q2-revenue" headers="q2">收入</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="keyboard" scope="row">键盘</th>
+          <td headers="keyboard q1 q1-sales">120</td>
+          <td headers="keyboard q1 q1-revenue">3 万元</td>
+          <td headers="keyboard q2 q2-sales">150</td>
+          <td headers="keyboard q2 q2-revenue">4 万元</td>
+        </tr>
+        <tr>
+          <th id="mouse" scope="row">鼠标</th>
+          <td headers="mouse q1 q1-sales">200</td>
+          <td headers="mouse q1 q1-revenue">2 万元</td>
+          <td headers="mouse q2 q2-sales">240</td>
+          <td headers="mouse q2 q2-revenue">3 万元</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pre id="inspection"></pre>
+  </main>
+
+  <script>
+    const cells = [...document.querySelectorAll('#quarter-table td[headers]')];
+
+    const lines = cells.map(cell => {
+      const ids = cell.headers.trim().split(/\s+/);
+      const missing = ids.filter(id => !document.getElementById(id));
+      const labels = ids.map(id => document.getElementById(id)?.textContent.trim() ?? `[缺失:${id}]`);
+      return `${cell.textContent.trim()} → ${labels.join(' → ')}${missing.length ? `；缺失 ID: ${missing.join(', ')}` : ''}`;
+    });
+
+    document.querySelector('#inspection').textContent = [
+      'headers / id 解析结果：',
+      ...lines
+    ].join('\n');
+  </script>
+</body>
+</html>
