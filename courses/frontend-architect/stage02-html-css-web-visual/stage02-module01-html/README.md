@@ -27,7 +27,7 @@ kp001-standard-declaration/
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
-|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 6/16  |
+|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 12/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
@@ -170,12 +170,12 @@ kp001-standard-declaration/
 | KP068 | `figcaption` | 1. 图注语义<br>2. 与 `figure` 的归属<br>3. 前置和后置位置 | [文档](./06-media-embedding/kp068-figcaption-element/README.md) · [源码](./06-media-embedding/kp068-figcaption-element/index.html) | 已完成 |
 | KP069 | srcset | 1. 像素密度描述符<br>2. 宽度描述符<br>3. 浏览器候选选择 | [文档](./06-media-embedding/kp069-srcset/README.md) · [源码](./06-media-embedding/kp069-srcset/index.html) | 已完成 |
 | KP070 | sizes | 1. 图片插槽宽度<br>2. 媒体条件匹配<br>3. 与 `w` 描述符配合 | [文档](./06-media-embedding/kp070-sizes/README.md) · [源码](./06-media-embedding/kp070-sizes/index.html) | 已完成 |
-| KP071 | `picture` | 1. 艺术方向<br>2. `source` 匹配顺序<br>3. `img` 必需回退 | `kp071-picture-element/` | 待生成 |
-| KP072 | `source` 类型 | 1. `type` 格式提示<br>2. `media` 条件<br>3. 格式回退与请求选择 | `kp072-source-type/` | 待生成 |
-| KP073 | 控制与策略 | 1. `controls`<br>2. `autoplay`、`muted`、`playsinline`<br>3. `preload` 加载策略 | `kp073-media-controls-policy/` | 待生成 |
-| KP074 | 多资源回退 | 1. 多个 `source` 顺序<br>2. 媒体格式兼容<br>3. 最终提示内容 | `kp074-media-source-fallback/` | 待生成 |
-| KP075 | `track` | 1. 字幕轨道类型<br>2. `srclang` 与 `label`<br>3. 默认轨道和 cue | `kp075-track-element/` | 待生成 |
-| KP076 | 可访问替代 | 1. 字幕与文字稿<br>2. 音频描述<br>3. 无法播放时的内容替代 | `kp076-accessible-media-alternative/` | 待生成 |
+| KP071 | `picture` | 1. 艺术方向<br>2. `source` 匹配顺序<br>3. `img` 必需回退 | [文档](./06-media-embedding/kp071-picture-element/README.md) · [源码](./06-media-embedding/kp071-picture-element/index.html) | 已完成 |
+| KP072 | `source` 类型 | 1. `type` 格式提示<br>2. `media` 条件<br>3. 格式回退与请求选择 | [文档](./06-media-embedding/kp072-source-type/README.md) · [源码](./06-media-embedding/kp072-source-type/index.html) | 已完成 |
+| KP073 | 控制与策略 | 1. `controls`<br>2. `autoplay`、`muted`、`playsinline`<br>3. `preload` 加载策略 | [文档](./06-media-embedding/kp073-media-controls-policy/README.md) · [源码](./06-media-embedding/kp073-media-controls-policy/index.html) | 已完成 |
+| KP074 | 多资源回退 | 1. 多个 `source` 顺序<br>2. 媒体格式兼容<br>3. 最终提示内容 | [文档](./06-media-embedding/kp074-media-source-fallback/README.md) · [源码](./06-media-embedding/kp074-media-source-fallback/index.html) | 已完成 |
+| KP075 | `track` | 1. 字幕轨道类型<br>2. `srclang` 与 `label`<br>3. 默认轨道和 cue | [文档](./06-media-embedding/kp075-track-element/README.md) · [源码](./06-media-embedding/kp075-track-element/index.html) | 已完成 |
+| KP076 | 可访问替代 | 1. 字幕与文字稿<br>2. 音频描述<br>3. 无法播放时的内容替代 | [文档](./06-media-embedding/kp076-accessible-media-alternative/README.md) · [源码](./06-media-embedding/kp076-accessible-media-alternative/index.html) | 已完成 |
 | KP077 | 标题与尺寸 | 1. iframe 可访问标题<br>2. 宽高和纵横比<br>3. 布局稳定与边界 | `kp077-iframe-title-size/` | 待生成 |
 | KP078 | 懒加载 | 1. `loading="lazy"`<br>2. 首屏 iframe 选择<br>3. 网络与性能验证 | `kp078-iframe-lazy-loading/` | 待生成 |
 | KP079 | sandbox | 1. 默认限制集合<br>2. 常用许可令牌<br>3. 最小权限和组合风险 | `kp079-iframe-sandbox/` | 待生成 |
