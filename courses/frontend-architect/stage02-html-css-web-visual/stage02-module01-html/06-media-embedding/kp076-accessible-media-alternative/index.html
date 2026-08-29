@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP076 - 媒体可访问替代</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    video { display: block; max-width: 100%; background: #111; }
+    .status { padding: 12px; border: 1px solid #bbb; }
+    section { margin-top: 28px; padding-top: 10px; border-top: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>媒体的可访问替代</h1>
+
+  <video id="demo" controls preload="metadata" width="320" height="180">
+    <source src="./sample.mp4" type="video/mp4">
+    <track kind="captions" src="./captions-zh.vtt" srclang="zh-CN" label="中文字幕" default>
+    <track kind="descriptions" src="./descriptions-zh.vtt" srclang="zh-CN" label="画面描述">
+    当前浏览器不支持 video 元素，请阅读下方文字稿。
+  </video>
+
+  <p id="status" class="status">媒体状态：等待加载。</p>
+  <p><a href="./transcript.txt" download>下载文字稿 transcript.txt</a></p>
+
+  <section aria-labelledby="transcript-title">
+    <h2 id="transcript-title">文字稿</h2>
+    <p><strong>00:00–00:00.5：</strong>蓝色画面出现，播放一段短音调。</p>
+    <p><strong>00:00.5–00:01：</strong>画面保持稳定，音调结束。</p>
+    <p>本视频只用于学习媒体替代方案；即使不播放视频，上述文字也包含案例的核心信息。</p>
+  </section>
+
+  <script>
+    const video = document.querySelector('#demo');
+    const status = document.querySelector('#status');
+
+    video.addEventListener('loadedmetadata', () => {
+      status.textContent = `媒体状态：元数据已加载，时长约 ${video.duration.toFixed(2)} 秒；文本轨道 ${video.textTracks.length} 条。`;
+    });
+
+    video.addEventListener('error', () => {
+      status.textContent = '媒体无法播放：请直接阅读下方文字稿，或下载 transcript.txt。';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP074 - 媒体多资源回退</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    video { display: block; max-width: 100%; background: #111; }
+    pre { padding: 14px; background: #f5f5f5; }
+  </style>
+</head>
+<body>
+  <h1>媒体多资源回退</h1>
+
+  <video id="demo" controls preload="metadata" width="320" height="180">
+    <source src="./sample.webm" type="video/webm">
+    <source src="./sample.mp4" type="video/mp4">
+    当前浏览器不支持 video 元素。
+  </video>
+
+  <pre id="result">等待媒体元数据……</pre>
+
+  <script>
+    const video = document.querySelector('#demo');
+    const result = document.querySelector('#result');
+
+    function render() {
+      result.textContent = [
+        `WebM：${video.canPlayType('video/webm') || '(不支持/未知)'}`,
+        `MP4：${video.canPlayType('video/mp4') || '(不支持/未知)'}`,
+        `currentSrc：${video.currentSrc || '(尚未选择)'}`,
+        `networkState：${video.networkState}`,
+        `readyState：${video.readyState}`
+      ].join('\n');
+    }
+
+    video.addEventListener('loadedmetadata', render);
+    video.addEventListener('error', render);
+    render();
+  </script>
+</body>
+</html>
