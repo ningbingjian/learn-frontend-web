@@ -21,7 +21,7 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
   ↓
 选择策略
   ↓
-结构化类型
+结构化类型与名义类型边界
 ```
 
 ## 学习顺序
@@ -52,7 +52,7 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 | TS-KP061 | `type` 与 `interface` 相同点 | [文档](./kp061-type-interface-similarities/README.md) · [源码](./kp061-type-interface-similarities/src/main.ts) | 已完成 |
 | TS-KP062 | `type` 与 `interface` 差异 | [文档](./kp062-type-interface-differences/README.md) · [源码](./kp062-type-interface-differences/src/main.ts) | 已完成 |
 | TS-KP063 | 公共库 API 中的选择策略 | [文档](./kp063-public-api-choice-strategy/README.md) · [源码](./kp063-public-api-choice-strategy/src/main.ts) | 已完成 |
-| TS-KP064 | 结构化类型与名义类型的区别 | `kp064-structural-vs-nominal-typing/` | 待生成 |
+| TS-KP064 | 结构化类型与名义类型的区别 | [文档](./kp064-structural-vs-nominal-typing/README.md) · [源码](./kp064-structural-vs-nominal-typing/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -61,7 +61,7 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 3. 接口不仅能描述普通属性，也能描述继承、声明合并、调用签名和构造签名。
 4. `type` 与 `interface` 在对象建模上有很大重叠，但并不是完全相同的语法工具。
 5. 工程选型不要背“永远用 type”或“永远用 interface”的口号，应根据 API 是否需要开放扩展、是否表达 Union/Tuple/函数别名等实际需求决定。
-6. TypeScript 兼容性主要看结构，而不是 Java/C# 风格的显式名义关系。
+6. TypeScript 默认按结构判断兼容性；类的 `private` / `protected` 成员等规则会引入来源敏感的兼容限制。
 7. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
@@ -78,6 +78,6 @@ Chapter 03 已经能够直接写复杂对象结构，但如果同一结构在多
 
 - Lesson 04.1：3/3 已完成。
 - Lesson 04.2：6/6 已完成。
-- Lesson 04.3：3/4 已完成。
-- Chapter 04：12/13 已完成。
-- 下一知识点：TS-KP064「结构化类型与名义类型的区别」。
+- Lesson 04.3：4/4 已完成。
+- Chapter 04：13/13 已完成。
+- Chapter 04 已完成，下一步进入 Chapter 05 的 TS-KP065「参数类型」。
