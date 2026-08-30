@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP112 - time 元素</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    section { margin: 24px 0; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+    time { font-weight: 700; }
+    pre { white-space: pre-wrap; background: #f5f5f5; padding: 14px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>KP112：time 元素实验</h1>
+
+  <section>
+    <h2>不同日期时间语义</h2>
+    <p>发布日期：<time id="publish-date" datetime="2026-08-30">2026 年 8 月 30 日</time></p>
+    <p>线上会议：<time id="meeting-time" datetime="2026-08-30T20:30:00+08:00">今晚 8:30</time></p>
+    <p>每日开始时间：<time id="daily-time" datetime="20:30">20:30</time></p>
+    <p>课程时长：<time id="duration" datetime="PT2H30M">2 小时 30 分钟</time></p>
+  </section>
+
+  <section>
+    <h2>DOM 观察</h2>
+    <pre id="result"></pre>
+  </section>
+
+  <script>
+    const lines = [...document.querySelectorAll('time')].map((item) => {
+      return `${item.id}\n  展示文本: ${item.textContent.trim()}\n  datetime: ${item.dateTime}`;
+    });
+    document.querySelector('#result').textContent = lines.join('\n\n');
+  </script>
+</body>
+</html>
