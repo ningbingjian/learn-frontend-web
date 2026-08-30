@@ -11,13 +11,14 @@
 | RE-KP143 | Render 不等于 DOM 已更新 | 1. State Queue 2. Old DOM 3. Commit Boundary | [文档](./kp143-render-not-dom-updated/README.md) · [源码](./kp143-render-not-dom-updated/src/main.jsx) | 已完成 |
 | RE-KP144 | 组件函数为什么可以重复执行 | 1. Repeatable Render 2. StrictMode 3. Restart Safety | [文档](./kp144-component-function-repeatable/README.md) · [源码](./kp144-component-function-repeatable/src/main.jsx) | 已完成 |
 | RE-KP145 | Pure Render | 1. Same Input Same Output 2. No Side Effects 3. Local Mutation | [文档](./kp145-pure-render/README.md) · [源码](./kp145-pure-render/src/main.jsx) | 已完成 |
-| RE-KP146 | Reconciliation 基本目标 | 1. Previous Tree 2. Next Tree 3. Minimal Work | `kp146-reconciliation-goal/` | 待生成 |
-| RE-KP147 | Element Type 与身份比较 | 1. Type 2. Identity 3. Replace / Reuse | `kp147-element-type-identity/` | 待生成 |
-| RE-KP148 | Key 在 Reconciliation 中的作用 | 1. Sibling Identity 2. Stable Key 3. Move | `kp148-key-in-reconciliation/` | 待生成 |
-| RE-KP149 | DOM 节点复用与替换 | 1. Reuse 2. Replace 3. Host Node | `kp149-dom-node-reuse-replace/` | 待生成 |
-| RE-KP150 | Props 更新与 DOM 更新 | 1. Prop Diff 2. Attribute / Property 3. Minimal DOM Change | `kp150-props-dom-update/` | 待生成 |
+| RE-KP146 | Reconciliation 基本目标 | 1. Previous Tree 2. Next Tree 3. Minimal Work | [文档](./kp146-reconciliation-goal/README.md) · [源码](./kp146-reconciliation-goal/src/main.jsx) | 已完成 |
+| RE-KP147 | Element Type 与身份比较 | 1. Type 2. Identity 3. Replace / Reuse | [文档](./kp147-element-type-identity/README.md) · [源码](./kp147-element-type-identity/src/main.jsx) | 已完成 |
+| RE-KP148 | Key 在 Reconciliation 中的作用 | 1. Sibling Identity 2. Stable Key 3. Move | [文档](./kp148-key-in-reconciliation/README.md) · [源码](./kp148-key-in-reconciliation/src/main.jsx) | 已完成 |
+| RE-KP149 | DOM 节点复用与替换 | 1. Reuse 2. Replace 3. Host Node | [文档](./kp149-dom-node-reuse-replace/README.md) · [源码](./kp149-dom-node-reuse-replace/src/main.jsx) | 已完成 |
+| RE-KP150 | Props 更新与 DOM 更新 | 1. Prop Diff 2. Attribute / Property 3. Minimal DOM Change | [文档](./kp150-props-dom-update/README.md) · [源码](./kp150-props-dom-update/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 15：**5 / 10**
-- 下一知识点：**RE-KP146：Reconciliation 基本目标**
+- Chapter 15：**10 / 10，已完成**
+- 下一 Chapter：**Chapter 16：并发渲染、Transition 与 Deferred Value**
+- 下一知识点：**RE-KP151：Concurrent Rendering 的目标**
