@@ -27,9 +27,9 @@ kp001-standard-declaration/
 |  03 | [文本内容模型](#chapter-03)     | `03-text-semantics/`           |  14 | 14/14 |
 |  04 | [列表、区块和页面地标](#chapter-04) | `04-lists-landmarks/`          |  12 | 12/12 |
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
-|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 6/16  |
-|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 0/8   |
-|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 0/23  |
+|  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
+|  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
+|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 12/23 |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
 
@@ -170,16 +170,16 @@ kp001-standard-declaration/
 | KP068 | `figcaption` | 1. 图注语义<br>2. 与 `figure` 的归属<br>3. 前置和后置位置 | [文档](./06-media-embedding/kp068-figcaption-element/README.md) · [源码](./06-media-embedding/kp068-figcaption-element/index.html) | 已完成 |
 | KP069 | srcset | 1. 像素密度描述符<br>2. 宽度描述符<br>3. 浏览器候选选择 | [文档](./06-media-embedding/kp069-srcset/README.md) · [源码](./06-media-embedding/kp069-srcset/index.html) | 已完成 |
 | KP070 | sizes | 1. 图片插槽宽度<br>2. 媒体条件匹配<br>3. 与 `w` 描述符配合 | [文档](./06-media-embedding/kp070-sizes/README.md) · [源码](./06-media-embedding/kp070-sizes/index.html) | 已完成 |
-| KP071 | `picture` | 1. 艺术方向<br>2. `source` 匹配顺序<br>3. `img` 必需回退 | `kp071-picture-element/` | 待生成 |
-| KP072 | `source` 类型 | 1. `type` 格式提示<br>2. `media` 条件<br>3. 格式回退与请求选择 | `kp072-source-type/` | 待生成 |
-| KP073 | 控制与策略 | 1. `controls`<br>2. `autoplay`、`muted`、`playsinline`<br>3. `preload` 加载策略 | `kp073-media-controls-policy/` | 待生成 |
-| KP074 | 多资源回退 | 1. 多个 `source` 顺序<br>2. 媒体格式兼容<br>3. 最终提示内容 | `kp074-media-source-fallback/` | 待生成 |
-| KP075 | `track` | 1. 字幕轨道类型<br>2. `srclang` 与 `label`<br>3. 默认轨道和 cue | `kp075-track-element/` | 待生成 |
-| KP076 | 可访问替代 | 1. 字幕与文字稿<br>2. 音频描述<br>3. 无法播放时的内容替代 | `kp076-accessible-media-alternative/` | 待生成 |
-| KP077 | 标题与尺寸 | 1. iframe 可访问标题<br>2. 宽高和纵横比<br>3. 布局稳定与边界 | `kp077-iframe-title-size/` | 待生成 |
-| KP078 | 懒加载 | 1. `loading="lazy"`<br>2. 首屏 iframe 选择<br>3. 网络与性能验证 | `kp078-iframe-lazy-loading/` | 待生成 |
-| KP079 | sandbox | 1. 默认限制集合<br>2. 常用许可令牌<br>3. 最小权限和组合风险 | `kp079-iframe-sandbox/` | 待生成 |
-| KP080 | allow 与来源信任 | 1. Permissions Policy<br>2. 功能许可范围<br>3. 来源校验与跨窗口通信 | `kp080-iframe-permissions-trust/` | 待生成 |
+| KP071 | `picture` | 1. 艺术方向<br>2. `source` 匹配顺序<br>3. `img` 必需回退 | [文档](./06-media-embedding/kp071-picture-element/README.md) · [源码](./06-media-embedding/kp071-picture-element/index.html) | 已完成 |
+| KP072 | `source` 类型 | 1. `type` 格式提示<br>2. `media` 条件<br>3. 格式回退与请求选择 | [文档](./06-media-embedding/kp072-source-type/README.md) · [源码](./06-media-embedding/kp072-source-type/index.html) | 已完成 |
+| KP073 | 控制与策略 | 1. `controls`<br>2. `autoplay`、`muted`、`playsinline`<br>3. `preload` 加载策略 | [文档](./06-media-embedding/kp073-media-controls-policy/README.md) · [源码](./06-media-embedding/kp073-media-controls-policy/index.html) | 已完成 |
+| KP074 | 多资源回退 | 1. 多个 `source` 顺序<br>2. 媒体格式兼容<br>3. 最终提示内容 | [文档](./06-media-embedding/kp074-media-source-fallback/README.md) · [源码](./06-media-embedding/kp074-media-source-fallback/index.html) | 已完成 |
+| KP075 | `track` | 1. 字幕轨道类型<br>2. `srclang` 与 `label`<br>3. 默认轨道和 cue | [文档](./06-media-embedding/kp075-track-element/README.md) · [源码](./06-media-embedding/kp075-track-element/index.html) | 已完成 |
+| KP076 | 可访问替代 | 1. 字幕与文字稿<br>2. 音频描述<br>3. 无法播放时的内容替代 | [文档](./06-media-embedding/kp076-accessible-media-alternative/README.md) · [源码](./06-media-embedding/kp076-accessible-media-alternative/index.html) | 已完成 |
+| KP077 | 标题与尺寸 | 1. iframe 可访问标题<br>2. 宽高和纵横比<br>3. 布局稳定与边界 | [文档](./06-media-embedding/kp077-iframe-title-size/README.md) · [源码](./06-media-embedding/kp077-iframe-title-size/index.html) | 已完成 |
+| KP078 | 懒加载 | 1. `loading="lazy"`<br>2. 首屏 iframe 选择<br>3. 网络与性能验证 | [文档](./06-media-embedding/kp078-iframe-lazy-loading/README.md) · [源码](./06-media-embedding/kp078-iframe-lazy-loading/index.html) | 已完成 |
+| KP079 | sandbox | 1. 默认限制集合<br>2. 常用许可令牌<br>3. 最小权限和组合风险 | [文档](./06-media-embedding/kp079-iframe-sandbox/README.md) · [源码](./06-media-embedding/kp079-iframe-sandbox/index.html) | 已完成 |
+| KP080 | allow 与来源信任 | 1. Permissions Policy<br>2. 功能许可范围<br>3. 来源校验与跨窗口通信 | [文档](./06-media-embedding/kp080-iframe-permissions-trust/README.md) · [源码](./06-media-embedding/kp080-iframe-permissions-trust/index.html) | 已完成 |
 
 </details>
 
@@ -190,14 +190,14 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP081 | table、tr、td | 1. 表格数据适用场景<br>2. 行与数据单元格<br>3. 规则网格结构 | `kp081-table-tr-td/` | 待生成 |
-| KP082 | thead、tbody、tfoot | 1. 表头、主体和表尾分组<br>2. 解析器自动插入 `tbody`<br>3. 样式与脚本选择 | `kp082-table-sections/` | 待生成 |
-| KP083 | caption | 1. 表格标题<br>2. 可访问名称<br>3. 与周围正文的区别 | `kp083-table-caption/` | 待生成 |
-| KP084 | colgroup、col | 1. 列分组结构<br>2. `span` 跨列<br>3. 可设置样式的范围 | `kp084-colgroup-col/` | 待生成 |
-| KP085 | th 与 scope | 1. 行列标题单元格<br>2. `scope="row"`<br>3. `scope="col"` | `kp085-th-scope/` | 待生成 |
-| KP086 | headers 与 id | 1. 复杂表头标识<br>2. 数据格关联多个表头<br>3. 读屏关系验证 | `kp086-headers-id/` | 待生成 |
-| KP087 | rowspan、colspan | 1. 跨行跨列语法<br>2. 网格坐标变化<br>3. 复杂度与可访问性 | `kp087-rowspan-colspan/` | 待生成 |
-| KP088 | 小屏策略 | 1. 横向滚动容器<br>2. 关键列优先级<br>3. 保留表格语义的响应式方案 | `kp088-responsive-table/` | 待生成 |
+| KP081 | table、tr、td | 1. 表格数据适用场景<br>2. 行与数据单元格<br>3. 规则网格结构 | [文档](./07-data-tables/kp081-table-tr-td/README.md) · [源码](./07-data-tables/kp081-table-tr-td/index.html) | 已完成 |
+| KP082 | thead、tbody、tfoot | 1. 表头、主体和表尾分组<br>2. 解析器自动插入 `tbody`<br>3. 样式与脚本选择 | [文档](./07-data-tables/kp082-table-sections/README.md) · [源码](./07-data-tables/kp082-table-sections/index.html) | 已完成 |
+| KP083 | caption | 1. 表格标题<br>2. 可访问名称<br>3. 与周围正文的区别 | [文档](./07-data-tables/kp083-table-caption/README.md) · [源码](./07-data-tables/kp083-table-caption/index.html) | 已完成 |
+| KP084 | colgroup、col | 1. 列分组结构<br>2. `span` 跨列<br>3. 可设置样式的范围 | [文档](./07-data-tables/kp084-colgroup-col/README.md) · [源码](./07-data-tables/kp084-colgroup-col/index.html) | 已完成 |
+| KP085 | th 与 scope | 1. 行列标题单元格<br>2. `scope="row"`<br>3. `scope="col"` | [文档](./07-data-tables/kp085-th-scope/README.md) · [源码](./07-data-tables/kp085-th-scope/index.html) | 已完成 |
+| KP086 | headers 与 id | 1. 复杂表头标识<br>2. 数据格关联多个表头<br>3. 读屏关系验证 | [文档](./07-data-tables/kp086-headers-id/README.md) · [源码](./07-data-tables/kp086-headers-id/index.html) | 已完成 |
+| KP087 | rowspan、colspan | 1. 跨行跨列语法<br>2. 网格坐标变化<br>3. 复杂度与可访问性 | [文档](./07-data-tables/kp087-rowspan-colspan/README.md) · [源码](./07-data-tables/kp087-rowspan-colspan/index.html) | 已完成 |
+| KP088 | 小屏策略 | 1. 横向滚动容器<br>2. 关键列优先级<br>3. 保留表格语义的响应式方案 | [文档](./07-data-tables/kp088-responsive-table/README.md) · [源码](./07-data-tables/kp088-responsive-table/index.html) | 已完成 |
 
 </details>
 
@@ -208,18 +208,18 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP089 | action 与 method | 1. 提交目标地址<br>2. GET 查询参数<br>3. POST 请求体 | `kp089-form-action-method/` | 待生成 |
-| KP090 | enctype | 1. 默认 URL 编码<br>2. `multipart/form-data`<br>3. 文件上传与编码选择 | `kp090-form-enctype/` | 待生成 |
-| KP091 | name 与 value | 1. 成功控件规则<br>2. 键值对构造<br>3. 同名字段与 `FormData` | `kp091-control-name-value/` | 待生成 |
-| KP092 | disabled 与 readonly | 1. 可编辑性区别<br>2. 焦点和提交行为<br>3. 适用控件范围 | `kp092-disabled-readonly/` | 待生成 |
-| KP093 | text、search、email、url、tel | 1. 输入语义选择<br>2. 移动键盘提示<br>3. 内置校验与自动填充 | `kp093-text-like-inputs/` | 待生成 |
-| KP094 | password | 1. 密码遮挡<br>2. `autocomplete` 场景<br>3. 显示切换与安全边界 | `kp094-password-input/` | 待生成 |
-| KP095 | number、range | 1. 数值与范围输入<br>2. `min`、`max`、`step`<br>3. 精度和文本型数字边界 | `kp095-number-range-inputs/` | 待生成 |
-| KP096 | date、time 等 | 1. 日期时间控件类型<br>2. 提交值格式<br>3. 时区与浏览器回退 | `kp096-date-time-inputs/` | 待生成 |
-| KP097 | checkbox、radio | 1. 多选与单选语义<br>2. `checked` 和提交值<br>3. 同名分组 | `kp097-checkbox-radio/` | 待生成 |
-| KP098 | file、color、hidden | 1. 文件选择和 `accept`<br>2. 颜色值<br>3. 隐藏字段与信任边界 | `kp098-file-color-hidden/` | 待生成 |
-| KP099 | option、optgroup | 1. 选项值与文本<br>2. 选项分组标签<br>3. 默认选中和禁用状态 | `kp099-option-optgroup/` | 待生成 |
-| KP100 | 选型边界 | 1. `select` 与 radio<br>2. checkbox 与多选列表<br>3. 原生控件与自定义控件取舍 | `kp100-selection-control-boundary/` | 待生成 |
+| KP089 | action 与 method | 1. 提交目标地址<br>2. GET 查询参数<br>3. POST 请求体 | [文档](./08-forms-validation/kp089-form-action-method/README.md) · [源码](./08-forms-validation/kp089-form-action-method/index.html) | 已完成 |
+| KP090 | enctype | 1. 默认 URL 编码<br>2. `multipart/form-data`<br>3. 文件上传与编码选择 | [文档](./08-forms-validation/kp090-form-enctype/README.md) · [源码](./08-forms-validation/kp090-form-enctype/index.html) | 已完成 |
+| KP091 | name 与 value | 1. 成功控件规则<br>2. 键值对构造<br>3. 同名字段与 `FormData` | [文档](./08-forms-validation/kp091-control-name-value/README.md) · [源码](./08-forms-validation/kp091-control-name-value/index.html) | 已完成 |
+| KP092 | disabled 与 readonly | 1. 可编辑性区别<br>2. 焦点和提交行为<br>3. 适用控件范围 | [文档](./08-forms-validation/kp092-disabled-readonly/README.md) · [源码](./08-forms-validation/kp092-disabled-readonly/index.html) | 已完成 |
+| KP093 | text、search、email、url、tel | 1. 输入语义选择<br>2. 移动键盘提示<br>3. 内置校验与自动填充 | [文档](./08-forms-validation/kp093-text-like-inputs/README.md) · [源码](./08-forms-validation/kp093-text-like-inputs/index.html) | 已完成 |
+| KP094 | password | 1. 密码遮挡<br>2. `autocomplete` 场景<br>3. 显示切换与安全边界 | [文档](./08-forms-validation/kp094-password-input/README.md) · [源码](./08-forms-validation/kp094-password-input/index.html) | 已完成 |
+| KP095 | number、range | 1. 数值与范围输入<br>2. `min`、`max`、`step`<br>3. 精度和文本型数字边界 | [文档](./08-forms-validation/kp095-number-range-inputs/README.md) · [源码](./08-forms-validation/kp095-number-range-inputs/index.html) | 已完成 |
+| KP096 | date、time 等 | 1. 日期时间控件类型<br>2. 提交值格式<br>3. 时区与浏览器回退 | [文档](./08-forms-validation/kp096-date-time-inputs/README.md) · [源码](./08-forms-validation/kp096-date-time-inputs/index.html) | 已完成 |
+| KP097 | checkbox、radio | 1. 多选与单选语义<br>2. `checked` 和提交值<br>3. 同名分组 | [文档](./08-forms-validation/kp097-checkbox-radio/README.md) · [源码](./08-forms-validation/kp097-checkbox-radio/index.html) | 已完成 |
+| KP098 | file、color、hidden | 1. 文件选择和 `accept`<br>2. 颜色值<br>3. 隐藏字段与信任边界 | [文档](./08-forms-validation/kp098-file-color-hidden/README.md) · [源码](./08-forms-validation/kp098-file-color-hidden/index.html) | 已完成 |
+| KP099 | option、optgroup | 1. 选项值与文本<br>2. 选项分组标签<br>3. 默认选中和禁用状态 | [文档](./08-forms-validation/kp099-option-optgroup/README.md) · [源码](./08-forms-validation/kp099-option-optgroup/index.html) | 已完成 |
+| KP100 | 选型边界 | 1. `select` 与 radio<br>2. checkbox 与多选列表<br>3. 原生控件与自定义控件取舍 | [文档](./08-forms-validation/kp100-selection-control-boundary/README.md) · [源码](./08-forms-validation/kp100-selection-control-boundary/index.html) | 已完成 |
 | KP101 | 多行文本 | 1. `textarea` 初始值<br>2. `rows` 与 `cols`<br>3. 换行和长度限制 | `kp101-textarea/` | 待生成 |
 | KP102 | 按钮类型 | 1. `submit`<br>2. `button`<br>3. `reset` 与默认类型风险 | `kp102-button-type/` | 待生成 |
 | KP103 | 建议输入 | 1. `list` 关联<br>2. `datalist` 建议项<br>3. 建议与强制选项的区别 | `kp103-datalist/` | 待生成 |

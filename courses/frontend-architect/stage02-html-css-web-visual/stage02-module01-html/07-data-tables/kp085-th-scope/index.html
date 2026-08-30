@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP085 - th 与 scope</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 2rem; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #888; padding: 0.5rem 0.75rem; }
+    th { font-weight: normal; text-align: left; }
+    pre { border: 1px solid #bbb; padding: 0.75rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>行标题与列标题</h1>
+
+    <table id="sales-table">
+      <caption>产品季度销量</caption>
+      <thead>
+        <tr>
+          <th scope="col">产品</th>
+          <th scope="col">Q1 销量</th>
+          <th scope="col">Q2 销量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">键盘</th>
+          <td>120</td>
+          <td>150</td>
+        </tr>
+        <tr>
+          <th scope="row">鼠标</th>
+          <td>200</td>
+          <td>240</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pre id="inspection"></pre>
+  </main>
+
+  <script>
+    const table = document.querySelector('#sales-table');
+    const columnHeaders = [...table.tHead.rows[0].cells];
+    const headerReport = [...table.querySelectorAll('th')].map(header => {
+      return `${header.textContent.trim()} → scope=${header.scope}`;
+    });
+
+    const cellReport = [...table.tBodies[0].rows].flatMap(row => {
+      const rowHeader = row.querySelector('th[scope="row"]')?.textContent.trim();
+      return [...row.querySelectorAll('td')].map(cell => {
+        const columnHeader = columnHeaders[cell.cellIndex]?.textContent.trim();
+        return `${cell.textContent.trim()} → 行标题“${rowHeader}”，列标题“${columnHeader}”`;
+      });
+    });
+
+    document.querySelector('#inspection').textContent = [
+      'TH scope：',
+      ...headerReport,
+      '',
+      '教学版关联检查：',
+      ...cellReport
+    ].join('\n');
+  </script>
+</body>
+</html>

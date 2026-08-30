@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP080 iframe allow 与来源信任</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    iframe { width: min(100%, 720px); height: 300px; border: 1px solid currentColor; }
+    button { margin-block: 1rem; }
+    pre { padding: 1rem; background: #f4f4f4; min-height: 8rem; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>iframe allow 与来源信任</h1>
+  <p>本案例请通过 HTTP 服务运行，以获得可精确比较的 origin。</p>
+
+  <iframe
+    id="trusted-frame"
+    src="./trusted-child.html"
+    title="受信任组件通信示例"
+    allow="fullscreen; geolocation 'none'; camera 'none'; microphone 'none'"
+  ></iframe>
+
+  <div>
+    <button id="send-to-child" type="button">父页面向 iframe 发送可信消息</button>
+  </div>
+
+  <h2>安全检查日志</h2>
+  <pre id="log"></pre>
+
+  <script>
+    const frame = document.querySelector('#trusted-frame');
+    const log = document.querySelector('#log');
+    const trustedOrigin = location.origin;
+
+    function write(message) {
+      log.textContent += `${message}\n`;
+    }
+
+    write(`trustedOrigin = ${trustedOrigin}`);
+    write(`allow = ${frame.getAttribute('allow')}`);
+
+    window.addEventListener('message', event => {
+      if (event.origin !== trustedOrigin) {
+        write(`拒绝：origin 不匹配 (${event.origin})`);
+        return;
+      }
+
+      if (event.source !== frame.contentWindow) {
+        write('拒绝：source 不是目标 iframe');
+        return;
+      }
+
+      if (event.data?.type !== 'trusted-demo') {
+        write('拒绝：消息协议不匹配');
+        return;
+      }
+
+      write(`接受：${event.data.action} = ${event.data.value}`);
+    });
+
+    document.querySelector('#send-to-child').addEventListener('click', () => {
+      frame.contentWindow.postMessage({
+        type: 'parent-demo',
+        message: '来自可信父页面'
+      }, trustedOrigin);
+      write('父页面已使用具体 targetOrigin 发送消息');
+    });
+  </script>
+</body>
+</html>

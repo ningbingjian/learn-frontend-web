@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP089 action 与 method</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    form { display: grid; gap: 12px; padding: 18px; margin: 20px 0; border: 1px solid #bbb; border-radius: 10px; }
+    label { display: grid; gap: 4px; }
+    input, button { font: inherit; padding: 8px; }
+    button { width: max-content; }
+    pre { padding: 14px; border: 1px solid #bbb; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <h1>观察 form 的 action 与 method</h1>
+
+  <form id="search-form" action="/search" method="get">
+    <h2>GET：搜索</h2>
+    <label>
+      关键词
+      <input name="keyword" value="semantic html">
+    </label>
+    <button type="submit">搜索</button>
+  </form>
+
+  <form id="order-form" action="/orders" method="post">
+    <h2>POST：创建订单</h2>
+    <label>
+      商品编号
+      <input name="productId" value="A100">
+    </label>
+    <label>
+      数量
+      <input name="quantity" type="number" min="1" value="2">
+    </label>
+    <button type="submit">创建订单</button>
+  </form>
+
+  <h2>提交预览</h2>
+  <pre id="result">点击任一提交按钮观察结果。</pre>
+
+  <script>
+    function observeSubmission(form) {
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const data = new FormData(form);
+        const pairs = [...data.entries()];
+        const action = new URL(form.action, location.href);
+
+        if (form.method === 'get') {
+          action.search = new URLSearchParams(data).toString();
+        }
+
+        document.querySelector('#result').textContent = [
+          `method: ${form.method.toUpperCase()}`,
+          `action: ${action.href}`,
+          `FormData: ${JSON.stringify(pairs)}`,
+          form.method === 'post' ? 'POST 数据将进入请求体，而不是由本案例真的发送。' : ''
+        ].filter(Boolean).join('\n');
+      });
+    }
+
+    observeSubmission(document.querySelector('#search-form'));
+    observeSubmission(document.querySelector('#order-form'));
+  </script>
+</body>
+</html>

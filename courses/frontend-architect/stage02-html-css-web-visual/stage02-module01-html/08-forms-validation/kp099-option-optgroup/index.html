@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP099 option 与 optgroup</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    label { display: block; margin: 14px 0 6px; }
+    select { min-width: 240px; padding: 8px; }
+    pre { background: #f4f4f4; padding: 14px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>option 与 optgroup</h1>
+
+  <form id="demo-form">
+    <label for="city">常驻城市</label>
+    <select id="city" name="city" required>
+      <option value="" selected disabled>请选择城市</option>
+      <option value="beijing">北京</option>
+      <option value="shanghai">上海</option>
+    </select>
+
+    <label for="office">办公地点</label>
+    <select id="office" name="office">
+      <optgroup label="中国">
+        <option value="shanghai">上海</option>
+        <option value="shenzhen">深圳</option>
+      </optgroup>
+      <optgroup label="海外">
+        <option value="singapore">新加坡</option>
+        <option value="tokyo">东京</option>
+      </optgroup>
+      <optgroup label="筹备中" disabled>
+        <option value="sydney">悉尼</option>
+      </optgroup>
+    </select>
+
+    <label for="skills">技能（可多选）</label>
+    <select id="skills" name="skill" multiple size="4">
+      <option value="html" selected>HTML</option>
+      <option value="css">CSS</option>
+      <option value="javascript">JavaScript</option>
+      <option value="typescript">TypeScript</option>
+    </select>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.querySelector('#demo-form');
+    const city = document.querySelector('#city');
+    const skills = document.querySelector('#skills');
+    const result = document.querySelector('#result');
+
+    function optionInfo(select) {
+      return [...select.selectedOptions].map((option) => ({
+        text: option.textContent.trim(),
+        value: option.value,
+        disabled: option.disabled
+      }));
+    }
+
+    function inspect() {
+      const data = new FormData(form);
+      result.textContent = JSON.stringify({
+        citySelected: optionInfo(city),
+        skillsSelected: optionInfo(skills),
+        skillValues: data.getAll('skill'),
+        cityValid: city.validity.valid,
+        entries: [...data.entries()]
+      }, null, 2);
+    }
+
+    form.addEventListener('change', inspect);
+    inspect();
+  </script>
+</body>
+</html>

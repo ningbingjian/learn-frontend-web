@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP083 - caption</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 2rem; }
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #888; padding: 0.5rem 0.75rem; }
+    caption { caption-side: bottom; padding-top: 0.5rem; font-weight: 600; }
+    pre { border: 1px solid #bbb; padding: 0.75rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>季度经营数据</h1>
+    <p>本页汇总各渠道订单情况。页面标题负责页面主题，表格还拥有自己的标题。</p>
+
+    <table id="channel-table">
+      <caption>2026 Q2 各渠道订单量与收入</caption>
+      <thead>
+        <tr><th>渠道</th><th>订单量</th><th>收入</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>官网</td><td>1280</td><td>38 万元</td></tr>
+        <tr><td>小程序</td><td>960</td><td>27 万元</td></tr>
+      </tbody>
+    </table>
+
+    <pre id="inspection"></pre>
+  </main>
+
+  <script>
+    const table = document.querySelector('#channel-table');
+    document.querySelector('#inspection').textContent = [
+      `table.caption 标签: ${table.caption?.tagName}`,
+      `table.caption 文本: ${table.caption?.textContent.trim()}`,
+      `caption 视觉位置: ${getComputedStyle(table.caption).captionSide}`
+    ].join('\n');
+  </script>
+</body>
+</html>

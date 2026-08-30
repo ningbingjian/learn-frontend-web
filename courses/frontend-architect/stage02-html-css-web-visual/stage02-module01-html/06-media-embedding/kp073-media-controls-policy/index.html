@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP073 - 媒体控制与加载策略</title>
+  <style>
+    body { max-width: 820px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    video { display: block; max-width: 100%; background: #111; }
+    audio { width: 100%; }
+    pre { padding: 14px; background: #f5f5f5; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>媒体 controls 与策略属性</h1>
+
+  <h2>音频：preload="none"</h2>
+  <audio id="audio-demo" controls preload="none">
+    <source src="./tone.wav" type="audio/wav">
+    当前浏览器不支持 audio 元素。
+  </audio>
+
+  <h2>视频：autoplay + muted + playsinline</h2>
+  <video id="video-demo" controls autoplay muted playsinline preload="metadata" width="320" height="180">
+    <source src="./sample.mp4" type="video/mp4">
+    当前浏览器不支持 video 元素。
+  </video>
+
+  <pre id="result"></pre>
+
+  <script>
+    const audio = document.querySelector('#audio-demo');
+    const video = document.querySelector('#video-demo');
+    const result = document.querySelector('#result');
+
+    function render() {
+      result.textContent = [
+        `audio preload：${audio.preload}，paused：${audio.paused}，readyState：${audio.readyState}`,
+        `video autoplay：${video.autoplay}`,
+        `video muted：${video.muted}`,
+        `video playsInline：${video.playsInline}`,
+        `video preload：${video.preload}`,
+        `video paused：${video.paused}，readyState：${video.readyState}`
+      ].join('\n');
+    }
+
+    for (const media of [audio, video]) {
+      for (const event of ['loadedmetadata', 'play', 'pause', 'canplay']) {
+        media.addEventListener(event, render);
+      }
+    }
+    render();
+  </script>
+</body>
+</html>

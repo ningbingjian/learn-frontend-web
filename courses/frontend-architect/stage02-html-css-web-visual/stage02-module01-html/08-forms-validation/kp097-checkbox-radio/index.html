@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP097 checkbox 与 radio</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.7; }
+    fieldset { margin: 18px 0; padding: 16px; }
+    label { display: block; margin: 7px 0; }
+    pre { background: #f4f4f4; padding: 14px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>checkbox 与 radio</h1>
+
+  <form id="demo-form">
+    <fieldset>
+      <legend>独立开关</legend>
+      <label><input type="checkbox" name="newsletter" value="yes"> 订阅前端周报</label>
+      <label><input type="checkbox" name="defaultValueDemo" checked> 不写 value 的实验项</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>会哪些技能？（可多选）</legend>
+      <label><input type="checkbox" name="skill" value="html" checked> HTML</label>
+      <label><input type="checkbox" name="skill" value="css"> CSS</label>
+      <label><input type="checkbox" name="skill" value="javascript"> JavaScript</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>选择套餐（单选）</legend>
+      <label><input type="radio" name="plan" value="free" checked> Free</label>
+      <label><input type="radio" name="plan" value="pro"> Pro</label>
+      <label><input type="radio" name="plan" value="enterprise"> Enterprise</label>
+    </fieldset>
+  </form>
+
+  <h2>当前提交数据</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.querySelector('#demo-form');
+    const result = document.querySelector('#result');
+
+    function inspect() {
+      const data = new FormData(form);
+      const controls = [...form.querySelectorAll('input')].map((input) => ({
+        name: input.name,
+        value: input.value,
+        checked: input.checked
+      }));
+
+      result.textContent = JSON.stringify({
+        entries: [...data.entries()],
+        skills: data.getAll('skill'),
+        controls
+      }, null, 2);
+    }
+
+    form.addEventListener('change', inspect);
+    inspect();
+  </script>
+</body>
+</html>

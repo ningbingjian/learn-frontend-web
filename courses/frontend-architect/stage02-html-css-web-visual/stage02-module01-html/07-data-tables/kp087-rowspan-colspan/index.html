@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP087 rowspan 与 colspan</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #999; padding: 10px 12px; text-align: left; }
+    thead th { background: #f1f1f1; }
+    tbody th { background: #fafafa; }
+    pre { padding: 16px; background: #f6f6f6; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>区域月度销售表</h1>
+
+  <table id="sales-table">
+    <caption>2026 年 1～2 月区域销售额（万元）</caption>
+    <thead>
+      <tr>
+        <th rowspan="2" scope="col">区域</th>
+        <th rowspan="2" scope="col">城市</th>
+        <th colspan="2" scope="colgroup">销售额（万元）</th>
+      </tr>
+      <tr>
+        <th scope="col">1 月</th>
+        <th scope="col">2 月</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th rowspan="2" scope="rowgroup">华东</th>
+        <th scope="row">上海</th>
+        <td>120</td>
+        <td>132</td>
+      </tr>
+      <tr>
+        <th scope="row">杭州</th>
+        <td>98</td>
+        <td>105</td>
+      </tr>
+      <tr>
+        <th rowspan="2" scope="rowgroup">华南</th>
+        <th scope="row">广州</th>
+        <td>110</td>
+        <td>117</td>
+      </tr>
+      <tr>
+        <th scope="row">深圳</th>
+        <td>126</td>
+        <td>139</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>网格坐标观察</h2>
+  <p>下面的 JavaScript 会把 rowspan / colspan 展开成真实二维网格坐标。</p>
+  <pre id="result"></pre>
+
+  <script>
+    const table = document.querySelector('#sales-table');
+    const rows = [...table.rows];
+    const grid = [];
+    const details = [];
+
+    rows.forEach((row, rowIndex) => {
+      grid[rowIndex] ??= [];
+      let columnIndex = 0;
+
+      [...row.cells].forEach(cell => {
+        while (grid[rowIndex][columnIndex]) {
+          columnIndex += 1;
+        }
+
+        const rowSpan = cell.rowSpan;
+        const colSpan = cell.colSpan;
+        const label = cell.textContent.trim();
+
+        details.push(
+          `${cell.tagName.toLowerCase()} “${label}” -> 起点 R${rowIndex + 1}C${columnIndex + 1}, rowspan=${rowSpan}, colspan=${colSpan}`
+        );
+
+        for (let r = 0; r < rowSpan; r += 1) {
+          grid[rowIndex + r] ??= [];
+          for (let c = 0; c < colSpan; c += 1) {
+            grid[rowIndex + r][columnIndex + c] = label;
+          }
+        }
+
+        columnIndex += colSpan;
+      });
+    });
+
+    const visualGrid = grid.map((row, index) =>
+      `R${index + 1}: ${row.map((value, column) => `C${column + 1}=${value}`).join(' | ')}`
+    );
+
+    document.querySelector('#result').textContent = [
+      ...details,
+      '',
+      '展开后的二维网格：',
+      ...visualGrid
+    ].join('\n');
+  </script>
+</body>
+</html>

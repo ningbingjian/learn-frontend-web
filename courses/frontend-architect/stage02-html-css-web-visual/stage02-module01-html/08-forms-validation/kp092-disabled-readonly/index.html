@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP092 disabled 与 readonly</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    form { display: grid; gap: 14px; padding: 18px; border: 1px solid #bbb; border-radius: 10px; }
+    label { display: grid; gap: 4px; }
+    input, textarea, select, button { font: inherit; padding: 8px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    pre { padding: 14px; border: 1px solid #bbb; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <h1>观察 disabled 与 readonly</h1>
+
+  <form id="account-form">
+    <label>
+      显示名称
+      <input name="displayName" value="Alice">
+    </label>
+
+    <label>
+      账号编号（readonly）
+      <input id="account" name="account" value="A-100" readonly>
+    </label>
+
+    <label>
+      当前套餐（disabled）
+      <input id="plan" name="plan" value="enterprise" disabled>
+    </label>
+
+    <label>
+      备注（readonly textarea）
+      <textarea name="note" rows="2" readonly>只读备注仍会提交</textarea>
+    </label>
+
+    <label>
+      区域（disabled select）
+      <select name="region" disabled>
+        <option value="cn" selected>中国区</option>
+      </select>
+    </label>
+
+    <div class="actions">
+      <button type="button" id="inspect">检查 FormData</button>
+      <button type="button" id="toggle-readonly">切换 account readonly</button>
+      <button type="button" id="toggle-disabled">切换 plan disabled</button>
+    </div>
+  </form>
+
+  <h2>状态</h2>
+  <pre id="result">点击按钮观察结果。</pre>
+
+  <script>
+    const form = document.querySelector('#account-form');
+    const account = document.querySelector('#account');
+    const plan = document.querySelector('#plan');
+    const result = document.querySelector('#result');
+
+    function render() {
+      const data = new FormData(form);
+      result.textContent = [
+        `account.readOnly: ${account.readOnly}`,
+        `plan.disabled: ${plan.disabled}`,
+        `FormData: ${JSON.stringify([...data.entries()])}`,
+        `包含 account: ${data.has('account')}`,
+        `包含 plan: ${data.has('plan')}`
+      ].join('\n');
+    }
+
+    document.querySelector('#inspect').addEventListener('click', render);
+    document.querySelector('#toggle-readonly').addEventListener('click', () => {
+      account.readOnly = !account.readOnly;
+      render();
+    });
+    document.querySelector('#toggle-disabled').addEventListener('click', () => {
+      plan.disabled = !plan.disabled;
+      render();
+    });
+  </script>
+</body>
+</html>

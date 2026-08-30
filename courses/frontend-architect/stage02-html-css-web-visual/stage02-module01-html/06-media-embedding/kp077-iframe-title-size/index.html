@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP077 iframe 标题与尺寸</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    .frame-shell { width: min(100%, 800px); aspect-ratio: 16 / 9; }
+    .frame-shell iframe { width: 100%; height: 100%; border: 1px solid currentColor; }
+    pre { padding: 1rem; background: #f4f4f4; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>iframe 标题与尺寸</h1>
+  <p>缩窄浏览器窗口，观察 HTML 声明尺寸与最终渲染尺寸的区别。</p>
+
+  <div class="frame-shell">
+    <iframe
+      id="report-frame"
+      src="./embedded-page.html"
+      title="订单趋势报表"
+      width="800"
+      height="450"
+    ></iframe>
+  </div>
+
+  <h2>观察结果</h2>
+  <pre id="result"></pre>
+
+  <script>
+    const frame = document.querySelector('#report-frame');
+    const result = document.querySelector('#result');
+
+    function render() {
+      result.textContent = [
+        `title 属性：${frame.getAttribute('title')}`,
+        `src 属性：${frame.getAttribute('src')}`,
+        `HTML 声明尺寸：${frame.getAttribute('width')} × ${frame.getAttribute('height')}`,
+        `最终渲染尺寸：${frame.clientWidth} × ${frame.clientHeight}`
+      ].join('\n');
+    }
+
+    render();
+    window.addEventListener('resize', render);
+  </script>
+</body>
+</html>

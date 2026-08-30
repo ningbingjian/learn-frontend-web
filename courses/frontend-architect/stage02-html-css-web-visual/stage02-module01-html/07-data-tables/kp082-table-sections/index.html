@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP082 - thead、tbody、tfoot</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; margin: 2rem; }
+    table { border-collapse: collapse; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #888; padding: 0.45rem 0.7rem; }
+    thead { background: #f0f0f0; }
+    tfoot { background: #fafafa; }
+    pre { border: 1px solid #bbb; padding: 0.75rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>订单表格分组</h1>
+
+    <table id="orders">
+      <thead>
+        <tr>
+          <th>订单号</th>
+          <th>金额</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A001</td><td>299 元</td></tr>
+        <tr><td>A002</td><td>159 元</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>合计</td><td>458 元</td></tr>
+      </tfoot>
+    </table>
+
+    <h2>解析器自动插入 tbody</h2>
+    <table id="implicit-body">
+      <tr><td>B001</td><td>99 元</td></tr>
+    </table>
+
+    <pre id="inspection"></pre>
+  </main>
+
+  <script>
+    const table = document.querySelector('#orders');
+    const implicit = document.querySelector('#implicit-body');
+    const childTags = [...implicit.children].map(element => element.tagName);
+
+    document.querySelector('#inspection').textContent = [
+      `显式表格 tHead: ${table.tHead?.tagName}`,
+      `显式表格 tBodies 数量: ${table.tBodies.length}`,
+      `显式表格 tFoot: ${table.tFoot?.tagName}`,
+      `未写 tbody 的表格直接子元素: ${childTags.join(', ')}`
+    ].join('\n');
+  </script>
+</body>
+</html>

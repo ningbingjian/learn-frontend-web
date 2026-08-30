@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP090 form enctype</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    form { display: grid; gap: 12px; padding: 18px; border: 1px solid #bbb; border-radius: 10px; }
+    label { display: grid; gap: 4px; }
+    input, button { font: inherit; padding: 8px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    pre { padding: 14px; border: 1px solid #bbb; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <h1>观察 form 的 enctype</h1>
+
+  <form id="profile-form" action="/profile" method="post" enctype="multipart/form-data">
+    <label>
+      昵称
+      <input name="nickname" value="Alice & Bob">
+    </label>
+    <label>
+      头像文件
+      <input id="avatar" type="file" name="avatar">
+    </label>
+    <div class="actions">
+      <button type="button" id="inspect-urlencoded">观察 URL encoded</button>
+      <button type="button" id="inspect-multipart">观察 multipart/form-data</button>
+    </div>
+  </form>
+
+  <h2>编码预览</h2>
+  <pre id="result">点击按钮观察结果。</pre>
+
+  <script>
+    const form = document.querySelector('#profile-form');
+    const result = document.querySelector('#result');
+    const requestTarget = location.protocol === 'http:' || location.protocol === 'https:'
+      ? form.action
+      : 'https://example.test/profile';
+
+    document.querySelector('#inspect-urlencoded').addEventListener('click', () => {
+      const textOnly = new URLSearchParams();
+      textOnly.set('nickname', form.elements.nickname.value);
+
+      const request = new Request(requestTarget, {
+        method: 'POST',
+        body: textOnly
+      });
+
+      result.textContent = [
+        '模式：application/x-www-form-urlencoded',
+        `Content-Type: ${request.headers.get('content-type')}`,
+        `Body preview: ${textOnly.toString()}`
+      ].join('\n');
+    });
+
+    document.querySelector('#inspect-multipart').addEventListener('click', () => {
+      const data = new FormData(form);
+      const request = new Request(requestTarget, {
+        method: 'POST',
+        body: data
+      });
+      const file = data.get('avatar');
+
+      result.textContent = [
+        '模式：multipart/form-data',
+        `Content-Type: ${request.headers.get('content-type')}`,
+        `nickname: ${data.get('nickname')}`,
+        file instanceof File && file.name
+          ? `avatar: File(name=${file.name}, type=${file.type || 'unknown'}, size=${file.size})`
+          : 'avatar: 尚未选择文件'
+      ].join('\n');
+    });
+  </script>
+</body>
+</html>
