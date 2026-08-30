@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP096 日期与时间输入控件</title>
+  <style>
+    body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: system-ui, sans-serif; line-height: 1.6; }
+    label { display: block; margin-top: 14px; }
+    input, button { padding: 8px; margin-top: 5px; }
+    pre { background: #f4f4f4; padding: 14px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>日期与时间输入控件</h1>
+
+  <form id="demo-form">
+    <label for="day">日期</label>
+    <input id="day" name="day" type="date" min="2026-08-01" max="2026-08-31" value="2026-08-30">
+
+    <label for="meeting-time">时间（15 分钟步长）</label>
+    <input id="meeting-time" name="meetingTime" type="time" step="900" value="14:30">
+
+    <label for="appointment">本地日期时间</label>
+    <input id="appointment" name="appointment" type="datetime-local" value="2026-08-30T14:30">
+
+    <label for="billing-month">账单月份</label>
+    <input id="billing-month" name="billingMonth" type="month" value="2026-08">
+
+    <label for="sprint-week">迭代周</label>
+    <input id="sprint-week" name="sprintWeek" type="week" value="2026-W35">
+
+    <p><button type="submit">查看提交值</button></p>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.querySelector('#demo-form');
+    const result = document.querySelector('#result');
+
+    function inspect() {
+      const formValues = Object.fromEntries(new FormData(form).entries());
+      const controls = [...form.querySelectorAll('input')].map((input) => ({
+        name: input.name,
+        type: input.type,
+        value: input.value,
+        valid: input.validity.valid
+      }));
+
+      result.textContent = JSON.stringify({ formValues, controls }, null, 2);
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      inspect();
+    });
+
+    form.addEventListener('input', inspect);
+    inspect();
+  </script>
+</body>
+</html>
