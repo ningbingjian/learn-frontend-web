@@ -30,23 +30,23 @@
 | TS-KP037 | 只读数组 `readonly T[]` / `ReadonlyArray<T>` | [文档](./kp037-readonly-array/README.md) · [源码](./kp037-readonly-array/src/main.ts) | 已完成 |
 | TS-KP038 | Tuple 基础 | [文档](./kp038-tuple-basics/README.md) · [源码](./kp038-tuple-basics/src/main.ts) | 已完成 |
 | TS-KP039 | 可选 Tuple 元素 | [文档](./kp039-optional-tuple-elements/README.md) · [源码](./kp039-optional-tuple-elements/src/main.ts) | 已完成 |
-| TS-KP040 | Rest Tuple 元素 | `kp040-rest-tuple-elements/` | 待生成 |
-| TS-KP041 | Named Tuple Elements | `kp041-named-tuple-elements/` | 待生成 |
-| TS-KP042 | Readonly Tuple | `kp042-readonly-tuple/` | 待生成 |
-| TS-KP043 | Variadic Tuple Types | `kp043-variadic-tuple-types/` | 待生成 |
+| TS-KP040 | Rest Tuple 元素 | [文档](./kp040-rest-tuple-elements/README.md) · [源码](./kp040-rest-tuple-elements/src/main.ts) | 已完成 |
+| TS-KP041 | Named Tuple Elements | [文档](./kp041-named-tuple-elements/README.md) · [源码](./kp041-named-tuple-elements/src/main.ts) | 已完成 |
+| TS-KP042 | Readonly Tuple | [文档](./kp042-readonly-tuple/README.md) · [源码](./kp042-readonly-tuple/src/main.ts) | 已完成 |
+| TS-KP043 | Variadic Tuple Types | [文档](./kp043-variadic-tuple-types/README.md) · [源码](./kp043-variadic-tuple-types/src/main.ts) | 已完成 |
 
 ### Lesson 03.2：对象类型
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP044 | 匿名对象类型 | `kp044-anonymous-object-types/` | 待生成 |
-| TS-KP045 | 可选属性 | `kp045-optional-properties/` | 待生成 |
-| TS-KP046 | `readonly` 属性 | `kp046-readonly-properties/` | 待生成 |
-| TS-KP047 | 索引签名 | `kp047-index-signatures/` | 待生成 |
-| TS-KP048 | 数字索引与字符串索引 | `kp048-number-string-index/` | 待生成 |
-| TS-KP049 | Excess Property Checking | `kp049-excess-property-checking/` | 待生成 |
-| TS-KP050 | 对象字面量的新鲜度直觉 | `kp050-object-literal-freshness/` | 待生成 |
-| TS-KP051 | 嵌套对象类型设计 | `kp051-nested-object-type-design/` | 待生成 |
+| TS-KP044 | 匿名对象类型 | [文档](./kp044-anonymous-object-types/README.md) · [源码](./kp044-anonymous-object-types/src/main.ts) | 已完成 |
+| TS-KP045 | 可选属性 | [文档](./kp045-optional-properties/README.md) · [源码](./kp045-optional-properties/src/main.ts) | 已完成 |
+| TS-KP046 | `readonly` 属性 | [文档](./kp046-readonly-properties/README.md) · [源码](./kp046-readonly-properties/src/main.ts) | 已完成 |
+| TS-KP047 | 索引签名 | [文档](./kp047-index-signatures/README.md) · [源码](./kp047-index-signatures/src/main.ts) | 已完成 |
+| TS-KP048 | 数字索引与字符串索引 | [文档](./kp048-number-string-index/README.md) · [源码](./kp048-number-string-index/src/main.ts) | 已完成 |
+| TS-KP049 | Excess Property Checking | [文档](./kp049-excess-property-checking/README.md) · [源码](./kp049-excess-property-checking/src/main.ts) | 已完成 |
+| TS-KP050 | 对象字面量的新鲜度直觉 | [文档](./kp050-object-literal-freshness/README.md) · [源码](./kp050-object-literal-freshness/src/main.ts) | 已完成 |
+| TS-KP051 | 嵌套对象类型设计 | [文档](./kp051-nested-object-type-design/README.md) · [源码](./kp051-nested-object-type-design/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -69,7 +69,7 @@
 
 ## 当前进度
 
-- Lesson 03.1：4/8 已完成。
-- Lesson 03.2：0/8。
-- Chapter 03：4/16 已完成。
-- 下一知识点：TS-KP040「Rest Tuple 元素」。
+- Lesson 03.1：8/8 已完成。
+- Lesson 03.2：8/8 已完成。
+- Chapter 03：16/16 已完成。
+- Chapter 03 已完成，下一步进入 Chapter 04 的 TS-KP052「`type` 基础」。
