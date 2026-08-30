@@ -57,12 +57,12 @@ strictFunctionTypes / void 特殊规则
 
 ### Lesson 05.2：高级函数类型
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP073 | 函数重载 | `kp073-function-overloads/` | 待生成 |
-| TS-KP074 | Overload Signature 与 Implementation Signature | `kp074-overload-vs-implementation-signature/` | 待生成 |
-| TS-KP075 | `this` 参数 | `kp075-this-parameter/` | 待生成 |
-| TS-KP076 | 回调函数参数设计 | `kp076-callback-parameter-design/` | 待生成 |
+| TS-KP073 | 函数重载 | [文档](./kp073-function-overloads/README.md) · [源码](./kp073-function-overloads/src/main.ts) | 已完成 |
+| TS-KP074 | Overload Signature 与 Implementation Signature | [文档](./kp074-overload-vs-implementation-signature/README.md) · [源码](./kp074-overload-vs-implementation-signature/src/main.ts) | 已完成 |
+| TS-KP075 | `this` 参数 | [文档](./kp075-this-parameter/README.md) · [源码](./kp075-this-parameter/src/main.ts) | 已完成 |
+| TS-KP076 | 回调函数参数设计 | [文档](./kp076-callback-parameter-design/README.md) · [源码](./kp076-callback-parameter-design/src/main.ts) | 已完成 |
 | TS-KP077 | 函数参数数量兼容 | `kp077-parameter-count-compatibility/` | 待生成 |
 | TS-KP078 | 函数返回值兼容 | `kp078-return-type-compatibility/` | 待生成 |
 | TS-KP079 | `strictFunctionTypes` | `kp079-strict-function-types/` | 待生成 |
@@ -76,9 +76,13 @@ strictFunctionTypes / void 特殊规则
 4. `?`、默认值和 `| undefined` 看起来接近，但调用侧和函数体内语义并不完全相同。
 5. Rest 参数解决“不定数量参数”，进入函数体后是数组；不要和调用时的 Spread 参数混为一个概念。
 6. 函数类型表达式适合描述普通函数值；Call Signature / Construct Signature 用来描述更丰富的可调用或可构造对象能力。
-7. 不把 JavaScript 的“运行时允许少传、多传参数”直接等同于 TypeScript 的静态调用规则。
-8. 高级兼容规则统一放在 Lesson 05.2，不在基础课里提前混入太多 variance / bivariance 概念。
-9. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
+7. 函数重载用于描述同一个函数的多种合法调用形态；如果一个 Union 参数可以清楚表达同一契约，不要为了“高级”而滥用重载。
+8. Implementation Signature 服务于函数体实现，但重载函数的外部调用只根据 Overload Signatures 判断。
+9. `this` 参数是 TypeScript 的静态伪参数；真正的 JavaScript `this` 仍由调用方式决定。
+10. 回调类型描述的不只是“回调能接收什么”，也描述“调用方承诺会传什么”；不要把总会传入的参数错误标记为可选。
+11. 不把 JavaScript 的“运行时允许少传、多传参数”直接等同于 TypeScript 的静态调用规则。
+12. 函数数量兼容、返回值兼容、variance 与 `strictFunctionTypes` 继续放在后续知识点逐层展开。
+13. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -93,6 +97,6 @@ strictFunctionTypes / void 特殊规则
 ## 当前进度
 
 - Lesson 05.1：8/8 已完成。
-- Lesson 05.2：0/8。
-- Chapter 05：8/16 已完成。
-- Lesson 05.1 已完成，下一知识点：TS-KP073「函数重载」。
+- Lesson 05.2：4/8 已完成。
+- Chapter 05：12/16 已完成。
+- 下一知识点：TS-KP077「函数参数数量兼容」。
