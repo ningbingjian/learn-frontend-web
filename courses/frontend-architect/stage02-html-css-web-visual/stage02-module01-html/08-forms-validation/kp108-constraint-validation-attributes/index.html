@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP108 原生约束属性</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    main { max-width: 720px; margin: 0 auto; }
+    form, label { display: grid; gap: .75rem; }
+    form { padding: 1rem; border: 1px solid #bbb; border-radius: .5rem; }
+    input, button { padding: .55rem; font: inherit; }
+    pre { padding: 1rem; border: 1px solid #bbb; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>原生约束属性实验</h1>
+
+    <form id="profile-form">
+      <label>
+        用户名（3～12 个字符）
+        <input id="username" name="username" required minlength="3" maxlength="12" value="Li">
+      </label>
+
+      <label>
+        兑换码（格式：ABC-2026）
+        <input id="code" name="code" required pattern="[A-Z]{3}-[0-9]{4}" placeholder="ABC-2026" value="abc-2026">
+      </label>
+
+      <button type="submit">提交</button>
+    </form>
+
+    <h2>ValidityState</h2>
+    <pre id="state"></pre>
+
+    <h2>事件日志</h2>
+    <pre id="log">修改字段或提交表单。</pre>
+  </main>
+
+  <script>
+    const form = document.querySelector('#profile-form');
+    const username = document.querySelector('#username');
+    const code = document.querySelector('#code');
+    const state = document.querySelector('#state');
+    const log = document.querySelector('#log');
+
+    function inspect(input) {
+      return {
+        value: input.value,
+        valid: input.validity.valid,
+        valueMissing: input.validity.valueMissing,
+        tooShort: input.validity.tooShort,
+        tooLong: input.validity.tooLong,
+        patternMismatch: input.validity.patternMismatch
+      };
+    }
+
+    function renderState() {
+      state.textContent = JSON.stringify({
+        username: inspect(username),
+        code: inspect(code)
+      }, null, 2);
+    }
+
+    form.addEventListener('input', renderState);
+
+    form.addEventListener('invalid', event => {
+      log.textContent = `invalid：${event.target.name}\nvalidationMessage：${event.target.validationMessage}`;
+      renderState();
+    }, true);
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      log.textContent = '表单通过原生约束，可以进入提交逻辑。';
+      renderState();
+    });
+
+    renderState();
+  </script>
+</body>
+</html>
