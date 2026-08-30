@@ -4,7 +4,7 @@
 
 ## 章节定位
 
-前四章已经完成值类型、对象结构、`type`、`interface` 与结构化类型系统。本章开始把这些能力集中到 JavaScript 最核心的抽象之一：**函数**。
+前四章已经完成值类型、对象结构、`type`、`interface` 与结构化类型系统。本章把这些能力集中到 JavaScript 最核心的抽象之一：**函数**。
 
 TypeScript 中的函数类型不只是“给参数加几个类型”。一个完整的函数契约至少包含：
 
@@ -63,10 +63,10 @@ strictFunctionTypes / void 特殊规则
 | TS-KP074 | Overload Signature 与 Implementation Signature | [文档](./kp074-overload-vs-implementation-signature/README.md) · [源码](./kp074-overload-vs-implementation-signature/src/main.ts) | 已完成 |
 | TS-KP075 | `this` 参数 | [文档](./kp075-this-parameter/README.md) · [源码](./kp075-this-parameter/src/main.ts) | 已完成 |
 | TS-KP076 | 回调函数参数设计 | [文档](./kp076-callback-parameter-design/README.md) · [源码](./kp076-callback-parameter-design/src/main.ts) | 已完成 |
-| TS-KP077 | 函数参数数量兼容 | `kp077-parameter-count-compatibility/` | 待生成 |
-| TS-KP078 | 函数返回值兼容 | `kp078-return-type-compatibility/` | 待生成 |
-| TS-KP079 | `strictFunctionTypes` | `kp079-strict-function-types/` | 待生成 |
-| TS-KP080 | 回调中的 `void` 特殊规则 | `kp080-void-callback-rule/` | 待生成 |
+| TS-KP077 | 函数参数数量兼容 | [文档](./kp077-parameter-count-compatibility/README.md) · [源码](./kp077-parameter-count-compatibility/src/main.ts) | 已完成 |
+| TS-KP078 | 函数返回值兼容 | [文档](./kp078-return-type-compatibility/README.md) · [源码](./kp078-return-type-compatibility/src/main.ts) | 已完成 |
+| TS-KP079 | `strictFunctionTypes` | [文档](./kp079-strict-function-types/README.md) · [源码](./kp079-strict-function-types/src/main.ts) | 已完成 |
+| TS-KP080 | 回调中的 `void` 特殊规则 | [文档](./kp080-void-callback-rule/README.md) · [源码](./kp080-void-callback-rule/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -79,10 +79,12 @@ strictFunctionTypes / void 特殊规则
 7. 函数重载用于描述同一个函数的多种合法调用形态；如果一个 Union 参数可以清楚表达同一契约，不要为了“高级”而滥用重载。
 8. Implementation Signature 服务于函数体实现，但重载函数的外部调用只根据 Overload Signatures 判断。
 9. `this` 参数是 TypeScript 的静态伪参数；真正的 JavaScript `this` 仍由调用方式决定。
-10. 回调类型描述的不只是“回调能接收什么”，也描述“调用方承诺会传什么”；不要把总会传入的参数错误标记为可选。
-11. 不把 JavaScript 的“运行时允许少传、多传参数”直接等同于 TypeScript 的静态调用规则。
-12. 函数数量兼容、返回值兼容、variance 与 `strictFunctionTypes` 继续放在后续知识点逐层展开。
-13. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
+10. 回调类型应该从“调用方承诺会传什么”来设计；不要把总会传入的参数错误标记为可选。
+11. 函数参数数量兼容允许实现忽略调用者传入的额外参数，但不代表任意方向都兼容。
+12. 普通函数返回值兼容遵循结构化兼容：返回更具体结构的函数可以满足返回较窄结构的目标函数类型。
+13. `strictFunctionTypes` 让普通函数类型的参数检查更严格，避免把只能处理更具体输入的函数伪装成能处理更宽输入的函数。
+14. `() => void` 主要表达“调用方忽略返回值”，不要把它机械理解成“实现必须在运行时返回 undefined”。
+15. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -97,6 +99,6 @@ strictFunctionTypes / void 特殊规则
 ## 当前进度
 
 - Lesson 05.1：8/8 已完成。
-- Lesson 05.2：4/8 已完成。
-- Chapter 05：12/16 已完成。
-- 下一知识点：TS-KP077「函数参数数量兼容」。
+- Lesson 05.2：8/8 已完成。
+- Chapter 05：16/16 已完成。
+- Chapter 05 已完成，下一步进入 Chapter 06 的 TS-KP081「Union Types」。
