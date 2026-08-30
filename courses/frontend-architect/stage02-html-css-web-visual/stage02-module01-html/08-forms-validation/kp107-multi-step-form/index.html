@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP107 分步表单</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    main { max-width: 720px; margin: 0 auto; }
+    form, section { display: grid; gap: 1rem; }
+    section { padding: 1rem; border: 1px solid #bbb; border-radius: .5rem; }
+    label { display: grid; gap: .35rem; }
+    input { padding: .55rem; font: inherit; }
+    .actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+    button { padding: .55rem .9rem; font: inherit; }
+    pre { padding: 1rem; border: 1px solid #bbb; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>创建学习账号</h1>
+    <p id="progress" aria-live="polite"></p>
+
+    <form id="signup-form">
+      <section data-step="1">
+        <h2>账号信息</h2>
+        <label>
+          昵称
+          <input name="nickname" autocomplete="nickname" value="韩梅梅">
+        </label>
+        <div class="actions">
+          <button type="button" data-next>下一步</button>
+        </div>
+      </section>
+
+      <section data-step="2" hidden>
+        <h2>联系方式</h2>
+        <label>
+          邮箱
+          <input name="email" type="email" autocomplete="email" value="han@example.com">
+        </label>
+        <div class="actions">
+          <button type="button" data-prev>上一步</button>
+          <button type="button" data-next>下一步</button>
+        </div>
+      </section>
+
+      <section data-step="3" hidden>
+        <h2>确认提交</h2>
+        <p>返回上一步检查内容，或直接提交观察所有步骤的 FormData。</p>
+        <div class="actions">
+          <button type="button" data-prev>上一步</button>
+          <button type="submit">确认提交</button>
+        </div>
+      </section>
+    </form>
+
+    <p class="actions">
+      <button type="button" id="save-draft">保存草稿到 sessionStorage</button>
+      <button type="button" id="restore-draft">恢复草稿</button>
+      <button type="button" id="clear-draft">清除草稿</button>
+    </p>
+
+    <h2>实验输出</h2>
+    <pre id="output">尚未提交。</pre>
+  </main>
+
+  <script>
+    const form = document.querySelector('#signup-form');
+    const steps = [...form.querySelectorAll('[data-step]')];
+    const progress = document.querySelector('#progress');
+    const output = document.querySelector('#output');
+    const draftKey = 'kp107-draft';
+    let currentStep = 1;
+
+    function showStep(nextStep) {
+      currentStep = nextStep;
+
+      steps.forEach((step, index) => {
+        step.hidden = index + 1 !== currentStep;
+      });
+
+      const heading = steps[currentStep - 1].querySelector('h2').textContent;
+      progress.textContent = `第 ${currentStep} 步，共 ${steps.length} 步：${heading}`;
+    }
+
+    form.addEventListener('click', event => {
+      if (event.target.matches('[data-next]')) {
+        showStep(Math.min(currentStep + 1, steps.length));
+      }
+
+      if (event.target.matches('[data-prev]')) {
+        showStep(Math.max(currentStep - 1, 1));
+      }
+    });
+
+    document.querySelector('#save-draft').addEventListener('click', () => {
+      const draft = Object.fromEntries(new FormData(form));
+      sessionStorage.setItem(draftKey, JSON.stringify(draft));
+      output.textContent = `草稿已保存：\n${JSON.stringify(draft, null, 2)}`;
+    });
+
+    document.querySelector('#restore-draft').addEventListener('click', () => {
+      const draft = JSON.parse(sessionStorage.getItem(draftKey) || '{}');
+
+      for (const [name, value] of Object.entries(draft)) {
+        const control = form.elements.namedItem(name);
+        if (control) control.value = value;
+      }
+
+      output.textContent = `已恢复草稿：\n${JSON.stringify(draft, null, 2)}`;
+    });
+
+    document.querySelector('#clear-draft').addEventListener('click', () => {
+      sessionStorage.removeItem(draftKey);
+      output.textContent = '草稿已清除。';
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      output.textContent = `最终提交：\n${JSON.stringify(data, null, 2)}`;
+    });
+
+    showStep(1);
+  </script>
+</body>
+</html>
