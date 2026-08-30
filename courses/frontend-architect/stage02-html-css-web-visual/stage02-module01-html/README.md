@@ -29,7 +29,7 @@ kp001-standard-declaration/
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
-|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 12/23 |
+|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 18/23 |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
 
@@ -220,12 +220,12 @@ kp001-standard-declaration/
 | KP098 | file、color、hidden | 1. 文件选择和 `accept`<br>2. 颜色值<br>3. 隐藏字段与信任边界 | [文档](./08-forms-validation/kp098-file-color-hidden/README.md) · [源码](./08-forms-validation/kp098-file-color-hidden/index.html) | 已完成 |
 | KP099 | option、optgroup | 1. 选项值与文本<br>2. 选项分组标签<br>3. 默认选中和禁用状态 | [文档](./08-forms-validation/kp099-option-optgroup/README.md) · [源码](./08-forms-validation/kp099-option-optgroup/index.html) | 已完成 |
 | KP100 | 选型边界 | 1. `select` 与 radio<br>2. checkbox 与多选列表<br>3. 原生控件与自定义控件取舍 | [文档](./08-forms-validation/kp100-selection-control-boundary/README.md) · [源码](./08-forms-validation/kp100-selection-control-boundary/index.html) | 已完成 |
-| KP101 | 多行文本 | 1. `textarea` 初始值<br>2. `rows` 与 `cols`<br>3. 换行和长度限制 | `kp101-textarea/` | 待生成 |
-| KP102 | 按钮类型 | 1. `submit`<br>2. `button`<br>3. `reset` 与默认类型风险 | `kp102-button-type/` | 待生成 |
-| KP103 | 建议输入 | 1. `list` 关联<br>2. `datalist` 建议项<br>3. 建议与强制选项的区别 | `kp103-datalist/` | 待生成 |
-| KP104 | label | 1. 显式 `for` 关联<br>2. 隐式包裹关联<br>3. 点击区域与可访问名称 | `kp104-label/` | 待生成 |
-| KP105 | 帮助文本 | 1. 持久说明文字<br>2. `aria-describedby` 关联<br>3. placeholder 的使用边界 | `kp105-help-text/` | 待生成 |
-| KP106 | fieldset、legend | 1. 相关字段分组<br>2. 分组标题<br>3. 单选组与批量禁用 | `kp106-fieldset-legend/` | 待生成 |
+| KP101 | 多行文本 | 1. `textarea` 初始值<br>2. `rows` 与 `cols`<br>3. 换行和长度限制 | [文档](./08-forms-validation/kp101-textarea/README.md) · [源码](./08-forms-validation/kp101-textarea/index.html) | 已完成 |
+| KP102 | 按钮类型 | 1. `submit`<br>2. `button`<br>3. `reset` 与默认类型风险 | [文档](./08-forms-validation/kp102-button-type/README.md) · [源码](./08-forms-validation/kp102-button-type/index.html) | 已完成 |
+| KP103 | 建议输入 | 1. `list` 关联<br>2. `datalist` 建议项<br>3. 建议与强制选项的区别 | [文档](./08-forms-validation/kp103-datalist/README.md) · [源码](./08-forms-validation/kp103-datalist/index.html) | 已完成 |
+| KP104 | label | 1. 显式 `for` 关联<br>2. 隐式包裹关联<br>3. 点击区域与可访问名称 | [文档](./08-forms-validation/kp104-label/README.md) · [源码](./08-forms-validation/kp104-label/index.html) | 已完成 |
+| KP105 | 帮助文本 | 1. 持久说明文字<br>2. `aria-describedby` 关联<br>3. placeholder 的使用边界 | [文档](./08-forms-validation/kp105-help-text/README.md) · [源码](./08-forms-validation/kp105-help-text/index.html) | 已完成 |
+| KP106 | fieldset、legend | 1. 相关字段分组<br>2. 分组标题<br>3. 单选组与批量禁用 | [文档](./08-forms-validation/kp106-fieldset-legend/README.md) · [源码](./08-forms-validation/kp106-fieldset-legend/index.html) | 已完成 |
 | KP107 | 分步表单 | 1. 步骤结构<br>2. 当前步骤和进度提示<br>3. 状态保存与返回 | `kp107-multi-step-form/` | 待生成 |
 | KP108 | required、minlength、maxlength、pattern | 1. 必填与长度约束<br>2. 模式约束<br>3. 原生校验触发时机 | `kp108-constraint-validation-attributes/` | 待生成 |
 | KP109 | validity | 1. `ValidityState` 属性<br>2. `checkValidity()` 与 `reportValidity()`<br>3. 自定义校验消息 | `kp109-validity-state/` | 待生成 |

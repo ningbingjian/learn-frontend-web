@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP106 fieldset legend</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    form { max-width: 42rem; display: grid; gap: 1rem; }
+    fieldset { display: grid; gap: .65rem; }
+    label { display: block; }
+    input[type="text"] { width: 100%; box-sizing: border-box; padding: .6rem; }
+    .actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    output { display: block; white-space: pre-wrap; padding: 1rem; background: #f4f4f4; border-radius: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>KP106：fieldset 与 legend</h1>
+
+  <form id="checkout-form">
+    <fieldset>
+      <legend>付款方式</legend>
+      <label><input type="radio" name="payment" value="alipay" checked> 支付宝</label>
+      <label><input type="radio" name="payment" value="wechat"> 微信</label>
+      <label><input type="radio" name="payment" value="card"> 银行卡</label>
+    </fieldset>
+
+    <fieldset id="shipping" disabled>
+      <legend>备用收货地址</legend>
+      <label>城市 <input id="city" type="text" name="city" value="上海"></label>
+      <label>街道 <input id="street" type="text" name="street" value="示例路 100 号"></label>
+    </fieldset>
+
+    <div class="actions">
+      <button type="button" id="toggle">切换备用地址 fieldset.disabled</button>
+      <button type="button" id="inspect">检查当前状态</button>
+    </div>
+  </form>
+
+  <h2>实验输出</h2>
+  <output id="result"></output>
+
+  <script>
+    const form = document.querySelector('#checkout-form');
+    const shipping = document.querySelector('#shipping');
+    const city = document.querySelector('#city');
+    const street = document.querySelector('#street');
+    const result = document.querySelector('#result');
+
+    function render() {
+      const entries = [...new FormData(form).entries()];
+      result.textContent = [
+        `shipping.disabled: ${shipping.disabled}`,
+        `city.disabled（自身属性状态）: ${city.disabled}`,
+        `city.matches(":disabled"): ${city.matches(':disabled')}`,
+        `street.matches(":disabled"): ${street.matches(':disabled')}`,
+        `FormData: ${JSON.stringify(entries)}`
+      ].join('\n');
+    }
+
+    document.querySelector('#toggle').addEventListener('click', () => {
+      shipping.disabled = !shipping.disabled;
+      render();
+    });
+
+    document.querySelector('#inspect').addEventListener('click', render);
+    render();
+  </script>
+</body>
+</html>
