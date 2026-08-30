@@ -29,7 +29,7 @@ kp001-standard-declaration/
 |  05 | [超链接与导航](#chapter-05)     | `05-links-navigation/`         |   8 | 8/8   |
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
-|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 18/23 |
+|  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 23/23 |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
 
@@ -226,11 +226,11 @@ kp001-standard-declaration/
 | KP104 | label | 1. 显式 `for` 关联<br>2. 隐式包裹关联<br>3. 点击区域与可访问名称 | [文档](./08-forms-validation/kp104-label/README.md) · [源码](./08-forms-validation/kp104-label/index.html) | 已完成 |
 | KP105 | 帮助文本 | 1. 持久说明文字<br>2. `aria-describedby` 关联<br>3. placeholder 的使用边界 | [文档](./08-forms-validation/kp105-help-text/README.md) · [源码](./08-forms-validation/kp105-help-text/index.html) | 已完成 |
 | KP106 | fieldset、legend | 1. 相关字段分组<br>2. 分组标题<br>3. 单选组与批量禁用 | [文档](./08-forms-validation/kp106-fieldset-legend/README.md) · [源码](./08-forms-validation/kp106-fieldset-legend/index.html) | 已完成 |
-| KP107 | 分步表单 | 1. 步骤结构<br>2. 当前步骤和进度提示<br>3. 状态保存与返回 | `kp107-multi-step-form/` | 待生成 |
-| KP108 | required、minlength、maxlength、pattern | 1. 必填与长度约束<br>2. 模式约束<br>3. 原生校验触发时机 | `kp108-constraint-validation-attributes/` | 待生成 |
-| KP109 | validity | 1. `ValidityState` 属性<br>2. `checkValidity()` 与 `reportValidity()`<br>3. 自定义校验消息 | `kp109-validity-state/` | 待生成 |
-| KP110 | 字段错误 | 1. 错误与字段关联<br>2. 错误出现和清除时机<br>3. 首个错误聚焦与汇总 | `kp110-field-errors/` | 待生成 |
-| KP111 | 服务端错误 | 1. 服务端最终校验<br>2. 错误映射和数据保留<br>3. 通用错误与重试流程 | `kp111-server-errors/` | 待生成 |
+| KP107 | 分步表单 | 1. 步骤结构<br>2. 当前步骤和进度提示<br>3. 状态保存与返回 | [文档](./08-forms-validation/kp107-multi-step-form/README.md) · [源码](./08-forms-validation/kp107-multi-step-form/index.html) | 已完成 |
+| KP108 | required、minlength、maxlength、pattern | 1. 必填与长度约束<br>2. 模式约束<br>3. 原生校验触发时机 | [文档](./08-forms-validation/kp108-constraint-validation-attributes/README.md) · [源码](./08-forms-validation/kp108-constraint-validation-attributes/index.html) | 已完成 |
+| KP109 | validity | 1. `ValidityState` 属性<br>2. `checkValidity()` 与 `reportValidity()`<br>3. 自定义校验消息 | [文档](./08-forms-validation/kp109-validity-state/README.md) · [源码](./08-forms-validation/kp109-validity-state/index.html) | 已完成 |
+| KP110 | 字段错误 | 1. 错误与字段关联<br>2. 错误出现和清除时机<br>3. 首个错误聚焦与汇总 | [文档](./08-forms-validation/kp110-field-errors/README.md) · [源码](./08-forms-validation/kp110-field-errors/index.html) | 已完成 |
+| KP111 | 服务端错误 | 1. 服务端最终校验<br>2. 错误映射和数据保留<br>3. 通用错误与重试流程 | [文档](./08-forms-validation/kp111-server-errors/README.md) · [源码](./08-forms-validation/kp111-server-errors/index.html) | 已完成 |
 
 </details>
 
