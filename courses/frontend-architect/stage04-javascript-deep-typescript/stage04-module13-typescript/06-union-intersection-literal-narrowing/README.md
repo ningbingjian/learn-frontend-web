@@ -19,6 +19,10 @@ Intersection Types
   ↓
 Literal Types
   ↓
+有限业务状态
+  ↓
+Literal Union / Discriminated Union
+  ↓
 利用运行时判断缩小类型范围
   ↓
 Type Narrowing
@@ -36,15 +40,15 @@ Type Narrowing
 | TS-KP082 | Intersection Types | [文档](./kp082-intersection-types/README.md) · [源码](./kp082-intersection-types/src/main.ts) | 已完成 |
 | TS-KP083 | String Literal Types | [文档](./kp083-string-literal-types/README.md) · [源码](./kp083-string-literal-types/src/main.ts) | 已完成 |
 | TS-KP084 | Numeric / Boolean Literal Types | [文档](./kp084-numeric-boolean-literal-types/README.md) · [源码](./kp084-numeric-boolean-literal-types/src/main.ts) | 已完成 |
-| TS-KP085 | Literal Union | `kp085-literal-union/` | 待生成 |
-| TS-KP086 | 判别联合 Discriminated Union | `kp086-discriminated-union/` | 待生成 |
+| TS-KP085 | Literal Union | [文档](./kp085-literal-union/README.md) · [源码](./kp085-literal-union/src/main.ts) | 已完成 |
+| TS-KP086 | 判别联合 Discriminated Union | [文档](./kp086-discriminated-union/README.md) · [源码](./kp086-discriminated-union/src/main.ts) | 已完成 |
 
 ### Lesson 06.2：类型收窄
 
-| 编号 | 知识点 | 知识点目录 | 状态 |
+| 编号 | 知识点 | 文档与源码 | 状态 |
 |---|---|---|---|
-| TS-KP087 | `typeof` Narrowing | `kp087-typeof-narrowing/` | 待生成 |
-| TS-KP088 | Truthy / Falsy Narrowing | `kp088-truthiness-narrowing/` | 待生成 |
+| TS-KP087 | `typeof` Narrowing | [文档](./kp087-typeof-narrowing/README.md) · [源码](./kp087-typeof-narrowing/src/main.ts) | 已完成 |
+| TS-KP088 | Truthy / Falsy Narrowing | [文档](./kp088-truthiness-narrowing/README.md) · [源码](./kp088-truthiness-narrowing/src/main.ts) | 已完成 |
 | TS-KP089 | Equality Narrowing | `kp089-equality-narrowing/` | 待生成 |
 | TS-KP090 | `in` Operator Narrowing | `kp090-in-operator-narrowing/` | 待生成 |
 | TS-KP091 | `instanceof` Narrowing | `kp091-instanceof-narrowing/` | 待生成 |
@@ -61,10 +65,13 @@ Type Narrowing
 2. Union 值在没有收窄前，只能安全使用所有成员都保证存在的能力。
 3. `A & B` 表示一个值必须同时满足 A 和 B，常用于组合对象能力。
 4. Literal Type 描述的是某一个精确值，而不是整个 `string` / `number` / `boolean` 集合。
-5. Literal Union、Discriminated Union 统一放到后续知识点，不在单个 Literal Type 课程里提前展开。
-6. Narrowing 本质上是 TypeScript 根据运行时控制流证据缩小静态类型范围。
-7. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
-8. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
+5. Literal Union 用有限字面量集合表达有限业务取值，比宽泛 primitive 更精确。
+6. Discriminated Union 应把不同业务状态拆成独立成员，再使用共同的字面量字段区分成员，避免“一个大对象 + 大量可选字段”。
+7. Narrowing 本质上是 TypeScript 根据运行时控制流证据缩小静态类型范围。
+8. `typeof` Narrowing 依赖 JavaScript 真实的 `typeof` 结果，因此必须理解 `typeof null === "object"` 等运行时边界。
+9. Truthiness Narrowing 会遵循 JavaScript 的真值规则；空字符串、0、false 等合法业务值也可能被判定为 falsy。
+10. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
+11. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -78,7 +85,7 @@ Type Narrowing
 
 ## 当前进度
 
-- Lesson 06.1：4/6 已完成。
-- Lesson 06.2：0/11。
-- Chapter 06：4/17 已完成。
-- 下一知识点：TS-KP085「Literal Union」。
+- Lesson 06.1：6/6 已完成。
+- Lesson 06.2：2/11 已完成。
+- Chapter 06：8/17 已完成。
+- 下一知识点：TS-KP089「Equality Narrowing」。
