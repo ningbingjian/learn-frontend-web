@@ -50,10 +50,10 @@ strictFunctionTypes / void 特殊规则
 | TS-KP066 | 返回值类型 | [文档](./kp066-return-types/README.md) · [源码](./kp066-return-types/src/main.ts) | 已完成 |
 | TS-KP067 | 可选参数 | [文档](./kp067-optional-parameters/README.md) · [源码](./kp067-optional-parameters/src/main.ts) | 已完成 |
 | TS-KP068 | 默认参数 | [文档](./kp068-default-parameters/README.md) · [源码](./kp068-default-parameters/src/main.ts) | 已完成 |
-| TS-KP069 | Rest 参数 | `kp069-rest-parameters/` | 待生成 |
-| TS-KP070 | 函数类型表达式 | `kp070-function-type-expressions/` | 待生成 |
-| TS-KP071 | 调用签名 Call Signature | `kp071-call-signatures/` | 待生成 |
-| TS-KP072 | 构造签名 Construct Signature | `kp072-construct-signatures/` | 待生成 |
+| TS-KP069 | Rest 参数 | [文档](./kp069-rest-parameters/README.md) · [源码](./kp069-rest-parameters/src/main.ts) | 已完成 |
+| TS-KP070 | 函数类型表达式 | [文档](./kp070-function-type-expressions/README.md) · [源码](./kp070-function-type-expressions/src/main.ts) | 已完成 |
+| TS-KP071 | 调用签名 Call Signature | [文档](./kp071-call-signatures/README.md) · [源码](./kp071-call-signatures/src/main.ts) | 已完成 |
+| TS-KP072 | 构造签名 Construct Signature | [文档](./kp072-construct-signatures/README.md) · [源码](./kp072-construct-signatures/src/main.ts) | 已完成 |
 
 ### Lesson 05.2：高级函数类型
 
@@ -74,9 +74,11 @@ strictFunctionTypes / void 特殊规则
 2. 参数类型既约束调用者，也为函数体提供静态能力提示，不等于运行时参数校验。
 3. 返回值类型既可以推断，也可以显式声明；公共 API 是否显式声明要看稳定性与可读性需求。
 4. `?`、默认值和 `| undefined` 看起来接近，但调用侧和函数体内语义并不完全相同。
-5. 不把 JavaScript 的“运行时允许少传、多传参数”直接等同于 TypeScript 的静态调用规则。
-6. 高级兼容规则统一放在 Lesson 05.2，不在基础课里提前混入太多 variance / bivariance 概念。
-7. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
+5. Rest 参数解决“不定数量参数”，进入函数体后是数组；不要和调用时的 Spread 参数混为一个概念。
+6. 函数类型表达式适合描述普通函数值；Call Signature / Construct Signature 用来描述更丰富的可调用或可构造对象能力。
+7. 不把 JavaScript 的“运行时允许少传、多传参数”直接等同于 TypeScript 的静态调用规则。
+8. 高级兼容规则统一放在 Lesson 05.2，不在基础课里提前混入太多 variance / bivariance 概念。
+9. 每个知识点保留真实最终源码，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -90,7 +92,7 @@ strictFunctionTypes / void 特殊规则
 
 ## 当前进度
 
-- Lesson 05.1：4/8 已完成。
+- Lesson 05.1：8/8 已完成。
 - Lesson 05.2：0/8。
-- Chapter 05：4/16 已完成。
-- 下一知识点：TS-KP069「Rest 参数」。
+- Chapter 05：8/16 已完成。
+- Lesson 05.1 已完成，下一知识点：TS-KP073「函数重载」。
