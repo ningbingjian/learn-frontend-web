@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP102 按钮类型</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    form { max-width: 42rem; display: grid; gap: 1rem; }
+    input { display: block; width: 100%; box-sizing: border-box; padding: .6rem; }
+    .actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+    output { display: block; white-space: pre-wrap; margin-top: 1rem; padding: 1rem; background: #f4f4f4; border-radius: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>KP102：submit / button / reset</h1>
+
+  <form id="demo-form">
+    <label>
+      项目名称
+      <input id="project" name="project" value="HTML 学习计划">
+    </label>
+
+    <div class="actions">
+      <button type="submit" id="save">保存（submit）</button>
+      <button type="button" id="preview">预览（button）</button>
+      <button type="reset" id="reset">恢复默认值（reset）</button>
+      <button id="implicit">省略 type 的按钮</button>
+    </div>
+  </form>
+
+  <h2>事件日志</h2>
+  <output id="log"></output>
+
+  <script>
+    const form = document.querySelector('#demo-form');
+    const project = document.querySelector('#project');
+    const implicit = document.querySelector('#implicit');
+    const log = document.querySelector('#log');
+    const lines = [`页面加载：implicit.type = ${implicit.type}`];
+
+    function render(message) {
+      if (message) lines.push(message);
+      log.textContent = lines.slice(-8).join('\n');
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      render(`submit：submitter=${event.submitter?.id ?? 'unknown'}，project=${JSON.stringify(project.value)}`);
+    });
+
+    document.querySelector('#preview').addEventListener('click', () => {
+      render(`普通 button：只预览，不提交；project=${JSON.stringify(project.value)}`);
+    });
+
+    form.addEventListener('reset', () => {
+      setTimeout(() => {
+        render(`reset 后：project=${JSON.stringify(project.value)}，defaultValue=${JSON.stringify(project.defaultValue)}`);
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP103 datalist 建议输入</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    form { max-width: 36rem; display: grid; gap: .75rem; }
+    input { padding: .65rem; }
+    output { display: block; white-space: pre-wrap; margin-top: 1rem; padding: 1rem; background: #f4f4f4; border-radius: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>KP103：datalist 建议输入</h1>
+
+  <form id="demo-form">
+    <label for="framework">常用前端框架</label>
+    <input id="framework" name="framework" list="framework-options" autocomplete="off">
+
+    <datalist id="framework-options">
+      <option value="React"></option>
+      <option value="Vue"></option>
+      <option value="Angular"></option>
+      <option value="Solid"></option>
+    </datalist>
+
+    <button type="button" id="inspect">检查当前值</button>
+  </form>
+
+  <p>试试输入列表中没有的 <code>Svelte</code>，它仍然可以作为文本框当前值。</p>
+
+  <h2>实验输出</h2>
+  <output id="result"></output>
+
+  <script>
+    const form = document.querySelector('#demo-form');
+    const input = document.querySelector('#framework');
+    const datalist = document.querySelector('#framework-options');
+    const result = document.querySelector('#result');
+
+    function render() {
+      const values = [...datalist.options].map(option => option.value);
+      const data = new FormData(form);
+      result.textContent = [
+        `当前 input.value: ${JSON.stringify(input.value)}`,
+        `建议数量: ${values.length}`,
+        `是否精确命中建议: ${values.includes(input.value)}`,
+        `input.validity.valid: ${input.validity.valid}`,
+        `FormData.get("framework"): ${JSON.stringify(data.get('framework'))}`
+      ].join('\n');
+    }
+
+    document.querySelector('#inspect').addEventListener('click', render);
+    input.addEventListener('change', render);
+    render();
+  </script>
+</body>
+</html>
