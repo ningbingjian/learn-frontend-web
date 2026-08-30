@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP117 - meter</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+    section { margin: 24px 0; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+    meter, input[type="range"] { width: min(100%, 440px); display: block; margin: 8px 0 16px; }
+    meter { height: 28px; }
+    pre { background: #f5f5f5; padding: 14px; border-radius: 8px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>KP117：meter 元素实验</h1>
+
+  <section>
+    <label for="quality-meter">质量评分：<strong id="visible-value">72</strong> / 100</label>
+    <meter id="quality-meter" min="0" max="100" low="40" high="80" optimum="90" value="72">72 / 100</meter>
+
+    <label for="quality-input">调整评分</label>
+    <input id="quality-input" type="range" min="0" max="100" value="72">
+  </section>
+
+  <section>
+    <h2>DOM 观察</h2>
+    <pre id="result"></pre>
+  </section>
+
+  <script>
+    const meter = document.querySelector('#quality-meter');
+    const input = document.querySelector('#quality-input');
+    const visibleValue = document.querySelector('#visible-value');
+    const result = document.querySelector('#result');
+
+    function render() {
+      visibleValue.textContent = meter.value;
+      result.textContent = `min=${meter.min}\nmax=${meter.max}\nvalue=${meter.value}\nlow=${meter.low}\nhigh=${meter.high}\noptimum=${meter.optimum}`;
+    }
+
+    input.addEventListener('input', () => {
+      meter.value = Number(input.value);
+      meter.textContent = `${meter.value} / 100`;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
