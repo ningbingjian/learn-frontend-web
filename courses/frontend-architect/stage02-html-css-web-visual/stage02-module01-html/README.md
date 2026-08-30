@@ -30,7 +30,7 @@ kp001-standard-declaration/
 |  06 | [图片、音视频和嵌入](#chapter-06)  | `06-media-embedding/`          |  16 | 16/16 |
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 23/23 |
-|  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 0/8   |
+|  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 8/8   |
 |  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
 
 ## 状态说明
@@ -241,14 +241,14 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP112 | `time` | 1. 人类可读文本<br>2. `datetime` 机器值<br>3. 日期、时间和时长格式 | `kp112-time-element/` | 待生成 |
-| KP113 | `data` | 1. 展示文本与机器值<br>2. `value` 属性<br>3. 商品编号和枚举场景 | `kp113-data-element/` | 待生成 |
-| KP114 | `ins` 与 `del` | 1. 新增与删除语义<br>2. `datetime` 和 `cite`<br>3. 修订记录展示 | `kp114-ins-del/` | 待生成 |
-| KP115 | `s` 与删除区分 | 1. 不再准确或适用<br>2. 文档修订语义<br>3. 原价和过期信息场景 | `kp115-s-vs-del/` | 待生成 |
-| KP116 | `progress` | 1. 任务完成进度<br>2. `value` 与 `max`<br>3. 确定和不确定状态 | `kp116-progress-element/` | 待生成 |
-| KP117 | `meter` | 1. 已知范围内度量<br>2. `min`、`max`、`value`<br>3. `low`、`high`、`optimum` | `kp117-meter-element/` | 待生成 |
-| KP118 | `output` | 1. 计算结果语义<br>2. `for` 关联输入<br>3. 表单归属和值更新 | `kp118-output-element/` | 待生成 |
-| KP119 | 动态宣布 | 1. 动态结果变化<br>2. 可访问名称与状态<br>3. live region 宣布策略 | `kp119-live-updates/` | 待生成 |
+| KP112 | `time` | 1. 人类可读文本<br>2. `datetime` 机器值<br>3. 日期、时间和时长格式 | [文档](./09-machine-readable-content/kp112-time-element/README.md) · [源码](./09-machine-readable-content/kp112-time-element/index.html) | 已完成 |
+| KP113 | `data` | 1. 展示文本与机器值<br>2. `value` 属性<br>3. 商品编号和枚举场景 | [文档](./09-machine-readable-content/kp113-data-element/README.md) · [源码](./09-machine-readable-content/kp113-data-element/index.html) | 已完成 |
+| KP114 | `ins` 与 `del` | 1. 新增与删除语义<br>2. `datetime` 和 `cite`<br>3. 修订记录展示 | [文档](./09-machine-readable-content/kp114-ins-del/README.md) · [源码](./09-machine-readable-content/kp114-ins-del/index.html) | 已完成 |
+| KP115 | `s` 与删除区分 | 1. 不再准确或适用<br>2. 文档修订语义<br>3. 原价和过期信息场景 | [文档](./09-machine-readable-content/kp115-s-vs-del/README.md) · [源码](./09-machine-readable-content/kp115-s-vs-del/index.html) | 已完成 |
+| KP116 | `progress` | 1. 任务完成进度<br>2. `value` 与 `max`<br>3. 确定和不确定状态 | [文档](./09-machine-readable-content/kp116-progress-element/README.md) · [源码](./09-machine-readable-content/kp116-progress-element/index.html) | 已完成 |
+| KP117 | `meter` | 1. 已知范围内度量<br>2. `min`、`max`、`value`<br>3. `low`、`high`、`optimum` | [文档](./09-machine-readable-content/kp117-meter-element/README.md) · [源码](./09-machine-readable-content/kp117-meter-element/index.html) | 已完成 |
+| KP118 | `output` | 1. 计算结果语义<br>2. `for` 关联输入<br>3. 表单归属和值更新 | [文档](./09-machine-readable-content/kp118-output-element/README.md) · [源码](./09-machine-readable-content/kp118-output-element/index.html) | 已完成 |
+| KP119 | 动态宣布 | 1. 动态结果变化<br>2. 可访问名称与状态<br>3. live region 宣布策略 | [文档](./09-machine-readable-content/kp119-live-updates/README.md) · [源码](./09-machine-readable-content/kp119-live-updates/index.html) | 已完成 |
 
 </details>
 
