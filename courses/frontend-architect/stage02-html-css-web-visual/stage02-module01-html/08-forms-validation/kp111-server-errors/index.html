@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP111 服务端错误</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.6; }
+    main { max-width: 720px; margin: 0 auto; }
+    form, .field { display: grid; gap: .55rem; }
+    form { gap: 1rem; }
+    input, button { padding: .55rem; font: inherit; }
+    [aria-invalid="true"] { outline: 2px solid currentColor; }
+    .error { font-weight: 700; }
+    #form-error { padding: 1rem; border: 2px solid currentColor; margin-bottom: 1rem; }
+    pre { padding: 1rem; border: 1px solid #bbb; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>服务端错误实验</h1>
+    <p>实验值：<code>taken</code>、<code>server-error</code>、<code>demo@blocked.example</code>。</p>
+
+    <div id="form-error" role="alert" hidden>
+      <p id="form-error-message"></p>
+      <button type="button" id="retry">重试提交</button>
+    </div>
+
+    <form id="form">
+      <div class="field">
+        <label for="username">用户名</label>
+        <input id="username" name="username" required minlength="3" value="taken" aria-describedby="username-error">
+        <p id="username-error" class="error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="email">邮箱</label>
+        <input id="email" name="email" type="email" required value="demo@example.com" aria-describedby="email-error">
+        <p id="email-error" class="error" hidden></p>
+      </div>
+
+      <button id="submit" type="submit">注册</button>
+    </form>
+
+    <h2>请求日志</h2>
+    <pre id="log">尚未提交。</pre>
+  </main>
+
+  <script>
+    const form = document.querySelector('#form');
+    const submitButton = document.querySelector('#submit');
+    const formError = document.querySelector('#form-error');
+    const formErrorMessage = document.querySelector('#form-error-message');
+    const retry = document.querySelector('#retry');
+    const log = document.querySelector('#log');
+
+    const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+
+    async function fakeServer(data) {
+      await delay(500);
+      const username = String(data.username || '').toLowerCase();
+      const email = String(data.email || '').toLowerCase();
+
+      if (username === 'server-error') {
+        throw new Error('模拟服务器异常');
+      }
+
+      const fieldErrors = {};
+
+      if (username === 'taken') {
+        fieldErrors.username = '用户名已被占用，请换一个。';
+      }
+
+      if (email.endsWith('@blocked.example')) {
+        fieldErrors.email = '该邮箱域名不可用于注册。';
+      }
+
+      if (Object.keys(fieldErrors).length > 0) {
+        return { ok: false, status: 422, fieldErrors };
+      }
+
+      return { ok: true, status: 201 };
+    }
+
+    function clearFieldError(name) {
+      const input = form.elements.namedItem(name);
+      const error = document.querySelector(`#${name}-error`);
+      if (!input || !error) return;
+      input.removeAttribute('aria-invalid');
+      error.textContent = '';
+      error.hidden = true;
+    }
+
+    function showFieldError(name, message) {
+      const input = form.elements.namedItem(name);
+      const error = document.querySelector(`#${name}-error`);
+      if (!input || !error) return;
+      input.setAttribute('aria-invalid', 'true');
+      error.textContent = message;
+      error.hidden = false;
+    }
+
+    function clearAllErrors() {
+      ['username', 'email'].forEach(clearFieldError);
+      formError.hidden = true;
+      formErrorMessage.textContent = '';
+    }
+
+    function showFormError(message) {
+      formErrorMessage.textContent = message;
+      formError.hidden = false;
+    }
+
+    ['username', 'email'].forEach(name => {
+      form.elements.namedItem(name).addEventListener('input', () => {
+        clearFieldError(name);
+      });
+    });
+
+    retry.addEventListener('click', () => {
+      form.requestSubmit();
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      clearAllErrors();
+
+      if (!form.reportValidity()) {
+        log.textContent = '客户端原生约束未通过，没有发送请求。';
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form));
+      submitButton.disabled = true;
+      log.textContent = `正在提交：\n${JSON.stringify(data, null, 2)}`;
+
+      try {
+        const response = await fakeServer(data);
+
+        if (!response.ok) {
+          for (const [name, message] of Object.entries(response.fieldErrors)) {
+            showFieldError(name, message);
+          }
+
+          const firstName = Object.keys(response.fieldErrors)[0];
+          form.elements.namedItem(firstName)?.focus();
+          log.textContent = `服务端返回 ${response.status} 字段错误；用户输入已保留。`;
+          return;
+        }
+
+        log.textContent = `注册成功，模拟状态码：${response.status}`;
+      } catch (error) {
+        showFormError('服务暂时不可用，你填写的数据仍保留。请修改实验值或稍后重试。');
+        log.textContent = `通用错误：${error.message}`;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
