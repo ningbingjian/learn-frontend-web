@@ -15,9 +15,10 @@
 | RE-KP077 | 状态放置原则 | 1. Ownership 2. Closest Common Parent 3. Locality | [文档](./kp077-state-placement-principles/README.md) · [源码](./kp077-state-placement-principles/src/main.jsx) | 已完成 |
 | RE-KP078 | 状态生命周期设计 | 1. Create 2. Preserve 3. Reset / Dispose | [文档](./kp078-state-lifecycle-design/README.md) · [源码](./kp078-state-lifecycle-design/src/main.jsx) | 已完成 |
 | RE-KP079 | 状态归属与组件边界 | 1. Domain Owner 2. Component Boundary 3. API | [文档](./kp079-state-ownership-component-boundary/README.md) · [源码](./kp079-state-ownership-component-boundary/src/main.jsx) | 已完成 |
-| RE-KP080 | 有限状态思维 | 1. Valid States 2. Transitions 3. Impossible Combination | `kp080-finite-state-thinking/` | 待生成 |
+| RE-KP080 | 有限状态思维 | 1. Valid States 2. Transitions 3. Impossible Combination | [文档](./kp080-finite-state-thinking/README.md) · [源码](./kp080-finite-state-thinking/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 08：**9 / 10**
-- 下一知识点：**RE-KP080：有限状态思维**
+- Chapter 08：**10 / 10，已完成**
+- 下一 Chapter：**Chapter 09：Reducer 与 Context**
+- 下一知识点：**RE-KP081：useReducer 基础**
