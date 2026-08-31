@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP131 渐进增强与回退</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    [popover], dialog, #confirm-fallback { padding: 16px; border: 1px solid #888; border-radius: 10px; }
+    dialog::backdrop { background: rgb(0 0 0 / .35); }
+  </style>
+</head>
+<body>
+  <h1>渐进增强</h1>
+
+  <details>
+    <summary>基础帮助（无脚本也可用）</summary>
+    <p>这段内容只依赖原生 details/summary。</p>
+  </details>
+
+  <h2>快速帮助</h2>
+  <button popovertarget="quick-help" type="button">打开快速帮助</button>
+  <div id="quick-help" popover>支持 Popover 时我是浮层；旧环境应保持为普通可见内容。</div>
+
+  <h2>危险操作确认</h2>
+  <button id="open-dialog" type="button" hidden>使用 Dialog API 确认</button>
+  <section id="confirm-fallback">
+    <h3>删除确认（基础回退）</h3>
+    <p>当前页面保留普通确认内容，不让关键流程因 API 缺失而消失。</p>
+  </section>
+
+  <dialog id="confirm-dialog" hidden aria-labelledby="dialog-title">
+    <h3 id="dialog-title">删除确认</h3>
+    <p>现代环境使用 modal dialog 增强。</p>
+    <button id="close-dialog" type="button" autofocus>关闭</button>
+  </dialog>
+
+  <p id="status">JavaScript 未运行时显示基础回退。</p>
+
+  <script>
+    const supportsPopover = Object.hasOwn(HTMLElement.prototype, 'popover');
+    const supportsDialog = typeof HTMLDialogElement !== 'undefined' && 'showModal' in HTMLDialogElement.prototype;
+    const fallback = document.querySelector('#confirm-fallback');
+    const openButton = document.querySelector('#open-dialog');
+    const dialog = document.querySelector('#confirm-dialog');
+    const status = document.querySelector('#status');
+
+    if (supportsDialog) {
+      fallback.hidden = true;
+      openButton.hidden = false;
+      dialog.hidden = false;
+      openButton.addEventListener('click', () => dialog.showModal());
+      document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
+    }
+
+    status.textContent = `Popover API=${supportsPopover}；Dialog API=${supportsDialog}`;
+  </script>
+</body>
+</html>

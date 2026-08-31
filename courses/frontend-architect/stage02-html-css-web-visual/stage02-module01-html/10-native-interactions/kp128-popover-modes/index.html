@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP128 popover modes</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    [popover] { max-width: 360px; padding: 18px; border: 1px solid #777; border-radius: 10px; }
+    button { margin: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Popover auto / manual</h1>
+
+  <button popovertarget="auto-help" type="button">切换自动帮助</button>
+  <div id="auto-help" popover>
+    <strong>auto popover</strong>
+    <p>点击浮层外部可观察 light dismiss。</p>
+  </div>
+
+  <button popovertarget="manual-note" popovertargetaction="show" type="button">打开 manual 通知</button>
+  <div id="manual-note" popover="manual">
+    <strong>manual popover</strong>
+    <p>点击外部不会自动关闭。</p>
+    <button popovertarget="manual-note" popovertargetaction="hide" type="button">明确关闭</button>
+  </div>
+
+  <button id="background" type="button">背景按钮仍可操作</button>
+  <p id="state">等待操作。</p>
+
+  <script>
+    const auto = document.querySelector('#auto-help');
+    const manual = document.querySelector('#manual-note');
+    const state = document.querySelector('#state');
+    let clicks = 0;
+
+    function render() {
+      state.textContent = `auto=${auto.matches(':popover-open')}；manual=${manual.matches(':popover-open')}；背景点击=${clicks}`;
+    }
+    [auto, manual].forEach(item => item.addEventListener('toggle', render));
+    document.querySelector('#background').addEventListener('click', () => { clicks += 1; render(); });
+    render();
+  </script>
+</body>
+</html>
