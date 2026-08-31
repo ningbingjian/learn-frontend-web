@@ -13,11 +13,12 @@
 | RE-KP155 | isPending | 1. Pending Feedback 2. UX 3. Transition State | [文档](./kp155-is-pending/README.md) · [源码](./kp155-is-pending/src/main.jsx) | 已完成 |
 | RE-KP156 | Transition 中的异步更新 | 1. async Action 2. await 3. Nested Transition | [文档](./kp156-async-transition-updates/README.md) · [源码](./kp156-async-transition-updates/src/main.jsx) | 已完成 |
 | RE-KP157 | Action 与 Transition 的关系 | 1. Action 2. Transition 3. Async Flow | [文档](./kp157-action-transition-relationship/README.md) · [源码](./kp157-action-transition-relationship/src/main.jsx) | 已完成 |
-| RE-KP158 | useDeferredValue | 1. Deferred Value 2. Stale UI 3. Background Render | `kp158-use-deferred-value/` | 待生成 |
-| RE-KP159 | 延迟值与防抖的区别 | 1. Scheduling 2. Debounce 3. Network / Render | `kp159-deferred-vs-debounce/` | 待生成 |
-| RE-KP160 | 输入框与昂贵列表的分离 | 1. Urgent Input 2. Expensive Child 3. Responsive UI | `kp160-input-expensive-list-separation/` | 待生成 |
+| RE-KP158 | useDeferredValue | 1. Deferred Value 2. Stale UI 3. Background Render | [文档](./kp158-use-deferred-value/README.md) · [源码](./kp158-use-deferred-value/src/main.jsx) | 已完成 |
+| RE-KP159 | 延迟值与防抖的区别 | 1. Scheduling 2. Debounce 3. Network / Render | [文档](./kp159-deferred-vs-debounce/README.md) · [源码](./kp159-deferred-vs-debounce/src/main.jsx) | 已完成 |
+| RE-KP160 | 输入框与昂贵列表的分离 | 1. Urgent Input 2. Expensive Child 3. Responsive UI | [文档](./kp160-input-expensive-list-separation/README.md) · [源码](./kp160-input-expensive-list-separation/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 16：**7 / 10**
-- 下一知识点：**RE-KP158：useDeferredValue**
+- Chapter 16：**10 / 10，已完成**
+- 下一 Chapter：**Chapter 17：Suspense、Lazy、use 与资源读取**
+- 下一知识点：**RE-KP161：Suspense Boundary**
