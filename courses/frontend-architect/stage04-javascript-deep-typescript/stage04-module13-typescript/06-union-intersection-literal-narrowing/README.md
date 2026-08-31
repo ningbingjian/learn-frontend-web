@@ -53,10 +53,10 @@ Type Narrowing
 | TS-KP090 | `in` Operator Narrowing | [文档](./kp090-in-operator-narrowing/README.md) · [源码](./kp090-in-operator-narrowing/src/main.ts) | 已完成 |
 | TS-KP091 | `instanceof` Narrowing | [文档](./kp091-instanceof-narrowing/README.md) · [源码](./kp091-instanceof-narrowing/src/main.ts) | 已完成 |
 | TS-KP092 | 赋值导致的收窄 | [文档](./kp092-assignment-narrowing/README.md) · [源码](./kp092-assignment-narrowing/src/main.ts) | 已完成 |
-| TS-KP093 | 控制流分析 Control Flow Analysis | `kp093-control-flow-analysis/` | 待生成 |
-| TS-KP094 | 用户自定义 Type Predicate | `kp094-type-predicate/` | 待生成 |
-| TS-KP095 | Assertion Functions | `kp095-assertion-functions/` | 待生成 |
-| TS-KP096 | `never` 与穷尽检查 | `kp096-never-exhaustiveness/` | 待生成 |
+| TS-KP093 | 控制流分析 Control Flow Analysis | [文档](./kp093-control-flow-analysis/README.md) · [源码](./kp093-control-flow-analysis/src/main.ts) | 已完成 |
+| TS-KP094 | 用户自定义 Type Predicate | [文档](./kp094-type-predicate/README.md) · [源码](./kp094-type-predicate/src/main.ts) | 已完成 |
+| TS-KP095 | Assertion Functions | [文档](./kp095-assertion-functions/README.md) · [源码](./kp095-assertion-functions/src/main.ts) | 已完成 |
+| TS-KP096 | `never` 与穷尽检查 | [文档](./kp096-never-exhaustiveness/README.md) · [源码](./kp096-never-exhaustiveness/src/main.ts) | 已完成 |
 | TS-KP097 | 复杂状态机中的判别联合 | `kp097-state-machine-discriminated-union/` | 待生成 |
 
 ## 本章学习原则
@@ -74,8 +74,12 @@ Type Narrowing
 11. `in` Narrowing 利用 JavaScript 属性存在性判断缩小对象 Union；可选属性可能同时保留在 true / false 两个分支。
 12. `instanceof` Narrowing 依赖真实的 JavaScript 原型链与构造器值；`type` / `interface` 本身不能作为运行时 `instanceof` 右操作数。
 13. 赋值会改变变量在当前程序位置上的 observed type，但后续赋值是否合法仍然由变量的 declared type 决定。
-14. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
-15. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
+14. Control Flow Analysis 会综合 type guards、赋值、`return`、`throw` 与可达性，为同一个变量在不同程序位置计算不同的 observed type。
+15. Type Predicate 用 `parameter is Type` 把可复用运行时判断暴露为 Narrowing 契约；predicate 实现必须真实可靠，类型系统不会替你证明其语义正确。
+16. Assertion Function 用 `asserts condition` / `asserts value is Type` 表达“失败就终止流程”；正常返回后可直接收窄，但 assertion signature 不能替代真实 runtime validation。
+17. `never` 表示没有任何可能值；Discriminated Union 被完整处理后可以使用 `never` 做 Exhaustiveness Checking，让新增状态但漏写分支变成编译错误。
+18. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
+19. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -90,6 +94,6 @@ Type Narrowing
 ## 当前进度
 
 - Lesson 06.1：6/6 已完成。
-- Lesson 06.2：6/11 已完成。
-- Chapter 06：12/17 已完成。
-- 下一知识点：TS-KP093「控制流分析 Control Flow Analysis」。
+- Lesson 06.2：10/11 已完成。
+- Chapter 06：16/17 已完成。
+- 下一知识点：TS-KP097「复杂状态机中的判别联合」。
