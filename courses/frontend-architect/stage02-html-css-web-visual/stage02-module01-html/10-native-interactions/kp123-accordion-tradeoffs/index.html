@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP123 手风琴体验取舍</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+    details { margin: 12px 0; padding: 12px; border: 1px solid #aaa; border-radius: 8px; }
+    summary { cursor: pointer; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>帮助中心</h1>
+  <nav aria-label="帮助主题直达链接">
+    <a href="#billing">直接打开账单说明</a> ·
+    <a href="#account">直接打开账户说明</a>
+  </nav>
+
+  <details id="billing-panel">
+    <summary>账单说明</summary>
+    <p id="billing">年付会一次性扣款。</p>
+  </details>
+
+  <details id="account-panel">
+    <summary>账户说明</summary>
+    <p id="account">修改邮箱后需要重新验证。</p>
+  </details>
+
+  <p id="status">状态未保存。</p>
+
+  <script>
+    const panels = [...document.querySelectorAll('details')];
+    const status = document.querySelector('#status');
+
+    function revealHashTarget() {
+      if (!location.hash) return;
+      const target = document.querySelector(location.hash);
+      const panel = target?.closest('details');
+      if (panel) {
+        panel.open = true;
+        target.scrollIntoView({ block: 'center' });
+      }
+    }
+
+    const saved = sessionStorage.getItem('open-help');
+    const savedPanel = saved && document.getElementById(saved);
+    if (savedPanel) savedPanel.open = true;
+
+    panels.forEach(panel => panel.addEventListener('toggle', () => {
+      if (panel.open) {
+        sessionStorage.setItem('open-help', panel.id);
+        status.textContent = `已保存打开项：${panel.id}`;
+      } else if (sessionStorage.getItem('open-help') === panel.id) {
+        sessionStorage.removeItem('open-help');
+        status.textContent = '当前没有保存的打开项。';
+      }
+    }));
+
+    window.addEventListener('hashchange', revealHashTarget);
+    revealHashTarget();
+  </script>
+</body>
+</html>

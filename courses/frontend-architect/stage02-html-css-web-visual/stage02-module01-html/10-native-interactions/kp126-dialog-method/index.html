@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP126 method=dialog</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    dialog { border: 0; border-radius: 12px; padding: 24px; }
+    dialog::backdrop { background: rgb(0 0 0 / .35); }
+    form { display: grid; gap: 14px; }
+    .actions { display: flex; gap: 10px; }
+  </style>
+</head>
+<body>
+  <h1>套餐选择</h1>
+  <button id="open" type="button">选择套餐</button>
+  <p id="result">尚未选择。</p>
+
+  <dialog id="plan-dialog" aria-labelledby="title">
+    <form method="dialog">
+      <h2 id="title">选择套餐</h2>
+      <label for="plan">套餐</label>
+      <select id="plan" name="plan">
+        <option value="basic">基础版</option>
+        <option value="pro">专业版</option>
+      </select>
+      <div class="actions">
+        <button value="cancel">取消</button>
+        <button value="confirm">确认</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const dialog = document.querySelector('#plan-dialog');
+    const plan = document.querySelector('#plan');
+    const result = document.querySelector('#result');
+
+    document.querySelector('#open').addEventListener('click', () => {
+      dialog.returnValue = '';
+      dialog.showModal();
+    });
+
+    dialog.addEventListener('close', () => {
+      result.textContent = `returnValue=${dialog.returnValue || '(空)'}；当前套餐=${plan.value}`;
+    });
+  </script>
+</body>
+</html>

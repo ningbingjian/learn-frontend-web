@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP125 dialog showModal</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    dialog { max-width: 420px; border: 0; border-radius: 12px; padding: 24px; }
+    dialog::backdrop { background: rgb(0 0 0 / 0.45); }
+    .actions { display: flex; gap: 12px; }
+  </style>
+</head>
+<body>
+  <h1>模态删除确认</h1>
+  <button id="open" type="button">删除项目</button>
+  <button id="background" type="button">背景操作</button>
+  <p id="status">背景按钮点击：0 次</p>
+
+  <dialog id="delete-dialog" aria-labelledby="dialog-title">
+    <h2 id="dialog-title">删除项目？</h2>
+    <p>删除后无法恢复。</p>
+    <div class="actions">
+      <button id="cancel" type="button" autofocus>取消</button>
+      <button id="confirm" type="button">确认删除</button>
+    </div>
+  </dialog>
+
+  <script>
+    const dialog = document.querySelector('#delete-dialog');
+    const status = document.querySelector('#status');
+    let count = 0;
+
+    document.querySelector('#open').addEventListener('click', () => dialog.showModal());
+    document.querySelector('#cancel').addEventListener('click', () => dialog.close('cancel'));
+    document.querySelector('#confirm').addEventListener('click', () => dialog.close('confirm'));
+    document.querySelector('#background').addEventListener('click', () => {
+      count += 1;
+      status.textContent = `背景按钮点击：${count} 次`;
+    });
+    dialog.addEventListener('close', () => {
+      status.textContent = `dialog 已关闭，returnValue=${dialog.returnValue || '(空)'}`;
+    });
+  </script>
+</body>
+</html>
