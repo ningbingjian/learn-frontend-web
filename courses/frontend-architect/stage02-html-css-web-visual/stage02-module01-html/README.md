@@ -31,7 +31,7 @@ kp001-standard-declaration/
 |  07 | [数据表格](#chapter-07)       | `07-data-tables/`              |   8 | 8/8   |
 |  08 | [表单结构、控件与校验](#chapter-08) | `08-forms-validation/`         |  23 | 23/23 |
 |  09 | [时间、修改和度量语义](#chapter-09) | `09-machine-readable-content/` |   8 | 8/8   |
-|  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 0/12  |
+|  10 | [披露、弹窗与轻量浮层](#chapter-10) | `10-native-interactions/`      |  12 | 12/12 |
 
 ## 状态说明
 
@@ -259,18 +259,18 @@ kp001-standard-declaration/
 
 | 编号 | 知识点 | 包含内容 | 知识点目录 | 状态 |
 |---|---|---|---|---|
-| KP120 | 内容模型 | 1. `details` 与 `summary`<br>2. `open` 状态<br>3. 原生键盘交互 | `kp120-details-content-model/` | 待生成 |
-| KP121 | 合适场景 | 1. 补充信息披露<br>2. FAQ 和说明区<br>3. 不应隐藏的重要内容 | `kp121-details-use-cases/` | 待生成 |
-| KP122 | name 分组 | 1. 同名 details 分组<br>2. 单项展开行为<br>3. 兼容性和回退 | `kp122-details-name-group/` | 待生成 |
-| KP123 | 体验取舍 | 1. 原生交互优势<br>2. 状态保存和深链接<br>3. 动画与搜索可发现性 | `kp123-accordion-tradeoffs/` | 待生成 |
-| KP124 | open 与 show | 1. `open` 属性直接展示<br>2. `show()` 非模态打开<br>3. 关闭和焦点行为 | `kp124-dialog-open-show/` | 待生成 |
-| KP125 | showModal | 1. 模态顶层显示<br>2. 背景不可交互<br>3. 初始焦点和焦点约束 | `kp125-dialog-show-modal/` | 待生成 |
-| KP126 | method=dialog | 1. 对话框内表单<br>2. 提交即关闭<br>3. 按钮值与 `returnValue` | `kp126-dialog-method/` | 待生成 |
-| KP127 | 取消与恢复 | 1. Esc 与 `cancel` 事件<br>2. `close` 事件<br>3. 触发元素焦点恢复 | `kp127-dialog-cancel-focus-restore/` | 待生成 |
-| KP128 | popover 模式 | 1. `auto` 模式<br>2. `manual` 模式<br>3. 显示隐藏生命周期 | `kp128-popover-modes/` | 待生成 |
-| KP129 | invoker | 1. `popovertarget`<br>2. 显示、隐藏和切换动作<br>3. 声明式触发关系 | `kp129-popover-invoker/` | 待生成 |
-| KP130 | 与 dialog 区分 | 1. 模态需求<br>2. 焦点和背景交互<br>3. 菜单、提示与确认场景 | `kp130-popover-vs-dialog/` | 待生成 |
-| KP131 | 渐进增强 | 1. 功能支持检测<br>2. 无脚本基础内容<br>3. 不支持环境的替代交互 | `kp131-progressive-enhancement-fallback/` | 待生成 |
+| KP120 | 内容模型 | 1. `details` 与 `summary`<br>2. `open` 状态<br>3. 原生键盘交互 | [文档](./10-native-interactions/kp120-details-content-model/README.md) · [源码](./10-native-interactions/kp120-details-content-model/index.html) | 已完成 |
+| KP121 | 合适场景 | 1. 补充信息披露<br>2. FAQ 和说明区<br>3. 不应隐藏的重要内容 | [文档](./10-native-interactions/kp121-details-use-cases/README.md) · [源码](./10-native-interactions/kp121-details-use-cases/index.html) | 已完成 |
+| KP122 | name 分组 | 1. 同名 details 分组<br>2. 单项展开行为<br>3. 兼容性和回退 | [文档](./10-native-interactions/kp122-details-name-group/README.md) · [源码](./10-native-interactions/kp122-details-name-group/index.html) | 已完成 |
+| KP123 | 体验取舍 | 1. 原生交互优势<br>2. 状态保存和深链接<br>3. 动画与搜索可发现性 | [文档](./10-native-interactions/kp123-accordion-tradeoffs/README.md) · [源码](./10-native-interactions/kp123-accordion-tradeoffs/index.html) | 已完成 |
+| KP124 | open 与 show | 1. `open` 属性直接展示<br>2. `show()` 非模态打开<br>3. 关闭和焦点行为 | [文档](./10-native-interactions/kp124-dialog-open-show/README.md) · [源码](./10-native-interactions/kp124-dialog-open-show/index.html) | 已完成 |
+| KP125 | showModal | 1. 模态顶层显示<br>2. 背景不可交互<br>3. 初始焦点和焦点约束 | [文档](./10-native-interactions/kp125-dialog-show-modal/README.md) · [源码](./10-native-interactions/kp125-dialog-show-modal/index.html) | 已完成 |
+| KP126 | method=dialog | 1. 对话框内表单<br>2. 提交即关闭<br>3. 按钮值与 `returnValue` | [文档](./10-native-interactions/kp126-dialog-method/README.md) · [源码](./10-native-interactions/kp126-dialog-method/index.html) | 已完成 |
+| KP127 | 取消与恢复 | 1. Esc 与 `cancel` 事件<br>2. `close` 事件<br>3. 触发元素焦点恢复 | [文档](./10-native-interactions/kp127-dialog-cancel-focus-restore/README.md) · [源码](./10-native-interactions/kp127-dialog-cancel-focus-restore/index.html) | 已完成 |
+| KP128 | popover 模式 | 1. `auto` 模式<br>2. `manual` 模式<br>3. 显示隐藏生命周期 | [文档](./10-native-interactions/kp128-popover-modes/README.md) · [源码](./10-native-interactions/kp128-popover-modes/index.html) | 已完成 |
+| KP129 | invoker | 1. `popovertarget`<br>2. 显示、隐藏和切换动作<br>3. 声明式触发关系 | [文档](./10-native-interactions/kp129-popover-invoker/README.md) · [源码](./10-native-interactions/kp129-popover-invoker/index.html) | 已完成 |
+| KP130 | 与 dialog 区分 | 1. 模态需求<br>2. 焦点和背景交互<br>3. 菜单、提示与确认场景 | [文档](./10-native-interactions/kp130-popover-vs-dialog/README.md) · [源码](./10-native-interactions/kp130-popover-vs-dialog/index.html) | 已完成 |
+| KP131 | 渐进增强 | 1. 功能支持检测<br>2. 无脚本基础内容<br>3. 不支持环境的替代交互 | [文档](./10-native-interactions/kp131-progressive-enhancement-fallback/README.md) · [源码](./10-native-interactions/kp131-progressive-enhancement-fallback/index.html) | 已完成 |
 
 </details>
 
