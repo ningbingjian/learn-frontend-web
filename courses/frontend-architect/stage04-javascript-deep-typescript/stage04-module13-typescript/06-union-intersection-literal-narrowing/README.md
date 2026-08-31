@@ -49,10 +49,10 @@ Type Narrowing
 |---|---|---|---|
 | TS-KP087 | `typeof` Narrowing | [文档](./kp087-typeof-narrowing/README.md) · [源码](./kp087-typeof-narrowing/src/main.ts) | 已完成 |
 | TS-KP088 | Truthy / Falsy Narrowing | [文档](./kp088-truthiness-narrowing/README.md) · [源码](./kp088-truthiness-narrowing/src/main.ts) | 已完成 |
-| TS-KP089 | Equality Narrowing | `kp089-equality-narrowing/` | 待生成 |
-| TS-KP090 | `in` Operator Narrowing | `kp090-in-operator-narrowing/` | 待生成 |
-| TS-KP091 | `instanceof` Narrowing | `kp091-instanceof-narrowing/` | 待生成 |
-| TS-KP092 | 赋值导致的收窄 | `kp092-assignment-narrowing/` | 待生成 |
+| TS-KP089 | Equality Narrowing | [文档](./kp089-equality-narrowing/README.md) · [源码](./kp089-equality-narrowing/src/main.ts) | 已完成 |
+| TS-KP090 | `in` Operator Narrowing | [文档](./kp090-in-operator-narrowing/README.md) · [源码](./kp090-in-operator-narrowing/src/main.ts) | 已完成 |
+| TS-KP091 | `instanceof` Narrowing | [文档](./kp091-instanceof-narrowing/README.md) · [源码](./kp091-instanceof-narrowing/src/main.ts) | 已完成 |
+| TS-KP092 | 赋值导致的收窄 | [文档](./kp092-assignment-narrowing/README.md) · [源码](./kp092-assignment-narrowing/src/main.ts) | 已完成 |
 | TS-KP093 | 控制流分析 Control Flow Analysis | `kp093-control-flow-analysis/` | 待生成 |
 | TS-KP094 | 用户自定义 Type Predicate | `kp094-type-predicate/` | 待生成 |
 | TS-KP095 | Assertion Functions | `kp095-assertion-functions/` | 待生成 |
@@ -70,8 +70,12 @@ Type Narrowing
 7. Narrowing 本质上是 TypeScript 根据运行时控制流证据缩小静态类型范围。
 8. `typeof` Narrowing 依赖 JavaScript 真实的 `typeof` 结果，因此必须理解 `typeof null === "object"` 等运行时边界。
 9. Truthiness Narrowing 会遵循 JavaScript 的真值规则；空字符串、0、false 等合法业务值也可能被判定为 falsy。
-10. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
-11. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
+10. Equality Narrowing 会利用 `===`、`!==`、`==`、`!=`、`switch` 等比较证据缩小类型；`value == null` 是同时处理 `null | undefined` 的常见精确写法。
+11. `in` Narrowing 利用 JavaScript 属性存在性判断缩小对象 Union；可选属性可能同时保留在 true / false 两个分支。
+12. `instanceof` Narrowing 依赖真实的 JavaScript 原型链与构造器值；`type` / `interface` 本身不能作为运行时 `instanceof` 右操作数。
+13. 赋值会改变变量在当前程序位置上的 observed type，但后续赋值是否合法仍然由变量的 declared type 决定。
+14. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
+15. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -86,6 +90,6 @@ Type Narrowing
 ## 当前进度
 
 - Lesson 06.1：6/6 已完成。
-- Lesson 06.2：2/11 已完成。
-- Chapter 06：8/17 已完成。
-- 下一知识点：TS-KP089「Equality Narrowing」。
+- Lesson 06.2：6/11 已完成。
+- Chapter 06：12/17 已完成。
+- 下一知识点：TS-KP093「控制流分析 Control Flow Analysis」。
