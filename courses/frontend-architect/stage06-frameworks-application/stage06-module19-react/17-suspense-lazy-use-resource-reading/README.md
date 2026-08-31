@@ -9,15 +9,15 @@
 | RE-KP161 | Suspense Boundary | 1. Boundary 2. Suspend 3. Closest Parent | [文档](./kp161-suspense-boundary/README.md) · [源码](./kp161-suspense-boundary/src/main.jsx) | 已完成 |
 | RE-KP162 | fallback | 1. Loading UI 2. Boundary Replacement 3. UX | [文档](./kp162-suspense-fallback/README.md) · [源码](./kp162-suspense-fallback/src/main.jsx) | 已完成 |
 | RE-KP163 | 嵌套 Suspense | 1. Nested Boundary 2. Loading Sequence 3. Progressive Reveal | [文档](./kp163-nested-suspense/README.md) · [源码](./kp163-nested-suspense/src/main.jsx) | 已完成 |
-| RE-KP164 | Reveal 顺序与 UX | 1. Reveal Together 2. Progressive Reveal 3. Design Boundary | `kp164-reveal-order-ux/` | 待生成 |
-| RE-KP165 | lazy | 1. Dynamic Import 2. Lazy Component 3. Suspense | `kp165-lazy/` | 待生成 |
-| RE-KP166 | 组件级代码分割 | 1. Chunk 2. Boundary 3. Loading Cost | `kp166-component-code-splitting/` | 待生成 |
-| RE-KP167 | Suspense 与路由框架的关系 | 1. Router 2. Framework 3. Suspense-enabled Data | `kp167-suspense-router-framework/` | 待生成 |
-| RE-KP168 | use 读取 Promise | 1. use(Promise) 2. Suspend 3. Cached Promise | `kp168-use-read-promise/` | 待生成 |
-| RE-KP169 | use 读取 Context | 1. use(Context) 2. Conditional Read 3. Closest Provider | `kp169-use-read-context/` | 待生成 |
+| RE-KP164 | Reveal 顺序与 UX | 1. Reveal Together 2. Progressive Reveal 3. Design Boundary | [文档](./kp164-reveal-order-ux/README.md) · [源码](./kp164-reveal-order-ux/src/main.jsx) | 已完成 |
+| RE-KP165 | lazy | 1. Dynamic Import 2. Lazy Component 3. Suspense | [文档](./kp165-lazy/README.md) · [源码](./kp165-lazy/src/main.jsx) | 已完成 |
+| RE-KP166 | 组件级代码分割 | 1. Chunk 2. Boundary 3. Loading Cost | [文档](./kp166-component-code-splitting/README.md) · [源码](./kp166-component-code-splitting/src/main.jsx) | 已完成 |
+| RE-KP167 | Suspense 与路由框架的关系 | 1. Router 2. Framework 3. Suspense-enabled Data | [文档](./kp167-suspense-router-framework/README.md) · [源码](./kp167-suspense-router-framework/src/main.jsx) | 已完成 |
+| RE-KP168 | use 读取 Promise | 1. use(Promise) 2. Suspend 3. Cached Promise | [文档](./kp168-use-read-promise/README.md) · [源码](./kp168-use-read-promise/src/main.jsx) | 已完成 |
+| RE-KP169 | use 读取 Context | 1. use(Context) 2. Conditional Read 3. Closest Provider | [文档](./kp169-use-read-context/README.md) · [源码](./kp169-use-read-context/src/main.jsx) | 已完成 |
 | RE-KP170 | use 可以条件调用的特殊规则 | 1. Conditional use 2. Loop 3. Rules Exception | `kp170-use-conditional-call-rule/` | 待生成 |
 
 ## 当前进度
 
-- Chapter 17：**3 / 10**
-- 下一知识点：**RE-KP164：Reveal 顺序与 UX**
+- Chapter 17：**9 / 10**
+- 下一知识点：**RE-KP170：use 可以条件调用的特殊规则**
