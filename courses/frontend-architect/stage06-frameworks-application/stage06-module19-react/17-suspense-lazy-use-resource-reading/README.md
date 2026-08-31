@@ -15,9 +15,10 @@
 | RE-KP167 | Suspense 与路由框架的关系 | 1. Router 2. Framework 3. Suspense-enabled Data | [文档](./kp167-suspense-router-framework/README.md) · [源码](./kp167-suspense-router-framework/src/main.jsx) | 已完成 |
 | RE-KP168 | use 读取 Promise | 1. use(Promise) 2. Suspend 3. Cached Promise | [文档](./kp168-use-read-promise/README.md) · [源码](./kp168-use-read-promise/src/main.jsx) | 已完成 |
 | RE-KP169 | use 读取 Context | 1. use(Context) 2. Conditional Read 3. Closest Provider | [文档](./kp169-use-read-context/README.md) · [源码](./kp169-use-read-context/src/main.jsx) | 已完成 |
-| RE-KP170 | use 可以条件调用的特殊规则 | 1. Conditional use 2. Loop 3. Rules Exception | `kp170-use-conditional-call-rule/` | 待生成 |
+| RE-KP170 | use 可以条件调用的特殊规则 | 1. Conditional use 2. Loop 3. Rules Exception | [文档](./kp170-use-conditional-call-rule/README.md) · [源码](./kp170-use-conditional-call-rule/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 17：**9 / 10**
-- 下一知识点：**RE-KP170：use 可以条件调用的特殊规则**
+- Chapter 17：**10 / 10，已完成** ✅
+- 下一 Chapter：**Chapter 18：React 19 Actions、Forms 与乐观 UI**
+- 下一知识点：**RE-KP171：React 19 Actions 模型**
