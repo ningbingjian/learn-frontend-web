@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KP122 details name 分组</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    details { padding: 12px; margin: 10px 0; border: 1px solid #aaa; border-radius: 8px; }
+    summary { cursor: pointer; font-weight: 700; }
+    code { background: #eee; padding: 2px 4px; }
+  </style>
+</head>
+<body>
+  <h1>设置中心</h1>
+  <p>三个 <code>details</code> 使用相同 <code>name="settings"</code>。</p>
+
+  <details id="account" name="settings" open>
+    <summary>账户设置</summary>
+    <p>修改头像和昵称。</p>
+  </details>
+  <details id="security" name="settings">
+    <summary>安全设置</summary>
+    <p>管理密码和登录设备。</p>
+  </details>
+  <details id="notice" name="settings">
+    <summary>通知设置</summary>
+    <p>管理邮件和站内通知。</p>
+  </details>
+
+  <p id="state"></p>
+  <script>
+    const items = [...document.querySelectorAll('details[name="settings"]')];
+    const state = document.querySelector('#state');
+    function render() {
+      state.textContent = items.map(item => `${item.id}: open=${item.open}`).join(' | ');
+    }
+    items.forEach(item => item.addEventListener('toggle', render));
+    render();
+  </script>
+</body>
+</html>
