@@ -57,7 +57,7 @@ Type Narrowing
 | TS-KP094 | 用户自定义 Type Predicate | [文档](./kp094-type-predicate/README.md) · [源码](./kp094-type-predicate/src/main.ts) | 已完成 |
 | TS-KP095 | Assertion Functions | [文档](./kp095-assertion-functions/README.md) · [源码](./kp095-assertion-functions/src/main.ts) | 已完成 |
 | TS-KP096 | `never` 与穷尽检查 | [文档](./kp096-never-exhaustiveness/README.md) · [源码](./kp096-never-exhaustiveness/src/main.ts) | 已完成 |
-| TS-KP097 | 复杂状态机中的判别联合 | `kp097-state-machine-discriminated-union/` | 待生成 |
+| TS-KP097 | 复杂状态机中的判别联合 | [文档](./kp097-state-machine-discriminated-union/README.md) · [源码](./kp097-state-machine-discriminated-union/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -78,8 +78,9 @@ Type Narrowing
 15. Type Predicate 用 `parameter is Type` 把可复用运行时判断暴露为 Narrowing 契约；predicate 实现必须真实可靠，类型系统不会替你证明其语义正确。
 16. Assertion Function 用 `asserts condition` / `asserts value is Type` 表达“失败就终止流程”；正常返回后可直接收窄，但 assertion signature 不能替代真实 runtime validation。
 17. `never` 表示没有任何可能值；Discriminated Union 被完整处理后可以使用 `never` 做 Exhaustiveness Checking，让新增状态但漏写分支变成编译错误。
-18. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
-19. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
+18. 复杂状态机可以分别用 State Union 与 Event Union 表达状态形状和事件形状，再通过 transition 函数把业务转移规则集中管理；类型安全的状态结构不等于所有状态-事件组合都会自动成为合法转移。
+19. 类型组合与收窄都是编译期能力，不替代运行时输入校验。
+20. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -94,6 +95,6 @@ Type Narrowing
 ## 当前进度
 
 - Lesson 06.1：6/6 已完成。
-- Lesson 06.2：10/11 已完成。
-- Chapter 06：16/17 已完成。
-- 下一知识点：TS-KP097「复杂状态机中的判别联合」。
+- Lesson 06.2：11/11 已完成。
+- Chapter 06：17/17 已完成。
+- Chapter 06 已完成，下一步进入 Chapter 07 的 TS-KP098「`as` 类型断言」。
