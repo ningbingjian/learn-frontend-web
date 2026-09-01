@@ -1,128 +1,88 @@
 # TS-KP002：静态类型检查与 JavaScript 运行时的边界
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [最终源码](./src/main.ts)
+
+## 课程元信息
+
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `FAILURE-LAB` |
+| 学习深度 | **Must** |
+| 前置课程 | TS-KP001：TypeScript 与 JavaScript 的关系 |
+| 本课主问题 | 为什么源码里的错误类型能被 `tsc` 拦住，但一段错误 JSON 仍然能在运行时把程序弄崩？ |
+| Learning Artifact | `tsc` Diagnostic + 受控 Runtime Error |
+| 本课暂时不用理解 | 完整 Runtime Type Guard、Schema Validation、`unknown` 设计策略 |
 
 ## 文档目录
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
+- [这节课只需要搞懂什么](#这节课只需要搞懂什么)
+- [前置状态](#前置状态)
+- [本课主问题](#本课主问题)
+- [先预测](#先预测)
 - [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+- [图解与心智模型](#图解与心智模型)
+- [理论收束](#理论收束)
+- [Wrong Way 与边界](#wrong-way-与边界)
+- [Production Boundary](#production-boundary)
+- [本课只记住 3 件事](#本课只记住-3-件事)
+- [Challenge](#challenge)
+- [Mastery Check](#mastery-check)
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. `tsc` 依据源码中的静态类型信息工作。
+2. JavaScript 运行时面对的是此刻真实存在的值。
+3. 静态检查不是一个永久包住所有外部数据的运行时保护罩。
 
-1. 解释“静态类型检查”为什么发生在程序真正执行之前。
-2. 区分 TypeScript 编译器负责的检查与 JavaScript 运行时负责的行为。
-3. 理解 TypeScript 只能依据它掌握的静态类型信息做判断。
-4. 亲手验证“源码中的明显类型错误会被拦住，但运行时数据仍可能制造异常”。
-5. 知道外部数据验证属于运行时边界问题，后续会在 TS-KP004 专门处理。
+## 前置状态
 
-> **本节核心代码**：函数参数和返回值类型形成的静态约束，例如 `count: number` 与 `: string`。
->
-> **实验辅助代码**：`JSON.parse()`、`try/catch` 和故意制造的错误调用，只用于把静态阶段和运行阶段放到同一个实验里观察。
+上一课已经确认：
 
-## 理论讲解
+```text
+.ts
+ ↓ 静态检查 / 编译
+.js
+ ↓
+JavaScript Runtime
+```
 
-### 1. 什么叫“静态”检查
+现在要故意让“静态世界”和“运行时真实值”发生冲突。
 
-“静态”可以先理解成：**不需要真正运行程序，就先分析代码。**
+## 本课主问题
 
-例如：
+函数要求：
 
 ```ts
-function formatCount(count: number): string {
-  return count.toFixed(0);
-}
-
-formatCount('2');
+function formatCount(count: number): string
 ```
 
-TypeScript 不需要等 Node.js 真正执行到 `formatCount('2')` 才知道有问题。编译器根据函数签名就能发现：
-
-```text
-参数要求 number
-      ↓
-实际传入 string
-      ↓
-类型检查失败
-```
-
-### 2. JavaScript 运行时关心的是“真实值”
-
-如果类型检查已经结束，真正运行 JavaScript 时，运行时面对的是实际的值和 JavaScript 语义。
-
-例如运行时拿到字符串：
-
-```js
-'2'
-```
-
-它不会因为 TypeScript 源码里曾经写过 `number`，就自动把这个字符串变成数字。
-
-所以必须把两层分开：
-
-```text
-TypeScript 静态阶段
-分析“代码描述的类型关系”
-
-JavaScript 运行阶段
-处理“此刻真实存在的值”
-```
-
-### 3. 类型检查不是一个永久运行的保护罩
-
-TypeScript 能很好地检查它看得见的类型关系：
+源码里直接写：
 
 ```ts
 formatCount('2');
 ```
 
-但是现实程序的数据可能来自：
+会被 TypeScript 拦住。
 
-- HTTP 响应。
-- `JSON.parse()`。
-- localStorage。
-- 用户输入。
-- 第三方 JavaScript。
-- 数据库或消息系统。
-
-这些数据到达运行时边界时，静态类型系统不会凭空确认它们的真实内容。
-
-本节只先建立边界直觉；“如何验证这些数据”会在 TS-KP004 专门学习。
-
-### 4. 一个实用的心智模型
+但如果 `'2'` 来自 `JSON.parse()`，为什么最终还能出现：
 
 ```text
-你写 TypeScript
-      ↓
-编译器依据静态信息检查
-      ↓
-生成 / 交给 JavaScript 运行
-      ↓
-运行时面对真实值
-      ↓
-真实值仍可能触发 JavaScript 异常
+count.toFixed is not a function
 ```
 
-不要把“类型检查通过”理解成“任何运行时情况都绝不可能出错”。
+## 先预测
 
----
+先判断三件事：
+
+```text
+A. formatCount('2') 能否通过 tsc？
+B. JSON.parse('"2"') 得到的真实值是什么？
+C. 如果 tsc 没拦住，Node 会不会自动把 '2' 变成 2？
+```
 
 ## 动手编码：从 0 到 1
 
-### 第 0 步：明确实验目标
-
-本节要做两组对照：
-
-1. 源码里直接传错类型，TypeScript 在运行前就报错。
-2. 运行时拿到一个类型信息不可靠的值，类型检查可能无法替你确认它的真实内容。
-
-### 第 1 步：创建一个有明确类型契约的函数
-
-新建 `src/main.ts`：
+### Step 0：建立静态契约
 
 ```ts
 function formatCount(count: number): string {
@@ -130,160 +90,211 @@ function formatCount(count: number): string {
 }
 ```
 
-这里的契约非常清楚：
-
-```text
-输入 number
-    ↓
-formatCount
-    ↓
-输出 string
-```
-
-### 第 2 步：加入一个正确调用
-
-继续写：
+正确调用：
 
 ```ts
 console.log(formatCount(2));
 ```
 
-此时 TypeScript 能确认：数字 `2` 满足 `number` 参数要求。
+运行类型检查，应通过。
 
-### 第 3 步：第一次执行静态检查
+---
 
-本知识点复用模块级 TypeScript 工具链。若还没有安装依赖，先在 `stage04-module13-typescript` 根目录执行一次：
+### Step 1：制造一个 `tsc` 看得见的错误
 
-```bash
-npm install
-```
-
-然后执行：
-
-```bash
-npm run check -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
-```
-
-当前代码应该通过检查。
-
-### 第 4 步：故意写出一个静态可见的错误
-
-临时增加：
+临时加入：
 
 ```ts
 formatCount('2');
 ```
 
-再次执行类型检查，应看到“`string` 不能作为 `number` 参数传入”这一类错误。
+执行：
 
-此时程序还没有真正运行：
-
-```text
-错误调用写在源码中
-      ↓
-TypeScript 看得见 string
-      ↓
-静态检查直接失败
+```bash
+npm run check -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
 ```
 
-观察完以后删除这行错误代码。
+应看到参数类型不匹配。
 
-### 第 5 步：引入一个运行时值
+### 立即解释
 
-现在加入：
+这里 TypeScript 掌握了完整静态证据：
+
+```text
+参数要求 number
+实际表达式类型 string
+```
+
+所以不需要运行程序就能拒绝调用。
+
+验证后删除错误调用。
+
+---
+
+### Step 2：把同一个错误值藏到运行时输入里
+
+加入：
 
 ```ts
 const runtimeValue = JSON.parse('"2"');
 ```
 
-`JSON.parse()` 产生的是运行时数据。这里故意让 JSON 中保存字符串 `"2"`。
-
-继续写：
+最终实验故意继续调用：
 
 ```ts
-try {
-  console.log(formatCount(runtimeValue));
-} catch (error) {
-  const message = error instanceof Error ? error.message : String(error);
-  console.log(`runtime error: ${message}`);
-}
+formatCount(runtimeValue);
 ```
 
-再次执行：
+再次运行 `tsc`，当前案例可以通过。
 
-```bash
-npm run check -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
-```
+现在不要急着下结论，继续真正运行。
 
-这次静态检查可以通过。
+---
 
-> 为什么会这样，会在 TS-KP004 从“外部数据验证”的角度继续拆解。这里先观察边界即可。
-
-### 第 6 步：编译并真正运行
+### Step 3：编译并观察 Runtime Error
 
 执行：
 
 ```bash
 npm run build -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
-```
-
-再运行：
-
-```bash
 node ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/dist/main.js
 ```
 
-你应该先看到：
+实际输出：
 
 ```text
 count=2
-```
-
-随后看到类似：
-
-```text
 runtime error: count.toFixed is not a function
 ```
 
-因为运行时真实拿到的是字符串，而不是数字。
+### 立即解释
 
-### 第 7 步：完成案例并对照最终源码
-
-最终代码应与 [`src/main.ts`](./src/main.ts) 一致。
-
-本节只需要牢牢记住两层：
-
-- **核心代码**：`count: number`、`: string` 形成的静态类型契约，以及错误调用在运行前被发现的过程。
-- **实验辅助代码**：`JSON.parse()` 人为制造运行时边界，`try/catch` 只是为了让异常可见并让案例继续输出。
-
-最终源码直接查看 [`src/main.ts`](./src/main.ts)，README 不重复整份源码。
-
-## 运行案例
-
-在 TypeScript 模块根目录执行：
-
-```bash
-npm run check -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
-npm run build -- ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/tsconfig.json
-node ./01-typescript-foundations/kp002-static-type-checking-runtime-boundary/dist/main.js
-```
-
-## 效果验证
-
-完成后应该能解释下面三件事：
-
-1. 为什么直接写 `formatCount('2')` 会在程序运行前失败。
-2. 为什么 `runtimeValue` 的真实值仍然可能在 JavaScript 运行时制造异常。
-3. 为什么“静态类型检查通过”不能被理解为“所有运行时输入都已经被验证”。
-
-最终应形成这条边界：
+运行时拿到的真实值是：
 
 ```text
-静态类型信息
-    ↓ TypeScript 检查
-代码关系是否合理
-
-运行时真实值
-    ↓ JavaScript 执行
-决定程序此刻真正发生什么
+"2" → string
 ```
+
+JavaScript Runtime 不会因为源代码某处写过 `number` 就自动转换数据。
+
+---
+
+### Step 4：把两阶段放在同一张图里
+
+```text
+源码直接传 '2'
+   ↓
+tsc 看见 string
+   ↓
+编译前失败
+
+JSON.parse 在运行时产生 '2'
+   ↓
+静态阶段没有真实验证数据
+   ↓
+JavaScript 运行
+   ↓
+调用 string.toFixed
+   ↓
+Runtime Error
+```
+
+## 图解与心智模型
+
+```text
+Static World
+Type Annotation / Inference / Diagnostic
+            │
+            │ 编译 / 擦除
+            ↓
+Runtime World
+真实 JSON / DOM / Network / Storage 值
+```
+
+两个世界有关联，但不是同一个阶段。
+
+## 理论收束
+
+### 一句话
+
+> Static Type Checking 根据编译器当前拥有的类型信息分析程序；JavaScript Runtime 则根据真实值执行代码。
+
+### 代码变化 → 理论
+
+| 证据 | 理论 |
+|---|---|
+| `'2'` 直接传入时报编译错误 | Static Type Checking |
+| `JSON.parse()` 后运行时报错 | Runtime Value Boundary |
+| `try/catch` 捕获真实异常 | JavaScript Runtime Error |
+
+## Wrong Way 与边界
+
+### Wrong Way 1：认为 TypeScript 会验证所有 JSON
+
+TypeScript 不会自动读取网络响应或 JSON 内容并证明它真的满足某个业务 Type。
+
+### Wrong Way 2：认为运行时会遵守 TS Annotation
+
+JavaScript 运行时不会把 `'2'` 自动变成 `2`。
+
+### 边界
+
+当前源码刻意利用 `JSON.parse()` 的宽松类型让问题通过静态阶段，这是**教学故障开关**，不是推荐生产写法。
+
+## Production Boundary
+
+外部边界的数据应先视为不可信，例如：
+
+- API Response；
+- localStorage；
+- URL 参数；
+- 文件 /消息；
+- 第三方 JS。
+
+生产代码通常应该从 `unknown` / Schema Validation / Runtime Guard 建立证据，而不是期待 Annotation 自动保护运行时。TS-KP004 会立即做这个对照。
+
+## 本课只记住 3 件事
+
+1. **`tsc` 分析静态类型信息。**
+2. **Runtime 执行真实值。**
+3. **静态通过不代表外部数据已经完成运行时验证。**
+
+## Challenge
+
+把：
+
+```ts
+const runtimeValue = JSON.parse('"2"');
+```
+
+临时改成：
+
+```ts
+const runtimeValue: unknown = JSON.parse('"2"');
+```
+
+再直接传给 `formatCount()`。
+
+先预测 `tsc` 会不会允许，再运行类型检查。思考：为什么把不可信边界声明成 `unknown` 后，编译器反而更能迫使你处理风险？
+
+## Mastery Check
+
+### Must
+
+- 能区分 Compile-time Error 和 Runtime Error。
+- 能解释本案例为什么静态检查通过后仍然发生异常。
+
+### Should
+
+- 知道外部数据边界不能靠 Annotation 自动验证。
+- 能说明 `JSON.parse()` 在本实验中只是制造边界问题的辅助工具。
+
+### Expert
+
+- 能把“静态证据是否充分”作为 API / 数据边界设计问题，而不是把所有运行时故障归咎于 TypeScript 不安全。
+
+## 最终源码与代码边界
+
+- **本节核心代码**：`count: number` 契约与 Static / Runtime 两阶段对照。
+- **实验辅助代码**：`JSON.parse()`、`try/catch` 用于受控制造并观察 Runtime Error。
+- **最终源码**：[`src/main.ts`](./src/main.ts)

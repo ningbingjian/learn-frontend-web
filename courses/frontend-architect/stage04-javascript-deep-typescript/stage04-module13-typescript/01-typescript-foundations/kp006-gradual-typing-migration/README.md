@@ -1,164 +1,50 @@
 # TS-KP006：渐进式类型系统与 JavaScript 迁移
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
+> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [最终源码](./src/main.ts)
+
+## 课程元信息
+
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `ARCHITECTURE-LAB` |
+| 学习深度 | **Should** |
+| 前置课程 | TS-KP001～005：TypeScript 能力边界 |
+| 本课主问题 | 一个旧 JavaScript 系统的数据很脏，迁移 TypeScript 时必须一次性把全项目改成严格模型吗？ |
+| Learning Artifact | Legacy Boundary → Normalize → Strict Domain 的可运行迁移适配器 |
+| 本课暂时不用理解 | `allowJs` / `checkJs` 配置、Monorepo 迁移、类型债务治理细则 |
 
 ## 文档目录
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
+- [这节课只需要搞懂什么](#这节课只需要搞懂什么)
+- [前置状态](#前置状态)
+- [本课主问题](#本课主问题)
+- [先预测](#先预测)
 - [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+- [图解与心智模型](#图解与心智模型)
+- [理论收束](#理论收束)
+- [Wrong Way 与边界](#wrong-way-与边界)
+- [Production Boundary](#production-boundary)
+- [本课只记住 3 件事](#本课只记住-3-件事)
+- [Challenge](#challenge)
+- [Mastery Check](#mastery-check)
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. TypeScript 可以逐步引入，不要求把旧系统一次性全部改完。
+2. 迁移边界可以暂时接受较宽 Legacy Type，再集中规范化成严格 Domain Type。
+3. “渐进式”不是永久放任 `any`，而是让风险有明确边界和收敛路径。
 
-1. 理解 TypeScript 为什么适合从 JavaScript 渐进迁移，而不是要求一次性重写整个项目。
-2. 知道迁移可以从“最不确定的 any”逐步变成明确的边界类型和业务类型。
-3. 知道 `any` 可以作为短期迁移桥梁，但不能成为长期默认方案。
-4. 理解“旧系统输入类型”和“新业务内部类型”可以暂时并存。
-5. 能设计一个小型迁移函数，把旧数据转换成更稳定的新类型。
+## 前置状态
 
-> **本节核心知识**：迁移不是“把所有 `.js` 一夜改成 `.ts`”，而是逐步缩小不确定区域并建立清晰类型边界。
->
-> **实验辅助代码**：旧商品数据只是为了模拟真实遗留系统中的宽松数据格式。
-
-## 理论讲解
-
-### 1. 大型 JavaScript 项目不适合一次性类型化
-
-真实项目通常已经存在：
-
-- 大量历史模块。
-- 第三方依赖。
-- 宽松的接口数据。
-- 动态对象。
-- 很多暂时说不清楚的数据形状。
-
-如果迁移策略只有：
+旧系统里的商品可能长这样：
 
 ```text
-今天 JavaScript
-明天全部 Strict TypeScript
+id    → "42" 或 42
+name  → 可能缺失
+price → "499" 或 499
 ```
 
-成本往往非常高。
-
-更合理的思路是：
-
-```text
-先让项目继续工作
-      ↓
-识别高风险边界
-      ↓
-逐步补类型
-      ↓
-减少 any
-      ↓
-扩大 strict 范围
-```
-
-### 2. `any` 可以是迁移桥梁，但不是终点
-
-旧代码迁移初期经常出现：
-
-```ts
-function normalize(input: any) {
-  // ...
-}
-```
-
-它的价值是：先让迁移继续推进。
-
-但代价也很明显：
-
-```text
-any
- ↓
-很多类型检查能力被关闭
-```
-
-所以正确态度应该是：
-
-> `any` 可以临时存在，但必须知道它在哪里、为什么存在、准备如何收回。
-
-### 3. 先描述“遗留输入”，再设计“业务内部类型”
-
-假设旧系统里的商品数据是：
-
-```text
-id    可能是 string，也可能是 number
-name  可能缺失
-price 可能是 string，也可能是 number
-```
-
-不要强行假装它已经是理想业务模型。
-
-可以先定义：
-
-```ts
-type LegacyProduct = {
-  id: string | number;
-  name?: string;
-  price: string | number;
-};
-```
-
-再定义新系统真正想要的：
-
-```ts
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-};
-```
-
-两者中间通过迁移函数连接。
-
-### 4. 类型迁移的关键是缩小不确定区域
-
-好的迁移方向是：
-
-```text
-旧世界：宽松、动态、不完全确定
-        ↓
-少数适配 / 转换函数
-        ↓
-新世界：更稳定、更严格的业务类型
-```
-
-而不是让整个新系统一直背着 `any`。
-
-### 5. 渐进迁移可以发生在多个维度
-
-不仅是“文件从 JS 变 TS”，还包括：
-
-- 文件数量逐步增加。
-- `any` 数量逐步减少。
-- 外部边界从宽松类型变得更明确。
-- `strict` 选项逐步收紧。
-- 共享类型逐步稳定。
-- 核心业务模块优先获得更强约束。
-
----
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：明确迁移目标
-
-我们模拟一个旧商品对象：
-
-```ts
-const legacyProduct = {
-  id: '42',
-  name: 'Mechanical Keyboard',
-  price: '499'
-};
-```
-
-目标是把它转换为：
+而新代码真正希望得到：
 
 ```text
 id    → number
@@ -166,25 +52,51 @@ name  → string
 price → number
 ```
 
-### 第 1 步：先用 `any` 快速接住旧数据
+## 本课主问题
 
-最初可以写：
+迁移时应该：
 
-```ts
-function normalizeProduct(input: any) {
-  return {
-    id: Number(input.id),
-    name: input.name ?? 'Unnamed product',
-    price: Number(input.price)
-  };
-}
+```text
+A. 先停下业务，把全部旧数据和代码一次改干净
 ```
 
-这样迁移很快，但 `input.xxx` 基本失去类型保护。
+还是：
 
-### 第 2 步：描述真实的遗留输入
+```text
+B. 明确 Legacy Boundary，在边界做转换，新代码内部保持严格
+```
 
-加入：
+## 先预测
+
+看下面两个模型：
+
+```ts
+type LegacyProduct = {
+  id: string | number;
+  name?: string;
+  price: string | number;
+};
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+};
+```
+
+先回答：
+
+```text
+1. 为什么不直接把 Product 也写得很宽？
+2. normalizeProduct 应该返回 LegacyProduct 还是 Product？
+3. name 缺失时，默认值应该在哪里集中处理？
+```
+
+## 动手编码：从 0 到 1
+
+### Step 0：诚实描述 Legacy Boundary
+
+先定义：
 
 ```ts
 type LegacyProduct = {
@@ -194,19 +106,15 @@ type LegacyProduct = {
 };
 ```
 
-然后改成：
+这不是理想模型，但它准确表达旧系统现状。
 
-```ts
-function normalizeProduct(input: LegacyProduct) {
-  // ...
-}
-```
+### 立即解释
 
-现在旧世界不再是完全未知的 `any`，而是“虽然宽松，但边界明确”。
+迁移第一步不是假装旧世界已经干净，而是**把不确定性限制在边界类型里**。
 
-### 第 3 步：定义新系统真正想要的类型
+---
 
-继续加入：
+### Step 1：定义新代码真正想要的严格模型
 
 ```ts
 type Product = {
@@ -216,19 +124,17 @@ type Product = {
 };
 ```
 
-并声明函数返回值：
+不要因为旧数据很宽，就把整个新系统都传播成：
 
-```ts
-function normalizeProduct(input: LegacyProduct): Product {
-  // ...
-}
+```text
+string | number | undefined
 ```
 
-此时 TypeScript 会检查你的迁移函数是否真的输出了完整 `Product`。
+否则迁移债务会扩散。
 
-### 第 4 步：完成转换逻辑
+---
 
-写成：
+### Step 2：只写一个边界适配器
 
 ```ts
 function normalizeProduct(input: LegacyProduct): Product {
@@ -240,9 +146,19 @@ function normalizeProduct(input: LegacyProduct): Product {
 }
 ```
 
-### 第 5 步：运行旧数据到新模型的转换
+这里集中完成：
 
-加入：
+```text
+宽 Legacy Input
+   ↓ normalize
+严格 Product
+```
+
+---
+
+### Step 3：运行真实 Legacy 输入
+
+最终源码输入：
 
 ```ts
 const legacyProduct: LegacyProduct = {
@@ -250,69 +166,134 @@ const legacyProduct: LegacyProduct = {
   name: 'Mechanical Keyboard',
   price: '499'
 };
-
-const product = normalizeProduct(legacyProduct);
-console.log(product);
 ```
 
-预期输出：
+编译并运行，实际输出：
 
 ```text
 { id: 42, name: 'Mechanical Keyboard', price: 499 }
 ```
 
-### 第 6 步：理解迁移边界
+**观察**：旧数据没有要求一次性全量重写，但新代码已经可以拿到更严格的 Product。
 
-现在代码形成了清晰分层：
+---
+
+### Step 4：观察默认值边界
+
+把实验输入临时改成省略 `name`：
+
+```ts
+const legacyProduct: LegacyProduct = {
+  id: '42',
+  price: '499'
+};
+```
+
+预测输出中的 `name`。
+
+这里的默认值策略被集中在 `normalizeProduct()`，而不是散落到所有下游调用方。
+
+## 图解与心智模型
 
 ```text
-LegacyProduct
-旧系统真实但宽松的数据
+Legacy JS / API / Storage
+        │
+        │ 宽类型，承认历史现实
         ↓
-normalizeProduct
-集中处理转换
+LegacyProduct
+        ↓
+normalizeProduct()
         ↓
 Product
-新代码内部稳定类型
+        │
+        │ 严格内部模型
+        ↓
+New TypeScript Code
 ```
 
-这比“所有地方都继续写 `any`”更容易治理。
+## 理论收束
 
-### 第 7 步：完成案例并对照最终源码
+### 一句话
 
-最终代码应与 [`src/main.ts`](./src/main.ts) 一致。
+> Gradual Typing 允许 TypeScript 按边界逐步引入；优秀迁移的目标不是“全项目立刻最严格”，而是让宽松区域可识别、可隔离、可持续收敛。
 
-本节总结：
+### 代码变化 → 理论
 
-- **核心代码**：`LegacyProduct`、`Product` 和 `normalizeProduct()` 共同建立“旧边界 → 新模型”的渐进迁移路径。
-- **实验辅助代码**：模拟的旧商品对象与日志，只用来观察迁移结果。
+| 设计 | 对应理论 |
+|---|---|
+| `string | number` / optional | Legacy Boundary |
+| `Product` 严格字段 | Strict Internal Model |
+| `normalizeProduct()` | Anti-corruption / Migration Adapter |
+| 宽输入不向下游传播 | Type Debt Containment |
 
-## 运行案例
+## Wrong Way 与边界
 
-在模块根目录执行类型检查：
+### Wrong Way 1：Big Bang Migration
 
-```bash
-npm run check -- ./01-typescript-foundations/kp006-gradual-typing-migration/tsconfig.json
+为了“类型纯洁”暂停所有业务并一次迁完整仓库，风险通常很高，也难以审查和回滚。
+
+### Wrong Way 2：所有旧值先 `any`
+
+这虽然迁移快，但如果没有边界和清理计划，会把静态反馈永久关闭。
+
+### Wrong Way 3：为了兼容旧数据，把 Domain Type 永久写宽
+
+这会让每个下游函数都重复处理历史脏数据。
+
+## Production Boundary
+
+真实迁移还需要考虑：
+
+- `allowJs` / `checkJs`；
+- CI 类型检查；
+- `any` / `@ts-ignore` 债务统计；
+- API Boundary；
+- 模块优先级和迁移顺序；
+- 回归测试。
+
+这些会在后续工程章节展开。本课先建立最重要的“边界适配”模型。
+
+## 本课只记住 3 件事
+
+1. **迁移可以渐进，不必 Big Bang。**
+2. **宽松 Legacy Type 应限制在边界，不要污染内部 Domain Type。**
+3. **转换 / 默认值 /兼容逻辑应该集中在明确 Adapter 中。**
+
+## Challenge
+
+把 Legacy 输入改成：
+
+```ts
+{
+  id: 'not-a-number',
+  price: 'free'
+}
 ```
 
-编译：
+预测当前 `Number()` 会得到什么。
 
-```bash
-npm run build -- ./01-typescript-foundations/kp006-gradual-typing-migration/tsconfig.json
-```
+然后回答：仅靠这个 Adapter 是否已经等价于“可靠 Runtime Validation”？为什么？
 
-运行：
+> 提示：`Number('free')` 会产生 `NaN`，这正好连接 TS-KP004 / TS-KP005 的边界模型。
 
-```bash
-node ./01-typescript-foundations/kp006-gradual-typing-migration/dist/main.js
-```
+## Mastery Check
 
-## 效果验证
+### Must
 
-你应该能够确认：
+- 能解释 Gradual Typing 不等于永久使用 `any`。
+- 能说明为什么 Legacy Type 和 Domain Type 应分离。
 
-1. `any` 版本迁移快，但类型保护很弱。
-2. `LegacyProduct` 可以真实表达旧数据的宽松状态。
-3. `Product` 可以表达新系统内部更严格的状态。
-4. `normalizeProduct()` 把不确定性集中在一个转换边界里。
-5. 能解释为什么渐进迁移的目标是持续缩小 `any` 和动态区域，而不是长期保留它们。
+### Should
+
+- 能设计一个 Boundary Normalizer，把旧数据转换成严格模型。
+- 能识别 Big Bang Migration 和类型债务扩散风险。
+
+### Expert
+
+- 能为真实仓库设计分阶段迁移顺序、债务指标、CI Gate 和 Boundary Ownership，而不是只把 `.js` 批量改名成 `.ts`。
+
+## 最终源码与代码边界
+
+- **本节核心代码**：`LegacyProduct → normalizeProduct → Product`。
+- **实验辅助代码**：示例 Legacy 数据用于观察迁移边界。
+- **最终源码**：[`src/main.ts`](./src/main.ts)
