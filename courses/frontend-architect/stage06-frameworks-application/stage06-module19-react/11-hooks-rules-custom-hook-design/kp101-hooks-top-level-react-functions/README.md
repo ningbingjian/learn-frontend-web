@@ -1,197 +1,57 @@
-# RE-KP101：Hooks 只能在组件或自定义 Hook 顶层调用
+# RE-KP101：Hooks 要在 React 函数顶层调用
 
-> [返回 Chapter 11](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 11](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` + `FAILURE-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | React 为什么要求 Hooks 从组件/Custom Hook 顶层稳定调用，而不能当普通函数随便执行？ |
+| Learning Artifact | 稳定 Hook 顺序模型 + lint 观察 |
 
-## 学习目标
+## 先预测
+组件每次 Render 都调用 `useState → useEffect → useRef`。React 如何知道“第二个 Hook”属于哪份状态？
 
-学完本节后，你应该能够：
-
-1. 说出普通 Hook 可以在哪两类 React 函数中调用。
-2. 理解“顶层调用”指不能藏进普通嵌套函数或控制流。
-3. 区分 Function Component、Custom Hook 与普通 JavaScript Function。
-4. 知道 Custom Hook 自己也必须遵守 Hooks 规则。
-5. 能把可复用状态逻辑提取到以 `use` 开头的 Custom Hook。
-
-> **本节核心代码**：`useCounter()` 顶层调用 `useState`，`CounterCard` 顶层调用 `useCounter`。
->
-> **实验辅助代码**：两个 `CounterCard` 实例用于证明 Custom Hook 复用的是逻辑，每个组件实例仍拥有独立 State。
-
-## 理论讲解
-
-### 1. Hook 不是普通工具函数
-
-例如：
-
+## 动手建模
+### Step 0：写稳定顺序
 ```jsx
-useState()
-useReducer()
-useRef()
-useContext()
+const [count, setCount] = useState(0);
+useEffect(...);
+const ref = useRef(null);
 ```
-
-它们虽然表现为 JavaScript 函数，但 React 会把这些调用与当前组件 Render 的内部状态关联起来。
-
-所以它们有调用位置约束。
-
-### 2. 普通 Hook 只能从 React Function 调用
-
-官方规则允许：
-
+### Step 1：连续 Render
+Props/State 改变后调用顺序保持一致。
+### Step 2：用序号理解
 ```text
-Function Component 顶层
-Custom Hook 顶层
+Render #1: Hook1 / Hook2 / Hook3
+Render #2: Hook1 / Hook2 / Hook3
 ```
+React 可以把对应 Hook 状态关联起来。
 
-例如：
+[查看最终源码](./src/main.jsx)
 
-```jsx
-function Counter() {
-  const [count, setCount] = useState(0);
-}
-```
+## 理论收束
+普通 Hooks 应在 React Function Component 或 Custom Hook 顶层调用。稳定调用顺序是 React 能正确关联 Hook State 的基础心智模型。
 
-以及：
+## Wrong Way
+- 普通事件函数里调用 useState。
+- class method / 普通 util 调 Hook。
+- 提前 return 让后续 Hook 某些 Render 不执行。
 
-```jsx
-function useCounter() {
-  const [count, setCount] = useState(0);
-}
-```
+## Production Boundary
+不要“记语法位置”而已；Code Review 时要检查所有 Render 路径是否保持 Hook 结构稳定。
 
-### 3. 什么叫“顶层”
+## 本课只记住 3 件事
+1. Hook 属于 React 函数执行模型。
+2. 普通 Hook 调用顺序必须稳定。
+3. 顶层规则让状态关联可预测。
 
-顶层不是指文件最外层。
+## Challenge
+画出包含 3 个 Hook 的两次 Render 顺序表。
 
-错误：
-
-```jsx
-const [count] = useState(0); // 模块顶层，错误
-```
-
-正确的“顶层”是 React 正在执行某个组件或 Custom Hook 时，其函数主体的稳定调用位置。
-
-### 4. 普通函数为什么不行
-
-错误：
-
-```jsx
-function createCounter() {
-  const [count] = useState(0);
-  return count;
-}
-```
-
-它只是普通函数，React 无法把这种任意调用安全地当作组件 Hook 调用链的一部分。
-
-如果它确实封装 Hook 逻辑，应设计为 Custom Hook：
-
-```jsx
-function useCounter() {
-  const [count] = useState(0);
-  return count;
-}
-```
-
-### 5. Custom Hook 复用的是状态逻辑
-
-本节渲染两个：
-
-```jsx
-<CounterCard title="A" />
-<CounterCard title="B" />
-```
-
-二者都调用同一个 `useCounter()`。
-
-但 A 加一不会让 B 一起加一。
-
-原因是：
-
-```text
-共享 Hook 函数定义
-≠
-共享某一个 State 实例
-```
-
-每个组件实例都有自己的 Hook State。
-
-## 动手编码：从 0 到 1
-
-### 第 1 步：创建 Custom Hook
-
-```jsx
-function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue);
-}
-```
-
-`useState` 位于 Custom Hook 顶层。
-
-### 第 2 步：返回数据和动作
-
-```jsx
-return {
-  count,
-  increment() {
-    setCount(value => value + 1);
-  },
-};
-```
-
-### 第 3 步：组件顶层调用 Custom Hook
-
-```jsx
-function CounterCard({ initialValue }) {
-  const counter = useCounter(initialValue);
-  // ...
-}
-```
-
-没有把它放入点击事件、条件分支或普通嵌套函数。
-
-### 第 4 步：渲染两个实例
-
-```jsx
-<CounterCard title="计数器 A" initialValue={0} />
-<CounterCard title="计数器 B" initialValue={10} />
-```
-
-最终源码：[`src/main.jsx`](./src/main.jsx)
-
-### 本节核心代码
-
-- Function Component 顶层调用 Custom Hook
-- Custom Hook 顶层调用 `useState`
-
-### 实验辅助代码
-
-- 两个实例用于验证 State 独立性。
-
-## 运行案例
-
-执行：
-
-```bash
-pnpm dev
-```
-
-然后分别点击 A、B 的 `+1`。
-
-你会发现两个计数器互不影响。
-
-## 效果验证
-
-你应该能够回答：
-
-1. 普通 Hook 可以从哪两类函数调用？
-2. “顶层调用”是不是指 JavaScript 文件最外层？
-3. 为什么普通工具函数里不能随意调用 `useState`？
-4. 两个组件调用同一个 Custom Hook，为什么不会共享同一份 State？
+## Mastery Check
+- **Must**：知道 Hook 合法调用位置。
+- **Should**：能识别 early return 隐患。
+- **Expert**：能用调用顺序模型解释规则。
