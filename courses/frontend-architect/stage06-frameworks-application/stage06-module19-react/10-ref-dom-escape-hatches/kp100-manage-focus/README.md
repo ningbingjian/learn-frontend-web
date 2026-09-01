@@ -1,170 +1,53 @@
 # RE-KP100：管理焦点
 
-> [返回 Chapter 10](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 10](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `A11Y-LAB` + `BUILD-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | React 应用什么时候应该主动移动键盘焦点，怎样避免焦点丢失或跳到用户意外的位置？ |
+| Learning Artifact | Input/Dialog focus Ref + 键盘验证 |
 
-## 学习目标
+## 先观察
+打开一个搜索面板后，视觉上输入框出现了，但键盘用户的焦点仍停在旧按钮。用户能直接输入吗？
 
-学完本节后，你应该能够：
-
-1. 使用 DOM Ref 调用 `focus()`。
-2. 理解焦点管理是 Ref 最典型的 Escape Hatch 之一。
-3. 在表单校验失败时把焦点移动到需要用户处理的位置。
-4. 区分“程序化 focus”与“视觉状态变化”。
-5. 在焦点交互中保留 label、状态提示等基本可访问性结构。
-
-> **本节核心代码**：`nameRef.current?.focus()` / `emailRef.current?.focus()`。
->
-> **实验辅助代码**：表单校验只用于提供一个合理的焦点移动场景，不是本节表单体系教学。
-
-## 理论讲解
-
-### 1. 为什么 focus 是命令式行为
-
-Props 更适合表达：
-
-```text
-这个组件应该显示什么
-```
-
-而 focus 描述的是：
-
-```text
-浏览器现在把键盘输入目标切换到哪个 DOM Node
-```
-
-它依赖真实浏览器 DOM，因此自然属于 Ref 场景。
-
-### 2. 常见合理焦点场景
-
-- 打开搜索后聚焦输入框。
-- 表单提交失败时聚焦第一个错误字段。
-- 对话框打开时进入合理焦点位置。
-- 删除条目后恢复焦点到邻近控制。
-
-焦点本身直接影响键盘用户体验，因此不应只把它当作“方便鼠标用户”的细节。
-
-### 3. 不要无理由抢焦点
-
-组件 Render 后立刻到处 `focus()` 会：
-
-- 打断用户当前输入。
-- 让键盘导航位置突然改变。
-- 让屏幕阅读器上下文发生跳跃。
-
-所以应有清晰交互原因。
-
-### 4. 本节为什么使用非受控输入
-
-这里通过：
-
-```js
-nameRef.current?.value
-```
-
-读取输入值，只是为了让案例集中在 DOM Ref 和 focus。
-
-在真实复杂表单中，值管理可以有其他模型；不要从这个案例推导出“所有表单都必须通过 Ref 读取”。
-
-### 5. 状态提示与焦点可以同时存在
-
-校验失败时：
-
+## 动手实验
+### Step 0：获取输入框 Ref
 ```jsx
-setMessage('请输入姓名');
-nameRef.current?.focus();
+const inputRef = useRef(null);
 ```
+### Step 1：明确用户动作边界
+在点击“打开搜索”后调用 `inputRef.current?.focus()`，验证键盘光标进入输入框。
+### Step 2：关闭/恢复
+对于 Dialog 等模式 UI，考虑关闭后把焦点还给触发按钮。
+### Step 3：用键盘验证
+只用 Tab/Enter/Escape 完成流程，不只看鼠标结果。
 
-两件事职责不同：
+[查看最终源码](./src/main.jsx)
 
-```text
-State → 页面展示反馈
-Ref → 浏览器焦点移动
-```
+## 理论收束
+Focus 是浏览器/可访问性状态，不是 React 视觉样式。Ref 提供必要命令式控制，但焦点移动必须服务于明确用户流程。
 
-## 动手编码：从 0 到 1
+## Wrong Way
+- 每次 Render 自动 focus，抢走用户焦点。
+- 只用 CSS `:focus`，却没有真实 DOM focus。
+- Dialog 打开后把键盘用户留在背景区域。
 
-### 第 1 步：创建两个 DOM Ref
+## Production Boundary
+搜索、表单错误、Dialog、菜单等需要焦点管理；优先原生语义和成熟无障碍组件模式。
 
-```jsx
-const nameRef = useRef(null);
-const emailRef = useRef(null);
-```
+## 本课只记住 3 件事
+1. Focus 是真实交互状态。
+2. Ref 可在明确时机调用 focus。
+3. 焦点管理必须用键盘实际验收。
 
-### 第 2 步：绑定输入框
+## Challenge
+实现“打开 Dialog → 聚焦首个输入 → 关闭 → 焦点返回触发按钮”。
 
-```jsx
-<input ref={nameRef} name="name" />
-<input ref={emailRef} name="email" type="email" />
-```
-
-### 第 3 步：提交时检查姓名
-
-```jsx
-if (!nameRef.current?.value.trim()) {
-  setMessage('请输入姓名');
-  nameRef.current?.focus();
-  return;
-}
-```
-
-### 第 4 步：再检查邮箱
-
-```jsx
-if (!emailRef.current?.value.trim()) {
-  setMessage('请输入邮箱');
-  emailRef.current?.focus();
-  return;
-}
-```
-
-### 第 5 步：提供可感知的状态提示
-
-```jsx
-<p role="status" aria-live="polite">{message}</p>
-```
-
-最终源码：[`src/main.jsx`](./src/main.jsx)
-
-### 本节核心代码
-
-- DOM Ref
-- `.focus()`
-- 事件驱动的焦点移动
-
-### 实验辅助代码
-
-- 简化的空值校验
-- `message` State
-
-## 运行案例
-
-执行：
-
-```bash
-pnpm dev
-```
-
-验证：
-
-1. 保持两个输入框为空，点击提交。
-2. 姓名框应获得焦点。
-3. 填写姓名，再提交。
-4. 邮箱框应获得焦点。
-5. 两项都填写后出现“校验通过”。
-
-## 效果验证
-
-你应该能够解释：
-
-1. 为什么 focus 适合通过 DOM Ref 完成？
-2. 为什么不应该在每次 Render 后无条件抢焦点？
-3. State 与 Ref 在本案例中分别承担什么职责？
-4. 可访问性为什么是焦点管理的一部分？
+## Mastery Check
+- **Must**：会用 Ref focus。
+- **Should**：能设计 focus restore。
+- **Expert**：能评审焦点陷阱与可访问性流程。
