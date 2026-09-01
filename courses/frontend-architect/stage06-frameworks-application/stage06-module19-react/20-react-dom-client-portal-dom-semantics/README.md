@@ -15,9 +15,9 @@
 | RE-KP197 | Portal 的 DOM 位置与 React 树位置 | 1. DOM Position 2. React Parent 3. Context | [文档](./kp197-portal-dom-react-tree/README.md) · [源码](./kp197-portal-dom-react-tree/src/main.jsx) | 已完成 |
 | RE-KP198 | Portal 中事件冒泡 | 1. React Tree Bubble 2. Event 3. Stop Propagation | [文档](./kp198-portal-event-bubbling/README.md) · [源码](./kp198-portal-event-bubbling/src/main.jsx) | 已完成 |
 | RE-KP199 | flushSync | 1. Synchronous Flush 2. Third-party Integration 3. Caveat | [文档](./kp199-flush-sync/README.md) · [源码](./kp199-flush-sync/src/main.jsx) | 已完成 |
-| RE-KP200 | dangerouslySetInnerHTML | 1. Raw HTML 2. XSS 3. Trusted Content | `kp200-dangerously-set-inner-html/` | 待生成 |
+| RE-KP200 | dangerouslySetInnerHTML | 1. Raw HTML 2. XSS 3. Trusted Content | [文档](./kp200-dangerously-set-inner-html/README.md) · [源码](./kp200-dangerously-set-inner-html/src/main.jsx) | 已完成 |
 
 ## 当前进度
 
-- Chapter 20：**9 / 10**
-- 下一知识点：**RE-KP200：dangerouslySetInnerHTML**
+- Chapter 20：**10 / 10，已完成 ✅**
+- 下一知识点：**RE-KP201：CSR 与 SSR 的差异**
