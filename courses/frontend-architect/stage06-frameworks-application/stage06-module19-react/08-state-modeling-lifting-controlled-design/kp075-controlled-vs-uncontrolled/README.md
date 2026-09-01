@@ -1,212 +1,73 @@
 # RE-KP075：受控与非受控的选择
 
-> [返回 Chapter 08](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 08](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `ARCHITECTURE-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | 什么时候值得把组件变成受控，什么时候让它自己管理 State 更简单？ |
+| Learning Artifact | 同一组件 Controlled / Uncontrolled API Trade-off 对照 |
 
-## 学习目标
+## 先判断，不先背结论
 
-学完本节后，你应该能够：
+给你三个需求：父级一键重置、两个实例联动、组件完全独立使用。哪几个更需要 Controlled？先写判断。
 
-1. 比较受控组件与非受控组件的能力边界。
-2. 理解非受控组件通常配置更少，但外部协调能力更弱。
-3. 理解受控组件更灵活，但父组件要承担状态和事件回调配置。
-4. 能根据“是否需要跨组件协调”选择状态归属。
-5. 知道 controlled / uncontrolled 是设计视角，不是绝对二分法。
+## 动手对照
 
-> **本节核心代码**：同一个页面同时展示 `UncontrolledPanel` 与 `ControlledPanel`。  
-> **实验辅助代码**：父级“强制打开/关闭”按钮用于观察两种 API 的差异。
+### Step 0：先运行 Uncontrolled 版本
 
-## 理论讲解
+组件自己拥有当前值，父级只提供初始配置。观察它的优点：接入简单、局部自治。
 
-### 1. 两种模式的核心差异
+### Step 1：加入跨组件协调需求
 
-非受控：
+一旦父级需要统一重置/同步，Local State 让协调变困难。
+
+### Step 2：切成 Controlled API
+
+```jsx
+<Widget value={value} onChange={setValue} />
+```
+
+观察父级获得控制能力，同时承担更多 State 管理责任。
+
+### Step 3：形成 Trade-off 表
 
 ```text
-组件自己保存关键 State
-父组件只做有限配置
+Uncontrolled → 接口简单 / 局部自治 / 外部协调弱
+Controlled   → 外部协调强 / 可组合 / 父级责任更大
 ```
 
-受控：
+[查看最终源码](./src/main.jsx)
 
-```text
-父组件保存关键 State
-子组件接收 value/状态 Prop
-子组件通过 callback 报告用户意图
-```
+## 理论收束
 
-### 2. 非受控的优点
+Controlled / Uncontrolled 不是优劣排名，而是 Ownership 选择。组件库常同时支持两种模式，但必须明确“当前值”和“初始值”的契约。
 
-调用简单：
+## Wrong Way
 
-```jsx
-<UncontrolledPanel title="帮助" />
-```
+- 所有组件都强制受控。
+- 同一份值同时由内部 State 和外部 value 控制。
+- 把“是否使用 input DOM defaultValue”当成全部定义。
 
-优点：
+## Production Boundary
 
-- Props 少；
-- 父组件负担小；
-- 局部独立场景接入快。
+需要表单联动、路由同步、外部校验、统一重置时更偏 Controlled；纯局部交互可以 Uncontrolled。
 
-缺点：
+## 本课只记住 3 件事
 
-- 父级不容易强制改变当前状态；
-- 多个实例很难统一协调。
+1. 选择标准是 Ownership 与协调需求。
+2. Controlled 提升可组合性，也增加父级责任。
+3. Uncontrolled 简单，但外部控制能力有限。
 
-### 3. 受控的优点
+## Challenge
 
-调用形式：
+给同一 Widget 设计 `value/onChange` 与 `defaultValue` 两套 API，并写出冲突时的规则。
 
-```jsx
-<ControlledPanel
-  open={panelOpen}
-  onOpenChange={setPanelOpen}
-/>
-```
+## Mastery Check
 
-优点：
-
-- 父级可以决定当前状态；
-- 可以和其他组件同步；
-- 容易加入业务规则、路由状态、权限约束。
-
-代价：
-
-- API 配置更多；
-- 父组件承担更多状态管理责任。
-
-### 4. 什么时候优先非受控
-
-如果状态：
-
-- 只影响这个组件自身；
-- 不需要外部同步；
-- 父级不关心其当前值；
-
-保留本地 State 往往更自然。
-
-### 5. 什么时候优先受控
-
-如果状态：
-
-- 需要多个组件保持一致；
-- 父级需要主动修改；
-- 状态和业务流程、URL、权限或其他领域状态绑定；
-
-受控设计通常更合适。
-
-### 6. 不要把两者当成绝对标签
-
-一个组件可以：
-
-```text
-选中值由父级控制
-+
-hover 状态自己保存
-+
-动画阶段自己保存
-```
-
-所以实际设计要逐份 State 判断 owner，而不是给整个组件贴永久标签。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：建立非受控 Panel
-
-```jsx
-function UncontrolledPanel({ title }) {
-  const [open, setOpen] = useState(false);
-  // ...
-}
-```
-
-**本步目标**：复习局部 State。  
-**为什么这样写**：它不需要父级参与即可工作。  
-**运行后观察**：组件自行开关。
-
-### 第 1 步：建立受控 Panel
-
-```jsx
-function ControlledPanel({ title, open, onOpenChange }) {
-  return (
-    <button onClick={() => onOpenChange(!open)}>
-      {open ? '关闭' : '打开'}
-    </button>
-  );
-}
-```
-
-**本步目标**：让当前值完全由 Props 驱动。  
-**为什么这样写**：子组件只表达用户意图，不拥有 `open`。  
-**运行后观察**：没有父级传入状态时，它自己无法决定当前值。
-
-### 第 2 步：父组件成为受控状态 owner
-
-```jsx
-const [controlledOpen, setControlledOpen] = useState(false);
-```
-
-传入：
-
-```jsx
-<ControlledPanel
-  open={controlledOpen}
-  onOpenChange={setControlledOpen}
-/>
-```
-
-**本步目标**：完成受控闭环。  
-**为什么这样写**：唯一事实在父级。  
-**运行后观察**：子组件点击后，通过 callback 更新父级，再由新 Props 驱动 UI。
-
-### 第 3 步：增加父级强制控制按钮
-
-```jsx
-<button onClick={() => setControlledOpen(true)}>
-  父级强制打开受控 Panel
-</button>
-```
-
-**本步目标**：观察受控模式的协调能力。  
-**为什么这样写**：父级拥有 State，就能从任何业务入口改变它。  
-**运行后观察**：父级按钮可以直接改变受控 Panel。
-
-### 第 4 步：对比非受控 Panel
-
-尝试用同一个父级按钮控制非受控 Panel。
-
-**本步目标**：理解能力差异不是语法差异。  
-**为什么这样写**：非受控 Panel 没有暴露当前 `open` 的控制 API。  
-**运行后观察**：父级不能直接指定其当前展开值。
-
-### 第 5 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：`UncontrolledPanel` 与 `ControlledPanel` 的 State owner 对比。
-- **实验辅助代码**：父级强制打开/关闭按钮。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./08-state-modeling-lifting-controlled-design/kp075-controlled-vs-uncontrolled --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 两个 Panel 都可以完成开关交互。
-2. 非受控 Panel 自己保存状态。
-3. 受控 Panel 的状态保存在父组件。
-4. 父级按钮可以直接控制受控 Panel。
-5. 能根据“是否需要协调”解释为什么选择不同模式。
-
-完成后继续 **RE-KP076：Props Drilling 的识别**。
+- **Must**：能根据需求选择模式。
+- **Should**：能设计双模式 API。
+- **Expert**：能避免受控/非受控切换造成的状态歧义。
