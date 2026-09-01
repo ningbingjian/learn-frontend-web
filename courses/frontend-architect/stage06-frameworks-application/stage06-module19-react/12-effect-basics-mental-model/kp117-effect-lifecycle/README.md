@@ -1,172 +1,60 @@
 # RE-KP117：Effect 生命周期
 
-> [返回 Chapter 12](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 12](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | Effect 的生命周期为什么应围绕“一次同步过程”理解，而不是机械背 mount/update/unmount？ |
+| Learning Artifact | roomId 连接 setup/cleanup 时间轴 |
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+## 先预测
+房间 A 已连接，Props 切成 B。React 应先连 B 再断 A，还是先断 A 再连 B？
 
-## 学习目标
+## 动手实验
+### Step 0：setup A
+记录 `connect A`。
+### Step 1：依赖变 B
+观察 `disconnect A → connect B`。
+### Step 2：依赖再变 C
+再次观察同一同步循环。
+### Step 3：组件离开
+只剩最终 cleanup C。
 
-学完本节后，你应该能够：
+[查看最终源码](./src/main.jsx)
 
-1. 不再只用“组件 mount/update/unmount”解释 Effect。
-2. 用“开始同步 / 停止同步”描述一个 Effect 自己的生命周期。
-3. 理解依赖变化时旧 Effect 要先停止，再用新值重新同步。
-4. 知道一个组件可以有多个彼此独立的 Effect 生命周期。
-5. 能根据外部系统同步关系设计 setup 和 cleanup。
-
-> **本节核心代码**：`roomId` 变化时 Effect 先 disconnect 旧房间，再 connect 新房间。  
-> **实验辅助代码**：`createConnection()` 是本地 mock，只用于观察生命周期顺序。
-
-## 理论讲解
-
-### 1. 组件生命周期不是最精确的 Effect 模型
-
-传统描述：
-
+## 心智模型
 ```text
-mount
-update
-unmount
+start syncing A
+↓ dependency changes
+stop syncing A
+start syncing B
+↓ unmount
+stop syncing B
 ```
 
-对理解组件还可以，但对 Effect 容易产生误导。
+## 理论收束
+每个 Effect 更适合看作独立同步进程：setup 开始同步，cleanup 停止对应同步；依赖变化意味着用新输入重新建立这条同步关系。
 
-Effect 更关心的是一段独立同步过程：
+## Wrong Way
+- 把所有逻辑按“mounted/updated”塞进同一个 Effect。
+- cleanup 撤销不了对应 setup。
+- 依赖变化时只做新 setup 不处理旧资源。
 
-```text
-开始同步
-停止同步
-```
+## Production Boundary
+一条 Effect 尽量同步一个独立外部系统，便于推理和测试。
 
-### 2. Reactive Value 变化会启动新同步
+## 本课只记住 3 件事
+1. Effect 是同步进程。
+2. cleanup 停止旧进程。
+3. 依赖变化意味着重新同步。
 
-例如：
+## Challenge
+画出 A→B→C→Unmount 的 setup/cleanup 日志顺序。
 
-```jsx
-useEffect(() => {
-  const connection = createConnection(roomId);
-  connection.connect();
-
-  return () => connection.disconnect();
-}, [roomId]);
-```
-
-当 `roomId` 从 `general` 变成 `music`：
-
-```text
-disconnect general
-connect music
-```
-
-而不是让旧连接和新连接同时存在。
-
-### 3. Cleanup 对应的是当前这一次 Setup
-
-每次 setup 都捕获当前 Render 的值。
-
-所以 cleanup 也会清理这一次 setup 对应的值：
-
-```text
-setup(roomId = general)
-cleanup(roomId = general)
-setup(roomId = music)
-```
-
-### 4. 一个组件可以有多个 Effect
-
-例如：
-
-```text
-Effect A：连接聊天室
-Effect B：订阅 window resize
-Effect C：控制第三方播放器
-```
-
-它们应根据各自同步对象拆分，而不是硬塞进一个大 Effect。
-
-### 5. 设计 Effect 时先问同步对象
-
-推荐先回答：
-
-```text
-我要和哪个外部系统同步？
-什么值决定这次同步？
-如何开始？
-如何停止？
-```
-
-而不是先问：
-
-```text
-这个 Effect 应该 mount 时跑还是 update 时跑？
-```
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：创建房间选择器
-
-```jsx
-const [roomId, setRoomId] = useState('general');
-```
-
-### 第 1 步：创建 mock Connection
-
-```jsx
-function createConnection(roomId) {
-  return {
-    connect() {},
-    disconnect() {},
-  };
-}
-```
-
-### 第 2 步：在 Effect 中启动同步
-
-```jsx
-useEffect(() => {
-  const connection = createConnection(roomId);
-  connection.connect();
-}, [roomId]);
-```
-
-### 第 3 步：返回 Cleanup
-
-```jsx
-return () => {
-  connection.disconnect();
-};
-```
-
-### 第 4 步：切换房间观察顺序
-
-从 `general` 切到 `music` 时，应看到旧 cleanup 先发生。
-
-### 第 5 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：Effect 对 `roomId` 的同步生命周期。
-- **实验辅助代码**：mock connection 只负责向 Console 输出 connect/disconnect。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./12-effect-basics-mental-model/kp117-effect-lifecycle --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 初始房间建立连接。
-2. 切换房间时旧房间先 disconnect。
-3. 新房间随后 connect。
-4. 能说明 Effect 生命周期是 synchronization lifecycle。
-5. 能解释为什么 cleanup 捕获的是旧 Render 的值。
-
-完成后继续 **RE-KP118：挂载、依赖变化与卸载**。
+## Mastery Check
+- **Must**：会预测生命周期。
+- **Should**：能拆分多条独立同步进程。
+- **Expert**：能用同步模型而非 class lifecycle 迁移思维。
