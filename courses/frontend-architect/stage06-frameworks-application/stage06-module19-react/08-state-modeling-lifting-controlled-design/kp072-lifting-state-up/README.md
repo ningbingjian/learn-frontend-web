@@ -1,284 +1,70 @@
 # RE-KP072：状态提升
 
-> [返回 Chapter 08](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 08](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `ARCHITECTURE-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | 两个兄弟组件必须保持一致时，State 应该放在哪里？ |
+| Learning Artifact | 两个独立面板 → Common Parent Owner 重构 |
 
-## 学习目标
+## 先预测
 
-学完本节后，你应该能够：
+两个兄弟各自保存 `isActive`，如果业务要求“最多只能打开一个”，它们靠什么协调？
 
-1. 理解什么时候两个组件的 State 需要协调。
-2. 会找到需要协调组件的最近公共父组件。
-3. 掌握状态提升的三个动作：移除子 State、父组件持有 State、通过 Props/回调传回子组件。
-4. 理解状态提升不是“把所有 State 都搬到 App”。
-5. 能用一个父级 State 保证“两个面板只能打开一个”之类的约束。
-6. 为下一节受控组件建立清晰的数据流基础。
+## 动手重构
 
-> **本节核心代码**：`Accordion` 持有 `activeIndex`，两个 `Panel` 通过 `isActive` 和 `onShow` 接收父级控制。  
-> **实验辅助代码**：两个课程面板的静态标题/正文只用于制造协调需求。
+### Step 0：两个兄弟各自有 Local State
 
-## 理论讲解
+单独工作没问题，但彼此不知道对方状态。
 
-### 1. 独立局部 State 为什么无法自然协调
+### Step 1：提出跨兄弟约束
 
-如果两个 Panel 各自写：
+当 A 打开必须关闭 B，状态已经不再属于单个 Panel。
 
-```jsx
-const [isActive, setIsActive] = useState(false);
-```
-
-那么：
+### Step 2：把共同 State 提升到最近共同父组件
 
 ```text
-Panel A 只知道 A 自己是否打开
-Panel B 只知道 B 自己是否打开
+Parent owns activeId
+├─ Panel A receives isActive + onShow
+└─ Panel B receives isActive + onShow
 ```
 
-用户可以把两个都打开。
+### Step 3：子组件改为“接收状态 + 上报意图”
 
-如果需求变成：
+父组件成为唯一协调者。
 
-```text
-任意时刻只能展开一个面板
-```
+[查看最终源码](./src/main.jsx)
 
-这已经不是单个 Panel 自己能够决定的规则。
+## 理论收束
 
-### 2. 找最近公共父组件
+Lifting State Up 的判断依据不是“父组件更高级”，而是**多个组件需要协调同一事实**。State 应放到能够覆盖所有消费者的最近共同 Owner。
 
-组件树：
+## Wrong Way
 
-```text
-Accordion
-├── Panel A
-└── Panel B
-```
+- 兄弟组件互相找 ref 调方法同步。
+- 两边都存一份再用 Effect 对齐。
+- 一看到共享就直接放全局 Store。
 
-A 与 B 的协调者最自然是：
+## Production Boundary
 
-```text
-Accordion
-```
+只在真正需要协调时提升；过度提升会让父组件承担无关细节并扩大 rerender/维护边界。
 
-因此把：
+## 本课只记住 3 件事
 
-```text
-A 是否打开
-B 是否打开
-```
+1. 共享事实需要共同 Owner。
+2. 最近共同父级通常是第一选择。
+3. 子组件通过 Props 接收、事件回调上报意图。
 
-重新建模为：
+## Challenge
 
-```text
-当前 activeIndex 是谁
-```
+增加第三个 Panel，验证 `activeId` 模型不需要增加第三份 State。
 
-### 3. 状态提升三步法
+## Mastery Check
 
-React 官方示例可以总结成：
-
-#### 第一步：从子组件移除 State
-
-Panel 不再：
-
-```jsx
-const [isActive, setIsActive] = useState(false);
-```
-
-#### 第二步：父组件保存共享 State
-
-```jsx
-const [activeIndex, setActiveIndex] = useState(0);
-```
-
-#### 第三步：通过 Props 下发值和事件
-
-```jsx
-<Panel
-  isActive={activeIndex === 0}
-  onShow={() => setActiveIndex(0)}
-/>
-```
-
-数据流变成：
-
-```text
-Accordion State
-      ↓ props
-Panel UI
-      ↑ callback
-用户动作
-```
-
-### 4. 为什么一个 index 比两个 boolean 更好
-
-两个 boolean：
-
-```text
-isFirstOpen
-isSecondOpen
-```
-
-存在组合：
-
-```text
-false false
-true  false
-false true
-true  true  ← 业务不允许
-```
-
-而：
-
-```text
-activeIndex = 0 | 1 | null
-```
-
-更接近真实业务状态。
-
-这是状态建模的价值，不只是“把 useState 搬位置”。
-
-### 5. 状态提升的代价
-
-提升后：
-
-- 父组件知道更多信息。
-- Props 与 callback 增加。
-- 父子组件耦合边界变得更明确。
-
-所以不要看到 State 就向上搬。
-
-只有当：
-
-```text
-多个组件需要共同读取或协调同一事实
-```
-
-才需要提升到合适的共同 owner。
-
-### 6. 状态提升后，子组件更接近受控组件
-
-Panel 的关键行为：
-
-```text
-是否打开
-```
-
-已经不再由自身决定。
-
-它变成：
-
-```jsx
-function Panel({ isActive, onShow }) { ... }
-```
-
-这就是下一节“受控组件”的核心方向。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：先写一个只接收 Props 的 Panel
-
-```jsx
-function Panel({ title, children, isActive, onShow }) {
-  return (
-    <section>
-      <h3>{title}</h3>
-      {isActive ? children : <button onClick={onShow}>显示</button>}
-    </section>
-  );
-}
-```
-
-### 第 1 步：父组件创建唯一 State
-
-```jsx
-const [activeIndex, setActiveIndex] = useState(0);
-```
-
-### 第 2 步：控制第一个 Panel
-
-```jsx
-<Panel
-  title="组件身份"
-  isActive={activeIndex === 0}
-  onShow={() => setActiveIndex(0)}
->
-  <p>Position + Type + Key</p>
-</Panel>
-```
-
-### 第 3 步：控制第二个 Panel
-
-```jsx
-<Panel
-  title="状态建模"
-  isActive={activeIndex === 1}
-  onShow={() => setActiveIndex(1)}
->
-  <p>Single Source of Truth</p>
-</Panel>
-```
-
-### 第 4 步：验证约束由父级统一保证
-
-点击第二个“显示”：
-
-```text
-activeIndex = 1
-第一个关闭
-第二个打开
-```
-
-不需要：
-
-```text
-先通知 A 关闭
-再通知 B 打开
-```
-
-### 第 5 步：画出数据流
-
-```text
-用户点击 Panel B
-       ↓
-onShow()
-       ↓
-setActiveIndex(1)
-       ↓
-Accordion Render
-       ↓
-A isActive=false
-B isActive=true
-```
-
-### 第 6 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：最近公共父级 owner + `activeIndex` + Props/callback。
-- **实验辅助代码**：Panel 的课程文案。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./08-state-modeling-lifting-controlled-design/kp072-lifting-state-up --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 页面初始只展开一个 Panel。
-2. 点击另一个 Panel 的“显示”。
-3. 新 Panel 打开，旧 Panel 自动关闭。
-4. 两个 Panel 内部都没有 `useState` 管理 `isActive`。
-5. 能描述状态提升三步法。
-6. 能解释为什么 owner 是最近公共父组件，而不是无脑放到应用根节点。
-
-完成后继续 **RE-KP073：受控组件**。
+- **Must**：会把兄弟 State 提升到共同父级。
+- **Should**：能判断什么时候不需要提升。
+- **Expert**：能用 Ownership 设计局部/页面/全局状态层级。
