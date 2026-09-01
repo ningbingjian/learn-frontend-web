@@ -2,84 +2,24 @@
 
 > [返回 Chapter 07](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` + `BUILD-LAB` |
+| 学习深度 | Must |
+| 前置课程 | Chapter 06：State Snapshot |
+| 本课主问题 | 为什么把 Taylor 切成 Sarah 后名字变了，Counter 的 score 却没有归零？ |
+| Learning Artifact | 同一 Render Tree 位置切换 Props 的 Counter Demo + Tree 图 |
+| 暂时不用理解 | `key`、Reconciler / Fiber 源码 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. State 由 React 保存，并关联到 Render Tree 中的组件身份。
+2. 同一个组件函数在不同树位置可以有不同 State。
+3. Props 改变不等于组件身份改变。
 
-1. 理解 State 实际由 React 保存，并和组件在 Render Tree 中的位置关联。
-2. 理解“同一个组件函数”可以在不同位置拥有不同 State。
-3. 理解相同父级位置、相同组件类型通常被 React 视为同一个组件身份。
-4. 能解释为什么仅仅修改 Props 不一定会重置 State。
-5. 为后续 `key`、类型变化、条件渲染和状态重置建立统一身份模型。
-
-> **本节核心代码**：条件分支在同一个树位置渲染同一种 `Counter` 组件，只改变 `person` Prop。  
-> **实验辅助代码**：Taylor / Sarah 切换按钮只用于观察身份是否变化。
-
-## 理论讲解
-
-### 1. State 并不真的“存在组件函数变量里”
-
-写：
-
-```jsx
-function Counter() {
-  const [score, setScore] = useState(0);
-}
-```
-
-看起来像：
-
-```text
-score 存在 Counter 函数内部
-```
-
-但组件函数每次 Render 都会重新执行。
-
-真正保存 State 的是 React。
-
-React 需要知道：
-
-```text
-这一份 State 属于树中的哪一个组件？
-```
-
-### 2. React 使用 Render Tree 中的位置关联 State
-
-可以先建立：
-
-```text
-父组件
-└── 第一个子位置：Counter
-    └── score State
-```
-
-如果下一次 Render 仍然是：
-
-```text
-同一个父级
-同一个位置
-同一种组件类型 Counter
-```
-
-React 通常会把它识别成：
-
-```text
-“刚才那个 Counter”
-```
-
-于是继续把原来的 State 提供给它。
-
-### 3. Props 变化不等于组件身份变化
-
-例如：
+## 先预测
 
 ```jsx
 {isTaylor ? (
@@ -89,177 +29,95 @@ React 通常会把它识别成：
 )}
 ```
 
-从源码看像两个分支。
+先把 Taylor 的 score 点到 3，再切 Sarah。你预测 score 是 0 还是 3？为什么？
 
-但从 Render Tree 看，它们都占据：
+## 动手实验：从 0 到 1
 
-```text
-父节点的同一个子位置
-```
-
-并且类型都是：
-
-```text
-Counter
-```
-
-所以切换 Taylor / Sarah 时，`person` Prop 改了，但 `score` State 默认仍然可能保留。
-
-### 4. 这就是“位置决定身份”的第一层模型
-
-不能只看：
-
-```text
-JSX 写在 if 左边还是右边
-```
-
-更应该看最终树：
-
-```text
-这个父节点下面的这个位置
-现在是什么组件类型？
-```
-
-### 5. 不同位置就是不同身份
-
-如果同时渲染：
-
-```jsx
-<Counter person="Taylor" />
-<Counter person="Sarah" />
-```
-
-即使两者都调用同一个 `Counter` 函数，它们位于两个位置，因此拥有两份独立 State。
-
-这和 RE-KP042 “State 是组件私有记忆”可以连接起来。
-
-### 6. 位置不是唯一因素
-
-后续还要加入：
-
-```text
-组件类型
-key
-```
-
-最终你会形成：
-
-```text
-Parent 中的位置 + Component Type + key
-→ React 判断身份
-→ 决定 State 保留还是重置
-```
-
-本节先只抓住“位置”这一条主线。
-
-### 7. 为什么这个知识点非常重要
-
-很多看起来神秘的问题都和身份有关：
-
-```text
-为什么切换页面后输入框内容还在？
-为什么换了一个组件后 State 突然清空？
-为什么 random key 导致输入框不断丢焦点？
-为什么把组件定义写到组件内部会重置？
-```
-
-后面整个 Chapter 07 都是在扩展这一套身份模型。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：写 Counter
+### Step 0：写一个有本地 State 的 Counter
 
 ```jsx
 function Counter({ person }) {
   const [score, setScore] = useState(0);
-
-  return (
-    <section>
-      <h2>{person}</h2>
-      <p>score：{score}</p>
-      <button onClick={() => setScore(s => s + 1)}>+1</button>
-    </section>
-  );
+  // ...
 }
 ```
 
-### 第 1 步：在父组件保存当前人物
+### Step 1：父组件只切换 person
 
 ```jsx
 const [isTaylor, setIsTaylor] = useState(true);
 ```
 
-### 第 2 步：在同一个位置条件渲染同一种组件
+### Step 2：让两个分支占据同一个子位置
 
 ```jsx
-{isTaylor ? (
-  <Counter person="Taylor" />
-) : (
-  <Counter person="Sarah" />
-)}
+{isTaylor ? <Counter person="Taylor" /> : <Counter person="Sarah" />}
 ```
 
-### 第 3 步：把 Taylor 分数加到 3
+### Step 3：制造可观察状态
+
+Taylor score 点到 3，再切到 Sarah。
+
+**现象**：名字变成 Sarah，但 score 仍然是 3。
+
+**立即解释**：React 看到的是“父节点的同一个位置仍然是 `Counter`”。这是同一身份的下一次 Render，只是 Props 变了。
+
+### Step 4：切回 Taylor
+
+score 继续保留。不要把它解释成“Taylor 和 Sarah 共享 State”；更准确是：当前 Render Tree 中从未创建第二个组件身份。
+
+[查看最终源码](./src/main.jsx)
+
+## 图解：看树位置，不看 JSX 分支文字
 
 ```text
-Taylor score = 3
+Render A
+App
+└─ Counter (position #1, type=Counter)
+   person=Taylor
+   score=3
+
+Render B
+App
+└─ Counter (position #1, type=Counter)
+   person=Sarah
+   score=3
 ```
 
-### 第 4 步：切换到 Sarah
-
-你会看到名字变成 Sarah，但 score 仍可能是：
+如果同时渲染两个 Counter：
 
 ```text
-3
+App
+├─ Counter position #1 → State A
+└─ Counter position #2 → State B
 ```
 
-这不是 State 从 Taylor “复制给 Sarah”。
+## 理论收束
 
-React 的判断更接近：
+组件函数每次 Render 会重新调用，但 State 不存在某个持久的函数局部变量里。React 根据树中的组件身份关联 State。Position 是身份模型的第一层；后续还会加入 Component Type 和 `key`。
 
-```text
-同一个位置
-仍然是 Counter
-所以这是同一个组件身份，只是 person Prop 变了
-```
+## Wrong Way
 
-### 第 5 步：再次切回 Taylor
+- 把 Position 理解成 `main.jsx` 第几行。
+- 认为“Props 改变就会重置组件”。
+- 看到 State 保留就说两个业务实体“共享 State”，忽略其实 React 只识别到一个组件身份。
 
-score 仍然保留，因为组件身份没有被重置。
+## Production Boundary
 
-### 第 6 步：不要急着加 key
+联系人编辑器、详情面板等场景要先明确：切换业务实体时，你希望沿用同一 UI 身份，还是明确重置本地 State？这会直接决定后续是否应该使用 `key`。
 
-你可能已经想到：
+## 本课只记住 3 件事
 
-```jsx
-<Counter key={person} />
-```
+1. React 保存 State，并把它关联到 Render Tree 身份。
+2. 同位置、同类型通常延续同一个组件身份。
+3. Props 改变本身不会重置 State。
 
-但 `key` 会在 RE-KP064～065 专门学习。
+## Challenge
 
-本节故意不加，先把默认的位置身份模型看清。
+同时渲染 Taylor 和 Sarah 两个 Counter，分别点不同 score；解释为什么这时两份 State 完全独立。
 
-### 第 7 步：对照最终源码
+## Mastery Check
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：同一位置、同一组件类型，仅 Props 变化。
-- **实验辅助代码**：人物切换按钮用于制造 Prop 变化。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./07-component-identity-key-state-preservation/kp061-tree-position-component-identity --config ./vite.config.js
-```
-
-## 效果验证
-
-1. Taylor 的 score 加到 3。
-2. 切换到 Sarah。
-3. score 仍保持 3。
-4. 切回 Taylor，State 继续保留。
-5. 能解释原因不是“Props 自动共享 State”，而是 Render Tree 中组件身份没有变化。
-6. 能画出父节点下同一个 Counter 位置的树结构。
-
-完成后继续 **RE-KP062：相同位置相同组件保留状态**。
+- **Must**：能预测同位置 Counter 切 Props 后 State 是否保留。
+- **Should**：能画 Render Tree 而不是按 JSX 分支文本推理。
+- **Expert**：能把“UI identity”和“business entity identity”区分开，为 `key` 设计做准备。

@@ -2,182 +2,125 @@
 
 > [返回 Chapter 07](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `BROWSER-MECHANISM-LAB` |
+| 学习深度 | Must |
+| 前置课程 | RE-KP061：组件树中的位置决定身份 |
+| 本课主问题 | 父组件重新 Render、Prop 和样式都变了，为什么子组件内部 score 还能保留？ |
+| Learning Artifact | Fancy / Plain Prop 切换 + Counter State Preserve Demo |
+| 暂时不用理解 | Type Change、`key`、Reconciliation 源码 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. “相同位置 + 相同组件类型”通常会延续身份。
+2. 父组件重新 Render 和 Props 变化不等于子组件重建。
+3. Position 是 Render Tree 结构，不是源码行号。
 
-1. 理解 React 会把 State 与组件在渲染树中的位置关联起来。
-2. 理解“相同位置 + 相同组件类型”通常会延续同一组件身份。
-3. 知道父组件重新 Render、Props 变化，并不自动意味着子组件 State 被重置。
-4. 能区分“Props 变了”和“组件身份变了”。
-5. 能通过实际案例验证样式 Props 改变时内部计数仍然保留。
+## 先预测
 
-> **本节核心代码**：同一个 `<Counter />` 保持在父组件中的同一位置，只改变 `fancy` Prop。
->
-> **实验辅助代码**：样式 class 和说明文字只用于让 Props 变化可见。
-
-## 理论讲解
-
-### 1. State 不是跟着 JSX 文本走
-
-你可能会直觉认为：
-
-```jsx
-<Counter />
-```
-
-“里面自己保存了 State”。
-
-更准确的模型是：
-
-```text
-React Render Tree 中某个位置
-        +
-该位置上的组件类型
-        ↓
-对应一份组件身份和 State
-```
-
-因此父组件重新执行，不等于 React 每次都创建全新的 Counter State。
-
-### 2. Props 变化不等于组件身份变化
-
-例如：
+先把 Counter score 点到 3，再把：
 
 ```jsx
 <Counter fancy={false} />
 ```
 
-变成：
+切成：
 
 ```jsx
 <Counter fancy={true} />
 ```
 
-只要它仍然处于父组件中的同一位置，并且组件类型仍然是 `Counter`，React 通常会继续使用原来的 State。
+score 会不会归零？
 
-可以先记住：
+## 动手实验：从 0 到 1
 
-```text
-Props 可以变化
-State 可以保留
-```
-
-### 3. 本节实验为什么只改变样式
-
-我们故意让 `Counter` 接收：
-
-```jsx
-fancy
-```
-
-然后切换 CSS class。
-
-这样可以把问题缩小到：
-
-```text
-父组件重新 Render
-Prop 发生变化
-组件位置没变
-组件类型没变
-```
-
-如果计数没有归零，就能清楚看到 State 被保留。
-
-### 4. 不要把“同一位置”理解成源代码行号
-
-这里的 Position 是 React 渲染树中的结构位置，不是：
-
-```text
-main.jsx 第 27 行
-```
-
-真正重要的是重新 Render 前后，React 在父节点的对应位置看到的元素身份是否可以继续匹配。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：创建 Counter
+### Step 0：创建最小 Counter
 
 ```jsx
 function Counter() {
   const [score, setScore] = useState(0);
-
-  return (
-    <button onClick={() => setScore(score + 1)}>
-      score: {score}
-    </button>
-  );
+  // ...
 }
 ```
 
-### 第 1 步：增加可变化的 Prop
+### Step 1：让 Props 真正发生变化
 
 ```jsx
 function Counter({ fancy }) {
-  // ...
   return <section className={fancy ? 'fancy' : 'plain'}>...</section>;
 }
 ```
 
-### 第 2 步：父组件控制 fancy
+### Step 2：父组件切 fancy
 
 ```jsx
 const [isFancy, setIsFancy] = useState(false);
-```
-
-渲染：
-
-```jsx
 <Counter fancy={isFancy} />
 ```
 
-### 第 3 步：增加切换按钮
+### Step 3：先积累内部 State
 
-```jsx
-<button onClick={() => setIsFancy(!isFancy)}>
-  切换样式
-</button>
-```
+把 score 点到 3，再切 Fancy / Plain。
 
-### 第 4 步：观察 State 是否重置
+**现象**：样式改变，score 保留。
 
-先把 score 点到 3，再切换样式。
+**立即解释**：React 的匹配对象仍然是父节点同一位置上的同一个 `Counter` 类型；Props 是这次 Render 的输入，不是组件身份本身。
 
-预期：
+### Step 4：连续切换多次
+
+State 继续延续。由此可以排除“只有第一次 Prop 改变才特殊”的错误猜测。
+
+[查看最终源码](./src/main.jsx)
+
+## 图解
 
 ```text
-样式变化
-score 仍然是 3
+Before
+App
+└─ Counter @ same position
+   type=Counter
+   fancy=false
+   score=3
+
+After
+App
+└─ Counter @ same position
+   type=Counter
+   fancy=true
+   score=3
+
+Identity matched → State preserved
 ```
 
-### 第 5 步：对照最终源码
+## 理论收束
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
+React 会在重新 Render 时匹配前后树。如果父级对应位置仍然是同一种组件类型，它通常延续组件身份和 State，然后把新 Props 交给下一次组件函数调用。下一课会只改变一个变量：**组件类型**。
 
-- **本节核心代码**：同一位置、同一类型的 `Counter` 在 Prop 更新后保留 State。
-- **实验辅助代码**：className 只负责让 Prop 变化可视化。
+## Wrong Way
 
-## 运行案例
+- 认为“父组件 Render 了，所以所有子组件 State 重新初始化”。
+- 认为 `useState(0)` 每次执行都必然把已有 State 设回 0。
+- 把 CSS class 改变误认为 DOM / Component identity 一定重建。
 
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./07-component-identity-key-state-preservation/kp062-same-position-same-component --config ./vite.config.js
-```
+## Production Boundary
 
-## 效果验证
+主题、样式、筛选条件、展示模式等 Props 经常变化，但业务通常希望编辑中的本地 State 保留。不要为了“刷新 UI”随意改变 `key` 或组件类型。
 
-1. 连续点击 `+1` 把 score 增大。
-2. 切换 Fancy / Plain 样式。
-3. score 不应因为 Prop 改变而归零。
-4. 再次切换样式，State 仍然延续。
-5. 能解释：这里保留 State 的关键不是“Props 没变”，而是组件身份没有被替换。
+## 本课只记住 3 件事
 
-完成后继续 **RE-KP063：组件类型变化导致状态重置**。
+1. 父组件重渲染不等于子组件重建。
+2. 同位置 + 同类型通常保留 State。
+3. Props 可以变，Identity 可以不变。
+
+## Challenge
+
+再增加一个 `label` Prop，与 `fancy` 同时变化；先预测 score，然后验证。
+
+## Mastery Check
+
+- **Must**：能解释为什么 Fancy 切换不重置 score。
+- **Should**：能区分 Props Change 与 Identity Change。
+- **Expert**：能在组件 API 设计中避免把普通展示变化误建模成组件重挂载。
