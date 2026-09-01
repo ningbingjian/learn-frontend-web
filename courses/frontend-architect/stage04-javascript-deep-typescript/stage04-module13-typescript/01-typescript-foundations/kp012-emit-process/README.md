@@ -1,327 +1,68 @@
 # TS-KP012：源码到 JavaScript 的 Emit 过程
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
+> [返回 Chapter 01](../README.md) · [最终源码](./src/main.ts)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + 轻量 `SOURCE-LAB` |
+| 学习深度 | **Must** |
+| 前置课程 | TS-KP003、TS-KP010～011 |
+| 本课主问题 | 同一份 `.ts` 源码为什么在 ES2018 / ES2022 目标下可以得到不同 JavaScript？ |
+| Learning Artifact | `dist/main.js` + `main.js.map` + `noEmitOnError` 失败实验 |
+| 本课暂时不用理解 | Scanner / Parser / Transformer / Emitter 内部调用链、Source Map 格式 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. Emit 根据 `compilerOptions` 生成运行时代码和附加产物。
+2. 类型检查与“是否输出文件”是相关但可分离的决策。
+3. `target`、`outDir`、`sourceMap`、`noEmitOnError` 会改变可观察产物。
 
-1. 建立“TypeScript 源码 → 检查 → Emit JavaScript”的基础流程图。
-2. 理解类型检查与是否输出文件是两个相关但不同的决策。
-3. 知道 `target` 会影响 JavaScript 语法降级程度。
-4. 知道 `outDir`、`sourceMap` 等配置会影响 Emit 产物位置和附加文件。
-5. 理解 `noEmitOnError` 的作用，并知道课程基线显式开启了它。
+## 前置状态
 
-> **本节核心知识**：Emit 是“根据配置生成运行时代码/相关产物”的阶段；类型不会因为写在 TS 中就自动存在于运行时。  
-> **实验辅助代码**：可选链与空值合并只是为了让 `target` 对输出语法的影响更容易观察。
-
-## 理论讲解
-
-### 1. 先建立最小编译链路
-
-现在先用一个简化模型：
-
-```text
-.ts / .tsx / .mts / .cts
-       ↓
-解析源码
-       ↓
-类型检查
-       ↓
-根据 compilerOptions 进行 Emit
-       ↓
-.js / .jsx / .mjs / .cjs / source map / declaration...
-```
-
-编译器内部的 Scanner、Parser、Binder、Checker、Emitter 会在后面 Compiler Architecture 章节深入学习。
-
-本节只关心：
-
-```text
-输入什么
-配置什么
-最终输出什么
-```
-
-### 2. 类型检查和 Emit 不是完全同一件事
-
-TypeScript 可以：
-
-```text
-只检查，不 Emit
-```
-
-也可以：
-
-```text
-检查后 Emit
-```
-
-所以有：
-
-```bash
---noEmit
-```
-
-专门关闭输出。
-
-下一节 TS-KP013 会专门学习 `--noEmit`。
-
-### 3. `target` 会影响输出的 JavaScript 语法级别
-
-例如源码：
+源码同时包含：
 
 ```ts
-const title = config.title?.trim() ?? 'Untitled';
+type CourseConfig = { ... };
+config.title?.trim() ?? 'Untitled course';
 ```
 
-如果目标 JavaScript 版本较老，TypeScript 可能需要把：
+一个是类型层声明，一个是现代 JavaScript 语法。
 
-```text
-?.
-??
-```
+## 本课主问题
 
-转换成目标环境能够理解的等价 JavaScript。
-
-如果 `target` 足够新，这些现代语法可能直接保留。
-
-### 4. `outDir`
-
-`outDir` 决定输出目录，例如：
+配置指定：
 
 ```json
-{
-  "outDir": "dist"
-}
+"target": "ES2018",
+"sourceMap": true
 ```
 
-于是：
+Build 后类型会怎样，`?.` / `??` 又会怎样？
+
+## 先预测
 
 ```text
-src/main.ts
-   ↓
-dist/main.js
+CourseConfig 会不会出现在 main.js？
+ES2018 产物会不会原样保留所有 ?. / ??？
+sourceMap=true 会多出什么文件？
+有 Type Error 且 noEmitOnError=true 时会不会继续产出新 JS？
 ```
-
-### 5. `sourceMap`
-
-开启：
-
-```json
-{
-  "sourceMap": true
-}
-```
-
-通常会额外生成：
-
-```text
-main.js.map
-```
-
-它用于帮助调试器把运行中的 JavaScript 位置映射回原始 TypeScript 源码。
-
-### 6. `noEmitOnError`
-
-TypeScript 编译器的通用默认行为并不是“只要有错误就一定完全禁止 Emit”。
-
-`noEmitOnError` 用来明确要求：
-
-```text
-只要本次编译报告错误
-      ↓
-就不要生成本次输出文件
-```
-
-本课程共享 `tsconfig.base.json` 已经显式设置：
-
-```json
-{
-  "noEmitOnError": true
-}
-```
-
-因此课程项目采用“有类型错误就不生成新产物”的更严格基线。
-
----
 
 ## 动手编码：从 0 到 1
 
-### 第 0 步：明确实验目标
-
-本节要观察三件事：
-
-1. TypeScript 类型被移除。
-2. `target` 会影响现代 JavaScript 语法如何输出。
-3. `sourceMap` 与 `noEmitOnError` 会改变输出行为。
-
-### 第 1 步：创建带现代语法的 TypeScript 源码
-
-创建：
-
-```text
-src/main.ts
-```
-
-写入：
-
-```ts
-type CourseConfig = {
-  title?: string;
-  nested?: {
-    enabled?: boolean;
-  };
-};
-
-const config: CourseConfig = {
-  nested: {}
-};
-
-const title = config.title?.trim() ?? 'Untitled course';
-const enabled = config.nested?.enabled ?? false;
-
-console.log(`${title} | enabled=${enabled}`);
-```
-
-### 第 2 步：把本实验 target 设为 ES2018
-
-当前知识点 `tsconfig.json` 覆盖：
-
-```json
-{
-  "target": "ES2018",
-  "sourceMap": true
-}
-```
-
-这样可选链和空值合并就更容易在输出中观察到转换。
-
-### 第 3 步：执行构建
-
-在模块根目录执行：
+### Step 0：先 Build 正确源码
 
 ```bash
 npm run build -- ./01-typescript-foundations/kp012-emit-process/tsconfig.json
 ```
 
-查看：
+观察：
 
 ```text
-dist/
-├── main.js
-└── main.js.map
-```
-
-### 第 4 步：先观察类型是否存在于 JavaScript
-
-打开 `dist/main.js`。
-
-源码中的：
-
-```ts
-type CourseConfig = { ... }
-```
-
-不会作为普通 JavaScript 类型定义保留。
-
-这和 TS-KP003 的类型擦除结论一致。
-
-### 第 5 步：观察现代语法如何被降级
-
-源码：
-
-```ts
-config.title?.trim() ?? 'Untitled course'
-```
-
-在 ES2018 目标下，输出会变成目标版本能够执行的条件判断形式。
-
-不要求背生成代码，只要能够回答：
-
-```text
-为什么源码有 ?. / ??
-但输出可能没有？
-```
-
-答案是：
-
-```text
-target 要求更老的 JavaScript 语法级别
-```
-
-### 第 6 步：临时改成 ES2022 做对照
-
-把当前知识点 `tsconfig.json` 的：
-
-```json
-"target": "ES2018"
-```
-
-临时改成：
-
-```json
-"target": "ES2022"
-```
-
-删除旧 `dist/` 后重新构建。
-
-再次查看 `main.js`，比较现代语法是否保留得更多。
-
-观察完成后恢复 `ES2018`。
-
-### 第 7 步：观察 source map
-
-恢复配置并重新构建后，确认存在：
-
-```text
-main.js.map
-```
-
-打开 `main.js` 底部，还会看到 source map 引用信息。
-
-本节不深入 Source Map 格式，只要知道它属于 Emit 附加产物。
-
-### 第 8 步：验证 `noEmitOnError`
-
-先删除当前知识点的 `dist/`。
-
-临时在 `src/main.ts` 加入：
-
-```ts
-const count: number = '3';
-```
-
-然后重新运行：
-
-```bash
-npm run build -- ./01-typescript-foundations/kp012-emit-process/tsconfig.json
-```
-
-应该看到类型错误，并且由于课程基线开启：
-
-```json
-"noEmitOnError": true
-```
-
-不会生成新的正常 Emit 产物。
-
-观察后删除这行错误代码。
-
-### 第 9 步：恢复正确源码并运行
-
-重新构建：
-
-```bash
-npm run build -- ./01-typescript-foundations/kp012-emit-process/tsconfig.json
+dist/main.js
+dist/main.js.map
 ```
 
 运行：
@@ -330,42 +71,111 @@ npm run build -- ./01-typescript-foundations/kp012-emit-process/tsconfig.json
 node ./01-typescript-foundations/kp012-emit-process/dist/main.js
 ```
 
-预期：
+输出：
 
 ```text
 Untitled course | enabled=false
 ```
 
-### 第 10 步：完成案例并对照最终源码
+---
 
-最终源码：[`src/main.ts`](./src/main.ts)。
+### Step 1：先找“消失的 Type”
 
-本节总结：
+源码中的 `CourseConfig` 不会作为普通 JS 类型声明进入 `main.js`。
 
-- **核心知识**：Emit 会根据 `target`、`module`、`outDir`、`sourceMap` 等配置生成运行时产物；课程还通过 `noEmitOnError` 阻止错误构建产生新输出。
-- **实验辅助代码**：可选链、空值合并和故意制造的 `number = string` 错误只用于让 Emit 差异变得可见。
+这再次验证 TS-KP003 的 Type Erasure。
 
-## 运行案例
+### Step 2：再找“被转换的 Runtime Syntax”
 
-```bash
-npm run build -- ./01-typescript-foundations/kp012-emit-process/tsconfig.json
-node ./01-typescript-foundations/kp012-emit-process/dist/main.js
-```
+源码包含 `?.` / `??`。因为 target 是 ES2018，Emit 会把它们转换为目标版本可执行的等价逻辑。
 
-并打开：
+### 立即解释
+
+类型语法的“消失”和现代 JS 语法的“降级”是两种不同现象：
 
 ```text
-dist/main.js
-dist/main.js.map
+Type Syntax → erase
+Runtime Syntax → 视 target 决定保留或 transform
 ```
 
-## 效果验证
+---
 
-你应该能够解释：
+### Step 3：只改 target 做对照
 
-1. TypeScript 类型为什么通常不会保留在普通 JavaScript 产物里？
-2. `target` 为什么会改变输出 JavaScript 的写法？
-3. `sourceMap` 会新增什么类型的 Emit 产物？
-4. `outDir` 控制什么？
-5. `noEmitOnError` 为什么适合 CI 或严格课程基线？
-6. “有类型错误”与“是否输出 JavaScript”为什么是两个需要单独理解的概念？
+临时把 ES2018 改为 ES2022，删除旧 `dist` 后再 Build。
+
+比较 `main.js`，观察现代语法保留程度的变化。验证后恢复 ES2018。
+
+---
+
+### Step 4：观察附加产物 Source Map
+
+`sourceMap: true` 生成 `main.js.map`，帮助调试器把运行 JS 的位置映射回 TS 源码。本课只观察文件存在，不解析 Map 格式。
+
+---
+
+### Step 5：制造 Type Error，观察 noEmitOnError
+
+先删 `dist`，临时加入：
+
+```ts
+const count: number = '3';
+```
+
+重新 Build。课程基础配置开启 `noEmitOnError: true`，应看到 Diagnostic 且不生成新的正常产物。验证后恢复源码。
+
+## 图解与心智模型
+
+```text
+TypeScript Source
+  ├─ Type Syntax ───────→ Checker → erase
+  └─ Runtime Syntax ────→ target transform
+                           ↓
+compilerOptions → Emit → dist/main.js
+                       └→ main.js.map
+```
+
+## 理论收束
+
+> Emit 是 TypeScript 编译流程中根据配置产生 JavaScript / JSX / Source Map / Declaration 等输出的阶段；它不等于“把所有源码原样复制成 JS”。
+
+| 配置/现象 | 影响 |
+|---|---|
+| `target` | JS 语法级别 / 降级程度 |
+| `outDir` | 输出位置 |
+| `sourceMap` | 是否生成 `.map` |
+| `noEmitOnError` | 有错误时是否阻止 Emit |
+
+## Wrong Way 与边界
+
+- 不要把 Type Erasure 与 JavaScript Syntax Transform 混成一件事。
+- 不要背生成代码的具体临时变量名；真正要理解的是 target 控制输出语法能力。
+
+## Production Boundary
+
+真实项目可能让 `tsc` 只做类型检查，由 Babel / SWC / esbuild / Vite 负责 Transform/Bundle；也可能直接由 `tsc` Emit。必须先明确工具链职责。
+
+## 本课只记住 3 件事
+
+1. **Type Syntax 通常擦除，Runtime Syntax 可能按 target 转换。**
+2. **Emit 是配置驱动的。**
+3. **检查通过与是否输出是两个需要显式设计的工程决策。**
+
+## Challenge
+
+把 target 改成更高版本，比较 `dist/main.js`；再恢复并制造一次 Type Error，记录“源码、Diagnostic、dist”三者变化。
+
+## Mastery Check
+
+### Must
+- 能解释本课 ES2018 产物为何与源码不同。
+### Should
+- 能区分 Type Erasure / Runtime Transform / Source Map。
+### Expert
+- 能根据团队工具链决定 `tsc` 应负责 Typecheck、Emit 或两者。
+
+## 最终源码与代码边界
+
+- **核心内容**：`compilerOptions` 对 Emit 的影响。
+- **实验辅助代码**：可选链 / 空值合并用于放大 target 差异。
+- **最终源码**：[`src/main.ts`](./src/main.ts)

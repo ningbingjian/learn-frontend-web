@@ -37,27 +37,15 @@
 再给它专业术语
 ```
 
-> 本章的核心不是背定义，而是建立一套之后所有 TypeScript 课程都能复用的观察方法。
-
 ## 共享运行环境
 
-TypeScript 模块共用根目录工具链：
-
-```text
-stage04-module13-typescript/
-├── package.json
-├── tsconfig.base.json
-├── .gitignore
-└── 01-typescript-foundations/
-```
-
-首次进入模块执行一次：
+TypeScript 模块共用根目录工具链。首次进入模块执行：
 
 ```bash
 npm install
 ```
 
-单个 KP 的 `tsconfig.json` 只负责当前实验的 `rootDir`、`outDir`、`include` 等局部配置；TypeScript 版本和基础 strict 配置复用模块根目录。
+单个 KP 的 `tsconfig.json` 只负责当前实验的局部配置；TypeScript 版本和基础 strict 配置复用模块根目录。
 
 ## 课程索引
 
@@ -71,17 +59,17 @@ npm install
 | TS-KP004 | 类型安全不是运行时数据校验 | [文档](./kp004-types-vs-runtime-validation/README.md) · [源码](./kp004-types-vs-runtime-validation/src/main.ts) | 已重构 · v1.0 |
 | TS-KP005 | TypeScript 的设计目标与非目标 | [文档](./kp005-design-goals/README.md) · [源码](./kp005-design-goals/src/main.ts) | 已重构 · v1.0 |
 | TS-KP006 | 渐进式类型系统与 JavaScript 迁移 | [文档](./kp006-gradual-typing-migration/README.md) · [源码](./kp006-gradual-typing-migration/src/main.ts) | 已重构 · v1.0 |
-| TS-KP007 | 结构化类型系统基本直觉 | [文档](./kp007-structural-typing-intuition/README.md) · [源码](./kp007-structural-typing-intuition/src/main.ts) | 已完成 · 待重构 |
-| TS-KP008 | 编译期错误与运行时错误的区别 | [文档](./kp008-compile-time-vs-runtime-errors/README.md) · [源码](./kp008-compile-time-vs-runtime-errors/src/main.ts) | 已完成 · 待重构 |
+| TS-KP007 | 结构化类型系统基本直觉 | [文档](./kp007-structural-typing-intuition/README.md) · [源码](./kp007-structural-typing-intuition/src/main.ts) | 已重构 · v1.0 |
+| TS-KP008 | 编译期错误与运行时错误的区别 | [文档](./kp008-compile-time-vs-runtime-errors/README.md) · [源码](./kp008-compile-time-vs-runtime-errors/src/main.ts) | 已重构 · v1.0 |
 
 ### Lesson 01.2：安装、编译与执行
 
 | 编号 | 知识点 | 文档与源码 | 教学状态 |
 |---|---|---|---|
-| TS-KP009 | 安装 TypeScript 与版本管理 | [文档](./kp009-installation-version-management/README.md) · [源码](./kp009-installation-version-management/src/main.ts) | 已完成 · 待重构 |
-| TS-KP010 | `tsc` 基本使用 | [文档](./kp010-tsc-basics/README.md) · [源码](./kp010-tsc-basics/src/main.ts) | 已完成 · 待重构 |
-| TS-KP011 | `.ts`、`.tsx`、`.mts`、`.cts` 文件 | [文档](./kp011-typescript-file-extensions/README.md) · [源码](./kp011-typescript-file-extensions/src/) | 已完成 · 待重构 |
-| TS-KP012 | 源码到 JavaScript 的 Emit 过程 | [文档](./kp012-emit-process/README.md) · [源码](./kp012-emit-process/src/main.ts) | 已完成 · 待重构 |
+| TS-KP009 | 安装 TypeScript 与版本管理 | [文档](./kp009-installation-version-management/README.md) · [源码](./kp009-installation-version-management/src/main.ts) | 已重构 · v1.0 |
+| TS-KP010 | `tsc` 基本使用 | [文档](./kp010-tsc-basics/README.md) · [源码](./kp010-tsc-basics/src/main.ts) | 已重构 · v1.0 |
+| TS-KP011 | `.ts`、`.tsx`、`.mts`、`.cts` 文件 | [文档](./kp011-typescript-file-extensions/README.md) · [源码](./kp011-typescript-file-extensions/src/) | 已重构 · v1.0 |
+| TS-KP012 | 源码到 JavaScript 的 Emit 过程 | [文档](./kp012-emit-process/README.md) · [源码](./kp012-emit-process/src/main.ts) | 已重构 · v1.0 |
 | TS-KP013 | `--noEmit` 与只类型检查 | [文档](./kp013-no-emit-type-checking/README.md) · [源码](./kp013-no-emit-type-checking/src/main.ts) | 已完成 · 待重构 |
 | TS-KP014 | Watch Mode | [文档](./kp014-watch-mode/README.md) · [源码](./kp014-watch-mode/src/main.ts) | 已完成 · 待重构 |
 | TS-KP015 | 直接运行 TypeScript 的现代方式与限制 | [文档](./kp015-direct-typescript-execution/README.md) · [源码](./kp015-direct-typescript-execution/src/main.ts) | 已完成 · 待重构 |
@@ -96,6 +84,6 @@ npm install
 ## 当前进度
 
 - 知识点完成度：**16 / 16，已完成**。
-- 新教学规范重构：**6 / 16**。
-- 下一重构批次：**TS-KP007～TS-KP012**。
+- 新教学规范重构：**12 / 16**。
+- 下一重构批次：**TS-KP013～TS-KP018**（跨 Chapter 01 → Chapter 02）。
 - Lab 01：已有内容保留，待完成 KP001～109 重构后统一复核。
