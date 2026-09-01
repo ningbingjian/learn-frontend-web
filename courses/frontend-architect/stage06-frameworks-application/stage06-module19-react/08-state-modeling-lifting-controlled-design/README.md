@@ -2,23 +2,37 @@
 
 > [返回 React 模块索引](../README.md)
 
-本 Chapter 从“State 应该放在哪里”进入更系统的状态建模。先建立 Single Source of Truth，再学习状态提升、受控/非受控组件、Props Drilling 识别、状态放置与生命周期设计，最终形成“谁拥有状态、谁只是消费状态、怎样让合法状态更容易表达”的组件架构直觉。
+本 Chapter 从“State 应该放在哪里”进入状态建模：减少重复事实、确定 Owner、在需要协同时提升 State，并通过受控/非受控 API 设计组件边界。
 
-| 编号 | 知识点 | 包含内容 | 文档与源码 | 状态 |
-|---|---|---|---|---|
-| RE-KP071 | Single Source of Truth | 1. State Owner 2. 避免重复状态 3. Derived View | [文档](./kp071-single-source-of-truth/README.md) · [源码](./kp071-single-source-of-truth/src/main.jsx) | 已完成 |
-| RE-KP072 | 状态提升 | 1. Common Parent 2. Lift State Up 3. Props / Handler | [文档](./kp072-lifting-state-up/README.md) · [源码](./kp072-lifting-state-up/src/main.jsx) | 已完成 |
-| RE-KP073 | 受控组件 | 1. Controlled Component 2. Props Drive State 3. Event Callback | [文档](./kp073-controlled-component/README.md) · [源码](./kp073-controlled-component/src/main.jsx) | 已完成 |
-| RE-KP074 | 非受控组件 | 1. Local State 2. Initial Value 3. Parent Control Boundary | [文档](./kp074-uncontrolled-component/README.md) · [源码](./kp074-uncontrolled-component/src/main.jsx) | 已完成 |
-| RE-KP075 | 受控与非受控的选择 | 1. Coordination 2. Reuse 3. API Trade-off | [文档](./kp075-controlled-vs-uncontrolled/README.md) · [源码](./kp075-controlled-vs-uncontrolled/src/main.jsx) | 已完成 |
-| RE-KP076 | Props Drilling 的识别 | 1. Intermediate Props 2. Tree Depth 3. Boundary | [文档](./kp076-props-drilling-recognition/README.md) · [源码](./kp076-props-drilling-recognition/src/main.jsx) | 已完成 |
-| RE-KP077 | 状态放置原则 | 1. Ownership 2. Closest Common Parent 3. Locality | [文档](./kp077-state-placement-principles/README.md) · [源码](./kp077-state-placement-principles/src/main.jsx) | 已完成 |
-| RE-KP078 | 状态生命周期设计 | 1. Create 2. Preserve 3. Reset / Dispose | [文档](./kp078-state-lifecycle-design/README.md) · [源码](./kp078-state-lifecycle-design/src/main.jsx) | 已完成 |
-| RE-KP079 | 状态归属与组件边界 | 1. Domain Owner 2. Component Boundary 3. API | [文档](./kp079-state-ownership-component-boundary/README.md) · [源码](./kp079-state-ownership-component-boundary/src/main.jsx) | 已完成 |
-| RE-KP080 | 有限状态思维 | 1. Valid States 2. Transitions 3. Impossible Combination | [文档](./kp080-finite-state-thinking/README.md) · [源码](./kp080-finite-state-thinking/src/main.jsx) | 已完成 |
+## Module Teaching Contract
+
+| 项目 | 约定 |
+|---|---|
+| 模块主线问题 | 一份业务事实到底应该由谁拥有？多个组件怎样共享而不制造重复/冲突 State？ |
+| 主教学模式 | `BUILD-LAB` + `ARCHITECTURE-LAB` |
+| 辅助教学模式 | `FAILURE-LAB` |
+| 贯穿实验 | 同步面板、输入组件、筛选/选择器逐步重构 |
+| Learning Artifact | 可运行 Demo、State Ownership 图、API Trade-off 表 |
+| Wrong Way | 重复 State、双向同步 Effect、无脑提升、Props Drilling 误判 |
+| Module DoD | 能为一个组件树说明 State Owner、Derived Data、控制边界与生命周期 |
+
+## 课程索引
+
+| 编号 | 知识点 | 教学状态 |
+|---|---|---|
+| RE-KP071 | Single Source of Truth | 已重构 · v1.0 |
+| RE-KP072 | 状态提升 | 已重构 · v1.0 |
+| RE-KP073 | 受控组件 | 已重构 · v1.0 |
+| RE-KP074 | 非受控组件 | 已重构 · v1.0 |
+| RE-KP075 | 受控与非受控的选择 | 已完成 · 待重构 |
+| RE-KP076 | Props Drilling 的识别 | 已完成 · 待重构 |
+| RE-KP077 | 状态放置原则 | 已完成 · 待重构 |
+| RE-KP078 | 状态生命周期设计 | 已完成 · 待重构 |
+| RE-KP079 | 状态归属与组件边界 | 已完成 · 待重构 |
+| RE-KP080 | 有限状态思维 | 已完成 · 待重构 |
 
 ## 当前进度
 
-- Chapter 08：**10 / 10，已完成**
-- 下一 Chapter：**Chapter 09：Reducer 与 Context**
-- 下一知识点：**RE-KP081：useReducer 基础**
+- 知识点完成度：**10 / 10**
+- 新教学规范重构：**4 / 10**
+- 下一重构范围：**RE-KP075～080**
