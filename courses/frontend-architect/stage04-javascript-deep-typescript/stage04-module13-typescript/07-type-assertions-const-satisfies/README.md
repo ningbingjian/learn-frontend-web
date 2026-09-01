@@ -42,9 +42,9 @@ satisfies
 | TS-KP101 | Non-null Assertion `!` | [文档](./kp101-non-null-assertion/README.md) · [源码](./kp101-non-null-assertion/src/main.ts) | 已完成 |
 | TS-KP102 | `as const` | [文档](./kp102-as-const/README.md) · [源码](./kp102-as-const/src/main.ts) | 已完成 |
 | TS-KP103 | Const Assertion 对对象、数组和字面量的影响 | [文档](./kp103-const-assertion-effects/README.md) · [源码](./kp103-const-assertion-effects/src/main.ts) | 已完成 |
-| TS-KP104 | `satisfies` Operator | `kp104-satisfies-operator/` | 待生成 |
-| TS-KP105 | `satisfies` 与类型注解的差异 | `kp105-satisfies-vs-annotation/` | 待生成 |
-| TS-KP106 | 避免滥用断言掩盖模型错误 | `kp106-avoid-assertion-abuse/` | 待生成 |
+| TS-KP104 | `satisfies` Operator | [文档](./kp104-satisfies-operator/README.md) · [源码](./kp104-satisfies-operator/src/main.ts) | 已完成 |
+| TS-KP105 | `satisfies` 与类型注解的差异 | [文档](./kp105-satisfies-vs-annotation/README.md) · [源码](./kp105-satisfies-vs-annotation/src/main.ts) | 已完成 |
+| TS-KP106 | 避免滥用断言掩盖模型错误 | [文档](./kp106-avoid-assertion-abuse/README.md) · [源码](./kp106-avoid-assertion-abuse/src/main.ts) | 已完成 |
 
 ## 本章学习原则
 
@@ -57,9 +57,11 @@ satisfies
 7. `as const` 用于请求更精确的字面量推断：不拓宽 literal、对象属性变为 readonly、数组字面量变为 readonly tuple。
 8. `as const` 是类型系统能力，不等于 `Object.freeze()`，也不保证所有被引用的内部对象在运行时深度不可变。
 9. `const` 变量声明与 `as const` 不是同一件事：前者限制变量重新赋值，后者影响表达式的推断结果。
-10. 后续 `satisfies` 的重点是“校验是否满足目标类型，同时尽可能保留表达式自身的精确推断”。
-11. 类型断言不能替代对网络、文件、数据库、用户输入等外部数据的 runtime validation。
-12. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
+10. `satisfies` 用来检查表达式是否满足目标类型，同时尽量保留表达式自身的具体推断信息。
+11. 显式类型注解会让变量从声明处就按注解类型被观察；`satisfies` 更适合“校验契约但保留更具体推断”的配置对象。
+12. 看到 `as T`、`!`、Double Assertion 时，应优先追问：模型是否准确、边界是否完成运行时校验、能否通过 Narrowing 建立真实证据。
+13. 网络、文件、数据库、用户输入等外部数据必须先视为不可信；类型断言不能替代 runtime validation。
+14. 每个知识点保留真实 `src/`，不创建独立 `exercise/`、`solution/`。
 
 ## 完成标准
 
@@ -73,6 +75,6 @@ satisfies
 
 ## 当前进度
 
-- Chapter 07：6/9 已完成。
-- 已完成 TS-KP098～TS-KP103。
-- 下一知识点：TS-KP104「`satisfies` Operator」。
+- Chapter 07：9/9 已完成。
+- TS-KP098～TS-KP106 全部完成。
+- Chapter 07 已完成，下一步进入 Chapter 08 的 TS-KP107「Generic Function」。
