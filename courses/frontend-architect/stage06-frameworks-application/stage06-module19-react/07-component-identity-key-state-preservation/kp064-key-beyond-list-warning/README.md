@@ -2,156 +2,99 @@
 
 > [返回 Chapter 07](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` + `BUILD-LAB` |
+| 学习深度 | Must |
+| 前置课程 | RE-KP063：Type Change 与 Identity |
+| 本课主问题 | `key` 为什么能改变普通非列表组件的身份，而且组件里却读不到 `props.key`？ |
+| Learning Artifact | IdentityCard key 切换 + Props inspection |
+| 暂时不用理解 | 列表 Diff 算法细节 |
 
-## 学习目标
-
-1. 理解 `key` 是 React 用于识别兄弟节点身份的重要提示。
-2. 知道 `key` 不只服务于“消除列表 warning”。
-3. 理解 `key` 可以参与普通非列表组件的身份判断。
-4. 知道 `key` 不会作为普通 Prop 自动传给组件。
-5. 为下一课“使用 key 主动重置 State”做好准备。
-
-> **本节核心代码**：`<IdentityCard key={person.id} person={person} />`。
->
-> **实验辅助代码**：组件内部显示 `Object.keys(props)`，只用于验证 `key` 不在普通 Props 中。
-
-## 理论讲解
-
-### 1. 很多人第一次见 key 是因为列表 warning
-
-例如：
-
-```jsx
-items.map(item => <li>{item.name}</li>)
-```
-
-React 会要求每个兄弟项拥有稳定 key。
-
-但如果只把 key 理解成：
-
-```text
-“为了不让 Console 报警”
-```
-
-就漏掉了真正的身份语义。
-
-### 2. key 是 React 身份匹配的一部分
-
-默认情况下，React 会结合父节点下的位置来匹配组件。
-
-`key` 让你可以进一步告诉 React：
-
-```text
-这不是“这个位置上的任意组件”
-而是“这个具体身份的组件”
-```
-
-因此 key 可以用于普通条件组件，而不只是 `map()`。
-
-### 3. key 的作用域是兄弟节点之间
-
-key 不要求全应用唯一。
-
-你需要的是：
-
-```text
-同一组 siblings 中能够稳定区分彼此
-```
-
-不同列表完全可以使用相同的 key 值。
-
-### 4. key 不是普通 Prop
-
-例如：
-
-```jsx
-<IdentityCard key="alice" person={alice} />
-```
-
-组件正常接收到：
-
-```text
-person
-```
-
-但不会自动收到一个普通的：
-
-```text
-props.key
-```
-
-如果业务代码需要 ID，需要显式再传：
-
-```jsx
-<IdentityCard key={person.id} personId={person.id} />
-```
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备两个人物数据
-
-```js
-const people = [
-  { id: 'alice', name: 'Alice' },
-  { id: 'bob', name: 'Bob' },
-];
-```
-
-### 第 1 步：创建有本地 State 的组件
-
-```jsx
-function IdentityCard(props) {
-  const [visits, setVisits] = useState(0);
-  // ...
-}
-```
-
-### 第 2 步：用 person.id 作为 key
+## 先预测
 
 ```jsx
 <IdentityCard key={person.id} person={person} />
 ```
 
-### 第 3 步：展示普通 Prop 名称
+切换 `person.id` 后，局部 visits 会不会保留？`props.key` 能不能读到？
+
+## 动手实验：从 0 到 1
+
+### Step 0：准备两个业务实体
+
+```js
+{ id: 'alice', name: 'Alice' }
+{ id: 'bob', name: 'Bob' }
+```
+
+### Step 1：IdentityCard 保存局部 visits
+
+```jsx
+const [visits, setVisits] = useState(0);
+```
+
+### Step 2：加入业务身份 key
+
+```jsx
+<IdentityCard key={person.id} person={person} />
+```
+
+把 Alice visits 点高，再切 Bob。
+
+**观察**：visits 重置。
+
+**立即解释**：`key` 参与 siblings 中的 Identity 匹配；`alice → bob` 表示这里出现了另一个组件身份。
+
+### Step 3：检查普通 Props
 
 ```jsx
 Object.keys(props)
 ```
 
-你会看到 `person`，但不会把 `key` 当普通 prop 收到。
+你会看到 `person`，不会自动收到 `key`。业务确实需要 ID 时要显式传 `personId`。
 
-### 第 4 步：切换 person
+[查看最终源码](./src/main.jsx)
 
-切换后 key 改变，组件身份也会改变，因此本地 visits 会重新初始化。
+## 图解
 
-本节重点是理解 key 的身份意义；下一课会把这种能力用于真实的“表单重置”场景。
+```text
+same position + same type
+key=alice → Identity A
+key=bob   → Identity B
 
-### 第 5 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：非列表组件同样可以使用 key 参与身份判断。
-- **实验辅助代码**：Props key 列表只用于证明 key 不是业务 Prop。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./07-component-identity-key-state-preservation/kp064-key-beyond-list-warning --config ./vite.config.js
+key: React identity hint
+personId: business prop (if you need it)
 ```
 
-## 效果验证
+## 理论收束
 
-- 增加当前人物 visits。
-- 切换人物后 visits 重新开始。
-- 页面显示收到的普通 Prop 只有 `person`。
-- 能解释 key 的真正作用是身份匹配，而不仅是消除 warning。
+`key` 不只是消除列表 Warning。它让 React 在同一组 siblings 中更准确地识别“谁是谁”。Key 只需在兄弟项范围内有区分意义，不要求整个应用全局唯一。
 
-完成后继续 **RE-KP065：使用 key 主动重置状态**。
+## Wrong Way
+
+- 把 key 当普通 Prop 使用。
+- 只要 Console 没 Warning 就认为 key 正确。
+- 用没有业务语义的 key 强制重建组件。
+
+## Production Boundary
+
+`key` 应表达稳定 UI/业务 Identity；下一课会把这种能力用于“切换实体时表单草稿应该重置”的真实需求。
+
+## 本课只记住 3 件事
+
+1. key 是 Identity Hint，不只是列表 Warning 工具。
+2. key 可以用于普通组件。
+3. key 不会作为普通 `props.key` 传入组件。
+
+## Challenge
+
+额外传 `personId={person.id}`，对比 React key 与业务 Prop 的职责。
+
+## Mastery Check
+
+- **Must**：能解释 key 改变为何会重置 State。
+- **Should**：能说明 key 的 sibling scope。
+- **Expert**：能区分 React Identity 与业务数据字段。
