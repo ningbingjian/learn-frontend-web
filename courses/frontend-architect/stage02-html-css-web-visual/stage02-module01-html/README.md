@@ -278,20 +278,20 @@ kp001-standard-declaration/
 
 综合项目用于串联多个原子知识点，同样采用“一个项目目录 + 一份讲解文档 + 自包含源码”的方式。
 
-| 项目 | 目录 | 覆盖章节 | 状态 |
+| 项目 | 文档与源码 | 覆盖章节 | 状态 |
 |---|---|---|---|
-| C01 城市新闻专题页 | `projects/c01-city-news/` | 文档基础、文本语义、页面地标 | 待生成 |
-| C02 跨设备商品详情页 | `projects/c02-product-detail/` | 链接、图片、音视频与嵌入 | 待生成 |
-| C03 国际化注册与结算表单 | `projects/c03-i18n-checkout-form/` | 表单控件、校验与错误恢复 | 待生成 |
-| C04 SaaS 套餐比较表 | `projects/c04-saas-pricing-table/` | 表格关系、复杂表头与小屏策略 | 待生成 |
-| C05 FAQ、确认框与浮层帮助 | `projects/c05-native-interactions/` | details、dialog 与 popover | 待生成 |
+| C01 城市新闻专题页 | [文档](./projects/c01-city-news/README.md) · [源码](./projects/c01-city-news/index.html) | 文档基础、文本语义、页面地标 | 已完成 |
+| C02 跨设备商品详情页 | [文档](./projects/c02-product-detail/README.md) · [源码](./projects/c02-product-detail/index.html) | 链接、图片、音视频与嵌入 | 已完成 |
+| C03 国际化注册与结算表单 | [文档](./projects/c03-i18n-checkout-form/README.md) · [源码](./projects/c03-i18n-checkout-form/index.html) | 表单控件、校验与错误恢复 | 已完成 |
+| C04 SaaS 套餐比较表 | [文档](./projects/c04-saas-pricing-table/README.md) · [源码](./projects/c04-saas-pricing-table/index.html) | 表格关系、复杂表头与小屏策略 | 已完成 |
+| C05 FAQ、确认框与浮层帮助 | [文档](./projects/c05-native-interactions/README.md) · [源码](./projects/c05-native-interactions/index.html) | details、dialog 与 popover | 已完成 |
 
 ## 模块完成条件
 
-- [ ] 131 个知识点目录全部存在。
-- [ ] 每个知识点至少包含 `README.md` 和 `index.html`。
-- [ ] 每个知识点都在模块索引中列出明确的“包含内容”。
-- [ ] 每份 README 包含学习目标、理论讲解、动手编码、运行案例和效果验证。
-- [ ] 每份源码可以独立运行，并与文档描述一致。
-- [ ] 模块索引中不存在失效链接。
-- [ ] C01～C05 综合项目全部完成。
+- [x] 131 个知识点目录全部存在。
+- [x] 每个知识点至少包含 `README.md` 和 `index.html`。
+- [x] 每个知识点都在模块索引中列出明确的“包含内容”。
+- [x] 每份 README 包含学习目标、理论讲解、动手编码、运行案例和效果验证。
+- [x] 每份源码可以独立运行，并与文档描述一致。
+- [x] 模块索引中不存在失效链接。
+- [x] C01～C05 综合项目全部完成。
