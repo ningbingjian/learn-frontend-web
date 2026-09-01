@@ -1,96 +1,58 @@
-# RE-KP105：自定义 Hook 的命名规则
+# RE-KP105：Custom Hook 命名
 
-> [返回 Chapter 11](../README.md)
+> [返回 Chapter 11](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `FAILURE-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | 为什么调用其他 Hook 的复用函数必须以 `use` 开头，而不是随便命名成普通 util？ |
+| Learning Artifact | `trackOnline()` → `useOnlineStatus()` 命名重构 + lint 认知 |
 
-## 学习目标
+## 先预测
+一个函数内部调用 `useState/useEffect`，却命名 `getOnlineStatus()`。读代码的人和 lint 怎么知道它受 Hooks Rules 约束？
 
-1. 掌握 Custom Hook 必须以 `use` 开头并紧跟大写字母的命名约定。
-2. 理解命名不仅是风格问题，还影响开发者与 linter 对 Hook 调用约束的识别。
-3. 能区分普通 helper 与 Custom Hook。
-
-## 理论讲解
-
-### 1. Hook 名称必须表达“这里可能调用其他 Hook”
-
-典型命名：
-
-- `useToggle`
-- `useOnlineStatus`
-- `useChatRoom`
-
-看到 `useXxx()`，调用者就知道它必须遵守 Hooks 规则。
-
-### 2. 普通函数不要滥用 `use` 前缀
-
-如果函数只是纯计算，不调用任何 Hook，也不计划未来引入 Hook，应该保持普通函数名称，例如 `formatStatus()`、`getSortedItems()`。
-
-这样普通 helper 可以自由地在条件、循环等位置调用，而不会被误解为 Hook。
-
-### 3. 命名是一种 API 契约
-
-`use` 前缀向团队声明：
-
-- 这是 React stateful logic 的封装。
-- 调用位置受 Rules of Hooks 限制。
-- 内部可能包含 State、Context、Effect 等 React 能力。
-
-## 动手编码：从 0 到 1
-
-### 第 1 步：写普通 helper
-
+## 动手重构
+### Step 0：识别普通函数与 Hook 的边界
+普通 helper 只是计算；Custom Hook 可以调用其他 Hook，并参与 React 生命周期。
+### Step 1：使用 `use` 前缀
 ```jsx
-function formatStatus(on) {
-  return on ? 'ON' : 'OFF';
+function useOnlineStatus() {
+  // useState / useEffect
 }
 ```
-
-它不调用 Hook，所以不应该命名为 `useStatusText`。
-
-### 第 2 步：提取 `useToggle`
-
+### Step 2：让调用点暴露语义
 ```jsx
-function useToggle(initialValue = false) {
-  const [on, setOn] = useState(initialValue);
-  function toggle() {
-    setOn(value => !value);
-  }
-  return { on, toggle };
-}
+const online = useOnlineStatus();
 ```
+一眼能看出这段逻辑受 Hooks Rules 约束。
+### Step 3：验证 lint/阅读体验
+不要仅为了命名漂亮；`use` 前缀是工具与团队共同依赖的约定。
 
-### 第 3 步：在组件顶层调用
+[查看最终源码](./src/main.jsx)
 
-```jsx
-const { on, toggle } = useToggle(true);
-```
+## 理论收束
+Custom Hook 名称必须以 `use` 开头，后面通常描述其抽象能力。不是所有以 use 开头的函数都自动合理；它应真正封装 Hook-based reusable logic。
 
-为什么这样写：Custom Hook 的调用位置也必须稳定。
+## Wrong Way
+- 内部调用 Hook 却不以 use 命名。
+- 无 Hook 的普通 util 为“显得 React”强行 use 前缀。
+- `useData/useUtils` 过度宽泛，隐藏真实职责。
 
-### 最终源码
+## Production Boundary
+公共 Hook 名称是 API，应表达领域能力：`useOnlineStatus`、`useChatRoom` 比 `useCommon` 更稳定。
 
-- [src/main.jsx](./src/main.jsx)
+## 本课只记住 3 件事
+1. Custom Hook 用 `use` 前缀。
+2. 命名暴露 Hooks Rules 语义。
+3. 名称应表达一项具体可复用能力。
 
-本节核心代码：`useToggle` 与 `formatStatus` 的命名对比。
+## Challenge
+为“监听窗口尺寸”“保存草稿”“订阅聊天房间”各设计一个 Hook 名称。
 
-实验辅助代码：按钮与状态文字只是为了观察 Hook 返回结果。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- --open /11-hooks-rules-custom-hook-design/kp105-custom-hook-naming/
-```
-
-## 效果验证
-
-- Custom Hook 名称为 `use` + 大写字母开头的语义名称。
-- 普通 helper 不滥用 `use` 前缀。
-- Custom Hook 在组件顶层调用。
+## Mastery Check
+- **Must**：会正确命名 Custom Hook。
+- **Should**：能区分 Hook 与普通 helper。
+- **Expert**：能为团队维护清晰 Hook API 词汇。

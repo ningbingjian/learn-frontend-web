@@ -1,96 +1,58 @@
-# RE-KP107：自定义 Hook 参数设计
+# RE-KP107：Custom Hook 参数设计
 
-> [返回 Chapter 11](../README.md)
+> [返回 Chapter 11](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `ARCHITECTURE-LAB` + `BUILD-LAB` |
+| 学习深度 | Should |
+| 本课主问题 | Hook 参数应该暴露底层实现细节，还是表达调用者真正需要配置的语义？ |
+| Learning Artifact | positional 参数 → options object API 重构 |
 
-## 学习目标
-
-1. 能为 Custom Hook 设计清晰、稳定的输入契约。
-2. 理解什么时候单参数足够，什么时候应该升级为 Options Object。
-3. 避免让 Hook 参数变成一串难记的 positional booleans/numbers。
-
-## 理论讲解
-
-### 1. 参数应该描述 Hook 的业务输入
-
-一个好的 Hook 调用应该接近声明式配置：
-
-```jsx
-useStepper({ initialStep: 2, min: 1, max: 5, step: 1 })
+## 先观察坏 API
+```js
+useChat(roomId, true, 5000, false)
 ```
+第三个 `5000` 是什么？调用点无法自解释。
 
-调用者能直接看懂每个参数含义。
-
-### 2. 参数少而稳定时可以保持简单
-
-例如 `useToggle(false)` 只有一个明确参数，没有必要强行包对象。
-
-### 3. 参数变多时优先 Options Object
-
-Options Object 的好处：
-
-- 参数顺序不敏感
-- 调用点自解释
-- 未来增加可选项更容易
-- 可以给字段设置默认值
-
-### 4. 参数应是业务事实，不是内部实现细节
-
-调用者应该告诉 Hook “我要最小值 1、最大值 5”，而不是告诉它“内部请用三个 State”。
-
-## 动手编码：从 0 到 1
-
-### 第 1 步：定义 Options Object
-
-```jsx
-function useStepper({
-  initialStep = 1,
-  min = 1,
-  max = 5,
-  step = 1,
-} = {}) {
-  // ...
-}
+## 动手重构
+### Step 0：列出真正变化维度
+如 `roomId/serverUrl/reconnectDelay`。
+### Step 1：少量稳定参数可直接传
+```js
+useChatRoom(roomId)
 ```
-
-### 第 2 步：在 Hook 内维护边界
-
-```jsx
-setValue(current => Math.min(max, current + step));
+### Step 2：参数增多时用 options object
+```js
+useChatRoom({ roomId, serverUrl, reconnectDelay })
 ```
+### Step 3：不要让调用者知道内部 Hook 组合
+API 不应暴露 `useEffect` 依赖数组、内部 ref 等实现。
 
-边界规则由 Hook 封装，组件不重复实现。
+[查看最终源码](./src/main.jsx)
 
-### 第 3 步：调用点只传业务配置
+## 理论收束
+Custom Hook 是抽象边界。参数是它对外的声明式输入，应围绕领域语义、稳定性和默认值设计。
 
-```jsx
-const stepper = useStepper({ initialStep: 2, min: 1, max: 5 });
-```
+## Wrong Way
+- 长串 boolean/position 参数。
+- 参数直接暴露内部 State setter。
+- 每次 Render 创建大对象参数后又不理解依赖影响。
 
-### 最终源码
+## Production Boundary
+公共 Hook 参数应像组件 Props 一样做 API Review；稳定名称比“少写几个字符”更重要。
 
-- [src/main.jsx](./src/main.jsx)
+## 本课只记住 3 件事
+1. 参数表达语义输入。
+2. 多可选项优先 options object。
+3. 不泄漏内部 Hook 实现。
 
-本节核心代码：`useStepper(options)` 的参数契约。
+## Challenge
+把 `useRequest(url, true, 3, 1000)` 重构成可读 API。
 
-实验辅助代码：页面按钮用于验证 min/max 边界。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- --open /11-hooks-rules-custom-hook-design/kp107-custom-hook-parameters/
-```
-
-## 效果验证
-
-- 调用点能直接看懂参数含义。
-- Hook 内统一处理边界。
-- 新增配置时不需要改变现有参数顺序。
+## Mastery Check
+- **Must**：会设计基础 Hook 参数。
+- **Should**：会用 options 管理演进。
+- **Expert**：能控制 Hook API 兼容性。
