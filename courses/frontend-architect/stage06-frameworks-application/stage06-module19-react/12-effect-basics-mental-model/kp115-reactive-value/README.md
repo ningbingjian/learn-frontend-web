@@ -1,159 +1,51 @@
 # RE-KP115：Reactive Value
 
-> [返回 Chapter 12](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 12](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | 哪些变量会随 Render 改变，从而必须被 Effect 视为 reactive dependency？ |
+| Learning Artifact | Props/State/局部变量 vs 模块常量分类实验 |
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+## 先分类
+`roomId` Prop、`count` State、由它们计算的 `url`、模块顶层常量 `SERVER_HOST`，哪些是 Reactive？
 
-## 学习目标
-
-1. 理解 Props、State 和组件函数体内声明的值为什么属于 Reactive Value。
-2. 知道从 Props / State 派生出来的普通变量同样可能是 Reactive Value。
-3. 能区分模块级稳定常量与 Render-scope Reactive Value。
-4. 会从 Effect 实际读取的值反推依赖数组。
-5. 避免只把“看起来像 State 的值”当依赖，而漏掉派生变量。
-
-> **本节核心代码**：`roomId` 是 prop，`region` 是 State，`serverHost` 是 Render 中派生值，它们会随 Render 改变；模块级 `protocol` 不会因 Render 改变。  
-> **实验辅助代码**：浏览器标题用于观察当前连接描述。
-
-## 理论讲解
-
-### 1. 什么是 Reactive Value
-
-在 Effect 语境中，Reactive Value 指：
-
-> 可能因为组件重新 Render 而得到不同结果、并被 Effect 读取的值。
-
-典型包括：
-
-- Props；
-- State；
-- 组件函数体内声明的变量；
-- 从 Props / State 计算出的值；
-- 组件函数体内声明并被 Effect 使用的函数。
-
-### 2. Props 是 Reactive Value
-
-```jsx
-function ConnectionPreview({ roomId }) {
-  // roomId may change
-}
+## 动手推导
+### Step 0：标记组件内部输入
+Props、State，以及由这些值在 Render 中计算的变量，都可能随 Render 变化。
+### Step 1：把真正恒定配置移到组件外
+```js
+const SERVER_HOST = 'https://example.com';
 ```
+它不再属于某次 Render 的 reactive value。
+### Step 2：让 lint 帮你验证模型
+依赖不是凭感觉挑选。
 
-父组件重新传入不同 `roomId`，子组件 Render 会得到新值。
+[查看最终源码](./src/main.jsx)
 
-### 3. State 是 Reactive Value
+## 理论收束
+Reactive Value 是参与 React Render 数据流、可能在重新 Render 时变化的值。Effect 使用它，就需要声明依赖；把值移出组件是“证明它不会随 Render 变化”的一种方式。
 
-```jsx
-const [region, setRegion] = useState('us-east');
-```
+## Wrong Way
+- 把所有局部变量都说成非 reactive。
+- 把对象/函数依赖问题用删除依赖解决。
+- 模块变量其实会变化却假装常量。
 
-调用 setter 后，下次 Render 的 `region` 可以不同。
+## Production Boundary
+正确识别 Reactive Value 是 Effect、useMemo/useCallback 乃至 Custom Hook 设计的共同基础。
 
-### 4. 普通变量也可能是 Reactive Value
+## 本课只记住 3 件事
+1. Props/State 是核心 Reactive Values。
+2. Render 中由它们派生的值也可能 reactive。
+3. 想移除依赖要改变数据来源，而不是改数组文字。
 
-例如：
+## Challenge
+给 8 个变量分类 reactive / non-reactive 并说明理由。
 
-```jsx
-const serverHost = hostByRegion[region];
-```
-
-`serverHost` 不是 State，也不是 Prop，但它在组件 Render 中根据 `region` 计算。
-
-所以 `region` 改变后，`serverHost` 也可能改变。
-
-如果 Effect 读取 `serverHost`，它就是 Effect 的 Reactive Value。
-
-### 5. 模块级常量通常不是 Reactive Value
-
-```jsx
-const protocol = 'wss';
-```
-
-它定义在组件外，不会因为组件 Render 得到另一个值。
-
-因此本节 Effect 可以读取它，却不需要把它放进依赖数组。
-
-### 6. 依赖由代码决定，不是由开发者偏好决定
-
-Effect：
-
-```jsx
-useEffect(() => {
-  const connectionUrl = `${protocol}://${serverHost}/${roomId}`;
-  document.title = connectionUrl;
-}, [roomId, serverHost]);
-```
-
-这里：
-
-- `roomId`：Reactive → 依赖；
-- `serverHost`：Reactive → 依赖；
-- `protocol`：模块级稳定值 → 不需要依赖。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备模块级稳定常量
-
-```jsx
-const protocol = 'wss';
-```
-
-### 第 1 步：让 roomId 从 Props 进入
-
-```jsx
-function ConnectionPreview({ roomId }) {
-  // ...
-}
-```
-
-### 第 2 步：加入 region State
-
-```jsx
-const [region, setRegion] = useState('us-east');
-```
-
-### 第 3 步：在 Render 中派生 serverHost
-
-```jsx
-const serverHost = hostByRegion[region];
-```
-
-它虽然是普通 `const`，仍随 `region` 变化。
-
-### 第 4 步：Effect 使用 Reactive Value
-
-```jsx
-useEffect(() => {
-  document.title = `${protocol}://${serverHost}/${roomId}`;
-}, [roomId, serverHost]);
-```
-
-### 第 5 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：识别 `roomId` / `serverHost` 为 Reactive Value，并正确列入依赖。
-- **实验辅助代码**：`document.title` 仅用于观察同步结果。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./12-effect-basics-mental-model/kp115-reactive-value --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 切换父组件 `roomId` 后，标题连接地址跟着变化。
-2. 切换 `region` 后，派生的 `serverHost` 改变，标题也重新同步。
-3. 能解释为什么 `serverHost` 虽然不是 State，仍然是 Reactive Value。
-4. 能解释为什么模块级 `protocol` 不需要加入依赖数组。
-5. 能从 Effect 代码中逐项指出哪些读取值是 Reactive Value。
-
-完成后继续 **RE-KP116：Cleanup Function**。
+## Mastery Check
+- **Must**：会识别 Props/State 依赖。
+- **Should**：会通过代码位置证明 non-reactive。
+- **Expert**：能诊断复杂 Effect 的依赖来源。
