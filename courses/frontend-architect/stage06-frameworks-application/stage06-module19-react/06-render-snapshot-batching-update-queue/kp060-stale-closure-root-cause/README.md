@@ -2,60 +2,26 @@
 
 > [返回 Chapter 06](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `FAILURE-LAB` + `BROWSER-MECHANISM-LAB` |
+| 学习深度 | Must |
+| 前置课程 | RE-KP059：异步回调中的快照 |
+| 本课主问题 | 旧 Snapshot 什么时候从“正常闭包行为”变成真正会覆盖新状态的 Bug？ |
+| Learning Artifact | stale delayed update vs updater delayed update 故障复现 |
+| 暂时不用理解 | Ref、Effect Event 等其他 latest-value 模式 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. Stale Closure = 旧 Render 的 Closure 被业务错误地当成最新值来源。
+2. `setCount(count + 1)` 会把旧闭包值先算成 replacement update。
+3. 当需求是“执行时基于最新 pending state 更新”时，updater function 才是合适修法。
 
-1. 用“Render Snapshot + JavaScript Closure”解释 stale closure。
-2. 识别异步回调里 `setCount(count + 1)` 可能覆盖新状态的问题。
-3. 理解 updater function 为什么能解决“基于最新 pending state 更新”这一类问题。
-4. 知道 updater function 不是让整个闭包 magically 变成最新值。
-5. 知道以后还会通过 Ref、Effect Event 等工具解决其他“需要最新值”的场景。
+## 先制造故障
 
-> **本节核心代码**：对比 delayed `setCount(count + 1)` 和 delayed `setCount(current => current + 1)`。  
-> **实验辅助代码**：`+10` 按钮用于在延迟期间制造更新，方便暴露 stale closure。
-
-## 理论讲解
-
-### 1. stale closure 到底是什么
-
-“Stale” 可以理解成：
-
-```text
-过期的、旧的
-```
-
-“Closure” 是 JavaScript 闭包。
-
-React 中常见 stale closure 的根源是：
-
-```text
-某次 Render 创建函数
-↓
-函数闭包捕获那次 Render 的 State / Props
-↓
-函数未来才执行
-↓
-业务却错误地把旧值当成最新值
-```
-
-### 2. 一个典型 Bug
-
-当前：
-
-```text
-count = 0
-```
-
-安排：
+当前 `count=0`，安排：
 
 ```jsx
 setTimeout(() => {
@@ -63,135 +29,11 @@ setTimeout(() => {
 }, 2000);
 ```
 
-这里 callback 捕获：
+然后立刻把 count 加到 10。你预测两秒后是 11 还是 1？
 
-```text
-count = 0
-```
+## 动手实验：从 0 到 1
 
-然后两秒内用户把页面更新到：
-
-```text
-count = 10
-```
-
-定时器最终执行：
-
-```jsx
-setCount(0 + 1);
-```
-
-结果页面突然变成：
-
-```text
-1
-```
-
-这就是一个真正会破坏业务状态的 stale closure Bug。
-
-### 3. 为什么 updater function 可以修这类问题
-
-如果真正需求是：
-
-```text
-“回调执行时，在当时最新 State 基础上 +1”
-```
-
-应该写：
-
-```jsx
-setCount(current => current + 1);
-```
-
-React 执行 updater 时，会把队列处理到该更新时的 pending state 传入 `current`。
-
-所以即使 callback 自己是旧 Render 创建的，更新逻辑也不再依赖闭包里的旧 `count`。
-
-### 4. updater 并不会刷新整个闭包
-
-非常重要：
-
-```jsx
-setTimeout(() => {
-  console.log(count);
-  setCount(current => current + 1);
-}, 2000);
-```
-
-其中：
-
-```text
-console.log(count)
-```
-
-仍然可能打印旧 Snapshot。
-
-只有 updater 参数：
-
-```text
-current
-```
-
-来自 React 的更新队列。
-
-因此不能说：
-
-```text
-“用了函数式更新以后闭包就变新了”
-```
-
-### 5. stale closure 不只发生在 setTimeout
-
-还常见于：
-
-```text
-Promise
-async/await
-订阅回调
-Effect 中的回调
-定时器
-第三方库注册的 callback
-```
-
-后续 Ref、Effect、`useEffectEvent` 等章节会继续学习其他解决方式。
-
-### 6. 判断修法之前先问需求
-
-如果业务真正想要的是：
-
-```text
-点击那一刻的值
-```
-
-旧 Snapshot 正确。
-
-如果业务想要的是：
-
-```text
-执行那一刻基于最新状态继续更新
-```
-
-则 updater function 往往是正确工具。
-
-如果业务想要：
-
-```text
-异步 callback 中读取某个真正最新的非渲染值
-```
-
-则要考虑后续 Ref 等模式。
-
-不要把所有 stale closure 都机械地换成 updater。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备 count
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
-### 第 1 步：加入 +10
+### Step 0：准备 count 和“立即 +10”
 
 ```jsx
 <button onClick={() => setCount(current => current + 10)}>
@@ -199,7 +41,7 @@ const [count, setCount] = useState(0);
 </button>
 ```
 
-### 第 2 步：制造 stale delayed update
+### Step 1：实现旧 Closure 版本
 
 ```jsx
 function scheduleStaleIncrement() {
@@ -209,72 +51,89 @@ function scheduleStaleIncrement() {
 }
 ```
 
-实验：
+### Step 2：复现 Bug
 
 ```text
-count=0
-安排 stale +1
-马上点击 +10
-两秒后 count 可能从 10 被覆盖成 1
+0
+↓ 安排 stale +1（callback 捕获 0）
+↓ 立即 +10 → 页面 10
+↓ 两秒后 callback 执行 setCount(0 + 1)
+↓ 页面被覆盖为 1
 ```
 
-### 第 3 步：加入安全 updater 版本
+**立即解释**：旧值不是因为 React “延迟太久”，而是 replacement 参数在旧 Closure 里根据旧 Snapshot 计算。
+
+### Step 3：只改变更新语义
 
 ```jsx
-function scheduleUpdaterIncrement() {
-  setTimeout(() => {
-    setCount(current => current + 1);
-  }, 2000);
-}
+setTimeout(() => {
+  setCount(current => current + 1);
+}, 2000);
 ```
 
-实验：
+### Step 4：重复实验
 
 ```text
-count=0
-安排 updater +1
-马上点击 +10
-两秒后最终应为 11
+0 → 安排 updater +1 → 立即 +10 → 10 → callback → 11
 ```
 
-### 第 4 步：理解两种需求不同
+**立即解释**：`current` 来自 React 处理队列时的 pending state，更新不再依赖旧 Closure 中的 `count`。
 
-旧值版本不是语法错误。
+### Step 5：证明 updater 没有“刷新 Closure”
 
-它只是实现了：
+即使 callback 中写：
+
+```jsx
+console.log(count);
+setCount(current => current + 1);
+```
+
+`console.log(count)` 仍可能是旧值。Updater 只解决本次“基于 pending state 更新”的问题。
+
+[查看最终源码](./src/main.jsx)
+
+## 图解：正常旧值 vs Stale Closure Bug
 
 ```text
-用“安排任务那一刻”的 count 计算未来值
+Captured Snapshot
+      ↓
+业务本来就要“点击时的值” → 正常
+
+Captured Snapshot
+      ↓
+业务却要求“执行时最新值”
+      ↓
+仍用旧值计算 replacement
+      ↓
+Stale Closure Bug
 ```
 
-而 updater 实现：
+## 理论收束
 
-```text
-用“执行更新时队列中的 pending state”继续计算
-```
+Stale Closure 不是 React 独有魔法，而是 JavaScript Closure 与 React Render Snapshot 叠加后的业务语义错误。修法必须从需求出发：需要 pending state 更新用 updater；需要最新非渲染值可能是 Ref；Effect 内最新事件逻辑后面还会学习 `useEffectEvent`。
 
-### 第 5 步：对照最终源码
+## Wrong Way
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
+- 看到异步 callback 就机械改 updater，而不确认需求。
+- 说“updater 会让 Closure 变成最新”。
+- 用 Ref 存所有 State 来逃避 React 数据流。
 
-- **本节核心代码**：旧 closure replacement update vs updater function。
-- **实验辅助代码**：重置和 +10 按钮用来快速制造冲突。
+## Production Boundary
 
-## 运行案例
+计数、重试次数、累计状态等“在最新状态基础上继续变化”的异步更新优先考虑 updater；提交时快照、审计参数等则可能故意保留捕获值。
 
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./06-render-snapshot-batching-update-queue/kp060-stale-closure-root-cause --config ./vite.config.js
-```
+## 本课只记住 3 件事
 
-## 效果验证
+1. Stale Closure 的根源是旧 Render Closure 被当成最新值使用。
+2. updater 读取的是更新队列中的 pending state。
+3. 修复前先确定业务需要 captured value 还是 latest value。
 
-1. 重置为 0。
-2. 安排 stale +1，然后立即 +10。
-3. 两秒后观察旧 closure 是否把值改成 1。
-4. 再重置为 0。
-5. 安排 updater +1，然后立即 +10。
-6. 两秒后应得到 11。
-7. 能解释 updater 为什么修复“基于最新 State 更新”，但不会让旧 closure 里所有变量自动刷新。
+## Challenge
 
-完成后 Chapter 06 收官，继续 **RE-KP061：组件树中的位置决定身份**。
+把延迟 +1 改成延迟 `+5`，再添加两次同步更新；不运行先手工推演 stale 和 updater 两个版本的最终值。
+
+## Mastery Check
+
+- **Must**：能复现并解释 `10 → 1` 的覆盖 Bug。
+- **Should**：能选出 updater / captured snapshot 的正确使用场景。
+- **Expert**：能把 stale closure 诊断迁移到订阅、请求和 Effect 回调。

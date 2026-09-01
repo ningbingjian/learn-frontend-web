@@ -2,223 +2,145 @@
 
 > [返回 Chapter 06](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `FAILURE-LAB` + `BUILD-LAB` |
+| 学习深度 | Should |
+| 前置课程 | RE-KP057：React 18+ 自动批处理范围 |
+| 本课主问题 | 为什么 `setState` 后立刻读取 DOM 可能还是旧内容？什么时候才值得强制同步提交？ |
+| Learning Artifact | 普通更新 vs `flushSync` 后的同步 DOM 读取结果 |
+| 暂时不用理解 | Suspense 内部调度、Commit 源码 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. 普通 setter 不承诺当前同步函数下一行已经拿到新 DOM。
+2. `flushSync` 是给浏览器 / 第三方系统同步集成用的 Escape Hatch。
+3. 它可能伤害性能，不能当作“更强的 setState”。
 
-1. 理解 `flushSync` 的作用：强制 React 同步应用 callback 中必要的更新。
-2. 知道它主要服务于浏览器 API、第三方 UI 库等必须立即读取最新 DOM 的集成场景。
-3. 能解释普通 setter 后立即读 DOM 为什么可能还是旧内容。
-4. 会从 `react-dom` 导入 `flushSync`。
-5. 知道 `flushSync` 可能显著影响性能，不能作为普通更新的默认写法。
-6. 理解 `flushSync` 仍是 Escape Hatch，不改变 React 默认 batching 的推荐方向。
+## 本课主问题：先制造失败
 
-> **本节核心代码**：`flushSync(() => setCount(...))` 后立即读取 DOM。  
-> **实验辅助代码**：`document.getElementById()` 与读取结果文本只用于模拟第三方集成读取 DOM。
-
-## 理论讲解
-
-### 1. 为什么普通 setState 后 DOM 不一定立刻变
-
-写：
-
-```jsx
-setCount(count + 1);
-```
-
-表示请求一次更新。
-
-在当前事件处理器继续执行时：
-
-```text
-当前 Render 的 State Snapshot 没有变
-DOM 也不要求已经同步提交
-```
-
-所以紧接着：
-
-```js
-const text = document.getElementById('count-value').textContent;
-```
-
-可能读到更新前的 DOM。
-
-### 2. 大多数业务代码根本不应该依赖“立刻读新 DOM”
-
-普通 React 业务应该优先：
-
-```text
-更新 State
-↓
-让 React 完成 Render / Commit
-↓
-下一轮 UI 自然反映新状态
-```
-
-而不是每次 setter 后都手工查询 DOM。
-
-### 3. 哪些场景可能真的需要同步 DOM
-
-典型方向是：
-
-- 浏览器 API 要求回调结束前 DOM 已经更新。
-- 第三方非 React UI 库在同一个同步流程里读取 DOM。
-- 某些打印、测量或滚动集成必须马上看到更新后的节点。
-
-这时可以考虑：
-
-```jsx
-flushSync(() => {
-  setCount(count + 1);
-});
-```
-
-当 `flushSync` 返回时，React 会保证 callback 中必要的 DOM 更新已经同步应用。
-
-### 4. flushSync 从哪里导入
-
-```jsx
-import { flushSync } from 'react-dom';
-```
-
-不是：
-
-```jsx
-import { flushSync } from 'react';
-```
-
-也不是从 `react-dom/client` 导入。
-
-### 5. flushSync 为什么必须慎用
-
-React 官方明确提醒：
-
-```text
-flushSync 可能显著伤害性能
-```
-
-它会打破 React 原本可以 batching / 调度的空间。
-
-而且它可能：
-
-- 同步 flush 其他必要的 pending update。
-- 让 Suspense fallback 重新出现。
-- 运行某些 pending Effect 以及其中的更新。
-
-因此不要把它理解成：
-
-```text
-更强、更高级的 setState
-```
-
-### 6. 正确心智模型
-
-默认：
-
-```text
-让 React batching 和调度
-```
-
-只有明确的外部集成约束要求：
-
-```text
-“这个同步函数返回前，DOM 必须已经是新值”
-```
-
-才考虑 `flushSync`。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备计数 DOM
+页面显示：
 
 ```jsx
 <p id="count-value">当前 count：{count}</p>
 ```
 
-### 第 1 步：普通更新后立即读 DOM
+如果执行：
 
 ```jsx
-function updateNormally() {
-  setCount(count + 1);
-
-  const text = document.getElementById('count-value').textContent;
-  setLastRead(`普通更新后立即读取：${text}`);
-}
+setCount(count + 1);
+const text = document.getElementById('count-value').textContent;
 ```
 
-你会看到：
+你觉得 `text` 一定已经是新值吗？先不要看答案。
 
-```text
-页面最终 count 已经 +1
-但 lastRead 记录的却可能还是旧 DOM
+## 动手实验：从 0 到 1
+
+### Step 0：普通更新
+
+先只写：
+
+```jsx
+setCount(count + 1);
 ```
 
-### 第 2 步：导入 flushSync
+React 会正常更新页面。
+
+### Step 1：更新后立即读取 DOM
+
+```jsx
+setCount(count + 1);
+const text = document.getElementById('count-value').textContent;
+```
+
+**观察**：页面最终会 +1，但同步读取记录可能还是旧 DOM。
+
+**立即解释**：setter 请求下一版 UI；React 不承诺当前事件处理器下一行已经完成 Commit。
+
+### Step 2：引入真正的外部同步约束
+
+假设第三方库要求：
+
+> “这个函数返回之前，DOM 必须已经更新，我马上就要测量它。”
+
+这时才有理由引入：
 
 ```jsx
 import { flushSync } from 'react-dom';
 ```
 
-### 第 3 步：强制同步应用更新
+### Step 3：强制同步 flush
 
 ```jsx
-function updateWithFlushSync() {
-  flushSync(() => {
-    setCount(count + 1);
-  });
+flushSync(() => {
+  setCount(count + 1);
+});
 
-  const text = document.getElementById('count-value').textContent;
-  setLastRead(`flushSync 后立即读取：${text}`);
+const text = document.getElementById('count-value').textContent;
+```
+
+**观察**：`flushSync` 返回后再读 DOM，应看到对应的新内容。
+
+### Step 4：交替点击两个按钮
+
+反复比较“普通更新”和“flushSync 更新”，把差异和调用时机对应起来。
+
+[查看最终源码](./src/main.jsx)
+
+## 图解
+
+```text
+默认更新
+setState
+  ↓
+React 保留 batching / 调度空间
+  ↓
+之后 Render + Commit
+
+外部同步集成
+flushSync(callback)
+  ↓
+callback 中登记更新
+  ↓
+同步完成必要 DOM 更新
+  ↓
+返回给第三方代码
+```
+
+## 理论收束
+
+`flushSync(callback)` 来自 `react-dom`。它告诉 React：为了这个明确的同步集成边界，请在返回前完成 callback 中必要的更新。它可能同步 flush 其他必要工作、运行 pending Effect，甚至影响 Suspense fallback，因此是 Escape Hatch。
+
+## Wrong Way
+
+```jsx
+function handleClick() {
+  flushSync(() => setA(...));
+  flushSync(() => setB(...));
+  flushSync(() => setC(...));
 }
 ```
 
-此时读取结果应该已经对应新 DOM。
+如果只是普通 React UI，这种写法是在主动破坏 React 的 batching 和调度空间。
 
-### 第 4 步：对比两个按钮
+## Production Boundary
 
-不断交替点击：
+适合：打印、同步 DOM 测量、必须在某个浏览器 API 回调结束前完成 DOM 的第三方集成。普通业务状态流不要使用。
 
-```text
-普通更新
-flushSync 更新
-```
+## 本课只记住 3 件事
 
-观察 `lastRead`。
+1. setter 后下一行不等于 DOM 已 Commit。
+2. `flushSync` 用于明确同步 DOM 契约。
+3. 默认让 React batching；`flushSync` 是少数边界工具。
 
-### 第 5 步：明确实验边界
+## Challenge
 
-`document.getElementById` 在这里是为了模拟外部系统立即读 DOM。
+把 DOM 读取换成 `getBoundingClientRect()`，模拟一个必须马上测量尺寸的第三方库，并分别验证普通更新与 `flushSync`。
 
-真实 React 业务不应为了读取普通 UI 状态就绕过 React 数据流。
+## Mastery Check
 
-### 第 6 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：`flushSync` 的同步 DOM 边界。
-- **实验辅助代码**：DOM 查询与读取结果展示。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./06-render-snapshot-batching-update-queue/kp058-flush-sync-boundary --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 点击“普通更新并立即读 DOM”。
-2. 页面 count 最终增加，但读取记录可显示更新前的 DOM。
-3. 点击“flushSync 更新并立即读 DOM”。
-4. 读取记录应反映同步后的新 DOM。
-5. 能解释为什么不应该为了普通 UI 更新到处使用 `flushSync`。
-
-完成后继续 **RE-KP059：异步回调中的快照理解**。
+- **Must**：知道为什么普通 setter 后不能假设 DOM 已更新。
+- **Should**：能判断一个第三方集成是否真的需要 `flushSync`。
+- **Expert**：能在架构评审中拒绝把 `flushSync` 当通用性能修复手段。
