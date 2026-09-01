@@ -1,278 +1,154 @@
 # TS-KP008：编译期错误与运行时错误的区别
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开最终源码](./src/main.ts)
+> [返回 Chapter 01](../README.md) · [最终源码](./src/main.ts)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `FAILURE-LAB` |
+| 学习深度 | **Must** |
+| 前置课程 | TS-KP001～007 |
+| 本课主问题 | 参数类型全部正确，为什么程序仍能得到 `Infinity`，坏 JSON 仍会抛 `SyntaxError`？ |
+| Learning Artifact | `tsc` 通过 + 两种 Runtime 现象 |
+| 本课暂时不用理解 | 业务不变量建模、异常体系设计 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. Compile-time Error 是类型检查阶段能证明的问题。
+2. Runtime Error / 异常 / 非法业务结果发生在真实执行阶段。
+3. “没有 Type Error”绝不等价于“运行一定正确”。
 
-1. 区分 TypeScript 类型诊断与 JavaScript 运行时异常。
-2. 理解有些问题既不会产生类型错误，也不会抛异常，但业务结果仍然错误。
-3. 知道 TypeScript 可以减少一部分运行前问题，但不能消灭所有运行时错误。
-4. 知道是否允许“有类型错误仍生成 JavaScript”取决于编译配置，本课程当前使用 `noEmitOnError`。
-5. 能把真实问题分类为：编译期类型问题、运行时异常、业务逻辑异常。
-
-> **本节核心知识**：不要把“TypeScript 报错”“JavaScript 抛异常”“业务结果不合理”混成同一种错误。
->
-> **实验辅助代码**：平均值计算和故意损坏的 JSON 用来制造三种不同故障类型。
-
-## 理论讲解
-
-### 1. 编译期类型错误发生在程序执行之前
-
-例如：
+## 前置状态
 
 ```ts
 function average(total: number, count: number): number {
   return total / count;
 }
-
-average('100', 4);
 ```
 
-TypeScript 能从源码直接看到：
+从类型关系看，`100` 和 `0` 都是合法 `number`。
 
-```text
-参数要求 number
-实际给了 string
-```
+## 本课主问题
 
-所以可以在真正执行前给出诊断。
-
-### 2. 运行时错误依赖真实执行过程
-
-例如：
+为什么：
 
 ```ts
-JSON.parse('{"name": }');
+average(100, 0)
 ```
 
-从静态类型上看，`JSON.parse()` 接受一个 `string`，传入值确实也是 `string`。
+不会产生类型错误，却得到 `Infinity`？为什么一个字符串类型完全没问题的坏 JSON 还能在 `JSON.parse()` 时抛异常？
 
-但是字符串内容不是合法 JSON。
-
-只有运行解析器时才会抛出异常。
-
-这属于：
+## 先预测
 
 ```text
-类型上合法
-      ↓
-运行时处理真实内容
-      ↓
-抛出 SyntaxError
+average(100, 4) → ?
+average(100, 0) → Type Error / Infinity / throw？
+JSON.parse('{"name": }') → 编译错误 / Runtime Error？
 ```
-
-### 3. 还有第三类：没有类型错误，也没有异常，但结果业务不合理
-
-例如：
-
-```ts
-average(100, 0);
-```
-
-两个参数都是 `number`，TypeScript 不会报错。
-
-JavaScript 执行除以零时通常得到：
-
-```text
-Infinity
-```
-
-它也没有抛异常。
-
-但你的业务可能规定：
-
-```text
-count 必须 > 0
-```
-
-所以：
-
-```text
-类型正确
-+ 程序没崩
-≠
-业务一定正确
-```
-
-### 4. 三类问题应该用不同手段解决
-
-可以建立一个基本分类：
-
-```text
-编译期类型错误
-→ TypeScript 类型系统
-
-运行时异常
-→ try/catch、校验、错误边界、容错逻辑
-
-业务逻辑异常
-→ 业务规则、测试、领域约束
-```
-
-### 5. 类型错误和“是否生成 JS”不是同一个概念
-
-TypeScript 可以报告诊断；是否仍然产生 JavaScript 由配置决定。
-
-本课程当前基础配置使用：
-
-```json
-"noEmitOnError": true
-```
-
-所以有类型错误时不会生成新的编译产物。
-
-具体 Emit 行为会在 TS-KP012、TS-KP013 深入学习。
-
----
 
 ## 动手编码：从 0 到 1
 
-### 第 0 步：准备一个类型明确的函数
+### Step 0：先验证正常值
 
-创建 `src/main.ts`：
-
-```ts
-function average(total: number, count: number): number {
-  return total / count;
-}
-```
-
-### 第 1 步：加入正常调用
-
-写：
-
-```ts
-console.log('正常平均值:', average(100, 4));
-```
-
-预期：
+运行最终函数：
 
 ```text
 正常平均值: 25
 ```
 
-### 第 2 步：制造编译期类型错误
+### Step 1：只把 count 改成 0
 
-临时加入：
-
-```ts
-average('100', 4);
-```
-
-执行类型检查，应该在程序运行之前看到参数类型错误。
-
-观察后删除这行。
-
-### 第 3 步：制造“类型正确但业务异常”的结果
-
-加入：
-
-```ts
-console.log('除以零:', average(100, 0));
-```
-
-这行可以通过类型检查。
-
-运行后得到：
+类型检查仍然通过；Node 输出：
 
 ```text
 除以零: Infinity
 ```
 
-这里既没有 TypeScript 报错，也没有 JavaScript 异常，但业务可能不接受。
+### 立即解释
 
-### 第 4 步：制造真正的运行时异常
+`0` 的类型确实是 `number`。TypeScript 没有被要求证明“count 必须大于 0”。这不是 Type Error，而是运行时/业务语义问题。
 
-继续写：
+---
+
+### Step 2：制造真正 Runtime Exception
 
 ```ts
 const brokenJson = '{"name": }';
-```
-
-类型上它只是一个正常 `string`。
-
-然后：
-
-```ts
 JSON.parse(brokenJson);
 ```
 
-只有运行时才知道字符串内容无法解析。
-
-### 第 5 步：捕获运行时异常
-
-为了让案例继续执行，把它放进：
-
-```ts
-try {
-  JSON.parse(brokenJson);
-} catch (error) {
-  if (error instanceof Error) {
-    console.log('运行时异常:', error.name);
-  }
-}
-```
-
-### 第 6 步：把三类问题放到同一张图里
-
-现在你已经亲手制造：
+通过 `try/catch` 观察：
 
 ```text
-average('100', 4)
-→ 编译期类型错误
-
-average(100, 0)
-→ 类型正确，运行不崩，但业务可疑
-
-JSON.parse(brokenJson)
-→ 类型正确，运行时抛异常
+运行时异常: SyntaxError
 ```
 
-### 第 7 步：完成案例并对照最终源码
+这里字符串本身类型正确，但内容不满足 JSON Grammar。
 
-最终代码应与 [`src/main.ts`](./src/main.ts) 一致。
+---
 
-本节总结：
+### Step 3：反过来制造 Compile-time Error
 
-- **核心代码**：三组对照共同说明“类型诊断、运行时异常、业务错误”属于不同层次。
-- **实验辅助代码**：损坏 JSON 和日志输出只用于制造可观察的错误场景。
+临时写：
 
-## 运行案例
-
-类型检查：
-
-```bash
-npm run check -- ./01-typescript-foundations/kp008-compile-time-vs-runtime-errors/tsconfig.json
+```ts
+average('100', 4);
 ```
 
-编译：
+这次 `tsc` 在运行前就能证明参数类型不成立。
 
-```bash
-npm run build -- ./01-typescript-foundations/kp008-compile-time-vs-runtime-errors/tsconfig.json
+## 图解与心智模型
+
+```text
+Compile Time
+类型关系能否成立？
+      ↓
+JavaScript Runtime
+真实值怎么计算 / 是否抛异常？
+      ↓
+Business Correctness
+结果是否符合领域规则？
 ```
 
-运行：
+## 理论收束
 
-```bash
-node ./01-typescript-foundations/kp008-compile-time-vs-runtime-errors/dist/main.js
-```
+| 现象 | 分类 |
+|---|---|
+| string 传给 number 参数 | Compile-time Type Error |
+| 100 / 0 得到 Infinity | Runtime JavaScript Result |
+| JSON.parse 坏内容 | Runtime Exception |
 
-## 效果验证
+## Wrong Way 与边界
 
-最终应能确认：
+- “`tsc` 通过，所以不需要测试”是错误结论。
+- 不是所有 Runtime 问题都会 `throw`；`Infinity`、`NaN`、逻辑错误可能静默传播。
 
-1. 临时加入 `average('100', 4)` 会在类型检查阶段失败。
-2. `average(100, 0)` 能通过类型检查，运行得到 `Infinity`。
-3. 损坏 JSON 在类型检查阶段没有问题，但运行解析时抛出异常。
-4. 能解释为什么“没有类型错误”和“程序不会出错”不是同一个结论。
-5. 能为三类问题分别选择 TypeScript、运行时错误处理和业务规则/测试。
+## Production Boundary
+
+生产系统需要组合：Static Types + Runtime Validation + Business Invariants + Tests + Error Handling。TypeScript 只是其中一层。
+
+## 本课只记住 3 件事
+
+1. **Type Error 和 Runtime Error 发生在不同阶段。**
+2. **类型合法的值仍可能产生非法业务结果。**
+3. **运行时问题不一定以异常形式出现。**
+
+## Challenge
+
+把 `count` 改成 `-2`、`NaN`，分别预测输出；再思考哪些约束应由 Runtime Guard / Test 负责。
+
+## Mastery Check
+
+### Must
+- 能区分本课三个现象属于哪个阶段。
+### Should
+- 能说明为什么 `number` 不能表达所有数值业务约束。
+### Expert
+- 能为生产 API 分配 Type / Validation / Error / Test 的职责。
+
+## 最终源码与代码边界
+
+- **核心代码**：`average()` 的数值边界与坏 JSON Runtime 现象。
+- **实验辅助代码**：`try/catch` 只用于捕获并显示异常类型。
+- **最终源码**：[`src/main.ts`](./src/main.ts)

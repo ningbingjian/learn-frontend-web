@@ -1,139 +1,27 @@
 # TS-KP011：`.ts`、`.tsx`、`.mts`、`.cts` 文件
 
-> [返回 Chapter 01](../README.md) · [返回 TypeScript 模块索引](../../README.md) · [打开源码目录](./src)
+> [返回 Chapter 01](../README.md) · [源码目录](./src)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `ENGINEERING` |
+| 学习深度 | **Must** |
+| 前置课程 | TS-KP009～010 |
+| 本课主问题 | 为什么只换文件后缀，就会影响 JSX、ESM/CJS 模块语义和 Emit 文件名？ |
+| Learning Artifact | `dist/plain.js`、`view.jsx`、`esm-entry.mjs`、`cjs-entry.cjs` |
+| 本课暂时不用理解 | NodeNext 完整解析规则、Package Exports、声明文件后缀体系 |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. `.ts` 是常规 TypeScript；`.tsx` 允许 JSX。
+2. `.mts` / `.cts` 明确 ESM / CommonJS 语义。
+3. 后缀会影响 TypeScript 的解析上下文和 Emit 文件名。
 
-1. 知道 `.ts` 是普通 TypeScript 源文件后缀。
-2. 知道 `.tsx` 允许 TypeScript 文件包含 JSX 语法。
-3. 知道 `.mts` 明确表示 ESM 语义，常规 Emit 对应 `.mjs`。
-4. 知道 `.cts` 明确表示 CommonJS 语义，常规 Emit 对应 `.cjs`。
-5. 理解 `.ts/.tsx` 在 Node 风格模块模式下还可能受到最近 `package.json` 中 `type` 字段影响。
+## 前置状态
 
-> **本节核心知识**：文件后缀不只是“文件名长得不同”，某些后缀会参与模块格式与 Emit 文件名判断。  
-> **实验辅助代码**：`jsx-global.d.ts` 只为了让本节不引入 React 依赖也能编译一个最小 JSX 示例，不是生产项目的 JSX 类型配置范式。
-
-## 理论讲解
-
-### 1. `.ts`
-
-最普通的 TypeScript 文件：
-
-```text
-main.ts
-```
-
-适合不包含 JSX 的常规 TypeScript 代码。
-
-在 Node 风格模块模式中，`.ts` 自身并不强制 ESM 或 CommonJS；TypeScript 会结合宿主规则，例如最近的 `package.json` 中是否有：
-
-```json
-{
-  "type": "module"
-}
-```
-
-来判断对应 `.js` 运行时文件应该按什么模块格式理解。
-
-### 2. `.tsx`
-
-当 TypeScript 文件需要包含 JSX：
-
-```tsx
-const view = <div>Hello</div>;
-```
-
-文件通常使用：
-
-```text
-view.tsx
-```
-
-并且需要配置合适的 `jsx` 编译选项。
-
-`.tsx` 不是“React 专属后缀”，它表达的是：
-
-```text
-TypeScript + JSX syntax
-```
-
-React 只是最常见的使用场景之一。
-
-### 3. `.mts`
-
-`.mts` 用来明确表达该 TypeScript 文件采用 ESM 模块语义。
-
-常规 Emit 关系：
-
-```text
-source.mts
-   ↓
-source.mjs
-```
-
-这样运行时看到 `.mjs` 就能明确按 ESM 处理。
-
-### 4. `.cts`
-
-`.cts` 用来明确表达 CommonJS 模块语义。
-
-常规 Emit 关系：
-
-```text
-source.cts
-   ↓
-source.cjs
-```
-
-运行时看到 `.cjs` 就明确按 CommonJS 处理。
-
-### 5. 为什么不能只背“.mts = mjs、.cts = cjs”
-
-真正需要建立的是：
-
-```text
-源文件后缀
-   ↓
-TypeScript 判断模块格式
-   ↓
-类型检查规则 / 模块解析规则 / Emit 文件名和语法
-   ↓
-目标运行时按输出后缀继续解释
-```
-
-模块系统会在 Chapter 18 深入学习，本节只建立文件后缀直觉。
-
-### 6. `.d.mts` 与 `.d.cts`
-
-以后学习声明文件时还会遇到：
-
-```text
-.d.ts
-.d.mts
-.d.cts
-```
-
-它们分别描述不同运行时文件/模块格式对应的类型声明。
-
-本节先知道存在即可。
-
----
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：明确实验目标
-
-我们要在同一个知识点里准备四种源码：
+本课一次准备四种源码：
 
 ```text
 plain.ts
@@ -142,112 +30,59 @@ esm-entry.mts
 cjs-entry.cts
 ```
 
-然后只运行一次 `tsc`，直接观察 `dist/` 文件名。
+## 本课主问题
 
-### 第 1 步：创建普通 `.ts`
+同样由 TypeScript Compiler 处理，为什么最终会得到四种不同输出后缀？
 
-创建：
+## 先预测
 
-```text
-src/plain.ts
-```
-
-写入：
-
-```ts
-export const plain = 'plain .ts';
-
-console.log(plain);
-```
-
-### 第 2 步：创建明确 ESM 的 `.mts`
-
-创建：
+把源文件与输出连线：
 
 ```text
-src/esm-entry.mts
+.ts  → ?
+.tsx → ?   （当前 jsx: preserve）
+.mts → ?
+.cts → ?
 ```
 
-写入：
+## 动手编码：从 0 到 1
 
-```ts
-export const esmMode = 'ESM from .mts';
+### Step 0：先放普通 `.ts`
 
-console.log(esmMode);
-```
+`plain.ts` 是不含 JSX 的普通 TS 源码。
 
-### 第 3 步：创建明确 CommonJS 的 `.cts`
+### Step 1：只改变一个变量——加入 JSX
 
-创建：
-
-```text
-src/cjs-entry.cts
-```
-
-写入：
-
-```ts
-export const cjsMode = 'CommonJS from .cts';
-
-console.log(cjsMode);
-```
-
-### 第 4 步：创建最小 `.tsx`
-
-创建：
-
-```text
-src/view.tsx
-```
-
-写入：
+`view.tsx` 中写：
 
 ```tsx
-const title = 'TSX example';
 const view = <div>{title}</div>;
-
-console.log(view);
 ```
 
-为了不在这一课引入 React 类型依赖，再添加一个实验辅助声明：
+当前实验使用 `jsx: preserve`，并用 `jsx-global.d.ts` 提供最小 JSX 类型入口，避免引入 React。
 
-```text
-src/jsx-global.d.ts
-```
+### 立即解释
 
-它只为本地 `<div>` 提供最小 JSX 类型入口。
+`.tsx` 表达的是 **TypeScript + JSX Syntax**，不是“React 专属文件”。
 
-### 第 5 步：为本实验使用 NodeNext + JSX Preserve
+---
 
-当前知识点的 `tsconfig.json` 使用：
+### Step 2：明确 ESM / CJS
+
+加入 `.mts` 与 `.cts`，配置使用：
 
 ```json
-{
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "jsx": "preserve"
-  }
-}
+"module": "NodeNext",
+"moduleResolution": "NodeNext"
 ```
 
-`jsx: preserve` 会保留 JSX 给后续工具处理，因此 `.tsx` 对应输出会保留为 `.jsx`。
-
-### 第 6 步：执行构建
-
-在 TypeScript 模块根目录执行：
+### Step 3：只 Build 一次，观察 dist
 
 ```bash
 npm run build -- ./01-typescript-foundations/kp011-typescript-file-extensions/tsconfig.json
 ```
 
-然后查看：
-
-```text
-kp011-typescript-file-extensions/dist/
-```
-
-预期能看到：
+预期：
 
 ```text
 plain.js
@@ -256,36 +91,11 @@ esm-entry.mjs
 cjs-entry.cjs
 ```
 
-这一步就是本节最关键的观察结果。
+这就是本课最重要的可观察证据。
 
-### 第 7 步：分别观察 ESM 与 CommonJS 产物
+---
 
-打开：
-
-```text
-dist/esm-entry.mjs
-```
-
-你应该看到 ESM 风格的 `export`。
-
-再打开：
-
-```text
-dist/cjs-entry.cjs
-```
-
-你应该看到 CommonJS 相关 Emit。
-
-重点不是背具体辅助代码，而是看到：
-
-```text
-.mts → .mjs → ESM
-.cts → .cjs → CommonJS
-```
-
-### 第 8 步：运行可直接执行的三个 JavaScript 产物
-
-执行：
+### Step 4：运行可直接给 Node 的三个产物
 
 ```bash
 node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/plain.js
@@ -293,62 +103,54 @@ node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/esm-entry
 node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/cjs-entry.cjs
 ```
 
-分别应打印对应文本。
+分别输出源码中对应文本。
 
-### 第 9 步：为什么不直接用 Node 运行 `view.jsx`
+`view.jsx` 仍包含 JSX，因为我们故意 `preserve`；它需要后续 JSX Transform，而不是强迫 Node 直接执行。
 
-因为本课使用：
-
-```text
-jsx: preserve
-```
-
-Emit 后 JSX 仍然存在：
-
-```jsx
-<div>{title}</div>
-```
-
-Node.js 本身不会把这个 JSX 当作普通 JavaScript 自动转换。
-
-实际 React/Vue/构建工具链中会由对应框架或构建工具继续处理。
-
-所以 `.tsx` 这一部分的验收是：
+## 图解与心智模型
 
 ```text
-能够编译
-能够看到 .jsx 产物
-知道 JSX 仍需后续处理
+.ts  ─────────→ .js
+.tsx + preserve → .jsx
+.mts ─────────→ .mjs (ESM)
+.cts ─────────→ .cjs (CJS)
 ```
 
-而不是强行让 Node 直接执行它。
+## 理论收束
 
-### 第 10 步：完成案例并对照最终源码
+> 文件扩展名是编译输入的一部分：它既告诉 Compiler 可以出现什么语法，也可能明确模块格式，并影响运行时产物后缀。
 
-最终源码目录：[`src/`](./src)。
+## Wrong Way 与边界
 
-本节总结：
+- `.tsx` 不等于“必然 React”；它首先允许 JSX。
+- `.ts` 在 Node 风格模块语义下并不单靠后缀决定 ESM/CJS，还可能受最近 `package.json` 的 `type` 影响。
+- 不要只背 `.mts→.mjs`，要理解“后缀 → 模块语义 → Emit → Runtime”的链路。
 
-- **核心代码/知识**：`.ts`、`.tsx`、`.mts`、`.cts` 的语义差异，以及 `.mts → .mjs`、`.cts → .cjs` 的 Emit 关系。
-- **实验辅助代码**：`jsx-global.d.ts` 和本节专用 `NodeNext` / `jsx: preserve` 配置只是为了把四种文件放进同一个可观察实验。
+## Production Boundary
 
-## 运行案例
+库 / Node 项目中后缀选择会影响真实运行时模块格式；React 项目则通常由 Bundler 继续处理 `.tsx`。文件命名是工程契约的一部分。
 
-```bash
-npm run build -- ./01-typescript-foundations/kp011-typescript-file-extensions/tsconfig.json
-node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/plain.js
-node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/esm-entry.mjs
-node ./01-typescript-foundations/kp011-typescript-file-extensions/dist/cjs-entry.cjs
-```
+## 本课只记住 3 件事
 
-并手动查看 `dist/view.jsx`。
+1. **`.tsx` = TS + JSX Syntax。**
+2. **`.mts` / `.cts` 明确 ESM / CJS。**
+3. **后缀会参与 Emit 与 Runtime 语义。**
 
-## 效果验证
+## Challenge
 
-你应该能够不查资料回答：
+先把 `jsx: preserve` 临时换成另一种 JSX Emit 模式并比较输出文件/代码；观察后恢复原配置。本课只比较现象，不提前学习框架 JSX Runtime。
 
-1. 什么情况下使用 `.tsx` 而不是 `.ts`？
-2. `.mts` 常规 Emit 后为什么是 `.mjs`？
-3. `.cts` 常规 Emit 后为什么是 `.cjs`？
-4. 为什么普通 `.ts` 在 Node 风格模块模式下还要关注 `package.json` 的 `type`？
-5. 为什么本案例的 `.jsx` 不直接交给 Node 执行？
+## Mastery Check
+
+### Must
+- 能把四种源后缀映射到本实验的四种产物。
+### Should
+- 能解释 `.tsx` 为什么本课不直接由 Node 执行。
+### Expert
+- 能说明后缀与 package `type` / NodeNext 的职责边界。
+
+## 最终源码与代码边界
+
+- **核心内容**：四种后缀与 Emit 关系。
+- **实验辅助代码**：`jsx-global.d.ts` 与专用 `tsconfig` 只服务观察。
+- **最终源码**：[`src/`](./src)
