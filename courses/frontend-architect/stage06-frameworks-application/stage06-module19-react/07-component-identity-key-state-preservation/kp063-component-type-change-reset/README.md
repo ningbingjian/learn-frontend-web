@@ -2,102 +2,33 @@
 
 > [返回 Chapter 07](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `FAILURE-LAB` + `BROWSER-MECHANISM-LAB` |
+| 学习深度 | Must |
+| 前置课程 | RE-KP062：同位置同类型保留 State |
+| 本课主问题 | 同一个树位置从 `Counter` 换成 `Message`，为什么切回来后 score 归零？ |
+| Learning Artifact | Counter → Message → Counter 状态重置实验 |
+| 暂时不用理解 | `key`、Reconciler 源码 |
 
-## 学习目标
+## 先预测
 
-1. 理解同一树位置上的组件类型变化会改变组件身份。
-2. 理解旧组件被移除后，它对应的 State 也随之丢弃。
-3. 能解释为什么从 `<Counter />` 切到 `<Message />` 再切回来时计数会归零。
-4. 区分“重新 Render”与“组件被卸载后重新挂载”。
-5. 为后续 `key` 主动重置 State 建立身份模型。
+把 Counter 点到 3，然后切到 Message，再切回来。你预测新 Counter 是 3 还是 0？
 
-> **本节核心代码**：同一个条件分支位置在 `Counter` 和 `Message` 两种组件类型之间切换。
->
-> **实验辅助代码**：切换按钮只用于制造类型变化。
+## 动手实验：从 0 到 1
 
-## 理论讲解
-
-### 1. 相同位置还不够
-
-RE-KP062 学到：
-
-```text
-同一位置 + 同一组件类型
-通常保留 State
-```
-
-现在把第二个条件改掉：
-
-```text
-同一位置 + 不同组件类型
-```
-
-React 会把它们视为不同身份。
-
-### 2. 类型变化意味着旧子树被替换
-
-假设第一次是：
-
-```jsx
-<Counter />
-```
-
-下一次同一位置变成：
-
-```jsx
-<Message />
-```
-
-React 不会把 Counter 的 State “转交”给 Message。
-
-更合理的模型是：
-
-```text
-Counter identity 被移除
-Counter state 被丢弃
-Message identity 建立
-```
-
-之后再切回 Counter：
-
-```text
-创建新的 Counter identity
-使用新的初始 State
-```
-
-### 3. 为什么这是必要的
-
-不同组件类型的内部 State 结构可能完全不同。
-
-例如：
-
-```text
-Counter: score
-Message: text
-Editor: draft + selection
-```
-
-如果 React 试图跨类型复用 State，结果会不可预测。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备 Counter
+### Step 0：准备有 State 的 Counter
 
 ```jsx
 function Counter() {
   const [score, setScore] = useState(0);
-  return <button onClick={() => setScore(score + 1)}>{score}</button>;
+  // ...
 }
 ```
 
-### 第 1 步：准备另一种组件类型
+### Step 1：准备另一种组件类型
 
 ```jsx
 function Message() {
@@ -105,43 +36,59 @@ function Message() {
 }
 ```
 
-### 第 2 步：在同一位置条件切换
+### Step 2：让同一位置发生 Type Change
 
 ```jsx
 {showCounter ? <Counter /> : <Message />}
 ```
 
-### 第 3 步：完成实验
+### Step 3：复现 State Reset
 
-1. Counter 加到 3。
-2. 切换到 Message。
-3. 再切回 Counter。
+`Counter=3 → Message → Counter`。
 
-预期：
+**观察**：新的 Counter 从 0 开始。
+
+**立即解释**：位置没变，但 Component Type 变了；旧 Counter Identity 被移除，它的 State 一起丢弃。切回来建立的是新 Counter Identity。
+
+[查看最终源码](./src/main.jsx)
+
+## 图解
 
 ```text
-score 重新从 0 开始
+Render A: position #1 → Counter(score=3)
+Render B: position #1 → Message
+                         ↑ type changed
+                         Counter unmounted
+Render C: position #1 → Counter(score=0)
+                         ↑ new identity
 ```
 
-### 第 4 步：对照最终源码
+## 理论收束
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
+State Preserve 需要 React 能匹配前后组件身份。“同位置”只是条件之一；当组件类型不同，React 会替换对应子树，而不是跨类型搬运内部 State。
 
-- **本节核心代码**：同一位置上组件 Type 变化会更换身份。
-- **实验辅助代码**：`showCounter` 仅用于控制实验分支。
+## Wrong Way
 
-## 运行案例
+- 把任何重新 Render 都叫“重新挂载”。
+- 认为 State Reset 是随机现象。
+- 为了清 State 随意换组件类型，而不是表达真实 UI 结构。
 
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./07-component-identity-key-state-preservation/kp063-component-type-change-reset --config ./vite.config.js
-```
+## Production Boundary
 
-## 效果验证
+页面模式切换如果本质是完全不同的 UI 类型，重置通常合理；如果只是样式/Props 变化，却换了组件类型，可能造成用户草稿意外丢失。
 
-- Counter 增加后的 State 能正常显示。
-- 切成 Message 后 Counter 消失。
-- 再切回 Counter 时 State 从初始值开始。
-- 能解释这不是“React 随机丢 State”，而是组件身份发生了类型级变化。
+## 本课只记住 3 件事
 
-完成后继续 **RE-KP064：key 不只是列表警告**。
+1. 同位置不代表一定同身份。
+2. Type Change 会替换旧组件身份。
+3. 旧身份被移除后，本地 State 也被丢弃。
+
+## Challenge
+
+给 Counter 增加输入框草稿，重复 Type Change，观察 score 和 draft 是否一起重置。
+
+## Mastery Check
+
+- **Must**：能预测 Counter → Message → Counter 的 State。
+- **Should**：能区分 rerender 与 unmount/remount。
+- **Expert**：能从组件边界设计角度避免无意义 Type Change。

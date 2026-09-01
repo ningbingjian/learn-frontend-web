@@ -2,156 +2,90 @@
 
 > [返回 Chapter 07](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` + `BUILD-LAB` |
+| 学习深度 | Must |
+| 前置课程 | RE-KP064 / 065：key 与 Identity |
+| 本课主问题 | 列表反转后，怎样让某一行的局部 State 继续跟着“这个实体”，而不是跟着数组位置？ |
+| Learning Artifact | Row 本地 clicks + stable id reorder 实验 |
+| 暂时不用理解 | Reconciliation 算法复杂度 |
 
-## 学习目标
+## 先预测
 
-1. 理解列表 key 必须在兄弟项之间唯一且稳定。
-2. 理解稳定 key 如何帮助 React 在插入、删除、排序时继续识别同一个数据项。
-3. 会优先使用数据模型中的持久 ID 作为 key。
-4. 能通过本地 Row State 验证“State 跟着实体身份移动，而不是跟着数组位置移动”。
-5. 知道 key 不应该在 Render 时临时随机生成。
+Beta 的本地 clicks 点到 3，然后把 `[A,B,C]` 反转成 `[C,B,A]`。如果 `key={item.id}`，Beta 的 3 会留在哪里？
 
-> **本节核心代码**：`items.map(item => <Row key={item.id} item={item} />)`。
->
-> **实验辅助代码**：反转数组与 Row 本地点击次数用于验证身份跟踪。
+## 动手实验：从 0 到 1
 
-## 理论讲解
+### Step 0：数据从一开始就有稳定 ID
 
-### 1. React 为什么需要稳定 key
-
-列表第一次：
-
-```text
-A B C
+```js
+{ id: 'a', label: 'Alpha' }
+{ id: 'b', label: 'Beta' }
+{ id: 'c', label: 'Gamma' }
 ```
 
-排序后：
-
-```text
-C B A
-```
-
-如果每项都有稳定 ID：
-
-```text
-A -> id=a
-B -> id=b
-C -> id=c
-```
-
-React 可以知道：
-
-```text
-C 只是移动到了前面
-它并不是一个全新的 C
-```
-
-### 2. key 应该来自数据
-
-推荐：
-
-```jsx
-<Row key={item.id} item={item} />
-```
-
-这里的 `item.id` 在数据生命周期中保持稳定。
-
-不推荐在 Render 时：
-
-```jsx
-<Row key={Math.random()} item={item} />
-```
-
-因为每次 Render 都会变成新的 key。
-
-随机 key 的具体问题会在 RE-KP068 单独学习。
-
-### 3. 稳定 key 能保护局部 State 与实体的对应关系
-
-假设每个 Row 自己有：
+### Step 1：Row 拥有可观察的局部 State
 
 ```jsx
 const [clicks, setClicks] = useState(0);
 ```
 
-如果给 B 点到 3 次，然后列表反转，稳定 key 能让 B 对应的 Row 身份继续被识别。
-
-因此：
-
-```text
-B 的 clicks 仍然是 3
-```
-
-即使 B 在数组中的 index 已经变化。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：准备稳定 ID 数据
-
-```js
-const initialItems = [
-  { id: 'a', label: 'Alpha' },
-  { id: 'b', label: 'Beta' },
-  { id: 'c', label: 'Gamma' },
-];
-```
-
-### 第 1 步：Row 增加局部 State
+### Step 2：用业务 ID 建立 Identity
 
 ```jsx
-function Row({ item }) {
-  const [clicks, setClicks] = useState(0);
-  // ...
-}
+{items.map(item => <Row key={item.id} item={item} />)}
 ```
 
-### 第 2 步：以 id 作为 key
-
-```jsx
-{items.map(item => (
-  <Row key={item.id} item={item} />
-))}
-```
-
-### 第 3 步：加入反转功能
+### Step 3：反转数组
 
 ```jsx
 setItems([...items].reverse());
 ```
 
-### 第 4 步：验证身份跟着实体
+**观察**：Beta 即使移动到别的位置，clicks 仍跟着 Beta。
 
-1. 给 Beta 点几次。
-2. 反转列表。
-3. Beta 移动到新位置。
-4. Beta 的点击次数仍然跟着 Beta。
+**立即解释**：位置变化，但 stable key 仍是 `b`；React 能识别这是同一个业务项对应的组件身份在移动。
 
-### 第 5 步：对照最终源码
+[查看最终源码](./src/main.jsx)
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
+## 图解
 
-- **本节核心代码**：稳定数据 ID 作为 key。
-- **实验辅助代码**：局部 `clicks` 用来观察组件身份是否跟随实体。
+```text
+Before: a→Alpha   b→Beta(3)   c→Gamma
+After : c→Gamma   b→Beta(3)   a→Alpha
 
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./07-component-identity-key-state-preservation/kp066-list-key-stability --config ./vite.config.js
+key stays with entity → local State stays with entity
 ```
 
-## 效果验证
+## 理论收束
 
-- 给任意 Row 增加本地点击次数。
-- 反转列表后次数仍跟随对应 item。
-- 能解释 key 需要“稳定”，而不仅仅是“当前 Render 里唯一”。
-- 能说明数据库 ID / 本地持久 ID 为什么通常比数组位置更合适。
+列表 key 至少要满足两个工程要求：在 sibling 范围有区分能力，并且同一实体跨 Render 保持稳定。通常最好的来源是数据模型本身的持久 ID。
 
-完成后继续 **RE-KP067：为什么不能滥用数组索引 key**。
+## Wrong Way
+
+- Render 时生成 random key。
+- 把 index 当业务身份。
+- 为“唯一”牺牲“稳定”。
+
+## Production Boundary
+
+数据库 ID、客户端创建时持久保存的 UUID 都可以成为稳定 key。关键不是 ID 长什么样，而是同一实体生命周期内不要改变。
+
+## 本课只记住 3 件事
+
+1. key 必须稳定，不只是当前 Render 唯一。
+2. reorder 只应移动 Identity，不应重新分配 State。
+3. key 优先来自数据模型。
+
+## Challenge
+
+实现“把最后一项移动到最前面”，验证每行 State 仍跟随实体。
+
+## Mastery Check
+
+- **Must**：会使用 `item.id` 作为列表 key。
+- **Should**：能解释 reorder 时 State 如何跟随 Identity。
+- **Expert**：能为离线创建数据设计稳定 ID 生命周期。
