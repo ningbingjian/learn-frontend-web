@@ -1,226 +1,59 @@
-# RE-KP088：Provider 的现代写法
+# RE-KP088：现代 Context Provider
 
-> [返回 Chapter 09](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 09](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | React 19 为什么可以直接把 Context 对象作为 Provider 渲染？ |
+| Learning Artifact | `<Context.Provider>` 与 React 19 `<Context>` 写法对照 |
 
-## 学习目标
-
-学完本节后，你应该能够：
-
-1. 使用 React 19 推荐的 `<SomeContext value={...}>` Provider 写法。
-2. 识别旧项目中的 `<SomeContext.Provider value={...}>`。
-3. 知道 `.Provider` 在 React 19 仍是兼容写法，但属于 React 19 之前的 Provider 形式。
-4. 理解 Provider 的职责是定义一段子树的 Context value 边界。
-5. 能通过嵌套 Provider 对局部子树覆盖 Context 值。
-
-> **本节核心代码**：`<LocaleContext value={locale}>...</LocaleContext>`。
->
-> **实验辅助代码**：语言切换和内层固定 `en-US` 区域用于观察 Provider Boundary。
-
-## 理论讲解
-
-### 1. React 19 的现代 Provider 语法
-
-当前推荐：
-
+## 先观察旧写法
 ```jsx
-<ThemeContext value={theme}>
-  <Page />
-</ThemeContext>
+<ThemeContext.Provider value={theme}>...</ThemeContext.Provider>
 ```
 
-这里直接把 Context 对象作为组件渲染。
-
-### 2. React 19 之前常见写法
-
-老项目里经常看到：
-
+React 19 可以写：
 ```jsx
-<ThemeContext.Provider value={theme}>
-  <Page />
-</ThemeContext.Provider>
+<ThemeContext value={theme}>...</ThemeContext>
 ```
 
-在 React 19 中这仍然是兼容认知，但新代码可以优先使用：
+## 动手对照
 
-```jsx
-<ThemeContext value={theme}>
-```
+### Step 0：保留同一 Context / Consumer
+确保变量只有 Provider 语法变化。
 
-所以维护老项目时不要误判 `.Provider` 已经“不能运行”。
+### Step 1：切到现代 Provider
+运行并验证深层 Consumer 得到同样值。
 
-### 3. Provider 是子树边界
+### Step 2：确认职责没有变化
+语法更短，但 Provider 仍定义“这棵子树从这里开始使用哪个 value”。
 
-```jsx
-<LocaleContext value="zh-CN">
-  <Header />
-  <Main />
-</LocaleContext>
-```
+[查看最终源码](./src/main.jsx)
 
-它表达：
+## 理论收束
+React 19 支持将 Context 本身渲染为 Provider；旧 `.Provider` 在兼容旧代码时仍常见。教学重点是 Provider 边界，而不是把语法变化误解为 Context 机制重写。
 
-```text
-Header / Main 及其后代
-读取 LocaleContext 时
-默认看到 zh-CN
-```
+## Wrong Way
+- 为追新语法无意义改动旧稳定库。
+- 同一代码库混用后声称语义不同。
+- 忽略项目 React 版本。
 
-Provider 不会影响：
+## Production Boundary
+新 React 19 项目可优先现代写法；库代码需考虑支持的 React 版本范围。
 
-```text
-它上方的组件
-它外部的兄弟子树
-```
+## 本课只记住 3 件事
+1. React 19 可直接 `<Context value>`。
+2. Provider 语义没变。
+3. 版本兼容决定库代码写法。
 
-### 4. 内层 Provider 可以覆盖外层
+## Challenge
+在同一示例里用新旧写法分别包两棵子树，对比 Consumer。
 
-```jsx
-<LocaleContext value="zh-CN">
-  <Page />
-  <LocaleContext value="en-US">
-    <LegacyWidget />
-  </LocaleContext>
-</LocaleContext>
-```
-
-结果：
-
-```text
-Page         → zh-CN
-LegacyWidget → en-US
-```
-
-这不是修改外层值，而是在更小的子树建立一个更近的 Provider。
-
-### 5. `value` 可以来自 State
-
-```jsx
-const [locale, setLocale] = useState('zh-CN');
-
-<LocaleContext value={locale}>
-```
-
-Context 自己不负责保存动态状态。
-
-真正的 owner 仍然是：
-
-```text
-useState / useReducer
-```
-
-Provider 只是把这个 value 暴露给后代读取。
-
-### 6. Context 与状态管理不要混为一谈
-
-可以记成：
-
-```text
-useState / useReducer
-负责：存储与更新状态
-
-Context Provider
-负责：把某个值跨层提供给子树
-```
-
-两者经常组合，但职责不同。
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：创建 LocaleContext
-
-```jsx
-const LocaleContext = createContext('zh-CN');
-```
-
-### 第 1 步：创建 Consumer
-
-```jsx
-function LocaleBadge({ label }) {
-  const locale = useContext(LocaleContext);
-  return <p>{label}：{locale}</p>;
-}
-```
-
-### 第 2 步：父组件保存动态 locale
-
-```jsx
-const [locale, setLocale] = useState('zh-CN');
-```
-
-### 第 3 步：使用 React 19 Provider
-
-```jsx
-<LocaleContext value={locale}>
-  <LocaleBadge label="主应用" />
-</LocaleContext>
-```
-
-### 第 4 步：提供切换按钮
-
-```jsx
-<button
-  onClick={() =>
-    setLocale(current => current === 'zh-CN' ? 'ja-JP' : 'zh-CN')
-  }
->
-  切换主语言
-</button>
-```
-
-### 第 5 步：加入内层 Provider
-
-```jsx
-<LocaleContext value="en-US">
-  <LocaleBadge label="固定英语区域" />
-</LocaleContext>
-```
-
-无论外层怎么切换，这个区域都继续读取：
-
-```text
-en-US
-```
-
-### 第 6 步：对照旧语法
-
-老项目等价形式：
-
-```jsx
-<LocaleContext.Provider value={locale}>
-  ...
-</LocaleContext.Provider>
-```
-
-本课程 React 19.2 基线后续优先采用现代写法。
-
-### 第 7 步：对照最终源码
-
-最终源码：[`src/main.jsx`](./src/main.jsx)。
-
-- **本节核心代码**：React 19 `<LocaleContext value={...}>`。
-- **实验辅助代码**：动态 locale 与局部 override 用于观察 Provider 边界。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- ./09-reducer-context/kp088-modern-context-provider --config ./vite.config.js
-```
-
-## 效果验证
-
-1. 点击按钮后主应用 locale 在 `zh-CN / ja-JP` 切换。
-2. 内层固定区域始终显示 `en-US`。
-3. 能识别 React 19 新 Provider 语法。
-4. 能识别旧 `.Provider` 语法且知道它的版本背景。
-5. 能解释 Provider 为什么只是“提供边界”，不是状态 owner。
-
-完成后继续 **RE-KP089：Context 默认值**。
+## Mastery Check
+- **Must**：认识 React 19 Provider 语法。
+- **Should**：能解释版本边界。
+- **Expert**：能为库制定兼容策略。

@@ -2,22 +2,35 @@
 
 > [返回 React 模块索引](../README.md)
 
-本 Chapter 学习 React 的 Escape Hatches：当信息需要跨 Render 保存、但不参与 UI 渲染时使用 Ref；当必须访问真实 DOM、管理焦点、测量布局或向外暴露少量命令式能力时，使用 DOM Ref 与 Imperative APIs。核心原则始终是：**声明式优先，命令式能力最小化。**
+本 Chapter 研究 React 声明式数据流之外的必要逃生口：保存不参与渲染的数据、获取 DOM、暴露最小命令式 API，以及测量/聚焦等浏览器集成。
 
-| 编号 | 知识点 | 包含内容 | 文档与源码 | 状态 |
-|---|---|---|---|---|
-| RE-KP091 | useRef 保存非渲染数据 | 1. Stable Ref Object 2. current 3. 不触发 Render | [文档](./kp091-useref-non-render-data/README.md) · [源码](./kp091-useref-non-render-data/src/main.jsx) | 已完成 |
-| RE-KP092 | Ref 与 State 的区别 | 1. Mutable Ref 2. Reactive State 3. UI Dependency | [文档](./kp092-ref-vs-state/README.md) · [源码](./kp092-ref-vs-state/src/main.jsx) | 已完成 |
-| RE-KP093 | DOM Ref | 1. ref Attribute 2. DOM Node 3. Imperative Access | [文档](./kp093-dom-ref/README.md) · [源码](./kp093-dom-ref/src/main.jsx) | 已完成 |
-| RE-KP094 | React 19 ref as prop | 1. ref Prop 2. Function Component 3. forwardRef 兼容认知 | [文档](./kp094-react19-ref-as-prop/README.md) · [源码](./kp094-react19-ref-as-prop/src/main.jsx) | 已完成 |
-| RE-KP095 | Ref Callback | 1. Callback Ref 2. Node Lifecycle 3. Collection | [文档](./kp095-ref-callback/README.md) · [源码](./kp095-ref-callback/src/main.jsx) | 已完成 |
-| RE-KP096 | React 19 Ref Cleanup | 1. Callback Cleanup 2. React 19 3. 生命周期 | [文档](./kp096-react19-ref-cleanup/README.md) · [源码](./kp096-react19-ref-cleanup/src/main.jsx) | 已完成 |
-| RE-KP097 | useImperativeHandle | 1. Imperative Handle 2. Exposed API 3. ref | [文档](./kp097-use-imperative-handle/README.md) · [源码](./kp097-use-imperative-handle/src/main.jsx) | 已完成 |
-| RE-KP098 | Imperative Handle 最小化 | 1. Minimal API 2. Declarative First 3. Encapsulation | [文档](./kp098-minimal-imperative-handle/README.md) · [源码](./kp098-minimal-imperative-handle/src/main.jsx) | 已完成 |
-| RE-KP099 | 测量 DOM | 1. Geometry 2. Timing 3. Measurement Boundary | [文档](./kp099-measure-dom/README.md) · [源码](./kp099-measure-dom/src/main.jsx) | 已完成 |
-| RE-KP100 | 管理焦点 | 1. focus 2. Accessibility 3. Imperative Focus | [文档](./kp100-manage-focus/README.md) · [源码](./kp100-manage-focus/src/main.jsx) | 已完成 |
+## Module Teaching Contract
+
+| 项目 | 约定 |
+|---|---|
+| 模块主线问题 | 什么数据不应该触发 Render？什么时候必须直接和 DOM/命令式系统交互？ |
+| 主教学模式 | `BUILD-LAB` + `BROWSER-MECHANISM-LAB` |
+| 辅助模式 | `FAILURE-LAB` |
+| Learning Artifact | Ref/State 对照、DOM focus/measure、callback ref lifecycle |
+| Wrong Way | 用 Ref 驱动 UI、Render 期间读写 DOM、暴露整个 DOM 实现 |
+| Module DoD | 能区分 State/Ref，并安全使用 DOM ref 与最小 imperative handle |
+
+## 课程索引
+
+| 编号 | 知识点 | 教学状态 |
+|---|---|---|
+| RE-KP091 | useRef 保存非渲染数据 | 已重构 · v1.0 |
+| RE-KP092 | Ref vs State | 已重构 · v1.0 |
+| RE-KP093 | DOM Ref | 已完成 · 待重构 |
+| RE-KP094 | React 19 ref as prop | 已完成 · 待重构 |
+| RE-KP095 | Ref Callback | 已完成 · 待重构 |
+| RE-KP096 | React 19 Ref Cleanup | 已完成 · 待重构 |
+| RE-KP097 | useImperativeHandle | 已完成 · 待重构 |
+| RE-KP098 | 最小 Imperative Handle | 已完成 · 待重构 |
+| RE-KP099 | 测量 DOM | 已完成 · 待重构 |
+| RE-KP100 | 管理焦点 | 已完成 · 待重构 |
 
 ## 当前进度
-
-- Chapter 10：**10 / 10** ✅
-- 下一知识点：**RE-KP101：Hooks 只能在组件或自定义 Hook 顶层调用**
+- 知识点完成度：**10 / 10**
+- 新教学规范重构：**2 / 10**
+- 下一重构范围：**RE-KP093～098**
