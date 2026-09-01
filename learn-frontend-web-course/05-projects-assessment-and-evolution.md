@@ -470,7 +470,7 @@ React 高级用法
 9. 课后挑战。
 10. 与主线项目和后续课程的连接。
 
-详细规范继续以 [`FRONTEND_TEACHING_GUIDE.md`](../FRONTEND_TEACHING_GUIDE.md) 为准。
+详细规范继续以 [`FRONTEND_TEACHING_GUIDE.md`](./FRONTEND_TEACHING_GUIDE.md) 为准。
 
 ---
 
