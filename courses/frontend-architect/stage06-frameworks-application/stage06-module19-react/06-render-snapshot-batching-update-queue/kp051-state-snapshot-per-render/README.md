@@ -1,177 +1,110 @@
 # RE-KP051：每次 Render 都得到状态快照
 
-> [返回 Chapter 06](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 06](../README.md) · [返回 React 模块索引](../../README.md) · [最终源码](./src/main.jsx)
+
+## 课程元信息
+
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` + `BROWSER-MECHANISM-LAB` |
+| 学习深度 | **Must** |
+| 前置课程 | RE-KP041～050：State 基础与更新 |
+| 本课主问题 | 为什么 `setNumber(number + 1)` 之后立刻读取 `number`，它还是旧值？ |
+| Learning Artifact | 可运行计数器 + DevTools Console |
+| 本课暂时不用理解 | Batching、Updater Queue、Fiber、Scheduler |
 
 ## 文档目录
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
+- [这节课只需要搞懂什么](#这节课只需要搞懂什么)
+- [前置状态](#前置状态)
+- [本课主问题](#本课主问题)
+- [先预测](#先预测)
 - [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+- [图解与心智模型](#图解与心智模型)
+- [理论收束](#理论收束)
+- [Wrong Way 与边界](#wrong-way-与边界)
+- [Production Boundary](#production-boundary)
+- [本课只记住 3 件事](#本课只记住-3-件事)
+- [Challenge](#challenge)
+- [Mastery Check](#mastery-check)
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. 一次 Render 中的 `number` 是固定的。
+2. setter 请求的是**下一次 Render**，不是给当前局部变量重新赋值。
+3. “旧值还在”不是 React 慢，而是 Snapshot 语义。
 
-1. 理解 State 在一次 Render 中表现为固定快照。
-2. 理解调用 setter 不会修改当前这次 Render 已经拿到的 State 变量。
-3. 能解释“为什么 `setNumber(number + 1)` 后立刻打印 `number` 还是旧值”。
-4. 建立 `setter → 请求更新 → 新 Render → 新 Snapshot` 的链路。
-5. 区分普通 JavaScript 变量赋值与 React State 更新。
-6. 为后续 Batching 和更新队列建立前置心智模型。
+## 前置状态
 
-> **本节核心代码**：在同一个事件处理器中对比 setter 前后读取的 `number`。
->
-> **实验辅助代码**：Console 日志和页面提示只用于观察 Snapshot，不是新的 React API。
-
-## 理论讲解
-
-### 1. State 看起来像变量，但行为不同
-
-组件中：
+你已经会写：
 
 ```jsx
 const [number, setNumber] = useState(0);
 ```
 
-`number` 是 React 在这一次 Render 调用组件时提供给你的值。
+也知道点击按钮后页面可以从 0 变 1。
 
-可以先把它想成：
+这节课不增加新 Hook。我们只把一个看起来反直觉的现象真正观察出来。
 
-```text
-Render #1
-number = 0
-```
+## 本课主问题
 
-这次 Render 生成的 JSX、事件处理器等都基于这个 `number = 0`。
-
-### 2. Setter 不会改写当前变量
-
-在事件里：
+如果 `setNumber` 是“更新 number”，为什么下面代码第一次点击时第二个日志不是 1？
 
 ```jsx
+console.log(number);
 setNumber(number + 1);
 console.log(number);
 ```
 
-很多人第一次会期待：
+## 先预测
+
+假设页面当前显示：
 
 ```text
-1
-```
-
-但当前 Handler 所属的这次 Render 中：
-
-```text
-number 仍然是 0
-```
-
-`setNumber` 的意义更接近：
-
-```text
-告诉 React：下一次 Render 请使用新的 State
-```
-
-不是：
-
-```text
-立即给当前 JavaScript 变量 number 重新赋值
-```
-
-### 3. Snapshot 心智模型
-
-可以画成：
-
-```text
-Render #1
 number = 0
-   ↓ 用户点击
-setNumber(1)
-   ↓ 请求更新
-Render #2
-number = 1
 ```
 
-`Render #1` 里的 `number` 不会突然变成 1。
-
-新值属于下一次 Render。
-
-### 4. 为什么 React 要这样工作
-
-React 根据一次 Render 中固定的 Props / State 计算 UI：
+先别运行，写下你的预测：
 
 ```text
-Props Snapshot
-State Snapshot
-      ↓
-Component Function
-      ↓
-JSX Snapshot
+setter 前：?
+setter 后：?
+页面最后：?
 ```
 
-如果 State 在组件函数执行到一半时随意变化，同一次 Render 的推理会变得很难预测。
-
-固定 Snapshot 让每次 Render 可以作为一个一致的计算过程来理解。
-
-### 5. Setter 之后如何得到“下一值”
-
-如果当前：
-
-```jsx
-number === 0
-```
-
-你完全可以自己计算：
-
-```jsx
-const nextNumber = number + 1;
-setNumber(nextNumber);
-console.log(nextNumber);
-```
-
-这里打印 1，是因为 `nextNumber` 是你自己创建的普通局部变量。
-
-但：
-
-```jsx
-console.log(number);
-```
-
-仍然属于当前 Render Snapshot。
-
-### 6. 不要把 Snapshot 误解成“React 更新慢”
-
-这不是简单的：
+很多人的第一直觉是：
 
 ```text
-React 太慢，所以变量晚一点才变
+0 / 1 / 1
 ```
 
-更准确是：
-
-```text
-当前 Render 的 State 值就是固定的
-新 State 会用于后续 Render
-```
-
-这是语义，而不是偶然的性能现象。
+接下来用代码验证。
 
 ## 动手编码：从 0 到 1
 
-### 第 0 步：建立计数 State
+### Step 0：先让页面显示当前 State
+
+**当前状态**：只有一个 State。
 
 ```jsx
 const [number, setNumber] = useState(0);
 ```
 
-页面先显示：
+先渲染：
 
 ```jsx
 <p>当前 number：{number}</p>
 ```
 
-### 第 1 步：创建事件处理器
+**运行后观察**：页面显示 0。
+
+**现在先不讲 Snapshot。** 我们先制造问题。
+
+---
+
+### Step 1：做一个最普通的 +1
+
+加入：
 
 ```jsx
 function handleIncrease() {
@@ -179,59 +112,122 @@ function handleIncrease() {
 }
 ```
 
-按钮点击后 UI 正常加 1。
-
-### 第 2 步：在 setter 前打印 Snapshot
+按钮：
 
 ```jsx
-console.log('setter 前：', number);
+<button onClick={handleIncrease}>增加 1</button>
 ```
 
-### 第 3 步：setter 后再打印同一个变量
+**运行**：点击一次。
 
-```jsx
-setNumber(number + 1);
-console.log('setter 后：', number);
-```
+**观察**：页面从 0 变成 1。
 
-第一次点击时，两条日志都看到 0。
-
-### 第 4 步：显式计算下一值
-
-```jsx
-const nextNumber = number + 1;
-setNumber(nextNumber);
-```
-
-再打印：
-
-```jsx
-console.log('本次计算出的 nextNumber：', nextNumber);
-```
-
-这样可以同时看到：
+到这里很容易形成一个危险直觉：
 
 ```text
-当前 Snapshot = 0
-下一目标值 = 1
+setNumber(number + 1)
+≈
+number = number + 1
 ```
 
-### 第 5 步：等待 React 进入下一次 Render
+下一步专门验证这个直觉对不对。
 
-页面更新后显示：
+---
+
+### Step 2：在 setter 前后读取同一个 `number`
+
+把 Handler 改成：
+
+```jsx
+function handleIncrease() {
+  console.log('setter 前的 number：', number);
+  setNumber(number + 1);
+  console.log('setter 后的 number：', number);
+}
+```
+
+打开 DevTools Console，刷新页面后第一次点击。
+
+**实际观察**：
+
+```text
+setter 前的 number：0
+setter 后的 number：0
+```
+
+但按钮 Handler 结束后，页面会显示：
 
 ```text
 当前 number：1
 ```
 
-下一次点击的 Handler 才会基于新的 Snapshot 工作。
+### 立即解释
 
-### 第 6 步：对照最终源码
+这一步只说明一件事：
 
-最终源码：[`src/main.jsx`](./src/main.jsx)。
+> setter 没有把当前这次组件调用里拿到的 `number` 变量原地改成 1。
 
-- **本节核心代码**：setter 前后读取同一个 State 变量。
-- **实验辅助代码**：`nextNumber` 和 Console 只用于说明“当前值 / 下一值”的区别。
+它请求 React 用新 State 再执行一次组件。
+
+这时才给刚才的现象命名：**State Snapshot**。
+
+---
+
+### Step 3：把“当前值”和“下一目标值”同时看见
+
+最终源码里显式计算：
+
+```jsx
+const nextNumber = number + 1;
+
+console.log('setter 前的 number：', number);
+setNumber(nextNumber);
+console.log('setter 后的 number：', number);
+console.log('本次计算出的 nextNumber：', nextNumber);
+```
+
+第一次点击：
+
+```text
+当前 Render Snapshot：number = 0
+本次普通 JS 计算：nextNumber = 1
+```
+
+注意：
+
+```text
+nextNumber = 1
+```
+
+不代表：
+
+```text
+当前 number 已经变成 1
+```
+
+`nextNumber` 只是你自己创建的普通局部变量。
+
+---
+
+### Step 4：观察下一次点击
+
+第一次点击完成后，页面已经进入新 Render：
+
+```text
+number = 1
+```
+
+再点击一次，新的 Handler 会看到：
+
+```text
+setter 前：1
+setter 后：1
+nextNumber：2
+```
+
+这证明不是“永远读旧值”，而是：
+
+> 每一次 Render 都有它自己的 State Snapshot。
 
 ## 运行案例
 
@@ -240,12 +236,139 @@ cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-re
 npm run dev -- ./06-render-snapshot-batching-update-queue/kp051-state-snapshot-per-render --config ./vite.config.js
 ```
 
-## 效果验证
+最终源码：[`src/main.jsx`](./src/main.jsx)
 
-1. 第一次点击时，setter 前后 Console 中的 `number` 都是 0。
-2. 页面随后重新渲染为 1。
-3. `nextNumber` 可以是 1，但这不意味着当前 `number` 已被改写。
-4. 能画出 `Render #1 → setter → Render #2`。
-5. 能解释为什么 Snapshot 是 State 的语义，而不是“异步太慢”的偶发现象。
+## 图解与心智模型
+
+```text
+React 内部保存 State = 0
+          ↓
+调用 App()
+          ↓
+Render #1 拿到 number = 0
+          ↓
+创建 JSX + handleIncrease #1
+          ↓
+用户点击
+          ↓
+setNumber(1)
+          ↓
+当前 handleIncrease #1 中 number 仍是 0
+          ↓
+React 再次调用 App()
+          ↓
+Render #2 拿到 number = 1
+```
+
+可以把每次 Render 想成一张照片：
+
+```text
+Render #1：number = 0
+Render #2：number = 1
+Render #3：number = 2
+```
+
+setter 的作用是请求下一张照片，不是修改已经拍好的那一张。
+
+## 理论收束
+
+### 一句话
+
+> State 更像 React 在每次 Render 时交给组件的一份快照，而不是当前函数里可以被 setter 原地修改的普通变量。
+
+### 准确定义
+
+组件重新 Render 时，React 再次调用组件函数，并为这次调用提供对应的 Props / State。由这次调用创建的 JSX、局部变量和事件处理器都基于该次 Render 的值计算。
+
+### 代码变化 → 理论
+
+| 观察 / 代码 | 对应理论 |
+|---|---|
+| setter 后 `number` 仍是旧值 | State Snapshot |
+| 页面随后显示新值 | setter 请求新的 Render |
+| 第二次点击读到新的值 | 新 Render 获得新的 Snapshot |
+
+## Wrong Way 与边界
+
+### Wrong Way 1：把 setter 当普通赋值
+
+```text
+错误：setNumber(1) 之后当前 number 就应该 === 1
+```
+
+更准确：
+
+```text
+setNumber(1) 请求后续 Render 使用 1
+```
+
+### Wrong Way 2：只说“setState 是异步的”
+
+这个说法太模糊，因为它无法解释为什么当前 Handler 中值保持稳定。
+
+优先说：
+
+```text
+当前 Render 的 State 是 Snapshot；setter 请求后续 Render。
+```
+
+### 边界
+
+本节暂时不讨论多个 setter 如何合并，也不讨论 updater function。它们分别在 RE-KP053～056 展开。
+
+## Production Boundary
+
+生产代码中你不会为了 Snapshot 到处 `console.log`，但这个模型会直接影响：
+
+- 连续 State 更新怎么写；
+- 为什么异步回调可能读到旧值；
+- 为什么 Effect 有依赖问题；
+- 为什么 Stale Closure 会出现。
+
+如果这一课理解错了，后面很多 React Bug 会被错误归因成“React 更新慢”。
+
+## 本课只记住 3 件事
+
+1. **当前 Render 的 State 值是固定 Snapshot。**
+2. **setter 请求新 Render，不会改写当前局部变量。**
+3. **要推理 React 代码，先问：这段函数属于哪一次 Render？**
+
+## Challenge
+
+把 Handler 改成：
+
+```jsx
+function handleIncrease() {
+  setNumber(number + 5);
+  console.log('number：', number);
+  console.log('number + 5：', number + 5);
+}
+```
+
+先预测 Console 和页面结果，再运行验证。
+
+要求你能解释：为什么 `number + 5` 可以是 5，而 `number` 仍然是 0。
+
+## Mastery Check
+
+### Must
+
+- 能解释 setter 后为什么立刻读取还是旧值。
+- 能画出 `Render #1 → setter → Render #2`。
+
+### Should
+
+- 能区分 React State Snapshot 与普通局部变量 `nextNumber`。
+- 不再用“异步”作为唯一解释。
+
+### Expert
+
+- 能把 Snapshot 模型迁移到后面的闭包、异步回调、Effect 与 Concurrent Rendering 推理中。
+
+## 最终源码与代码边界
+
+- **本节核心代码**：setter 前后读取同一个 `number`。
+- **实验辅助代码**：`nextNumber` 与 Console 日志用于让 Snapshot 可观察。
+- **最终源码**：[`src/main.jsx`](./src/main.jsx)
 
 完成后继续 **RE-KP052：事件处理器闭包与快照**。
