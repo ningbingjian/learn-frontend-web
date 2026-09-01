@@ -1,2 +1,0 @@
-HTML link demo
-This file is used by KP060 to verify the download attribute.
