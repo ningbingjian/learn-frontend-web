@@ -1,204 +1,63 @@
-# RE-KP098：Imperative Handle 最小化
+# RE-KP098：最小 Imperative Handle
 
-> [返回 Chapter 10](../README.md) · [返回 React 模块索引](../../README.md) · [打开最终源码](./src/main.jsx)
+> [返回 Chapter 10](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `ARCHITECTURE-LAB` |
+| 学习深度 | Should |
+| 本课主问题 | 既然可以暴露命令式 API，为什么还要坚持“最小 Handle”？ |
+| Learning Artifact | Big Handle → Capability-oriented Handle API Review |
 
-## 学习目标
+## 先判断
 
-学完本节后，你应该能够：
-
-1. 理解 `useImperativeHandle` 的价值不是“暴露得越多越方便”。
-2. 区分适合 Props 的声明式能力与适合 Ref 的命令式能力。
-3. 只向父组件暴露必要方法，而不是整个 DOM Node。
-4. 知道 focus、scroll、select 这类行为更适合命令式 Handle。
-5. 知道 open/closed、selected、highlighted 这类 UI 状态优先通过 Props 表达。
-
-> **本节核心代码**：`useImperativeHandle(ref, () => ({ focusEditor() {} }), [])`。
->
-> **实验辅助代码**：`highlighted` State 用来和命令式 `focusEditor()` 并排对比，说明“状态用 Prop，动作才考虑 Ref”。
-
-## 理论讲解
-
-### 1. Ref 是 Escape Hatch，不是第二套 Props
-
-如果组件可以写成：
-
-```jsx
-<EditableCard highlighted={highlighted} />
-```
-
-就不要再设计：
-
+下面哪个更稳定？
 ```js
-cardRef.current.setHighlighted(true)
-cardRef.current.setHighlighted(false)
+{ node, setValue, setStyle, focus, scroll, reset, internalState }
 ```
-
-因为 `highlighted` 本质是组件下一次应该呈现什么 UI，这正是 Props / State 擅长表达的内容。
-
-### 2. 什么行为更适合 Imperative Handle
-
-典型命令式行为包括：
-
-- 聚焦输入框。
-- 选中文本。
-- 滚动到某个节点。
-- 触发只能通过浏览器 DOM API 完成的动作。
-
-它们描述的是：
-
-```text
-现在立刻对某个真实对象执行动作
-```
-
-而不是：
-
-```text
-下一次 UI 应该长什么样
-```
-
-### 3. 为什么不要暴露整个 DOM
-
-如果直接：
-
-```jsx
-<input ref={ref} />
-```
-
-父组件会拿到完整 DOM Node。
-
-父组件因此可以：
-
+还是：
 ```js
-ref.current.style.display = 'none'
-ref.current.value = '...'
-ref.current.remove()
+{ focus, reset }
 ```
 
-这会扩大组件边界之外能够做的事情。
+## 动手收缩 API
 
-更好的公共组件 API 是只暴露真正允许调用的动作。
+### Step 0：列父组件真实需求
+只写业务必须命令式触发的能力。
 
-### 4. 最小 Handle 也是封装
+### Step 1：删除实现细节
+不暴露 DOM、内部 State setter、内部 className。
 
-本节只暴露：
+### Step 2：让方法表达 Capability
+例如 `focusSearch()` 比 `getInputNode()` 更能隐藏实现。
 
-```js
-{
-  focusEditor()
-}
-```
+### Step 3：替换内部 DOM
+若 Handle 不变，父级无需修改，证明边界有效。
 
-父组件不知道内部究竟是 `<input>`、`<textarea>` 还是第三方编辑器。
+[查看最终源码](./src/main.jsx)
 
-将来内部实现变化时，父组件仍然只依赖：
+## 理论收束
+Imperative Handle 是组件公共 API。API 越大，父子耦合越强。最小 Capability Surface 可以保留实现替换空间，也更容易测试和版本演进。
 
-```js
-focusEditor()
-```
+## Wrong Way
+- 暴露 entire DOM “以后可能用”。
+- 把内部 State setter 当公开命令。
+- 同时提供可冲突的声明式和命令式控制通道。
 
-这就是封装价值。
+## Production Boundary
+组件库尤其应把 Handle 当公共契约管理；普通业务组件若能通过 Props 完成，就不需要 Handle。
 
-## 动手编码：从 0 到 1
+## 本课只记住 3 件事
+1. Handle 是公开 API。
+2. 只暴露必要 Capability。
+3. 封装目标是允许内部实现变化。
 
-### 第 1 步：建立内部真实 DOM Ref
+## Challenge
+为视频播放器组件设计不超过 4 个命令式方法，并解释为什么不暴露 `<video>` DOM。
 
-```jsx
-const inputRef = useRef(null);
-```
-
-**本步目标**：内部组件自己持有 DOM Node。
-
-运行后暂时没有可见变化。
-
-### 第 2 步：只暴露一个允许调用的方法
-
-```jsx
-useImperativeHandle(ref, () => ({
-  focusEditor() {
-    inputRef.current?.focus();
-  },
-}), []);
-```
-
-**为什么这样写**：父组件只需要“聚焦编辑器”，不需要访问整个 DOM。
-
-### 第 3 步：把 UI 状态保留为声明式 Prop
-
-```jsx
-function EditableCard({ ref, highlighted }) {
-  // ...
-}
-```
-
-并渲染：
-
-```jsx
-<p>高亮状态：{highlighted ? '开启' : '关闭'}</p>
-```
-
-**观察点**：没有 `setHighlighted()` 命令式方法。
-
-### 第 4 步：父组件分别使用 Ref 和 State
-
-```jsx
-const cardRef = useRef(null);
-const [highlighted, setHighlighted] = useState(false);
-```
-
-聚焦：
-
-```jsx
-cardRef.current?.focusEditor();
-```
-
-切换高亮：
-
-```jsx
-setHighlighted(value => !value);
-```
-
-最终源码：[`src/main.jsx`](./src/main.jsx)
-
-### 本节核心代码
-
-- `useImperativeHandle`
-- 最小 `focusEditor()` Handle
-- `highlighted` 继续通过 Prop 驱动
-
-### 实验辅助代码
-
-- 两个按钮只是为了分别触发命令式动作与声明式状态变化。
-
-## 运行案例
-
-从 React 模块目录执行：
-
-```bash
-pnpm dev
-```
-
-然后访问本知识点目录对应的 Vite 页面。
-
-操作顺序：
-
-1. 点击“聚焦编辑框”。
-2. 观察输入框获得焦点。
-3. 点击“用 Prop 切换高亮”。
-4. 观察文本中的高亮状态变化。
-
-## 效果验证
-
-你应该能够回答：
-
-1. 为什么 `highlighted` 不应该做成 `ref.current.setHighlighted()`？
-2. 为什么只暴露 `focusEditor()` 比直接暴露整个 DOM 更安全？
-3. 哪些动作适合 Imperative Handle？
-4. 如果某个行为可以自然通过 Prop 表达，应该优先选哪种方式？
+## Mastery Check
+- **Must**：能缩小 Handle。
+- **Should**：会按 Capability 命名 API。
+- **Expert**：能评审长期稳定的组件命令式契约。
