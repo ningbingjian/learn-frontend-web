@@ -1,95 +1,60 @@
-# RE-KP106：自定义 Hook 复用状态逻辑而非状态本身
+# RE-KP106：复用状态逻辑，而不是共享 State
 
-> [返回 Chapter 11](../README.md)
+> [返回 Chapter 11](../README.md) · [打开最终源码](./src/main.jsx)
 
-## 目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BROWSER-MECHANISM-LAB` + `BUILD-LAB` |
+| 学习深度 | Must |
+| 本课主问题 | 两个组件调用同一个 Custom Hook，会自动共享同一份 State 吗？ |
+| Learning Artifact | 两个 `useCounter()` 实例独立变化实验 |
 
-## 学习目标
-
-1. 理解 Custom Hook 共享的是状态逻辑，不是同一份 State 数据。
-2. 能通过多个 Hook 调用实例验证 State 相互独立。
-3. 理解什么时候应该用 Context/状态提升，而不是误以为提取 Custom Hook 就能共享数据。
-
-## 理论讲解
-
-### 1. 每次 Hook 调用都是一次独立执行
-
-如果 `useCounter()` 内部调用 `useState`，那么两个组件分别调用 `useCounter()` 时，会得到两套独立 State。
-
-### 2. 共享逻辑 ≠ 共享状态
-
-Custom Hook 可以复用：
-
-- 初始化逻辑
-- 更新规则
-- 事件处理逻辑
-- Effect 订阅逻辑
-
-但不会自动把多个组件绑到同一份状态上。
-
-### 3. 真正共享状态需要共同 owner
-
-如果两个组件必须看到同一个值，应考虑：
-
-- 状态提升到最近公共父组件
-- Context
-- 外部 Store
-
-而不是只把 `useState` 包进一个 Custom Hook。
-
-## 动手编码：从 0 到 1
-
-### 第 1 步：写 `useCounter`
-
+## 先预测
 ```jsx
-function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue);
-  return {
-    count,
-    increment: () => setCount(value => value + 1),
-    reset: () => setCount(initialValue),
-  };
+const a = useCounter();
+const b = useCounter();
+```
+点击 A 后，B 是否一起变化？
+
+## 动手实验
+### Step 0：把重复逻辑提取
+```jsx
+function useCounter() {
+  const [count, setCount] = useState(0);
+  return { count, increment: () => setCount(c => c + 1) };
 }
 ```
+### Step 1：两个组件分别调用
+观察各自拥有独立 count。
+### Step 2：只操作其中一个
+另一个不会同步改变。
+### Step 3：解释真正复用的东西
+复用的是“如何创建/更新 State 的逻辑”；每个 Hook 调用仍属于自己的组件实例/Hook 位置。
 
-### 第 2 步：两个组件分别调用
+[查看最终源码](./src/main.jsx)
 
-```jsx
-<CounterPanel label="A" />
-<CounterPanel label="B" />
-```
+## 理论收束
+Custom Hook 共享逻辑，不共享 State 实例。真正共享事实仍需要提升 State、Context 或外部 Store。
 
-每个 `CounterPanel` 内部都调用一次 `useCounter(0)`。
+## Wrong Way
+- 以为抽成 Hook 就实现全局状态。
+- 在 Hook 模块顶层放可变变量来“共享”。
+- 为共享数据重复调用同一 Hook 后期待自动同步。
 
-### 第 3 步：分别点击按钮
+## Production Boundary
+复用网络订阅、表单行为、设备状态读取逻辑很适合 Hook；共享业务 Source 仍要明确 Owner。
 
-观察：A 增加不会改变 B。
+## 本课只记住 3 件事
+1. Hook 复用逻辑。
+2. 每次调用拥有自己的 Hook State。
+3. 共享 State 需要共享 Owner/Store。
 
-这证明 Custom Hook 复用了“如何计数”的逻辑，而不是让 A/B 共享同一个 count。
+## Challenge
+渲染 3 个 `useCounter` 消费者，验证彼此独立。
 
-### 最终源码
-
-- [src/main.jsx](./src/main.jsx)
-
-本节核心代码：两个独立 `useCounter()` 调用。
-
-实验辅助代码：两个 Panel 的 label 用于区分观察结果。
-
-## 运行案例
-
-```bash
-cd courses/frontend-architect/stage06-frameworks-application/stage06-module19-react
-npm run dev -- --open /11-hooks-rules-custom-hook-design/kp106-reuse-state-logic/
-```
-
-## 效果验证
-
-- 两个计数器的更新互不影响。
-- 能解释“逻辑复用”和“状态共享”的区别。
-- 知道需要共享同一份数据时应寻找共同 owner。
+## Mastery Check
+- **Must**：能解释逻辑复用与 State 共享区别。
+- **Should**：能选择 Hook vs Context。
+- **Expert**：能避免模块级可变单例伪装 Custom Hook。
