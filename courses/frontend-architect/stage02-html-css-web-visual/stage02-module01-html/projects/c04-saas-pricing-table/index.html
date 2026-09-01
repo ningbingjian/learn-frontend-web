@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudDesk SaaS 套餐比较</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.6 system-ui, sans-serif; color: #1f2937; background: #f6f7fb; }
+    main { max-width: 1120px; margin: auto; padding: 2rem 1rem 4rem; }
+    .billing { background: white; padding: 1rem; border-radius: .7rem; margin-bottom: 1rem; }
+    .billing label { margin-right: 1rem; }
+    .table-scroll { overflow-x: auto; background: white; border-radius: .8rem; box-shadow: 0 1px 8px rgb(0 0 0 / .06); }
+    table { border-collapse: collapse; width: 100%; min-width: 760px; }
+    caption { text-align: left; padding: 1rem; font-size: 1.25rem; font-weight: 750; }
+    th, td { border: 1px solid #d6dbe4; padding: .8rem; text-align: left; vertical-align: top; }
+    thead th { background: #e9edf7; text-align: center; }
+    tbody th, tfoot th { background: #f7f8fb; min-width: 180px; }
+    .recommended-column { background: #f0f6ff; }
+    tbody td:nth-child(3), tfoot td:nth-child(3) { background: #f0f6ff; }
+    .price { display: block; font-size: 1.4rem; font-weight: 750; }
+    .machine-value { display: block; color: #667085; font-size: .84rem; }
+    .scroll-note { margin-top: .7rem; color: #596574; }
+    @media (max-width: 680px) {
+      tbody th, tfoot th { position: sticky; left: 0; z-index: 1; box-shadow: 3px 0 4px rgb(0 0 0 / .08); }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>CloudDesk 套餐比较</h1>
+  <p>通过原生表格比较功能、价格与支持等级。小屏请横向滚动。</p>
+
+  <fieldset class="billing">
+    <legend>计费周期</legend>
+    <label><input type="radio" name="billing" value="monthly" checked> 月付</label>
+    <label><input type="radio" name="billing" value="annual"> 年付（按月折算）</label>
+  </fieldset>
+
+  <div id="pricing-scroll" class="table-scroll" tabindex="0" aria-label="套餐比较表，可横向滚动">
+    <table>
+      <caption>CloudDesk 套餐功能与价格比较</caption>
+      <colgroup>
+        <col class="feature-column">
+        <col>
+        <col class="recommended-column">
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th id="feature-heading" rowspan="2" scope="col">比较项目</th>
+          <th id="plan-group" colspan="3">套餐方案</th>
+        </tr>
+        <tr>
+          <th id="plan-starter" scope="col">Starter</th>
+          <th id="plan-pro" scope="col">Pro（推荐）</th>
+          <th id="plan-enterprise" scope="col">Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="feature-price" scope="row">价格</th>
+          <td headers="feature-price plan-group plan-starter"><span class="price" data-monthly="29" data-annual="23">¥29/月</span><span class="machine-value" data-price-value>monthly:29</span></td>
+          <td headers="feature-price plan-group plan-pro"><span class="price" data-monthly="79" data-annual="63">¥79/月</span><span class="machine-value" data-price-value>monthly:79</span></td>
+          <td headers="feature-price plan-group plan-enterprise"><span class="price" data-monthly="199" data-annual="159">¥199/月</span><span class="machine-value" data-price-value>monthly:199</span></td>
+        </tr>
+        <tr>
+          <th id="feature-members" scope="row">成员数</th>
+          <td headers="feature-members plan-group plan-starter">最多 5 人</td>
+          <td headers="feature-members plan-group plan-pro">最多 50 人</td>
+          <td headers="feature-members plan-group plan-enterprise">不限</td>
+        </tr>
+        <tr>
+          <th id="feature-storage" scope="row">存储空间</th>
+          <td headers="feature-storage plan-group plan-starter">100 GB</td>
+          <td headers="feature-storage plan-group plan-pro">2 TB</td>
+          <td headers="feature-storage plan-group plan-enterprise">10 TB 起</td>
+        </tr>
+        <tr>
+          <th id="feature-audit" scope="row">审计日志</th>
+          <td headers="feature-audit plan-group plan-starter">7 天</td>
+          <td headers="feature-audit plan-group plan-pro">180 天</td>
+          <td headers="feature-audit plan-group plan-enterprise">自定义保留期</td>
+        </tr>
+        <tr>
+          <th id="feature-support" scope="row">技术支持</th>
+          <td headers="feature-support plan-group plan-starter">社区支持</td>
+          <td headers="feature-support plan-group plan-pro">工作日邮件支持</td>
+          <td headers="feature-support plan-group plan-enterprise">7 × 24 专属支持</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th id="feature-fit" scope="row">适合团队</th>
+          <td headers="feature-fit plan-group plan-starter">个人 / 小团队</td>
+          <td headers="feature-fit plan-group plan-pro">成长型团队</td>
+          <td headers="feature-fit plan-group plan-enterprise">大型组织</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <p id="scroll-note" class="scroll-note">当前表格是否需要横向滚动：正在检测…</p>
+</main>
+<script>
+  const scroll = document.querySelector('#pricing-scroll');
+  const note = document.querySelector('#scroll-note');
+
+  function reportOverflow() {
+    note.textContent = `当前表格是否需要横向滚动：${scroll.scrollWidth > scroll.clientWidth ? '是' : '否'}（${scroll.clientWidth} / ${scroll.scrollWidth}px）`;
+  }
+
+  document.querySelectorAll('input[name="billing"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const mode = document.querySelector('input[name="billing"]:checked').value;
+      document.querySelectorAll('.price').forEach(price => {
+        const amount = price.dataset[mode];
+        price.textContent = `¥${amount}/月`;
+        price.nextElementSibling.textContent = `${mode}:${amount}`;
+      });
+    });
+  });
+
+  reportOverflow();
+  window.addEventListener('resize', reportOverflow);
+</script>
+</body>
+</html>

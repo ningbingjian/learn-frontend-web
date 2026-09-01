@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>账户设置帮助中心</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.65 system-ui, sans-serif; color: #25262b; background: #f5f6f8; }
+    main { max-width: 840px; margin: auto; padding: 2rem 1rem 4rem; }
+    section { background: white; padding: 1.2rem; margin-top: 1rem; border-radius: .8rem; box-shadow: 0 1px 8px rgb(0 0 0 / .06); }
+    details { border-block-end: 1px solid #d9dde4; padding: .7rem 0; }
+    summary { cursor: pointer; font-weight: 700; }
+    button { padding: .65rem .9rem; font: inherit; cursor: pointer; }
+    .danger { color: #8e1727; border-color: #8e1727; }
+    dialog { border: 0; border-radius: .8rem; padding: 0; max-width: 460px; width: calc(100% - 2rem); }
+    dialog::backdrop { background: rgb(0 0 0 / .5); }
+    .dialog-body { padding: 1.2rem; }
+    .actions { display: flex; gap: .7rem; justify-content: flex-end; }
+    [popover] { max-width: 340px; border: 1px solid #89939f; border-radius: .65rem; padding: 1rem; box-shadow: 0 10px 30px rgb(0 0 0 / .18); }
+    #status { padding: .8rem; background: #eef5ff; border-radius: .5rem; }
+    .fallback-help { border-inline-start: 4px solid #426a9c; padding-inline-start: 1rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>账户设置帮助中心</h1>
+  <p>同一个页面分别使用 disclosure、modal dialog 和 popover 解决三类不同问题。</p>
+
+  <section aria-labelledby="faq-title">
+    <h2 id="faq-title">常见问题</h2>
+    <details name="account-faq" open>
+      <summary>如何修改密码？</summary>
+      <p>进入账户安全设置，验证当前密码后即可设置新密码。</p>
+    </details>
+    <details name="account-faq">
+      <summary>如何下载账单？</summary>
+      <p>进入“账单与发票”，选择月份后下载 PDF 或 CSV。</p>
+    </details>
+    <details name="account-faq">
+      <summary>如何导出工作区数据？</summary>
+      <p>进入“数据管理 → 导出”，生成文件后系统会提供下载入口。</p>
+    </details>
+  </section>
+
+  <section aria-labelledby="workspace-title">
+    <h2 id="workspace-title">工作区设置</h2>
+    <p>工作区 ID：<code>ws_demo_2026</code></p>
+
+    <button id="popover-button" type="button" popovertarget="workspace-help" hidden>什么是工作区 ID？</button>
+    <div id="workspace-help" popover>
+      <strong>工作区 ID</strong>
+      <p>它是系统用于识别工作区的稳定机器标识，不等同于可修改的显示名称。</p>
+    </div>
+
+    <div id="fallback-help" class="fallback-help">
+      <h3>什么是工作区 ID？</h3>
+      <p>它是系统用于识别工作区的稳定机器标识，不等同于可修改的显示名称。</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="danger-title">
+    <h2 id="danger-title">危险操作</h2>
+    <p>删除工作区是不可逆操作，因此确认阶段使用模态对话框。</p>
+    <button id="delete-trigger" type="button" class="danger" hidden>删除演示工作区</button>
+    <p id="dialog-fallback">如果当前环境不支持原生 dialog，请联系管理员通过后台流程完成高风险操作。</p>
+  </section>
+
+  <p id="status" role="status" aria-live="polite">尚未执行确认操作。</p>
+
+  <dialog id="delete-dialog" aria-labelledby="dialog-title">
+    <form method="dialog" class="dialog-body">
+      <h2 id="dialog-title">确认删除演示工作区？</h2>
+      <p>这是教学页面，不会真的删除数据。请选择“取消”或“确认删除”观察 returnValue。</p>
+      <div class="actions">
+        <button value="cancel">取消</button>
+        <button value="confirm" class="danger">确认删除</button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript><p>JavaScript 已禁用：FAQ 和基础帮助仍然可用；增强型确认框和浮层帮助不会启用。</p></noscript>
+</main>
+<script>
+  const status = document.querySelector('#status');
+  const popoverButton = document.querySelector('#popover-button');
+  const popover = document.querySelector('#workspace-help');
+  const fallbackHelp = document.querySelector('#fallback-help');
+  const deleteTrigger = document.querySelector('#delete-trigger');
+  const dialogFallback = document.querySelector('#dialog-fallback');
+  const dialog = document.querySelector('#delete-dialog');
+  let dialogInvoker = null;
+
+  const supportsPopover = 'popover' in HTMLElement.prototype;
+  if (supportsPopover) {
+    popoverButton.hidden = false;
+    fallbackHelp.hidden = true;
+  } else {
+    popover.removeAttribute('popover');
+    popover.hidden = true;
+  }
+
+  const supportsDialog = typeof HTMLDialogElement !== 'undefined' && 'showModal' in HTMLDialogElement.prototype;
+  if (supportsDialog) {
+    deleteTrigger.hidden = false;
+    dialogFallback.hidden = true;
+
+    deleteTrigger.addEventListener('click', () => {
+      dialogInvoker = deleteTrigger;
+      dialog.showModal();
+    });
+
+    dialog.addEventListener('cancel', () => {
+      status.textContent = '用户通过 Esc 取消了删除确认。';
+    });
+
+    dialog.addEventListener('close', () => {
+      if (dialog.returnValue === 'confirm') {
+        status.textContent = '演示结果：用户确认删除。教学页面未执行真实删除。';
+      } else if (dialog.returnValue === 'cancel') {
+        status.textContent = '演示结果：用户点击取消。';
+      }
+      dialogInvoker?.focus();
+    });
+  }
+</script>
+</body>
+</html>
