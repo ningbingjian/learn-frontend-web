@@ -71,11 +71,11 @@
 ```html
 <tr>
   <th rowspan="2" scope="col">比较项目</th>
-  <th id="plan-group" colspan="3" scope="colgroup">套餐方案</th>
+  <th id="plan-group" colspan="3">套餐方案</th>
 </tr>
 ```
 
-第二行再放 Starter / Pro / Enterprise。
+第二行再放 Starter / Pro / Enterprise。这里不依赖 `scope="colgroup"` 猜测跨三列关系，而是在下一步通过 `id/headers` 显式建立复杂关联。
 
 ### 第 4 步：给数据格建立显式关联
 
@@ -86,7 +86,13 @@
 <td headers="feature-storage plan-group plan-pro">2 TB</td>
 ```
 
-这样数据格的上下文不是依靠“肉眼看位置”猜出来的。
+这样数据格显式关联：
+
+- 行标题 `feature-storage`；
+- 套餐组标题 `plan-group`；
+- 具体套餐标题 `plan-pro`。
+
+上下文不再依靠“肉眼看位置”猜出来。
 
 ### 第 5 步：用 colgroup 提供列级视觉提示
 
