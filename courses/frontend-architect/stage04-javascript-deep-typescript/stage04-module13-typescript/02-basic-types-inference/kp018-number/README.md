@@ -1,157 +1,100 @@
 # TS-KP018：`number`
 
-> [返回 Chapter 02](../README.md) · [打开最终源码](./src/main.ts)
+> [返回 Chapter 02](../README.md) · [最终源码](./src/main.ts)
 
-## 文档目录
+## 课程元信息
 
-- [学习目标](#学习目标)
-- [理论讲解](#理论讲解)
-- [动手编码：从 0 到 1](#动手编码从-0-到-1)
-- [运行案例](#运行案例)
-- [效果验证](#效果验证)
+| 项目 | 内容 |
+|---|---|
+| 课程类型 | `BUILD-LAB` |
+| 学习深度 | **Must** |
+| 本课主问题 | 整数、浮点数、`NaN`、`Infinity` 在 TypeScript 里为什么都落在同一个 `number` 世界？ |
+| Learning Artifact | 真实算术结果 + `toFixed()` + Runtime `typeof` |
+| 暂不理解 | Numeric Literal Type、Branded Unit、bigint |
 
-## 学习目标
+## 这节课只需要搞懂什么
 
-学完本节后，你应该能够：
+1. 小写 `number` 对应 JavaScript Number 数值世界。
+2. 整数和浮点数不拆成不同 TS 基础类型。
+3. 类型为 number 只证明“是数值类型”，不证明金额/百分比等业务规则。
 
-1. 使用小写 `number` 描述 JavaScript 普通数字。
-2. 理解 TypeScript 不另外提供 `int`、`float` 这类 Java 风格基础数字类型。
-3. 使用 `number` 为函数参数和返回值建立计算边界。
-4. 理解整数、小数在 JavaScript/TypeScript 中通常都属于 `number`。
-5. 区分普通 `number` 与下一节 `bigint` 的运行时类型。
+## 前置状态与先预测
 
-> **本节核心代码**：价格、数量、折扣等 `number` 值以及数值函数签名。
->
-> **实验辅助代码**：`toFixed()`、`typeof` 和日志用于观察计算结果。
-
-## 理论讲解
-
-### 1. 普通 JavaScript 数字使用 `number`
-
-```ts
-const count: number = 2;
-const price: number = 499.5;
-```
-
-整数和小数都可以使用 `number`。
-
-### 2. 没有单独的 `int` / `float`
-
-如果来自 Java 背景，很容易寻找 `int`、`long`、`float`、`double`。但 JavaScript 普通数值主要使用一种 Number 运行时类型，对应 TypeScript 的小写 `number`。非常大的整数使用独立的 `bigint`。
-
-### 3. `number` 参与算术表达式
-
-```ts
-function add(left: number, right: number): number {
-  return left + right;
-}
-```
-
-错误传入字符串会被静态检查发现。
-
-### 4. 数字格式化不会改变源值类型
-
-`total.toFixed(2)` 返回显示字符串，因此要区分 `total` 本身的 `number` 与格式化后的文本。
-
----
-
-## 动手编码：从 0 到 1
-
-### 第 0 步：创建文件
-
-创建 `src/main.ts` 与当前知识点 `tsconfig.json`。
-
-### 第 1 步：声明价格
+源码有：
 
 ```ts
 const unitPrice: number = 499.5;
-```
-
-小数仍然是 `number`。
-
-### 第 2 步：让数量使用类型推断
-
-```ts
 const quantity = 2;
-```
-
-TypeScript 可以从数字字面量推断数值类型信息。
-
-### 第 3 步：加入折扣率
-
-```ts
 const discountRate: number = 0.1;
 ```
 
-### 第 4 步：建立数值计算函数
+预测 `quantity` 的推断类型，以及最终 `typeof total`。
+
+## 动手实验
+
+### Step 0：建立数值函数契约
 
 ```ts
-function calculateTotal(price: number, count: number, discount: number): number {
-  return price * count * (1 - discount);
-}
+function calculateTotal(price: number, count: number, discount: number): number
 ```
 
-函数明确要求三个 `number`，并返回 `number`。
+运行类型检查应通过。
 
-### 第 5 步：计算结果
+### Step 1：执行真实算术
 
-```ts
-const total = calculateTotal(unitPrice, quantity, discountRate);
-```
-
-`total` 的类型可以由函数返回值推断。
-
-### 第 6 步：输出格式化结果
-
-```ts
-console.log(total.toFixed(2));
-console.log(typeof total);
-```
-
-预期：
+当前输入得到：
 
 ```text
 899.10
 number
 ```
 
-### 第 7 步：制造错误调用
+`toFixed(2)` 是 Number API；`typeof` 证明 Runtime 也处于 JavaScript number 世界。
 
-临时尝试：
+### Step 2：制造类型错误
 
-```ts
-calculateTotal('499.5', quantity, discountRate);
-```
+临时传 `'2'` 作为 count，观察 `tsc` 在运行前拒绝。
 
-类型检查应阻止字符串冒充数字。验证后恢复最终源码。
+### Step 3：制造“类型正确但业务可疑”
 
-### 第 8 步：完成案例并对照最终源码
+临时把 discount 改成 `2`（200%）。它仍是 number，所以类型层不会自动证明业务范围。
 
-最终源码：[`src/main.ts`](./src/main.ts)。
-
-- **本节核心代码**：`number` 变量、数值参数和 `number` 返回值。
-- **实验辅助代码**：`toFixed(2)` 用于展示金额，`typeof` 用于观察运行时类型。
-
-## 运行案例
-
-```bash
-npm run check -- ./02-basic-types-inference/kp018-number/tsconfig.json
-npm run build -- ./02-basic-types-inference/kp018-number/tsconfig.json
-node ./02-basic-types-inference/kp018-number/dist/main.js
-```
-
-预期：
+## 心智模型
 
 ```text
-899.10
-number
+整数 / 小数 / NaN / Infinity
+          ↓
+JavaScript Number
+          ↓
+TypeScript number
 ```
 
-## 效果验证
+## Wrong Way / Production Boundary
 
-你应该能够解释：
+- TypeScript 没有 Java/C# 式 `int` / `double` 基础类型拆分。
+- 金额精度、百分比范围、单位换算属于额外业务/数值工程问题，不能只靠 `number`。
 
-- 为什么整数 `2` 和小数 `499.5` 都能使用 `number`。
-- 为什么 TypeScript 日常业务中没有 `int` / `float` 基础类型选择题。
-- 为什么字符串 `'499.5'` 不能直接传给 `number` 参数。
-- 为什么 `total.toFixed(2)` 的显示文本和 `total` 本身不是同一种值。
+## 本课只记住 3 件事
+
+1. **JS 常规数值统一由 `number` 描述。**
+2. **类型正确不等于数值业务正确。**
+3. **能推断的局部变量不必机械注解。**
+
+## Challenge
+
+测试 `NaN`、`Infinity`、`-0` 的 `typeof`，并思考哪类业务需要额外 `Number.isFinite()` / Range Check。
+
+## Mastery Check
+
+### Must
+会使用 number 参数、返回值与 Number API。
+### Should
+能解释 number 与业务数值约束的边界。
+### Expert
+能识别金额/单位等场景何时不应直接传播裸 number。
+
+## 最终源码与代码边界
+
+- **核心代码**：number 输入/输出关系与算术。
+- **辅助代码**：`typeof` 和日志用于观察。
+- **最终源码**：[`src/main.ts`](./src/main.ts)
