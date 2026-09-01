@@ -1,14 +1,14 @@
-# Learn Frontend Web Sources
+# Learn Frontend Web Course
 
-`learn-frontend-web-sources` 是 `learn-frontend-web` 的**课程源材料区**。
+`learn-frontend-web-course` 是 `learn-frontend-web` 的**课程设计与大纲中心**。
 
-这里先完成课程体系、能力模型、知识边界、项目主线、验收标准和演进规则的设计，再把确认后的内容拆入正式课程目录 `courses/frontend-architect`。这样可以避免一边写具体课程，一边频繁推翻整体结构。
+这里先完成课程体系、能力模型、知识边界、项目主线、验收标准、统一教学规范和演进规则的设计，再把确认后的内容拆入正式课程目录 `courses/frontend-architect`。这样可以避免一边写具体课程，一边频繁推翻整体结构。
 
-> 当前状态：Frontend Architect 课程正在重新设计。这里的内容属于 **Source / Blueprint**，不是已经完成的正式课程。
+> 当前状态：Frontend Architect 课程正在重新设计。这里的内容属于 **Course Blueprint / Teaching Standard**，不是已经完成的正式课程。
 
 ## 当前总纲
 
-本次新增的是一套从零基础到极其资深前端架构师的完整学习总纲，采用：
+当前是一套从零基础到极其资深前端架构师的完整学习总纲，采用：
 
 - **8 个能力等级**：L0 到 L7。
 - **28 卷课程体系**：从计算机与 Web 入门，一直到前端平台、组织治理和 AI 原生前端。
@@ -19,18 +19,19 @@
 
 ## 文档导航
 
-1. [总览、能力模型与课程地图](./00-overview-and-capability-model.md)
-2. [卷 01～09：零基础、HTML、CSS、JavaScript、TypeScript](./01-foundation-to-typescript.md)
-3. [卷 10～15：浏览器、网络、React、Vue、应用与 UI 工程](./02-browser-framework-ui.md)
-4. [卷 16～21：Node.js、构建、仓库工程、测试、全栈与跨端](./03-engineering-fullstack-cross-platform.md)
-5. [卷 22～28：性能、安全、可靠性、架构、平台、领导力与 AI](./04-quality-security-architecture-ai.md)
-6. [长期项目、阶段验收、学习节奏与课程演进规则](./05-projects-assessment-and-evolution.md)
+1. [统一教学规范](./FRONTEND_TEACHING_GUIDE.md)
+2. [总览、能力模型与课程地图](./00-overview-and-capability-model.md)
+3. [卷 01～09：零基础、HTML、CSS、JavaScript、TypeScript](./01-foundation-to-typescript.md)
+4. [卷 10～15：浏览器、网络、React、Vue、应用与 UI 工程](./02-browser-framework-ui.md)
+5. [卷 16～21：Node.js、构建、仓库工程、测试、全栈与跨端](./03-engineering-fullstack-cross-platform.md)
+6. [卷 22～28：性能、安全、可靠性、架构、平台、领导力与 AI](./04-quality-security-architecture-ai.md)
+7. [长期项目、阶段验收、学习节奏与课程演进规则](./05-projects-assessment-and-evolution.md)
 
 ## 与仓库其他内容的关系
 
 - [`README.md`](../README.md)：仓库对外入口和当前建设状态。
-- [`FRONTEND_TEACHING_GUIDE.md`](../FRONTEND_TEACHING_GUIDE.md)：正式课程内容的统一教学规范。
-- `learn-frontend-web-sources/`：课程设计、调研、总纲和候选材料。
+- [`FRONTEND_TEACHING_GUIDE.md`](./FRONTEND_TEACHING_GUIDE.md)：正式课程内容的统一教学规范。
+- `learn-frontend-web-course/`：课程大纲、教学规范、调研、总纲和候选材料。
 - `courses/frontend-architect/`：大纲确认后重新创建的正式课程区。
 
 ## 课程建设顺序

@@ -12,16 +12,17 @@
 
 因此，当前仓库暂时不再标记 HTML、CSS、TypeScript、React 等旧模块为“已完成”。新课程会在整体大纲评审后重新创建并逐步落地。
 
-## 课程源材料
+## 课程设计与大纲
 
-已经新增独立的课程源材料区：
+课程设计、大纲和统一教学规范集中放在：
 
-- [Learn Frontend Web Sources](./learn-frontend-web-sources/README.md)
-- [从零基础到极其资深前端架构师：总览、能力模型与课程地图](./learn-frontend-web-sources/00-overview-and-capability-model.md)
+- [Learn Frontend Web Course](./learn-frontend-web-course/README.md)
+- [从零基础到极其资深前端架构师：总览、能力模型与课程地图](./learn-frontend-web-course/00-overview-and-capability-model.md)
+- [Frontend Teaching Guide](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
 当前总纲采用 **8 个能力等级、28 卷、84 个阶段**，覆盖从计算机、Web、HTML、CSS、JavaScript、TypeScript、浏览器和网络，到 React、Vue、工程化、全栈、跨端、性能、安全、可靠性、前端架构、平台治理、领导力与 AI 原生前端。
 
-源材料区用于课程设计与评审；确认后的内容才会拆入正式课程目录 `courses/frontend-architect`。
+`learn-frontend-web-course/` 用于统一维护课程大纲、教学规范、项目主线和课程演进设计；确认后的正式课程内容会拆入 `courses/frontend-architect`。
 
 ## 学习目标
 
@@ -57,18 +58,18 @@
 
 ## 教学规范
 
-正式课程详细内容遵循仓库中的统一教学规范：
+正式课程详细内容遵循：
 
-- [Frontend Teaching Guide](./FRONTEND_TEACHING_GUIDE.md)
+- [Frontend Teaching Guide](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
 ## 目录规划
 
 ```text
 learn-frontend-web/
 ├── README.md
-├── FRONTEND_TEACHING_GUIDE.md
-├── learn-frontend-web-sources/       # 课程源材料、能力模型与完整大纲
+├── learn-frontend-web-course/        # 课程大纲、教学规范、能力模型与演进设计
 │   ├── README.md
+│   ├── FRONTEND_TEACHING_GUIDE.md
 │   ├── 00-overview-and-capability-model.md
 │   ├── 01-foundation-to-typescript.md
 │   ├── 02-browser-framework-ui.md
