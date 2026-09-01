@@ -2,18 +2,18 @@
 
 > [返回 TypeScript 模块索引](../README.md)
 
-本章不背类型列表，而是反复做：**真实值 → TypeScript 类型 → 负向错误 → Runtime 观察 → 理论命名**。
+本章通过真实值、Diagnostic、Hover 和 Runtime 输出建立基础类型与推断模型。
 
 ## Module Teaching Contract
 
 | 项目 | 约定 |
 |---|---|
-| 主线问题 | JavaScript 真实值如何被 TypeScript 描述、推断和限制？ |
+| 主线问题 | JavaScript 真实值如何被 TypeScript 描述、推断、收窄？ |
 | 主模式 | `BUILD-LAB` |
 | 辅助模式 | `FAILURE-LAB` + Runtime Observation |
-| Learning Artifact | `tsc` Diagnostic、IDE Hover、Node `typeof` / Console、受控 Runtime Error |
-| Wrong Way | 机械注解、滥用 `any`、混淆 null/undefined、误解 object/{}/Object、忽视推断 |
-| Chapter DoD | 能把静态类型、推断、真实值、Runtime 行为分层解释 |
+| Learning Artifact | `tsc` Diagnostic、IDE Hover、Node `typeof`/Console、负向类型实验 |
+| Wrong Way | 机械注解、滥用 any、混淆 null/undefined、误解 object/{}/Object、忽略推断上下文 |
+| Chapter DoD | 能解释 primitive/special type、Inference、Contextual Typing、Best Common Type、Widening、Control Flow 的证据来源 |
 
 ## 学习顺序
 
@@ -42,13 +42,12 @@
 | 编号 | 知识点 | 文档与源码 | 教学状态 |
 |---|---|---|---|
 | TS-KP030 | 变量类型推断 | [文档](./kp030-variable-type-inference/README.md) · [源码](./kp030-variable-type-inference/src/main.ts) | 已重构 · v1.0 |
-| TS-KP031 | 函数返回值推断 | [文档](./kp031-return-type-inference/README.md) · [源码](./kp031-return-type-inference/src/main.ts) | 已完成 · 待重构 |
-| TS-KP032 | Contextual Typing | [文档](./kp032-contextual-typing/README.md) · [源码](./kp032-contextual-typing/src/main.ts) | 已完成 · 待重构 |
-| TS-KP033 | Best Common Type | [文档](./kp033-best-common-type/README.md) · [源码](./kp033-best-common-type/src/main.ts) | 已完成 · 待重构 |
-| TS-KP034 | Literal Widening | [文档](./kp034-literal-widening/README.md) · [源码](./kp034-literal-widening/src/main.ts) | 已完成 · 待重构 |
-| TS-KP035 | 控制流类型分析概览 | [文档](./kp035-control-flow-analysis-overview/README.md) · [源码](./kp035-control-flow-analysis-overview/src/main.ts) | 已完成 · 待重构 |
+| TS-KP031 | 函数返回值推断 | [文档](./kp031-return-type-inference/README.md) · [源码](./kp031-return-type-inference/src/main.ts) | 已重构 · v1.0 |
+| TS-KP032 | Contextual Typing | [文档](./kp032-contextual-typing/README.md) · [源码](./kp032-contextual-typing/src/main.ts) | 已重构 · v1.0 |
+| TS-KP033 | Best Common Type | [文档](./kp033-best-common-type/README.md) · [源码](./kp033-best-common-type/src/main.ts) | 已重构 · v1.0 |
+| TS-KP034 | Literal Widening | [文档](./kp034-literal-widening/README.md) · [源码](./kp034-literal-widening/src/main.ts) | 已重构 · v1.0 |
+| TS-KP035 | 控制流类型分析概览 | [文档](./kp035-control-flow-analysis-overview/README.md) · [源码](./kp035-control-flow-analysis-overview/src/main.ts) | 已重构 · v1.0 |
 
 ## 当前进度
 - 知识点：**19/19**。
-- 新规范重构：**14/19**。
-- 下一批：**TS-KP031～036**（进入 Chapter 03）。
+- 新规范重构：**19/19，Chapter 02 完成**。
