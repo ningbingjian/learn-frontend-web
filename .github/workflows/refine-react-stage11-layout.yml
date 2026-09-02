@@ -1,0 +1,212 @@
+name: Refine React Stage 11 document layout
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refine-react-stage11-layout.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refine Stage and Module README navigation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          base = Path('learn-frontend-web-course/stage11-react')
+          stage = base / 'README.md'
+          text = stage.read_text(encoding='utf-8')
+
+          # Bump document revision for the file-layout refinement.
+          text = text.replace('> 版本：v2.2-draft', '> 版本：v2.3-draft', 1)
+
+          # Keep the Stage-level navigation concise: the Module table below is the owner navigation.
+          nav = '''<!-- NAVIGATION:START -->
+## 导航目录
+
+- [返回前端课程总纲](../README.md)
+- [统一教学与课程编写规范](../FRONTEND_TEACHING_GUIDE.md)
+- [1. 阶段定位](#section-1)
+- [2. Stage 11 课程与文件结构](#section-2)
+- [3. Module 总纲](#section-3)
+- [4. Stage 11 阶段验收](#section-4)
+- [5. 文件拆分状态](#section-5)
+<!-- NAVIGATION:END -->'''
+          text = re.sub(
+              r'<!-- NAVIGATION:START -->.*?<!-- NAVIGATION:END -->',
+              nav,
+              text,
+              count=1,
+              flags=re.S,
+          )
+
+          text = text.replace('# 2. Stage 11 固定结构', '# 2. Stage 11 课程与文件结构', 1)
+
+          # Remove accidental duplicate horizontal separators created during the split.
+          while '\n---\n\n---\n' in text:
+              text = text.replace('\n---\n\n---\n', '\n---\n', 1)
+
+          # Add a concise physical file-layout note if it is not already present.
+          marker = 'Stage 11 后续只使用三级课程结构：\n\n```text\nStage\n└── Module\n    └── Lesson\n```'
+          if marker in text and 'module11-01-react-foundation/' not in text[text.index(marker):text.index(marker)+1200]:
+              replacement = marker + '''
+
+课程层级不变，但文件按 Module 拆分：
+
+```text
+stage11-react/
+├── README.md                         # Stage 11 总纲、Module 导航、阶段验收
+├── module11-01-react-foundation/
+│   └── README.md                     # Module 11.01 的完整 Lesson 大纲
+├── module11-02-jsx-object-model/
+│   └── README.md
+├── ...
+└── module11-35-architecture-final/
+    └── README.md                     # Module 11.35 的完整 Lesson 大纲
+```
+
+目录只是文档组织方式，不增加新的课程层级。'''
+              text = text.replace(marker, replacement, 1)
+
+          stage.write_text(text, encoding='utf-8')
+
+          modules = sorted([p for p in base.iterdir() if p.is_dir() and re.match(r'module11-\d{2}-', p.name)])
+          if len(modules) != 35:
+              raise SystemExit(f'expected 35 module dirs, got {len(modules)}')
+
+          total_lessons = 0
+          for i, module_dir in enumerate(modules):
+              readme = module_dir / 'README.md'
+              body = readme.read_text(encoding='utf-8')
+              lines = body.splitlines()
+              if not lines or not lines[0].startswith('# Module 11.'):
+                  raise SystemExit(f'invalid module README: {readme}')
+
+              title = lines[0]
+
+              # Remove the old breadcrumb line while preserving the remaining prose exactly.
+              rest = '\n'.join(lines[1:]).lstrip('\n')
+              rest = re.sub(r'^> \[返回 Stage 11 总纲\].*?\n\n', '', rest, count=1)
+
+              prev_link = None
+              next_link = None
+              if i > 0:
+                  prev_title = (modules[i-1] / 'README.md').read_text(encoding='utf-8').splitlines()[0].removeprefix('# ')
+                  prev_link = f'[← {prev_title}](../{modules[i-1].name}/README.md)'
+              if i + 1 < len(modules):
+                  next_title = (modules[i+1] / 'README.md').read_text(encoding='utf-8').splitlines()[0].removeprefix('# ')
+                  next_link = f'[{next_title} →](../{modules[i+1].name}/README.md)'
+
+              nav_parts = []
+              if prev_link:
+                  nav_parts.append(prev_link)
+              nav_parts.append('[↑ Stage 11 总纲](../README.md)')
+              if next_link:
+                  nav_parts.append(next_link)
+              breadcrumb = '> ' + ' · '.join(nav_parts)
+
+              # Strip a previous generated Lesson-navigation block if this workflow is ever re-run.
+              rest = re.sub(
+                  r'\n?<!-- LESSON_NAV:START -->.*?<!-- LESSON_NAV:END -->\n?',
+                  '\n',
+                  rest,
+                  count=1,
+                  flags=re.S,
+              )
+              # Strip previously generated explicit lesson anchors to make the operation idempotent.
+              rest = re.sub(r'\n?<a id="lesson-[a-z0-9-]+"></a>\n(?=### Lesson )', '\n', rest)
+
+              lesson_pattern = re.compile(r'^### Lesson ([A-Za-z0-9-]+)：(.+)$', re.M)
+              lessons = list(lesson_pattern.finditer(rest))
+              total_lessons += len(lessons)
+              if not lessons:
+                  raise SystemExit(f'no lessons found: {readme}')
+
+              lesson_nav_lines = [
+                  '<!-- LESSON_NAV:START -->',
+                  '<details>',
+                  f'<summary><strong>Lesson 导航（{len(lessons)} 课）</strong></summary>',
+                  '',
+              ]
+              for m in lessons:
+                  lesson_id = m.group(1)
+                  lesson_title = m.group(2)
+                  anchor = 'lesson-' + lesson_id.lower()
+                  lesson_nav_lines.append(f'- [{lesson_id}：{lesson_title}](#{anchor})')
+              lesson_nav_lines += ['', '</details>', '<!-- LESSON_NAV:END -->']
+              lesson_nav = '\n'.join(lesson_nav_lines)
+
+              first_lesson_pos = lessons[0].start()
+              before = rest[:first_lesson_pos].rstrip()
+              after = rest[first_lesson_pos:].lstrip()
+
+              # Add stable explicit anchors before every Lesson heading.
+              def add_anchor(match):
+                  lesson_id = match.group(1)
+                  title_part = match.group(2)
+                  anchor = 'lesson-' + lesson_id.lower()
+                  return f'<a id="{anchor}"></a>\n### Lesson {lesson_id}：{title_part}'
+              after = lesson_pattern.sub(add_anchor, after)
+
+              footer_parts = []
+              if prev_link:
+                  footer_parts.append(prev_link)
+              footer_parts.append('[↑ Stage 11 总纲](../README.md)')
+              if next_link:
+                  footer_parts.append(next_link)
+              footer = '> ' + ' · '.join(footer_parts)
+
+              new_body = f'{title}\n\n{breadcrumb}\n\n{before}\n\n{lesson_nav}\n\n{after.rstrip()}\n\n---\n\n{footer}\n'
+              readme.write_text(new_body, encoding='utf-8')
+
+          # Basic preservation checks.
+          if total_lessons < 700:
+              raise SystemExit(f'lesson count unexpectedly low: {total_lessons}')
+          print(f'module_count={len(modules)} total_lessons={total_lessons}')
+          PY
+
+      - name: Verify refined layout
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          base = Path('learn-frontend-web-course/stage11-react')
+          stage = (base / 'README.md').read_text(encoding='utf-8')
+          assert '> 版本：v2.3-draft' in stage
+          assert '# 2. Stage 11 课程与文件结构' in stage
+          assert stage.count('<!-- NAVIGATION:START -->') == 1
+          assert 'module11-35-architecture-final/README.md' in stage
+
+          modules = sorted(base.glob('module11-*/README.md'))
+          assert len(modules) == 35, len(modules)
+          total = 0
+          for p in modules:
+              t = p.read_text(encoding='utf-8')
+              assert t.count('<!-- LESSON_NAV:START -->') == 1, p
+              assert '[↑ Stage 11 总纲](../README.md)' in t, p
+              lesson_count = len(re.findall(r'^### Lesson ', t, flags=re.M))
+              anchor_count = len(re.findall(r'^<a id="lesson-', t, flags=re.M))
+              assert lesson_count == anchor_count, (p, lesson_count, anchor_count)
+              total += lesson_count
+          assert total >= 700, total
+          print('verified modules=', len(modules), 'lessons=', total)
+          PY
+
+      - name: Commit refined layout and remove one-shot workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/refine-react-stage11-layout.yml
+          git add learn-frontend-web-course/stage11-react
+          git commit -m 'refine React Stage 11 module documentation layout'
+          git push origin HEAD:main
