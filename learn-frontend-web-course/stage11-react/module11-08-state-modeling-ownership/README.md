@@ -94,6 +94,7 @@
 ### Lesson RE-MODELING-013：Server State 为什么不是普通 Global State
 
 只建立远程所有权、缓存、Stale、Refetch 的概念，完整 Server State / Query 模型留到 Module 11.15。
+
 <a id="lesson-re-modeling-014"></a>
 ### Lesson RE-MODELING-014：Persistent State 为什么有独立生命周期
 
@@ -118,8 +119,6 @@
 ### Lesson RE-MODELING-018：输出一张真实应用 State Ownership Map
 
 对后续 Order Editor 标注每份 State 的 Owner、生命周期、来源和消费者，为复杂表单项目做设计准备。
-
----
 
 ---
 

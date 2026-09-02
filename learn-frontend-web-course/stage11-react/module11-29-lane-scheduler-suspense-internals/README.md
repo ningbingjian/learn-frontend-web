@@ -186,6 +186,4 @@ Promise ping 后重新选择 lanes。
 
 ---
 
----
-
 > [← Module 11.28：Hooks 与 Update Queue Internals](../module11-28-hooks-update-queue-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone →](../module11-30-server-renderer-hydration-rsc-internals/README.md)

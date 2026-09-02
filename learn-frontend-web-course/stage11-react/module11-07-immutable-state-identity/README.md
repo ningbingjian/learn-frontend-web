@@ -109,6 +109,7 @@
 ### Lesson RE-IMMUTABLE-014：State Shape 不合理会让不可变更新变得多痛苦
 
 观察深层嵌套数据更新，提出 flatten / normalize 的问题；完整 State Modeling 在 Module 11.08。
+
 <a id="lesson-re-immutable-015"></a>
 ### Lesson RE-IMMUTABLE-015：综合实现——可编辑订单行的不可变更新
 
@@ -147,6 +148,7 @@
 ### Lesson RE-IDENTITY-006：为什么把 Component Definition 写在另一个 Component 内部会重置 State
 
 连接 Module 11.03 已学的 Nested Component Definition，从 Component Type 每次变新的角度完整解释 State 重置。
+
 <a id="lesson-re-identity-007"></a>
 ### Lesson RE-IDENTITY-007：表单什么时候应该保留，什么时候应该重置
 
@@ -181,8 +183,6 @@
 ### Lesson RE-IDENTITY-013：从 Identity 高层模型连接到 Reconciler
 
 画出 Element Type / Key → Child Reconciliation → Fiber reuse/reset 的连接图，源码验证留到 Reconciler Module。
-
----
 
 ---
 

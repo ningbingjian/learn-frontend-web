@@ -58,6 +58,7 @@
 ### Lesson RE-A11Y-002：useId 解决什么问题
 
 为 label/input/aria relationship 生成稳定 ID；当前先学习客户端稳定性约束，Server/Client ID 一致性在 Module 11.24 Hydration 中验证。
+
 <a id="lesson-re-a11y-003"></a>
 ### Lesson RE-A11Y-003：Modal / Portal 的 Focus Lifecycle
 
@@ -87,6 +88,7 @@
 ### Lesson RE-A11Y-008：Keyboard-first Component 如何做手工交互验证
 
 对 menu/dialog/listbox 等复合交互逐项验证 Tab/Arrow/Escape 和 Focus；自动化 user-event 测试在 Module 11.23。
+
 <a id="lesson-re-a11y-009"></a>
 ### Lesson RE-A11Y-009：Virtualized List 有什么 A11Y 风险
 
@@ -105,11 +107,11 @@
 <a id="lesson-re-a11y-012"></a>
 ### Lesson RE-A11Y-012：综合验收——对 Enterprise SPA 做 React-specific A11Y Audit
 
-结合键盘、axe 类工具和手工 screen-reader-friendly 检查记录问题。
+结合键盘、课程提供的 axe 扫描脚本和手工 screen-reader-friendly 检查记录问题；本课关注 React-specific A11Y 证据，不教授测试工具链。
 
 ---
 
-本 Module 聚焦 React 渲染、HTML、URL、Markdown、SSR/Hydration、RSC、Server Function 与权限 UI 的安全边界。
+这一组 Lesson 聚焦截至当前位置已经正式学过的 React 渲染、HTML/URL/Markdown Sink、Client Permission UI、Server Mutation Trust Boundary 与敏感数据暴露；SSR/Hydration 专项安全已移到 Module 11.24，RSC/Server Function 专项安全在 Module 11.25 落地。
 
 <a id="lesson-re-sec-001"></a>
 ### Lesson RE-SEC-001：React 默认 Escaping 能防什么 XSS
@@ -150,14 +152,17 @@
 ### Lesson RE-SEC-010：Server → Client Serialization Boundary 为什么可能泄漏敏感数据
 
 先用已经学过的 API DTO / serialized payload 分析“服务器对象被过度传到客户端”的泄漏风险；RSC-specific serialization/data leak 在 Module 11.25 再落到 Server Component Boundary。
+
 <a id="lesson-re-sec-011"></a>
 ### Lesson RE-SEC-011：任何 Client-triggered Server Mutation 为什么都必须重新授权
 
 使用已学 API / Route Action / Form Mutation 证明“隐藏按钮”不构成 Authorization；Server Function 的直接调用攻击在 Module 11.25 再验证。
+
 <a id="lesson-re-sec-012"></a>
 ### Lesson RE-SEC-012：CSRF / Cookie Auth 与 Form Mutation 的连接点
 
 理解浏览器自动携带 Cookie Credential 时，任何 Form/API mutation 都需要正确的 CSRF / SameSite / Origin 防线；不依赖尚未学习的 Server Function。
+
 <a id="lesson-re-sec-013"></a>
 ### Lesson RE-SEC-013：Sensitive Data 不应该进入哪些 React State / DevTools / Log
 
@@ -170,12 +175,12 @@
 
 ---
 
-本 Module 不重复教授每个 Bug 的机制，而是建立跨 React 问题的系统诊断方法：症状分类、最小复现、DevTools、Profiler、Network、Heap、Source Map、Release/Trace 关联。
+这一组 Lesson 不重复教授每个 Bug 的机制，而是建立截至当前知识范围内的 React 系统诊断方法：症状分类、最小复现、DevTools、Profiler、Network、Heap、Source Map、Release/Trace 关联；Hydration/RSC 专项诊断在对应 Owner Module 学完后再扩展。
 
 <a id="lesson-re-debug-001"></a>
 ### Lesson RE-DEBUG-001：React Bug 应该先按哪几类症状分类
 
-区分错误 UI、状态错位、重复 Render、卡顿、泄漏、异步乱序、Hydration、Chunk/Network。
+先区分错误 UI、状态错位、重复 Render、卡顿、泄漏、异步乱序、Chunk/Network；Hydration 与 RSC/Server Runtime 故障分别在 Module 11.24 / 11.25 学完后加入诊断分类。
 
 <a id="lesson-re-debug-002"></a>
 ### Lesson RE-DEBUG-002：如何制作最小 React Reproduction
@@ -231,12 +236,11 @@
 ### Lesson RE-DEBUG-013：Bug 修复以后如何防止回归
 
 为每类问题先定义应保留的回归证据；React 自动化验证从 Module 11.23 开始，Unit/Integration/E2E/Visual 等完整质量工程留到后续 Testing Stage。
+
 <a id="lesson-re-debug-014"></a>
 ### Lesson RE-DEBUG-014：综合演练——随机抽取五类 React 故障完成定位报告
 
 从截至本 Module 已正式学习的 React 故障池随机抽取五类完成复现、证据、根因、修复和回归验证；Hydration/RSC 专项故障留到其 Owner Module 后再加入演练池。
-
----
 
 ---
 

@@ -80,6 +80,7 @@
 ### Lesson RE-ACTION-008：Action 如何与 Router 和未来 Server Mutation Boundary 对接
 
 比较 client action 与已学 route action，并只建立“未来可把 mutation 放到 server boundary”的接口概念；Server Function / `use server` 的实现统一留到 Module 11.25。
+
 <a id="lesson-re-action-009"></a>
 ### Lesson RE-ACTION-009：综合实现——把 Enterprise SPA 的一个 Mutation 重构为 Action Flow
 
@@ -123,6 +124,7 @@
 ### Lesson RE-ACTIONSTATE-007：Action State 如何与未来 Server Mutation Result 对接
 
 先设计 client UX state 与远端 mutation result 的序列化合同，不实现 Server Function；完整 Server Function + useActionState 组合留到 Module 11.25。
+
 <a id="lesson-re-actionstate-008"></a>
 ### Lesson RE-ACTIONSTATE-008：Action State Failure——重复提交、旧错误、字段改变
 
@@ -191,8 +193,6 @@
 ### Lesson RE-OPT-011：综合实现——订单备注/状态的 Optimistic Mutation
 
 实现成功、失败、并发和 rollback 全路径。
-
----
 
 ---
 

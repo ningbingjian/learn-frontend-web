@@ -151,6 +151,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 ### Lesson RE-EFFECT-017：Function Dependency 为什么经常不停变化，优先应该怎么修
 
 比较移动逻辑、Effect 内定义函数、缩小 Reactive Input 等结构性修复；函数 Memoization 只作为后续选项提示，useCallback 在 Module 11.18 正式学习。
+
 <a id="lesson-re-effect-018"></a>
 ### Lesson RE-EFFECT-018：Infinite Effect 的两个必要条件是什么
 
@@ -229,6 +230,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 ### Lesson RE-REMOVE-007：外部 Store Subscription 为什么应该交给专用 Store Hook
 
 这里只识别“外部可变数据源 + subscribe”不是普通 Effect 同步问题，并把实现责任交给下一 Module 11.13；useSyncExternalStore 的 tearing / SSR / snapshot contract 不在本课展开。
+
 <a id="lesson-re-remove-008"></a>
 ### Lesson RE-REMOVE-008：Server State 为什么更适合 Query Cache
 
@@ -243,6 +245,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 ### Lesson RE-REMOVE-010：昂贵纯计算为什么不应该用 Effect + State
 
 先把纯计算放回 Render 数据流，消除 Effect + State 的二次同步；是否需要缓存以及 useMemo 的成本模型统一留到 Module 11.18。
+
 <a id="lesson-re-remove-011"></a>
 ### Lesson RE-REMOVE-011：复杂表单派生状态如何删掉大量 Effect
 
@@ -291,6 +294,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 ### Lesson RE-EFFECTEVENT-007：如何验证 Effect Event 没有破坏订阅生命周期
 
 通过订阅次数、重连次数和回调读取值的运行日志验证语义；自动化 React 测试写法统一留到 Module 11.23。
+
 <a id="lesson-re-effectevent-008"></a>
 ### Lesson RE-EFFECTEVENT-008：综合重构——把聊天室 Effect 拆成同步关系与最新事件逻辑
 
@@ -344,12 +348,11 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 ### Lesson RE-LAYOUT-009：性能故障——同步 LayoutEffect 把交互拖慢
 
 用课程给定的简单 timing / browser recording 步骤观察同步工作阻塞 Paint，并完成结构重构；Profiler 与 Performance Trace 的系统分析在 Module 11.18。
+
 <a id="lesson-re-layout-010"></a>
 ### Lesson RE-LAYOUT-010：综合实现——无闪烁自适应 Popover
 
 结合 Ref、LayoutEffect 与课程提供的 ResizeObserver helper 完成无闪烁定位；本课先不要求 Portal，DOM 跨层挂载在 Module 11.19 正式加入。
-
----
 
 ---
 

@@ -244,6 +244,4 @@
 
 ---
 
----
-
 > [↑ Stage 11 总纲](../README.md) · [Module 11.02：JSX 与 React Object Model →](../module11-02-jsx-object-model/README.md)

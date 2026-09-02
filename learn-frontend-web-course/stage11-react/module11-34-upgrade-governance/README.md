@@ -58,6 +58,7 @@ React、react-dom、types、router、query、UI library、framework、compiler�
 ### Lesson RE-UPGRADE-007：升级前后必须跑哪些 Test / Benchmark
 
 定义升级必须覆盖的 Unit/Integration/E2E/Visual/SSR/Performance/Bundle 验证矩阵，并执行课程现成 scripts；本课不重教各测试/构建工具。
+
 <a id="lesson-re-upgrade-008"></a>
 ### Lesson RE-UPGRADE-008：Rollback 为什么必须在升级前设计
 
@@ -72,6 +73,7 @@ React、react-dom、types、router、query、UI library、framework、compiler�
 ### Lesson RE-UPGRADE-010：多应用 Monorepo 如何分批升级 React
 
 在课程提供的多应用 workspace 中处理 shared package / peer range / React version consistency；Monorepo 工具与 workspace 工程化在 Stage 16 正式学习。
+
 <a id="lesson-re-upgrade-011"></a>
 ### Lesson RE-UPGRADE-011：如何写 React Upgrade RFC
 
@@ -81,8 +83,6 @@ React、react-dom、types、router、query、UI library、framework、compiler�
 ### Lesson RE-UPGRADE-012：综合演练——模拟一次 React Major Upgrade Review
 
 面对一个有 SSR、Library、Legacy、Compiler 的组织级仓库给出 rollout 决策。
-
----
 
 ---
 

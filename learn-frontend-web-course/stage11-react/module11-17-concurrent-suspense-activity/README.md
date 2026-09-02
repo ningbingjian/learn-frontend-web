@@ -226,6 +226,7 @@ Transition 控制 update，DeferredValue 控制消费到的 value。
 ### Lesson RE-DEFER-007：DeferredValue 是否改善响应性，怎样建立最小证据对比
 
 固定数据量与设备条件，用输入响应时间和 Render 日志做最小对照；Profiler / Performance 的系统测量在下一 Module 11.18。
+
 <a id="lesson-re-defer-008"></a>
 ### Lesson RE-DEFER-008：综合实现——搜索、图表、列表多消费者的 Deferred UI
 
@@ -259,6 +260,7 @@ Transition 控制 update，DeferredValue 控制消费到的 value。
 ### Lesson RE-SUSPENSE-005：Suspense 为什么只处理 Pending，而不负责普通 Error
 
 建立“Promise pending 进入 Suspense、真正 Error 进入独立错误恢复边界”的职责划分；Error Boundary 的实现与恢复模型在 Module 11.21。
+
 <a id="lesson-re-suspense-006"></a>
 ### Lesson RE-SUSPENSE-006：Retry 是怎么发生的
 
@@ -337,6 +339,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 ### Lesson RE-USE-004：use() 读取的 Promise Reject 后应该进入什么错误路径
 
 制造 Promise rejection，并使用课程提供的 TeachingErrorBoundary 验证 rejected path；本课关注 use() / Suspense 契约，Error Boundary 实现与恢复 UI 在 Module 11.21。
+
 <a id="lesson-re-use-005"></a>
 ### Lesson RE-USE-005：条件调用 use() 为什么与其他 Hook 规则不同
 
@@ -375,6 +378,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 ### Lesson RE-ACTIVITY-004：Activity 与 Component Identity 有什么关系
 
 连接 Module 11.07 的 Component Identity / State Preservation 行为模型。
+
 <a id="lesson-re-activity-005"></a>
 ### Lesson RE-ACTIVITY-005：Activity 如何用于后台预渲染可能访问的 UI
 
@@ -429,8 +433,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 ### Lesson RE-ACTIVITY-015：综合项目——完整验收 High-interaction Workbench
 
 输出异步边界图、State/Cache Map、用户交互 timing/log baseline 和已知性能问题；下一 Module 11.18 再把同一 Workbench 升级为 Profiler/Trace 证据。
-
----
 
 ---
 

@@ -77,6 +77,7 @@
 ### Lesson RE-HOOK-008：Custom Hook 如何避免把 Browser-only 环境假设写死
 
 识别 window/document、初始化时机和 server-safe fallback 的接口约束；真正 SSR/Hydration Runtime 在 Module 11.24 学完后再做端到端验证。
+
 <a id="lesson-re-hook-009"></a>
 ### Lesson RE-HOOK-009：useDebugValue 什么时候有价值
 
@@ -86,6 +87,7 @@
 ### Lesson RE-HOOK-010：Custom Hook 如何设计成可验证的行为合同
 
 优先定义消费组件可观察行为、输入/输出和错误边界；独立 Hook harness 与自动化测试方法留到 Module 11.23。
+
 <a id="lesson-re-hook-011"></a>
 ### Lesson RE-HOOK-011：Custom Hook 为什么不是 Service Layer
 
@@ -139,10 +141,12 @@
 ### Lesson RE-STORE-007：getServerSnapshot 为什么存在
 
 理解该参数用于给 Server Render 提供初始 Snapshot；当前只学习 API contract 和纯函数约束，不在本 Module 搭 SSR Runtime，实际 Hydration 验证留到 Module 11.24。
+
 <a id="lesson-re-store-008"></a>
 ### Lesson RE-STORE-008：用 useSyncExternalStore 封装 Browser Online State
 
 完成浏览器 online/offline 事件订阅和稳定 Snapshot；getServerSnapshot 只按已学 contract 提供占位值，SSR/Hydration 与自动化测试分别在 Module 11.24 / 11.23 验证。
+
 <a id="lesson-re-store-009"></a>
 ### Lesson RE-STORE-009：用 useSyncExternalStore 封装 LocalStorage Store
 

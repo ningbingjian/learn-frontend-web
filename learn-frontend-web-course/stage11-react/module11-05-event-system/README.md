@@ -122,6 +122,4 @@
 
 ---
 
----
-
 > [← Module 11.04：Conditional Rendering、List、Key 与 Identity](../module11-04-conditional-list-key-identity/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.06：State Fundamentals、Render Snapshot、Update Queue 与 Batching →](../module11-06-state-snapshot-queue-batching/README.md)

@@ -138,6 +138,4 @@
 
 ---
 
----
-
 > [← Module 11.18：Profiling、Render Performance、Memoization 与 React Compiler](../module11-18-performance-compiler/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.20：Resource Loading 与 Metadata →](../module11-20-resource-metadata/README.md)

@@ -56,6 +56,7 @@ Library 无法控制消费者 bundler、React version、SSR 环境和 TS config�
 ### Lesson RE-LIB-003：React Library 的 Public Entry 需要满足哪些 exports 约束
 
 在课程提供的 package template 上调整 root/subpath/types/import entry，只学习“哪些 React API 可以稳定暴露”；exports condition 与 package resolution 的完整机制留到 Stage 16。
+
 <a id="lesson-re-lib-004"></a>
 ### Lesson RE-LIB-004：为什么 React 必须通常放 peerDependencies
 
@@ -65,6 +66,7 @@ Library 无法控制消费者 bundler、React version、SSR 环境和 TS config�
 ### Lesson RE-LIB-005：使用课程 Build Template 产出 ESM-first React Library
 
 完成 source → dist、target 和 source map 的消费验证；Bundler/Package pipeline 原理不在本 Module 重教，统一留到 Stage 16。
+
 <a id="lesson-re-lib-006"></a>
 ### Lesson RE-LIB-006：Type Declaration 如何发布
 
@@ -74,6 +76,7 @@ Library 无法控制消费者 bundler、React version、SSR 环境和 TS config�
 ### Lesson RE-LIB-007：Tree Shaking 需要 Library 配合什么
 
 使用课程提供的 bundle inspection 脚本验证 side effect、barrel 和重复 React 是否影响消费产物；Tree Shaking 算法与 Bundler 深度统一留到 Stage 16。
+
 <a id="lesson-re-lib-008"></a>
 ### Lesson RE-LIB-008：CSS / Asset 应该如何跟 React Library 一起发布
 
@@ -113,6 +116,7 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 ### Lesson RE-LIB-015：React Library Release / Canary 如何验证兼容合同
 
 使用课程提供的 release template 做版本、changelog、pre-release consumer 验证和 rollback；通用 package release automation 在 Stage 16/28 深化。
+
 <a id="lesson-re-lib-016"></a>
 ### Lesson RE-LIB-016：综合项目——发布一个 React Utility + Component Package
 
@@ -191,8 +195,6 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 ### Lesson RE-HEADLESS-014：Design System Adapter 如何消费 Headless Primitive
 
 只做 React adapter 连接，组织级 Design System 治理留后续 Owner Stage。
-
----
 
 ---
 

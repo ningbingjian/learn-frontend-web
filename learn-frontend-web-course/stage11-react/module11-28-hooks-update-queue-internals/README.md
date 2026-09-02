@@ -186,6 +186,4 @@
 
 ---
 
----
-
 > [← Module 11.27：Reconciler 与 Render / Commit Pipeline](../module11-27-reconciler-render-commit/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.29：Lane、Scheduler 与 Suspense / Activity Internals →](../module11-29-lane-scheduler-suspense-internals/README.md)

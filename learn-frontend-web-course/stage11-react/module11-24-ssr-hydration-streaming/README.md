@@ -88,6 +88,7 @@
 ### Lesson RE-SSR-004：普通 React Component 在 SSR 时到底在哪里执行
 
 只讨论传统 SSR 中普通 React Component Function 如何在服务器 Render 生成 HTML；Server Component / Client Component 是 RSC 概念，统一留到 Module 11.25。
+
 <a id="lesson-re-ssr-005"></a>
 ### Lesson RE-SSR-005：Server Render 能访问哪些环境，不能访问哪些浏览器 API
 
@@ -138,14 +139,16 @@
 
 标出 server-only、shared、client-only code 和数据。
 
----
-
-本 Module 完整学习 hydrateRoot、HTML Identity、Event、Mismatch、Date/Random/Locale、useId、Browser Extension/DOM Mutation、Recoverable Error 和性能。
-
 <a id="lesson-re-sec-008"></a>
 ### Lesson RE-SEC-008：SSR HTML Injection 风险在哪里
 
 在已经掌握 SSR 输出链后，检查用户内容、metadata 和 script data serialization 的 HTML 注入风险，并明确安全 escaping/sanitization 边界。
+
+
+---
+
+本 Module 完整学习 hydrateRoot、HTML Identity、Event、Mismatch、Date/Random/Locale、useId、Browser Extension/DOM Mutation、Recoverable Error 和性能。
+
 <a id="lesson-re-hydrate-001"></a>
 ### Lesson RE-HYDRATE-001：Hydration 到底“复用”了什么
 
@@ -216,22 +219,26 @@
 
 从 server input、client input、DOM、locale、random 五条线排查。
 
----
-
-本 Module 学习 React 如何利用 Suspense Boundary 把 Server HTML 分段输出，并覆盖 Shell、Chunk、Backpressure、Abort、Proxy Buffering、Crawler 和失败恢复。
-
 <a id="lesson-re-sec-009"></a>
 ### Lesson RE-SEC-009：Hydration Payload 如何避免闭合 script / 数据注入
 
 在已经掌握 Hydration Payload 后，验证序列化数据如何安全嵌入 HTML/script context，避免闭合 script 与数据注入。
+
 <a id="lesson-re-debug-008"></a>
 ### Lesson RE-DEBUG-008：Hydration Mismatch 应该从哪三份证据对比
 
 比较 server raw HTML、client first render input 与浏览器实际 DOM 三份证据，建立 Hydration Mismatch 的标准诊断路径。
+
 <a id="lesson-re-test-013"></a>
 ### Lesson RE-TEST-013：Hydration / SSR React-specific Test 验证什么
 
 将 Module 11.23 的 Client React Test Matrix 扩展到 SSR/Hydration：比较 server markup、hydrate 行为和 recoverable warning。
+
+
+---
+
+本 Module 学习 React 如何利用 Suspense Boundary 把 Server HTML 分段输出，并覆盖 Shell、Chunk、Backpressure、Abort、Proxy Buffering、Crawler 和失败恢复。
+
 <a id="lesson-re-streamssr-001"></a>
 ### Lesson RE-STREAMSSR-001：为什么一次等完整 HTML 再发送会产生 Waterfall
 
@@ -276,6 +283,7 @@
 ### Lesson RE-STREAMSSR-009：Reverse Proxy Buffering 为什么可能让“流式”失效
 
 使用课程提供的最小 Reverse Proxy 配置观察 chunk 被 buffering 后一次性返回；本课只验证对 React Streaming 的影响，不教授代理/部署配置，完整交付工程留后续 Stage。
+
 <a id="lesson-re-streamssr-010"></a>
 ### Lesson RE-STREAMSSR-010：Crawler / Bot 是否总应该走完整等待
 
@@ -334,6 +342,7 @@
 ### Lesson RE-STATIC-009：综合项目——从空目录建立 React SSR 的 React-side Runtime Boundary
 
 Step 0 使用课程提供的最小 HTTP Server / Build Harness；学习者从空 React 入口开始建立 server entry、client entry、HTML shell 和 React render/hydrate 连接，不把未学 Node/Bundler 作为项目核心知识。
+
 <a id="lesson-re-static-010"></a>
 ### Lesson RE-STATIC-010：综合项目——接入 hydrateRoot 与交互
 
@@ -358,8 +367,6 @@ Step 0 使用课程提供的最小 HTTP Server / Build Harness；学习者从空
 ### Lesson RE-STATIC-014：综合项目——React SSR App 完整验收
 
 输出运行位置图、stream timeline、hydration evidence、cache policy 和 failure report。
-
----
 
 ---
 

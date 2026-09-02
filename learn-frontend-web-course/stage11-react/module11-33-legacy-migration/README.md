@@ -132,6 +132,7 @@ Switch/Route/history 等历史 API 到现代模型映射。
 ### Lesson RE-MIGRATE-001：迁移前为什么必须先建立行为基线
 
 使用课程提供的现有 E2E/Visual/metric baseline 固定旧系统行为合同；当前学习“迁移前必须有证据基线”，不教授 E2E/Visual 工具链，完整质量工程留 Stage 17。
+
 <a id="lesson-re-migrate-002"></a>
 ### Lesson RE-MIGRATE-002：如何给 Legacy React 建 Dependency / Compatibility Inventory
 
@@ -186,6 +187,7 @@ Switch/Route/history 等历史 API 到现代模型映射。
 ### Lesson RE-MIGRATE-012：Codemod 能做什么，不能做什么
 
 使用课程提供的 codemod 体验机械语法迁移，并明确它不能替代语义/architecture decision；AST/Codemod 编写能力在 Stage 16 正式学习。
+
 <a id="lesson-re-migrate-013"></a>
 ### Lesson RE-MIGRATE-013：Compatibility Layer 如何降低 Big Bang 风险
 
@@ -205,8 +207,6 @@ Switch/Route/history 等历史 API 到现代模型映射。
 ### Lesson RE-MIGRATE-016：综合项目——为 Legacy Admin 设计 6 个月 React Migration Plan
 
 输出阶段、风险、测试、metrics、rollback 和 decommission plan。
-
----
 
 ---
 

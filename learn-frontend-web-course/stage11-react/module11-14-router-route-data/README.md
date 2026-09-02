@@ -175,6 +175,7 @@
 ### Lesson RE-DATAROUTER-010：Deferred Route Data 为什么需要独立异步边界
 
 只建立“快数据先可用、慢数据后完成”的 Route Data 生命周期和接口边界，不在这里实现 Suspense；Suspense 与 Streaming 的正式模型留到 Module 11.17 / 11.24。
+
 <a id="lesson-re-datarouter-011"></a>
 ### Lesson RE-DATAROUTER-011：Route Error Boundary 如何隔离局部失败
 
@@ -194,8 +195,6 @@
 ### Lesson RE-DATAROUTER-014：综合实现——带 Loader/Action/Error/Revalidation 的订单路由
 
 将订单工作流升级为真正的路由数据应用，并保持 Knowledge Ceiling。
-
----
 
 ---
 

@@ -59,6 +59,7 @@
 ### Lesson RE-FORM-004：Form 场景下 Controlled / Uncontrolled Input 应该怎么选
 
 只从表单输入语义比较即时联动、Validation、字段规模、第三方控件和原生 Form 能力；通用 Component State Ownership 已在 Module 11.08 学过，这里不重复。
+
 <a id="lesson-re-form-005"></a>
 ### Lesson RE-FORM-005：Input、Textarea、Select 的 React 行为差异
 
@@ -178,8 +179,6 @@
 ### Lesson RE-FORM-028：综合项目——Order Editor 完整验收
 
 运行课程提供的验收脚本，并手工验证键盘、IME、Validation 与 production build；输出 Component Tree、State Ownership Map 和已知限制。React 自动化测试统一在 Module 11.23。
-
----
 
 ---
 

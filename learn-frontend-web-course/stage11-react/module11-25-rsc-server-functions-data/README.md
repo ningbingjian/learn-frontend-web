@@ -100,6 +100,7 @@
 ### Lesson RE-RSC-004：Server Component 可以直接访问什么
 
 通过课程提供的 server-only data service / file adapter 演示服务器可访问能力，并建立 secret-bearing service 的安全边界；真实数据库/对象存储接入留到后续 Data Platform Stage。
+
 <a id="lesson-re-rsc-005"></a>
 ### Lesson RE-RSC-005：Server Component 为什么不能使用 useState / Event Handler
 
@@ -128,7 +129,7 @@
 <a id="lesson-re-rsc-010"></a>
 ### Lesson RE-RSC-010：Server Component 如何减少 Client Bundle
 
-把 server-only dependency 留在服务器，并用 bundle report 验证。
+把 server-only dependency 留在服务器，并使用课程 Harness 已生成的 bundle report 验证 Client Bundle 是否减少；Bundler 分析机制本身留到 Stage 16。
 
 <a id="lesson-re-rsc-011"></a>
 ### Lesson RE-RSC-011：Server Component 不是“自动更快”
@@ -172,7 +173,7 @@
 <a id="lesson-re-boundary-002"></a>
 ### Lesson RE-BOUNDARY-002：为什么 Boundary 位置会影响 Client Bundle
 
-移动 directive 并比较依赖图。
+移动 directive，并使用课程 Harness 提供的 module graph / bundle diff 比较边界变化；当前只解释 React Boundary 结果，不教授 Bundler 图生成机制。
 
 <a id="lesson-re-boundary-003"></a>
 ### Lesson RE-BOUNDARY-003：Server → Client Props 为什么必须可序列化
@@ -267,10 +268,12 @@ Server secret、serialized props、auth context、tenant data。
 ### Lesson RE-SERVERFN-008：Mutation 事务边界怎么设计
 
 使用课程提供的 in-memory repository / transaction helper 模拟多步写入、失败和部分成功，当前学习 mutation 原子边界；真实数据库事务留到后续 Data Stage。
+
 <a id="lesson-re-serverfn-009"></a>
 ### Lesson RE-SERVERFN-009：Idempotency 如何处理重复提交
 
 用教学 idempotency store 演示重复提交保护，并认识 unique constraint 等生产实现选项；数据库实现细节留到后续 Data Stage。
+
 <a id="lesson-re-serverfn-010"></a>
 ### Lesson RE-SERVERFN-010：Server Function Error 如何返回 Client UX
 
@@ -314,6 +317,7 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 ### Lesson RE-RSCUSE-003：Server-created Promise 到 Client use() 后哪些 Suspense 语义保持不变
 
 不重复 Module 11.17 的 use(Promise) 基础，而是验证 Promise 跨 Server/Client Boundary 后，pending/fulfilled/rejected 仍如何进入既有 Suspense/Error 契约。
+
 <a id="lesson-re-rscuse-004"></a>
 ### Lesson RE-RSCUSE-004：多个 Promise 如何并行启动避免 Waterfall
 
@@ -357,6 +361,7 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 ### Lesson RE-RSCDATA-001：Server Component 应该直接依赖数据源还是走 Service Boundary
 
 从复用、授权、事务、测试替身和架构边界比较直接数据源访问与 Service Layer；本课使用教学 Data Service，不教授数据库 API。
+
 <a id="lesson-re-rscdata-002"></a>
 ### Lesson RE-RSCDATA-002：Request Memoization 与跨请求 Cache 是同一个东西吗
 
@@ -411,14 +416,17 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 ### Lesson RE-STATIC-008：Static / SSR / CSR / RSC 应该怎么选
 
 在已经完整学习 CSR、SSR、Static Rendering 与 RSC 后，从 personalization、freshness、SEO、server cost、client bundle 和 interaction 建立最终选择矩阵。
+
 <a id="lesson-re-rscdata-012"></a>
 ### Lesson RE-RSCDATA-012：综合项目——Full-stack React Runtime 运行时骨架
 
 从零连接 SSR、RSC、Client Component、Server Function；HTTP/Build/Data/Auth/Cache 使用课程固定教学 Harness，不把尚未学习的 Node/Bundler/Database 技术作为项目核心。
+
 <a id="lesson-re-rscdata-013"></a>
 ### Lesson RE-RSCDATA-013：综合项目——加入 Auth/Tenant/Cache/Data Boundary
 
 在教学 Auth/Tenant/Cache Adapter 上验证 Server-only data、tenant scope 与 client serialization；当前验收 React Boundary，完整身份/缓存平台实现留后续 Owner Stage。
+
 <a id="lesson-re-rscdata-014"></a>
 ### Lesson RE-RSCDATA-014：综合项目——加入 Suspense/Streaming/use()
 
@@ -433,8 +441,6 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 ### Lesson RE-RSCDATA-016：综合项目——Full-stack React Runtime 完整验收
 
 输出 Server/Client Boundary 图、RSC Payload 分析、Cache Map、Threat Notes 和 Trace。
-
----
 
 ---
 

@@ -206,6 +206,7 @@
 ### Lesson RE-PERF-015：性能优化如何避免改变业务正确性
 
 为 memo/cache/virtualization 保留已有行为验收，并定义 React-specific 性能回归阈值；自动化测试工具在 Module 11.23，完整 Performance Governance 在后续性能 Stage。
+
 <a id="lesson-re-perf-016"></a>
 ### Lesson RE-PERF-016：综合重构——修复 Workbench 的 Context Storm、Large List 与 Long Task
 
@@ -244,6 +245,7 @@
 ### Lesson RE-MEMO-006：Dependency 写错为什么会缓存错误结果
 
 制造 stale memo / stale callback，通过 Linter、运行结果和既有行为验收发现依赖错误；不在本课提前教授测试工具。
+
 <a id="lesson-re-memo-007"></a>
 ### Lesson RE-MEMO-007：Memoization 本身有什么 CPU / Memory / Complexity 成本
 
@@ -357,8 +359,6 @@
 ### Lesson RE-COMPILER-018：综合项目——性能段完整验收
 
 提交 Context Storm、Large List、Long Task、Memo、Compiler 的 before-after 证据与决策说明。
-
----
 
 ---
 

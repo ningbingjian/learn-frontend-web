@@ -1,6 +1,6 @@
 # Stage 11：React 完整体系
 
-> 版本：v2.4-draft  
+> 版本：v2.5-draft  
 > 基线日期：2026-09-02  
 > React 基线：React 19.2.x Stable；正式课程编写时使用当时最新稳定补丁并重新核验官方文档、安全公告和生态兼容性。  
 > 上级总纲：[`../README.md`](../README.md)  
@@ -101,7 +101,7 @@ Stage
 
 > Stage 11 的详细 Lesson 已按 Module 拆分到独立目录。这里仅保留学习总览；点击 Module 名称进入该 Module 的完整 Lesson 大纲。
 
-> **全局复审基线（2026-09-02 / v2.4）**：已完成第一轮 Dependency / Duplication / Granularity / Knowledge Ceiling Review。明确修正了 78→35 收敛后遗留的旧 Module 引用；将 SSR/Hydration 专项安全、Debug、Test 移回 SSR Owner；将 RSC 选择矩阵移到 RSC 学完之后；把 External Store PoC 移到 useSyncExternalStore 正式学习之后；并为 Node/Bundler/DB/Module Federation/E2E/Codemod 等未来 Stage 能力补充 Teaching Infrastructure Boundary。Lesson 知识内容未减少。
+> **全局复审基线（2026-09-02 / v2.5）**：已完成 Dependency / Duplication / Granularity / Knowledge Ceiling 两轮复审与落位校验。修正了 78→35 收敛后的旧 Module 引用；将 External Store PoC、SSR/Hydration Security/Debug/Test、RSC 选择矩阵移动到知识正式学习之后；明确 Node/Bundler/DB/Module Federation/E2E/Codemod 等未来 Stage 能力只能作为 Teaching Infrastructure；并完成移动后段落归属、导航与 Markdown 可读性收尾。1101 个 Lesson 全部保留。
 
 | Module | 主题 | Lesson 数 |
 | --- | --- | ---: |

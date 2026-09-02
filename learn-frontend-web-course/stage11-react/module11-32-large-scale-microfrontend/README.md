@@ -64,6 +64,7 @@
 ### Lesson RE-ARCH-005：DTO / Domain Model / ViewModel 为什么值得分开
 
 不重复 Module 11.15 已学的 DTO/Domain/ViewModel 定义，而是检查这些模型在多个 React Feature 之间传播时如何影响依赖方向和 Public API。
+
 <a id="lesson-re-arch-006"></a>
 ### Lesson RE-ARCH-006：State Owner 应该和 Domain Owner 一致吗
 
@@ -108,6 +109,7 @@ Route/feature/heavy capability 而非随机文件大小。
 ### Lesson RE-ARCH-014：Architecture Fitness Function 如何自动阻止越层依赖
 
 使用课程提供的 import-rule / dependency-graph 脚本验证越层依赖能被门禁阻止；静态分析工具链本身在后续 Testing/Tooling Stage 正式学习。
+
 <a id="lesson-re-arch-015"></a>
 ### Lesson RE-ARCH-015：多人团队 Ownership 如何映射 CODEOWNERS / Module
 
@@ -122,6 +124,7 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 ### Lesson RE-ARCH-017：综合重构——把 Enterprise SPA 从技术目录改成 Domain Module
 
 保持功能不变，把 Enterprise SPA 从技术目录改成 Domain Module，并使用课程提供的 dependency graph 脚本观察跨域 import 变化。
+
 <a id="lesson-re-arch-018"></a>
 ### Lesson RE-ARCH-018：Large-scale React Architecture Review
 
@@ -145,6 +148,7 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 ### Lesson RE-MFE-003：在 Module Federation 场景如何验证 Shared React / Singleton
 
 课程提供可运行 Federation Host/Remote 作为教学基础设施；本课只验证 React singleton、peer/shared runtime compatibility，不教授 Federation/Bundler 配置，完整机制留 Stage 16/27。
+
 <a id="lesson-re-mfe-004"></a>
 ### Lesson RE-MFE-004：Context 能不能自动跨 Microfrontend Root
 
@@ -179,8 +183,6 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 ### Lesson RE-MFE-010：综合评审——什么时候根本不值得上 Microfrontend
 
 从团队独立性、部署、运行时成本和复杂度做决策。
-
----
 
 ---
 

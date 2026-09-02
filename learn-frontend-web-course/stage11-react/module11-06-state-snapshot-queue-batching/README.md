@@ -96,6 +96,7 @@
 ### Lesson RE-STATE-011：Props 改变为什么不会自动重新初始化 State
 
 复现“从 Props 初始化 State 后 Props 更新但 State 不跟着变”的常见 Bug，引出 Derived / Duplicate State；完整 State Modeling 与 Ownership 在 Module 11.08。
+
 <a id="lesson-re-state-012"></a>
 ### Lesson RE-STATE-012：State Hook 的调用顺序为什么必须稳定
 
@@ -194,8 +195,6 @@
 ### Lesson RE-SNAPSHOT-016：综合推演——十组 State Update 最终结果
 
 给出 replacement、functional updater、async callback、multiple state 的混合案例，要求先手工预测再运行验证，真正形成 Snapshot/Queue 心智模型。
-
----
 
 ---
 

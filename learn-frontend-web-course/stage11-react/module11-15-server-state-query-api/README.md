@@ -318,6 +318,7 @@
 ### Lesson RE-API-013：Mock API / Contract Verification 如何服务 React 开发
 
 使用课程提供的 Mock Server 与 schema 样例验证正常/错误响应合同，让前端在后端不稳定时仍能工作；Mock/Test 工具工程化统一留到 Module 11.23 与后续质量 Stage。
+
 <a id="lesson-re-api-014"></a>
 ### Lesson RE-API-014：综合项目——React Enterprise SPA 需求与边界设计
 
@@ -342,8 +343,6 @@
 ### Lesson RE-API-018：综合项目——Enterprise SPA 完整验收
 
 输出 Route Tree、State Map、Query Key Map、API Boundary 和 Failure Matrix，并执行 production build。
-
----
 
 ---
 

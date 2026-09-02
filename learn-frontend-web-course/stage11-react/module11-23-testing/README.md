@@ -84,12 +84,11 @@
 ### Lesson RE-TEST-012：Fake Timer 什么时候适合，什么时候破坏真实调度
 
 处理 debounce/timer，并明确不要把 React 内部调度简单等同为普通 timer；Scheduler Internals 在 Module 11.29 再解释原因。
+
 <a id="lesson-re-test-014"></a>
 ### Lesson RE-TEST-014：建立 Client React Test Matrix
 
 为 state/form/router/query/suspense/error 各定义最小必要测试层；SSR/Hydration 在 Module 11.24 扩展，完整 Unit/Integration/E2E/Visual 质量工程留到后续 Testing Stage。
-
----
 
 ---
 

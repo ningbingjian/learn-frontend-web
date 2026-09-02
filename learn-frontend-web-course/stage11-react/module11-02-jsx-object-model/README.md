@@ -138,6 +138,4 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
----
-
 > [← Module 11.01：React Problem Domain、Project Bootstrap 与 Root Lifecycle](../module11-01-react-foundation/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.03：Component、Pure Render、Props 与 Composition →](../module11-03-component-props-composition/README.md)

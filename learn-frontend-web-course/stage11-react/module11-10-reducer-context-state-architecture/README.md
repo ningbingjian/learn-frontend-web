@@ -110,6 +110,7 @@
 ### Lesson RE-REDUCER-009：用最小断言验证 Reducer 为什么特别有价值
 
 不渲染 React，使用课程提供的最小断言脚本对 action sequence 验证 state transition，建立“纯业务转换可独立验证”的能力；测试框架本身不是本课知识。
+
 <a id="lesson-re-reducer-010"></a>
 ### Lesson RE-REDUCER-010：Undo / Redo 的本质是什么
 
@@ -134,6 +135,7 @@
 ### Lesson RE-REDUCER-014：把 Order Editor 的核心编辑逻辑重构为 Reducer
 
 保留 UI 行为不变，把多处业务 Setter 收敛为 Action / Reducer，并继续使用本 Module 的最小断言脚本证明 state transition 行为一致。
+
 <a id="lesson-re-reducer-015"></a>
 ### Lesson RE-REDUCER-015：Reducer Source Connection——Dispatch/Queue 先看到哪里
 
@@ -207,6 +209,7 @@
 ### Lesson RE-CONTEXT-013：如何让依赖 Context 的组件保持可测试性
 
 通过缩小 Provider Boundary、显式 dependency 和可替换默认依赖设计可验证组件；真正的 Provider wrapper / React 自动化测试实现统一留到 Module 11.23。
+
 <a id="lesson-re-context-014"></a>
 ### Lesson RE-CONTEXT-014：Context 故障综合——缺 Provider、Value 抖动、巨大 Context
 
@@ -255,6 +258,7 @@
 ### Lesson RE-STATEARCH-007：什么时候架构上需要 External Store，而不是继续扩 Context / Reducer
 
 只从外部所有权、React 外读写、订阅粒度和团队边界判断是否需要 External Store；subscribe/getSnapshot/useSyncExternalStore 契约由 Module 11.13 正式教授。
+
 <a id="lesson-re-statearch-008"></a>
 ### Lesson RE-STATEARCH-008：Redux Toolkit 的核心价值到底是什么
 
@@ -339,8 +343,6 @@
 ### Lesson RE-STATEARCH-025：综合项目——完整验收 Multi-step Order Workflow
 
 从用户流程、State Ownership、Impossible State、Render 行为、可测试性和生产构建六个维度验收，要求能解释每份 State 为什么在那里。
-
----
 
 ---
 

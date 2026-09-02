@@ -167,6 +167,7 @@
 ### Lesson RE-IMP-010：Imperative Component 应该暴露什么可验证合同
 
 从用户可观察行为与必要 Handle 两个层面定义合同，避免把内部 DOM/State 变成公共测试接口；自动化测试写法留到 Module 11.23。
+
 <a id="lesson-re-imp-011"></a>
 ### Lesson RE-IMP-011：Imperative API 反模式——父组件遥控子组件内部实现
 
@@ -176,8 +177,6 @@
 ### Lesson RE-IMP-012：综合重构——把命令式组件 API 收敛到最小边界
 
 对 Modal / Editor Wrapper 做一次 API Review，在 Props、Callback、Ref Handle 之间重新分配职责。
-
----
 
 ---
 
