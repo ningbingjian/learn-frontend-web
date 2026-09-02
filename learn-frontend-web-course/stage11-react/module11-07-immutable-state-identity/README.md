@@ -108,12 +108,11 @@
 <a id="lesson-re-immutable-014"></a>
 ### Lesson RE-IMMUTABLE-014：State Shape 不合理会让不可变更新变得多痛苦
 
-观察深层嵌套数据更新，提出 flatten / normalize 的问题，但完整 State Modeling 留到 11.14。
-
+观察深层嵌套数据更新，提出 flatten / normalize 的问题；完整 State Modeling 在 Module 11.08。
 <a id="lesson-re-immutable-015"></a>
 ### Lesson RE-IMMUTABLE-015：综合实现——可编辑订单行的不可变更新
 
-在订单数据中完成增删改、批量标记、排序与撤销前置数据结构，所有修改都通过运行测试验证原对象没有被污染。
+在订单数据中完成增删改、批量标记、排序与撤销前置数据结构；使用课程提供的最小断言脚本验证旧对象未被污染，本课不要求学习 React 测试框架。
 
 ---
 
@@ -147,8 +146,7 @@
 <a id="lesson-re-identity-006"></a>
 ### Lesson RE-IDENTITY-006：为什么把 Component Definition 写在另一个 Component 内部会重置 State
 
-连接 Module 11.06 的 Nested Definition，从 Component Type 每次变新的角度完整解释。
-
+连接 Module 11.03 已学的 Nested Component Definition，从 Component Type 每次变新的角度完整解释 State 重置。
 <a id="lesson-re-identity-007"></a>
 ### Lesson RE-IDENTITY-007：表单什么时候应该保留，什么时候应该重置
 

@@ -112,8 +112,7 @@
 <a id="lesson-re-recon-014"></a>
 ### Lesson RE-RECON-014：Component Identity / State Preservation 在 Reconciler 哪验证
 
-把 11.13 的行为模型对应到 fiber reuse/reset。
-
+把 Module 11.07 的 Component Identity / State Preservation 行为模型对应到 Fiber reuse/reset。
 <a id="lesson-re-recon-015"></a>
 ### Lesson RE-RECON-015：综合源码调试——列表插入/删除/重排三条路径
 

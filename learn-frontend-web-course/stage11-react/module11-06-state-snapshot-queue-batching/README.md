@@ -2,7 +2,7 @@
 
 > [← Module 11.05：React Event System](../module11-05-event-system/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.07：Immutable State 与 Component Identity →](../module11-07-immutable-state-identity/README.md)
 
-本 Module 负责建立 React State 的基本存储与更新模型：为什么普通变量不够、State 属于谁、`useState` 返回什么、Setter 为什么不是赋值、初始化与重置如何工作。复杂队列/Batching 在下一 Module，Object/Array 不可变更新在 11.12 深入。
+本 Module 一次建立 React State 的基本存储与更新时间模型：为什么普通变量不够、State 属于谁、`useState` 返回什么、Setter 为什么不是赋值，以及 Snapshot、Update Queue 与 Batching 如何解释更新结果。Object/Array 不可变更新与 Component Identity 在下一 Module 11.07 继续。
 
 <!-- LESSON_NAV:START -->
 <details>
@@ -95,8 +95,7 @@
 <a id="lesson-re-state-011"></a>
 ### Lesson RE-STATE-011：Props 改变为什么不会自动重新初始化 State
 
-复现“从 Props 初始化 State 后 Props 更新但 State 不跟着变”的常见 Bug，引出 Derived / Duplicate State 问题，完整处理留到 11.14。
-
+复现“从 Props 初始化 State 后 Props 更新但 State 不跟着变”的常见 Bug，引出 Derived / Duplicate State；完整 State Modeling 与 Ownership 在 Module 11.08。
 <a id="lesson-re-state-012"></a>
 ### Lesson RE-STATE-012：State Hook 的调用顺序为什么必须稳定
 

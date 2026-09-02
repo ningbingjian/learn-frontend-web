@@ -2,11 +2,11 @@
 
 > [← Module 11.22：React-specific Accessibility、Security 与 Debugging](../module11-22-a11y-security-debugging/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.24：SSR、Hydration、Streaming 与 Prerender →](../module11-24-ssr-hydration-streaming/README.md)
 
-本 Module 只覆盖 React-specific 测试方法，把 Component 行为、用户交互、Hook、Context、Router、Query、Suspense、Error Boundary、Timer 和 Hydration 的可验证性串起来。
+本 Module 只覆盖截至当前位置已经学过的 Client React-specific 测试方法，把 Component 行为、用户交互、Hook、Context、Router、Query、Suspense、Error Boundary 和 Timer 的可验证性串起来。SSR/Hydration 测试在学完 Module 11.24 后追加。
 
 <!-- LESSON_NAV:START -->
 <details>
-<summary><strong>Lesson 导航（14 课）</strong></summary>
+<summary><strong>Lesson 导航（13 课）</strong></summary>
 
 - [RE-TEST-001：React 测试应该验证实现还是用户行为](#lesson-re-test-001)
 - [RE-TEST-002：第一个 Component Render Test](#lesson-re-test-002)
@@ -20,8 +20,7 @@
 - [RE-TEST-010：Suspense 测试如何等待 fallback 与 reveal](#lesson-re-test-010)
 - [RE-TEST-011：Error Boundary 如何测试捕获与恢复](#lesson-re-test-011)
 - [RE-TEST-012：Fake Timer 什么时候适合，什么时候破坏真实调度](#lesson-re-test-012)
-- [RE-TEST-013：Hydration / SSR React-specific Test 验证什么](#lesson-re-test-013)
-- [RE-TEST-014：建立 React Test Matrix](#lesson-re-test-014)
+- [RE-TEST-014：建立 Client React Test Matrix](#lesson-re-test-014)
 
 </details>
 <!-- LESSON_NAV:END -->
@@ -84,17 +83,11 @@
 <a id="lesson-re-test-012"></a>
 ### Lesson RE-TEST-012：Fake Timer 什么时候适合，什么时候破坏真实调度
 
-处理 debounce/timer，不把 React Scheduler 全部假掉。
-
-<a id="lesson-re-test-013"></a>
-### Lesson RE-TEST-013：Hydration / SSR React-specific Test 验证什么
-
-比较 server markup、hydrate、recoverable warning。
-
+处理 debounce/timer，并明确不要把 React 内部调度简单等同为普通 timer；Scheduler Internals 在 Module 11.29 再解释原因。
 <a id="lesson-re-test-014"></a>
-### Lesson RE-TEST-014：建立 React Test Matrix
+### Lesson RE-TEST-014：建立 Client React Test Matrix
 
-为 state/form/router/query/suspense/error/SSR 各定义最小必要测试层，完整质量工程后续 Stage 再扩展。
+为 state/form/router/query/suspense/error 各定义最小必要测试层；SSR/Hydration 在 Module 11.24 扩展，完整 Unit/Integration/E2E/Visual 质量工程留到后续 Testing Stage。
 
 ---
 

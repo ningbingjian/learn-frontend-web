@@ -1,8 +1,8 @@
 # Module 11.31：React Library 与 Headless Component Architecture
 
-> [← Module 11.30：Server Renderer、Hydration 与 RSC Internals](../module11-30-server-renderer-hydration-rsc-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary →](../module11-32-large-scale-microfrontend/README.md)
+> [← Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone](../module11-30-server-renderer-hydration-rsc-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary →](../module11-32-large-scale-microfrontend/README.md)
 
-本 Module 从公共 API、Package Entry、Exports、Types、ESM、Peer React、Tree Shaking、SSR/RSC/Compiler Compatibility、Testing、Release 和版本治理建设可消费 React Library。
+本 Module 只负责 React Library 的 React-specific 合同：Public API、Peer React、Types、SSR/RSC/Compiler Compatibility、Consumer Validation 与版本兼容。Package/Bundler/Monorepo 的通用机制由后续 Stage 16 正式教授；这里统一基于课程提供的 Library Build Template 观察 React 约束。
 
 <!-- LESSON_NAV:START -->
 <details>
@@ -10,9 +10,9 @@
 
 - [RE-LIB-001：应用代码与 Library 代码的约束为什么不同](#lesson-re-lib-001)
 - [RE-LIB-002：设计 Library Public API Surface](#lesson-re-lib-002)
-- [RE-LIB-003：package.json exports 如何设计](#lesson-re-lib-003)
+- [RE-LIB-003：React Library 的 Public Entry 需要满足哪些 exports 约束](#lesson-re-lib-003)
 - [RE-LIB-004：为什么 React 必须通常放 peerDependencies](#lesson-re-lib-004)
-- [RE-LIB-005：ESM-first Library 如何构建](#lesson-re-lib-005)
+- [RE-LIB-005：使用课程 Build Template 产出 ESM-first React Library](#lesson-re-lib-005)
 - [RE-LIB-006：Type Declaration 如何发布](#lesson-re-lib-006)
 - [RE-LIB-007：Tree Shaking 需要 Library 配合什么](#lesson-re-lib-007)
 - [RE-LIB-008：CSS / Asset 应该如何跟 React Library 一起发布](#lesson-re-lib-008)
@@ -22,7 +22,7 @@
 - [RE-LIB-012：Compiler-precompiled Library 的消费边界](#lesson-re-lib-012)
 - [RE-LIB-013：Library Test Matrix 应覆盖什么](#lesson-re-lib-013)
 - [RE-LIB-014：SemVer 对 Component Props/API 意味着什么](#lesson-re-lib-014)
-- [RE-LIB-015：如何做 Changeset / Release / Canary](#lesson-re-lib-015)
+- [RE-LIB-015：React Library Release / Canary 如何验证兼容合同](#lesson-re-lib-015)
 - [RE-LIB-016：综合项目——发布一个 React Utility + Component Package](#lesson-re-lib-016)
 - [RE-HEADLESS-001：Headless UI 到底“无头”在哪里](#lesson-re-headless-001)
 - [RE-HEADLESS-002：先从一个 Toggle 的 State Machine 开始](#lesson-re-headless-002)
@@ -53,20 +53,18 @@ Library 无法控制消费者 bundler、React version、SSR 环境和 TS config�
 只暴露稳定入口，避免消费者 deep import 内部文件。
 
 <a id="lesson-re-lib-003"></a>
-### Lesson RE-LIB-003：package.json exports 如何设计
+### Lesson RE-LIB-003：React Library 的 Public Entry 需要满足哪些 exports 约束
 
-处理 root/subpath、types、import 条件和内部隐藏。
-
+在课程提供的 package template 上调整 root/subpath/types/import entry，只学习“哪些 React API 可以稳定暴露”；exports condition 与 package resolution 的完整机制留到 Stage 16。
 <a id="lesson-re-lib-004"></a>
 ### Lesson RE-LIB-004：为什么 React 必须通常放 peerDependencies
 
 避免 Library 打包第二份 React 造成 Hook/Context 问题。
 
 <a id="lesson-re-lib-005"></a>
-### Lesson RE-LIB-005：ESM-first Library 如何构建
+### Lesson RE-LIB-005：使用课程 Build Template 产出 ESM-first React Library
 
-设计 source → dist、module format、target 和 source map。
-
+完成 source → dist、target 和 source map 的消费验证；Bundler/Package pipeline 原理不在本 Module 重教，统一留到 Stage 16。
 <a id="lesson-re-lib-006"></a>
 ### Lesson RE-LIB-006：Type Declaration 如何发布
 
@@ -75,8 +73,7 @@ Library 无法控制消费者 bundler、React version、SSR 环境和 TS config�
 <a id="lesson-re-lib-007"></a>
 ### Lesson RE-LIB-007：Tree Shaking 需要 Library 配合什么
 
-处理 sideEffects、barrel、top-level side effect。
-
+使用课程提供的 bundle inspection 脚本验证 side effect、barrel 和重复 React 是否影响消费产物；Tree Shaking 算法与 Bundler 深度统一留到 Stage 16。
 <a id="lesson-re-lib-008"></a>
 ### Lesson RE-LIB-008：CSS / Asset 应该如何跟 React Library 一起发布
 
@@ -113,14 +110,13 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 识别 rename/default behavior/DOM output 等 breaking change。
 
 <a id="lesson-re-lib-015"></a>
-### Lesson RE-LIB-015：如何做 Changeset / Release / Canary
+### Lesson RE-LIB-015：React Library Release / Canary 如何验证兼容合同
 
-建立 package version、changelog、pre-release 和 rollback。
-
+使用课程提供的 release template 做版本、changelog、pre-release consumer 验证和 rollback；通用 package release automation 在 Stage 16/28 深化。
 <a id="lesson-re-lib-016"></a>
 ### Lesson RE-LIB-016：综合项目——发布一个 React Utility + Component Package
 
-由两个独立消费项目安装、SSR/Client 使用、升级和验证 tree shaking/types。
+基于课程提供的 Library/Consumer Build Harness 发布 React Utility + Component Package，由两个独立消费项目验证 Client/SSR、types、peer React 与升级兼容；不考察尚未学习的 Bundler 配置。
 
 ---
 
@@ -200,4 +196,4 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 
 ---
 
-> [← Module 11.30：Server Renderer、Hydration 与 RSC Internals](../module11-30-server-renderer-hydration-rsc-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary →](../module11-32-large-scale-microfrontend/README.md)
+> [← Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone](../module11-30-server-renderer-hydration-rsc-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary →](../module11-32-large-scale-microfrontend/README.md)

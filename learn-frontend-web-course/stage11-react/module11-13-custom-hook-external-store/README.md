@@ -2,11 +2,11 @@
 
 > [← Module 11.12：Effect 与 External Synchronization](../module11-12-effect-external-sync/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.14：Router 与 Route Data Architecture →](../module11-14-router-route-data/README.md)
 
-本 Module 从逻辑复用进入 Hook API、生命周期、依赖、SSR、测试、Debug 和 Library 设计，避免“看到三行重复就抽 Hook”。
+本 Module 从逻辑复用进入 Hook API、生命周期、依赖、Browser Boundary、可验证性、Debug 与 External Store Contract，避免“看到三行重复就抽 Hook”。涉及 SSR/Hydration 的 API 这里只定义契约，完整 Server Runtime 验证留到 Module 11.24。
 
 <!-- LESSON_NAV:START -->
 <details>
-<summary><strong>Lesson 导航（25 课）</strong></summary>
+<summary><strong>Lesson 导航（26 课）</strong></summary>
 
 - [RE-HOOK-001：Custom Hook 复用的到底是什么](#lesson-re-hook-001)
 - [RE-HOOK-002：第一个 Custom Hook](#lesson-re-hook-002)
@@ -15,9 +15,9 @@
 - [RE-HOOK-005：Custom Hook 如何组合其他 Hook](#lesson-re-hook-005)
 - [RE-HOOK-006：Hook 内 Effect Dependency 如何设计](#lesson-re-hook-006)
 - [RE-HOOK-007：Hook 如何暴露错误、Pending 与取消能力](#lesson-re-hook-007)
-- [RE-HOOK-008：Hook 与 SSR / Hydration 边界](#lesson-re-hook-008)
+- [RE-HOOK-008：Custom Hook 如何避免把 Browser-only 环境假设写死](#lesson-re-hook-008)
 - [RE-HOOK-009：useDebugValue 什么时候有价值](#lesson-re-hook-009)
-- [RE-HOOK-010：如何测试 Custom Hook](#lesson-re-hook-010)
+- [RE-HOOK-010：Custom Hook 如何设计成可验证的行为合同](#lesson-re-hook-010)
 - [RE-HOOK-011：Custom Hook 为什么不是 Service Layer](#lesson-re-hook-011)
 - [RE-HOOK-012：Hook API Versioning 怎么避免破坏大量调用方](#lesson-re-hook-012)
 - [RE-HOOK-013：综合实现——useOnlineStatus / useMediaQuery / useDebouncedValue 的边界比较](#lesson-re-hook-013)
@@ -33,6 +33,7 @@
 - [RE-STORE-010：Selector 为什么是 External Store 性能的下一步问题](#lesson-re-store-010)
 - [RE-STORE-011：设计一个最小 External Store Contract](#lesson-re-store-011)
 - [RE-STORE-012：综合比较——Context、External Store、Server State 各自负责什么](#lesson-re-store-012)
+- [RE-STATEARCH-023：延伸项目——实现 External Store PoC 并与 Context + Reducer 比较](#lesson-re-statearch-023)
 
 </details>
 <!-- LESSON_NAV:END -->
@@ -73,20 +74,18 @@
 设计异步 Hook 的完整状态合同，不吞异常。
 
 <a id="lesson-re-hook-008"></a>
-### Lesson RE-HOOK-008：Hook 与 SSR / Hydration 边界
+### Lesson RE-HOOK-008：Custom Hook 如何避免把 Browser-only 环境假设写死
 
-识别 window/document、server snapshot 和 client-only 初始化问题。
-
+识别 window/document、初始化时机和 server-safe fallback 的接口约束；真正 SSR/Hydration Runtime 在 Module 11.24 学完后再做端到端验证。
 <a id="lesson-re-hook-009"></a>
 ### Lesson RE-HOOK-009：useDebugValue 什么时候有价值
 
 为复杂 Library Hook 提供 DevTools 可读状态，而不是所有 Hook 都加标签。
 
 <a id="lesson-re-hook-010"></a>
-### Lesson RE-HOOK-010：如何测试 Custom Hook
+### Lesson RE-HOOK-010：Custom Hook 如何设计成可验证的行为合同
 
-优先通过消费组件行为验证，再讨论独立 Hook harness 的适用场景。
-
+优先定义消费组件可观察行为、输入/输出和错误边界；独立 Hook harness 与自动化测试方法留到 Module 11.23。
 <a id="lesson-re-hook-011"></a>
 ### Lesson RE-HOOK-011：Custom Hook 为什么不是 Service Layer
 
@@ -139,13 +138,11 @@
 <a id="lesson-re-store-007"></a>
 ### Lesson RE-STORE-007：getServerSnapshot 为什么存在
 
-为 SSR 提供服务器值，并保持 Hydration 首次 Snapshot 一致。
-
+理解该参数用于给 Server Render 提供初始 Snapshot；当前只学习 API contract 和纯函数约束，不在本 Module 搭 SSR Runtime，实际 Hydration 验证留到 Module 11.24。
 <a id="lesson-re-store-008"></a>
 ### Lesson RE-STORE-008：用 useSyncExternalStore 封装 Browser Online State
 
-完成浏览器事件订阅、SSR fallback 和测试。
-
+完成浏览器 online/offline 事件订阅和稳定 Snapshot；getServerSnapshot 只按已学 contract 提供占位值，SSR/Hydration 与自动化测试分别在 Module 11.24 / 11.23 验证。
 <a id="lesson-re-store-009"></a>
 ### Lesson RE-STORE-009：用 useSyncExternalStore 封装 LocalStorage Store
 
@@ -167,6 +164,11 @@
 通过同一页面把三类数据放回正确 Owner。
 
 ---
+
+<a id="lesson-re-statearch-023"></a>
+### Lesson RE-STATEARCH-023：延伸项目——实现 External Store PoC 并与 Context + Reducer 比较
+
+在已经学完 useSyncExternalStore 与最小 External Store Contract 后，为 Multi-step Workflow 实现同一核心场景的 External Store PoC，并比较订阅粒度、Debug、代码复杂度和迁移成本。
 
 ---
 

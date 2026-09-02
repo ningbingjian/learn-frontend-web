@@ -2,7 +2,7 @@
 
 > [← Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary](../module11-32-large-scale-microfrontend/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.34：React Upgrade Governance →](../module11-34-upgrade-governance/README.md)
 
-本 Module 让学习者能维护 React 15～18、Class、Lifecycle、Legacy Context、HOC/Render Props、Old Redux/Router、CRA/Webpack、Enzyme，并理解这些模式与现代 React 的映射。
+本 Module 只负责 React-specific Legacy Reading 与迁移决策：Class/Lifecycle/Legacy Context/HOC/Old React ecosystem 到现代 React 的行为映射。Webpack/Codemod/E2E/Visual/Feature Platform 等通用迁移工具由后续 Stage 16/17/28 正式教授，当前使用课程提供的旧项目和迁移 Harness。
 
 <!-- LESSON_NAV:START -->
 <details>
@@ -131,8 +131,7 @@ Switch/Route/history 等历史 API 到现代模型映射。
 <a id="lesson-re-migrate-001"></a>
 ### Lesson RE-MIGRATE-001：迁移前为什么必须先建立行为基线
 
-用 E2E/Visual/metrics 固定当前系统合同。
-
+使用课程提供的现有 E2E/Visual/metric baseline 固定旧系统行为合同；当前学习“迁移前必须有证据基线”，不教授 E2E/Visual 工具链，完整质量工程留 Stage 17。
 <a id="lesson-re-migrate-002"></a>
 ### Lesson RE-MIGRATE-002：如何给 Legacy React 建 Dependency / Compatibility Inventory
 
@@ -186,8 +185,7 @@ Switch/Route/history 等历史 API 到现代模型映射。
 <a id="lesson-re-migrate-012"></a>
 ### Lesson RE-MIGRATE-012：Codemod 能做什么，不能做什么
 
-机械语法迁移与语义/architecture decision 分开。
-
+使用课程提供的 codemod 体验机械语法迁移，并明确它不能替代语义/architecture decision；AST/Codemod 编写能力在 Stage 16 正式学习。
 <a id="lesson-re-migrate-013"></a>
 ### Lesson RE-MIGRATE-013：Compatibility Layer 如何降低 Big Bang 风险
 

@@ -1,6 +1,6 @@
 # Stage 11：React 完整体系
 
-> 版本：v2.3-draft  
+> 版本：v2.4-draft  
 > 基线日期：2026-09-02  
 > React 基线：React 19.2.x Stable；正式课程编写时使用当时最新稳定补丁并重新核验官方文档、安全公告和生态兼容性。  
 > 上级总纲：[`../README.md`](../README.md)  
@@ -101,6 +101,8 @@ Stage
 
 > Stage 11 的详细 Lesson 已按 Module 拆分到独立目录。这里仅保留学习总览；点击 Module 名称进入该 Module 的完整 Lesson 大纲。
 
+> **全局复审基线（2026-09-02 / v2.4）**：已完成第一轮 Dependency / Duplication / Granularity / Knowledge Ceiling Review。明确修正了 78→35 收敛后遗留的旧 Module 引用；将 SSR/Hydration 专项安全、Debug、Test 移回 SSR Owner；将 RSC 选择矩阵移到 RSC 学完之后；把 External Store PoC 移到 useSyncExternalStore 正式学习之后；并为 Node/Bundler/DB/Module Federation/E2E/Codemod 等未来 Stage 能力补充 Teaching Infrastructure Boundary。Lesson 知识内容未减少。
+
 | Module | 主题 | Lesson 数 |
 | --- | --- | ---: |
 | [11.01](./module11-01-react-foundation/README.md) | [React Problem Domain、Project Bootstrap 与 Root Lifecycle](./module11-01-react-foundation/README.md) | 37 |
@@ -112,10 +114,10 @@ Stage
 | [11.07](./module11-07-immutable-state-identity/README.md) | [Immutable State 与 Component Identity](./module11-07-immutable-state-identity/README.md) | 28 |
 | [11.08](./module11-08-state-modeling-ownership/README.md) | [State Modeling 与 Ownership](./module11-08-state-modeling-ownership/README.md) | 18 |
 | [11.09](./module11-09-form/README.md) | [React Form 完整体系](./module11-09-form/README.md) | 28 |
-| [11.10](./module11-10-reducer-context-state-architecture/README.md) | [Reducer、Context 与 State Architecture](./module11-10-reducer-context-state-architecture/README.md) | 55 |
+| [11.10](./module11-10-reducer-context-state-architecture/README.md) | [Reducer、Context 与 State Architecture](./module11-10-reducer-context-state-architecture/README.md) | 54 |
 | [11.11](./module11-11-ref-imperative/README.md) | [Ref 与 Imperative Escape Hatches](./module11-11-ref-imperative/README.md) | 27 |
 | [11.12](./module11-12-effect-external-sync/README.md) | [Effect 与 External Synchronization](./module11-12-effect-external-sync/README.md) | 55 |
-| [11.13](./module11-13-custom-hook-external-store/README.md) | [Custom Hook 与 External Store Integration](./module11-13-custom-hook-external-store/README.md) | 25 |
+| [11.13](./module11-13-custom-hook-external-store/README.md) | [Custom Hook 与 External Store Integration](./module11-13-custom-hook-external-store/README.md) | 26 |
 | [11.14](./module11-14-router-route-data/README.md) | [Router 与 Route Data Architecture](./module11-14-router-route-data/README.md) | 30 |
 | [11.15](./module11-15-server-state-query-api/README.md) | [Server State、TanStack Query 与 API Boundary](./module11-15-server-state-query-api/README.md) | 54 |
 | [11.16](./module11-16-actions-optimistic/README.md) | [Actions 与 Optimistic Mutations](./module11-16-actions-optimistic/README.md) | 29 |
@@ -124,15 +126,15 @@ Stage
 | [11.19](./module11-19-react-dom-portal/README.md) | [React DOM 与 Portal](./module11-19-react-dom-portal/README.md) | 20 |
 | [11.20](./module11-20-resource-metadata/README.md) | [Resource Loading 与 Metadata](./module11-20-resource-metadata/README.md) | 10 |
 | [11.21](./module11-21-error-model/README.md) | [React Error Model](./module11-21-error-model/README.md) | 12 |
-| [11.22](./module11-22-a11y-security-debugging/README.md) | [React-specific Accessibility、Security 与 Debugging](./module11-22-a11y-security-debugging/README.md) | 40 |
-| [11.23](./module11-23-testing/README.md) | [React Testing Integration](./module11-23-testing/README.md) | 14 |
-| [11.24](./module11-24-ssr-hydration-streaming/README.md) | [SSR、Hydration、Streaming 与 Prerender](./module11-24-ssr-hydration-streaming/README.md) | 54 |
-| [11.25](./module11-25-rsc-server-functions-data/README.md) | [RSC、Server/Client Boundary、Server Functions 与 Data/Cache Architecture](./module11-25-rsc-server-functions-data/README.md) | 68 |
+| [11.22](./module11-22-a11y-security-debugging/README.md) | [React-specific Accessibility、Security 与 Debugging](./module11-22-a11y-security-debugging/README.md) | 37 |
+| [11.23](./module11-23-testing/README.md) | [React Testing Integration](./module11-23-testing/README.md) | 13 |
+| [11.24](./module11-24-ssr-hydration-streaming/README.md) | [SSR、Hydration、Streaming 与 Prerender](./module11-24-ssr-hydration-streaming/README.md) | 57 |
+| [11.25](./module11-25-rsc-server-functions-data/README.md) | [RSC、Server/Client Boundary、Server Functions 与 Data/Cache Architecture](./module11-25-rsc-server-functions-data/README.md) | 69 |
 | [11.26](./module11-26-source-fiber/README.md) | [React Source Research 与 Fiber Model](./module11-26-source-fiber/README.md) | 26 |
 | [11.27](./module11-27-reconciler-render-commit/README.md) | [Reconciler 与 Render / Commit Pipeline](./module11-27-reconciler-render-commit/README.md) | 32 |
 | [11.28](./module11-28-hooks-update-queue-internals/README.md) | [Hooks 与 Update Queue Internals](./module11-28-hooks-update-queue-internals/README.md) | 28 |
 | [11.29](./module11-29-lane-scheduler-suspense-internals/README.md) | [Lane、Scheduler 与 Suspense / Activity Internals](./module11-29-lane-scheduler-suspense-internals/README.md) | 28 |
-| [11.30](./module11-30-server-renderer-hydration-rsc-internals/README.md) | [Server Renderer、Hydration 与 RSC Internals](./module11-30-server-renderer-hydration-rsc-internals/README.md) | 20 |
+| [11.30](./module11-30-server-renderer-hydration-rsc-internals/README.md) | [Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone](./module11-30-server-renderer-hydration-rsc-internals/README.md) | 20 |
 | [11.31](./module11-31-library-headless/README.md) | [React Library 与 Headless Component Architecture](./module11-31-library-headless/README.md) | 30 |
 | [11.32](./module11-32-large-scale-microfrontend/README.md) | [Large-scale React Architecture 与 Microfrontend Boundary](./module11-32-large-scale-microfrontend/README.md) | 28 |
 | [11.33](./module11-33-legacy-migration/README.md) | [Legacy React 与 Migration](./module11-33-legacy-migration/README.md) | 32 |

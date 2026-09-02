@@ -2,7 +2,7 @@
 
 > [← Module 11.31：React Library 与 Headless Component Architecture](../module11-31-library-headless/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.33：Legacy React 与 Migration →](../module11-33-legacy-migration/README.md)
 
-本 Module 从 Feature/Domain/Layer/Public API、DTO/Domain/ViewModel、State/Route/Async/Error Ownership、Dependency Rule、Architecture Test、Code Split 和多团队 Ownership 设计大型 React 应用。
+本 Module 只讨论大型 React 应用中的 React-specific Boundary：Component/Feature Ownership、State/Route/Async/Error、Shared React、Context 与 Runtime Isolation。DDD、Microfrontend 通用模式、Bundler Federation 与组织级架构治理分别由后续 Stage 27/16/28 完整教授；当前所需 dependency graph / federation host 作为教学基础设施提供。
 
 <!-- LESSON_NAV:START -->
 <details>
@@ -28,7 +28,7 @@
 - [RE-ARCH-018：Large-scale React Architecture Review](#lesson-re-arch-018)
 - [RE-MFE-001：一个页面多个 React Root 与真正 Microfrontend 有什么区别](#lesson-re-mfe-001)
 - [RE-MFE-002：为什么两份 React 可能造成 Hook/Context 问题](#lesson-re-mfe-002)
-- [RE-MFE-003：Module Federation Shared React 如何配置和验证](#lesson-re-mfe-003)
+- [RE-MFE-003：在 Module Federation 场景如何验证 Shared React / Singleton](#lesson-re-mfe-003)
 - [RE-MFE-004：Context 能不能自动跨 Microfrontend Root](#lesson-re-mfe-004)
 - [RE-MFE-005：Router Ownership 冲突怎么发生](#lesson-re-mfe-005)
 - [RE-MFE-006：Design System Component 跨不同 React Version 如何治理](#lesson-re-mfe-006)
@@ -63,8 +63,7 @@
 <a id="lesson-re-arch-005"></a>
 ### Lesson RE-ARCH-005：DTO / Domain Model / ViewModel 为什么值得分开
 
-避免 API shape 直接污染整个 UI。
-
+不重复 Module 11.15 已学的 DTO/Domain/ViewModel 定义，而是检查这些模型在多个 React Feature 之间传播时如何影响依赖方向和 Public API。
 <a id="lesson-re-arch-006"></a>
 ### Lesson RE-ARCH-006：State Owner 应该和 Domain Owner 一致吗
 
@@ -108,8 +107,7 @@ Route/feature/heavy capability 而非随机文件大小。
 <a id="lesson-re-arch-014"></a>
 ### Lesson RE-ARCH-014：Architecture Fitness Function 如何自动阻止越层依赖
 
-用 ESLint/import rule/graph test 建门禁。
-
+使用课程提供的 import-rule / dependency-graph 脚本验证越层依赖能被门禁阻止；静态分析工具链本身在后续 Testing/Tooling Stage 正式学习。
 <a id="lesson-re-arch-015"></a>
 ### Lesson RE-ARCH-015：多人团队 Ownership 如何映射 CODEOWNERS / Module
 
@@ -123,8 +121,7 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 <a id="lesson-re-arch-017"></a>
 ### Lesson RE-ARCH-017：综合重构——把 Enterprise SPA 从技术目录改成 Domain Module
 
-保持功能不变，减少跨域 import 并生成 dependency graph。
-
+保持功能不变，把 Enterprise SPA 从技术目录改成 Domain Module，并使用课程提供的 dependency graph 脚本观察跨域 import 变化。
 <a id="lesson-re-arch-018"></a>
 ### Lesson RE-ARCH-018：Large-scale React Architecture Review
 
@@ -145,10 +142,9 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 理解 singleton/peer dependency/shared runtime。
 
 <a id="lesson-re-mfe-003"></a>
-### Lesson RE-MFE-003：Module Federation Shared React 如何配置和验证
+### Lesson RE-MFE-003：在 Module Federation 场景如何验证 Shared React / Singleton
 
-只聚焦 React runtime compatibility。
-
+课程提供可运行 Federation Host/Remote 作为教学基础设施；本课只验证 React singleton、peer/shared runtime compatibility，不教授 Federation/Bundler 配置，完整机制留 Stage 16/27。
 <a id="lesson-re-mfe-004"></a>
 ### Lesson RE-MFE-004：Context 能不能自动跨 Microfrontend Root
 

@@ -6,7 +6,7 @@
 
 <!-- LESSON_NAV:START -->
 <details>
-<summary><strong>Lesson 导航（55 课）</strong></summary>
+<summary><strong>Lesson 导航（54 课）</strong></summary>
 
 - [RE-REDUCER-001：什么时候多个 useState 开始不够表达问题](#lesson-re-reducer-001)
 - [RE-REDUCER-002：Reducer 的最小模型](#lesson-re-reducer-002)
@@ -16,7 +16,7 @@
 - [RE-REDUCER-006：Initializer 什么时候比直接 initialState 更好](#lesson-re-reducer-006)
 - [RE-REDUCER-007：复杂 Reducer 如何避免一个巨大 switch](#lesson-re-reducer-007)
 - [RE-REDUCER-008：Reducer 与 Immutable Update 如何结合](#lesson-re-reducer-008)
-- [RE-REDUCER-009：Reducer Test 为什么特别有价值](#lesson-re-reducer-009)
+- [RE-REDUCER-009：用最小断言验证 Reducer 为什么特别有价值](#lesson-re-reducer-009)
 - [RE-REDUCER-010：Undo / Redo 的本质是什么](#lesson-re-reducer-010)
 - [RE-REDUCER-011：Reducer 如何表达 Impossible State](#lesson-re-reducer-011)
 - [RE-REDUCER-012：Reducer 与 State Machine 有什么关系](#lesson-re-reducer-012)
@@ -35,7 +35,7 @@
 - [RE-CONTEXT-010：Context 为什么不是完整 State Manager](#lesson-re-context-010)
 - [RE-CONTEXT-011：Context Selector / External Store 为什么会出现](#lesson-re-context-011)
 - [RE-CONTEXT-012：Provider 放太高会带来什么架构问题](#lesson-re-context-012)
-- [RE-CONTEXT-013：如何测试依赖 Context 的组件](#lesson-re-context-013)
+- [RE-CONTEXT-013：如何让依赖 Context 的组件保持可测试性](#lesson-re-context-013)
 - [RE-CONTEXT-014：Context 故障综合——缺 Provider、Value 抖动、巨大 Context](#lesson-re-context-014)
 - [RE-CONTEXT-015：把 Multi-step Order Workflow 的共享依赖迁入 Context](#lesson-re-context-015)
 - [RE-STATEARCH-001：先建立 React 应用中的 State Taxonomy](#lesson-re-statearch-001)
@@ -44,7 +44,7 @@
 - [RE-STATEARCH-004：Context 适合解决哪一类依赖](#lesson-re-statearch-004)
 - [RE-STATEARCH-005：URL State 为什么应该交给 Router / URL](#lesson-re-statearch-005)
 - [RE-STATEARCH-006：Server State 为什么应该交给 Query Cache](#lesson-re-statearch-006)
-- [RE-STATEARCH-007：External Mutable Store 解决什么 React 自身没有解决的问题](#lesson-re-statearch-007)
+- [RE-STATEARCH-007：什么时候架构上需要 External Store，而不是继续扩 Context / Reducer](#lesson-re-statearch-007)
 - [RE-STATEARCH-008：Redux Toolkit 的核心价值到底是什么](#lesson-re-statearch-008)
 - [RE-STATEARCH-009：Zustand 的核心取舍是什么](#lesson-re-statearch-009)
 - [RE-STATEARCH-010：Jotai / Atomic State 的核心取舍是什么](#lesson-re-statearch-010)
@@ -60,7 +60,6 @@
 - [RE-STATEARCH-020：综合项目——划分 Local State、Context、URL 与未来 Server State 边界](#lesson-re-statearch-020)
 - [RE-STATEARCH-021：综合项目——实现多步骤导航、草稿与 Undo/Redo](#lesson-re-statearch-021)
 - [RE-STATEARCH-022：综合项目——制造状态架构反模式再重构](#lesson-re-statearch-022)
-- [RE-STATEARCH-023：综合项目——比较两种 State Architecture](#lesson-re-statearch-023)
 - [RE-STATEARCH-024：综合项目——输出 State Architecture ADR](#lesson-re-statearch-024)
 - [RE-STATEARCH-025：综合项目——完整验收 Multi-step Order Workflow](#lesson-re-statearch-025)
 
@@ -108,10 +107,9 @@
 处理 nested order state，并比较手工 structural sharing 与 Immer reducer。
 
 <a id="lesson-re-reducer-009"></a>
-### Lesson RE-REDUCER-009：Reducer Test 为什么特别有价值
+### Lesson RE-REDUCER-009：用最小断言验证 Reducer 为什么特别有价值
 
-不渲染 React，直接对 action sequence 测试 state transition，建立业务规则可验证性。
-
+不渲染 React，使用课程提供的最小断言脚本对 action sequence 验证 state transition，建立“纯业务转换可独立验证”的能力；测试框架本身不是本课知识。
 <a id="lesson-re-reducer-010"></a>
 ### Lesson RE-REDUCER-010：Undo / Redo 的本质是什么
 
@@ -135,8 +133,7 @@
 <a id="lesson-re-reducer-014"></a>
 ### Lesson RE-REDUCER-014：把 Order Editor 的核心编辑逻辑重构为 Reducer
 
-保留 UI 行为不变，把多处业务 Setter 收敛为可测试 Action / Reducer，并用测试证明行为一致。
-
+保留 UI 行为不变，把多处业务 Setter 收敛为 Action / Reducer，并继续使用本 Module 的最小断言脚本证明 state transition 行为一致。
 <a id="lesson-re-reducer-015"></a>
 ### Lesson RE-REDUCER-015：Reducer Source Connection——Dispatch/Queue 先看到哪里
 
@@ -207,10 +204,9 @@
 观察全 App Provider Stack、隐式依赖、测试困难，学习将 Provider 收敛到 Feature/Route Boundary。
 
 <a id="lesson-re-context-013"></a>
-### Lesson RE-CONTEXT-013：如何测试依赖 Context 的组件
+### Lesson RE-CONTEXT-013：如何让依赖 Context 的组件保持可测试性
 
-建立 wrapper/provider、default dependency 和 test helper 的最小方式，不展开完整 Testing Stage。
-
+通过缩小 Provider Boundary、显式 dependency 和可替换默认依赖设计可验证组件；真正的 Provider wrapper / React 自动化测试实现统一留到 Module 11.23。
 <a id="lesson-re-context-014"></a>
 ### Lesson RE-CONTEXT-014：Context 故障综合——缺 Provider、Value 抖动、巨大 Context
 
@@ -256,10 +252,9 @@
 从 remote ownership、stale、dedup、retry、invalidation 解释为什么 Redux/Context 直接存 API response 常常是在重造缓存；具体 TanStack Query 后续再学。
 
 <a id="lesson-re-statearch-007"></a>
-### Lesson RE-STATEARCH-007：External Mutable Store 解决什么 React 自身没有解决的问题
+### Lesson RE-STATEARCH-007：什么时候架构上需要 External Store，而不是继续扩 Context / Reducer
 
-从 subscribe/getSnapshot、fine-grained subscription、React 外部读写认识 external store，并连接未来 `useSyncExternalStore`。
-
+只从外部所有权、React 外读写、订阅粒度和团队边界判断是否需要 External Store；subscribe/getSnapshot/useSyncExternalStore 契约由 Module 11.13 正式教授。
 <a id="lesson-re-statearch-008"></a>
 ### Lesson RE-STATEARCH-008：Redux Toolkit 的核心价值到底是什么
 
@@ -334,11 +329,6 @@
 ### Lesson RE-STATEARCH-022：综合项目——制造状态架构反模式再重构
 
 故意做巨大 Context、duplicate derived state、过度 lifting、single giant reducer，再依据 taxonomy 重构。
-
-<a id="lesson-re-statearch-023"></a>
-### Lesson RE-STATEARCH-023：综合项目——比较两种 State Architecture
-
-为同一核心场景实现“Context + Reducer”和一种 External Store PoC，比较代码、订阅、Debug 和迁移成本；第三方库仅用于架构对照，不替代后续正式 Module。
 
 <a id="lesson-re-statearch-024"></a>
 ### Lesson RE-STATEARCH-024：综合项目——输出 State Architecture ADR

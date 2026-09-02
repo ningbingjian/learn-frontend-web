@@ -35,13 +35,13 @@
 - [RE-DEFER-004：DeferredValue 与 Suspense 如何协作](#lesson-re-defer-004)
 - [RE-DEFER-005：DeferredValue 为什么不是 Debounce](#lesson-re-defer-005)
 - [RE-DEFER-006：什么时候应 Debounce Network，而 Deferred Render UI](#lesson-re-defer-006)
-- [RE-DEFER-007：DeferredValue 是否真的提升性能必须怎么测](#lesson-re-defer-007)
+- [RE-DEFER-007：DeferredValue 是否改善响应性，怎样建立最小证据对比](#lesson-re-defer-007)
 - [RE-DEFER-008：综合实现——搜索、图表、列表多消费者的 Deferred UI](#lesson-re-defer-008)
 - [RE-SUSPENSE-001：Suspense 解决的根问题是什么](#lesson-re-suspense-001)
 - [RE-SUSPENSE-002：第一个 Suspense + lazy](#lesson-re-suspense-002)
 - [RE-SUSPENSE-003：Boundary 放在哪里决定了什么 UX](#lesson-re-suspense-003)
 - [RE-SUSPENSE-004：Nested Suspense 如何控制 Reveal Sequence](#lesson-re-suspense-004)
-- [RE-SUSPENSE-005：Suspense 与 Error Boundary 如何分工](#lesson-re-suspense-005)
+- [RE-SUSPENSE-005：Suspense 为什么只处理 Pending，而不负责普通 Error](#lesson-re-suspense-005)
 - [RE-SUSPENSE-006：Retry 是怎么发生的](#lesson-re-suspense-006)
 - [RE-SUSPENSE-007：Suspense Data Source 为什么必须被框架/缓存正确集成](#lesson-re-suspense-007)
 - [RE-SUSPENSE-008：Suspense Waterfall 是怎么形成的](#lesson-re-suspense-008)
@@ -56,7 +56,7 @@
 - [RE-USE-001：use() 与普通 Hook 有什么不同](#lesson-re-use-001)
 - [RE-USE-002：用 use() 读取 Promise 时发生什么](#lesson-re-use-002)
 - [RE-USE-003：为什么 Promise Identity 必须稳定](#lesson-re-use-003)
-- [RE-USE-004：use() 与 Error Boundary 如何连接](#lesson-re-use-004)
+- [RE-USE-004：use() 读取的 Promise Reject 后应该进入什么错误路径](#lesson-re-use-004)
 - [RE-USE-005：条件调用 use() 为什么与其他 Hook 规则不同](#lesson-re-use-005)
 - [RE-USE-006：用 use() 读取 Context 与 useContext 有什么差异](#lesson-re-use-006)
 - [RE-USE-007：Server-created Promise → Client use() 的完整链路前置](#lesson-re-use-007)
@@ -186,7 +186,7 @@
 <a id="lesson-re-transition-011"></a>
 ### Lesson RE-TRANSITION-011：综合实现——响应式搜索 + 慢结果面板
 
-用 CPU throttle 验证输入响应性改善，并记录 Trace。
+用 CPU throttle 和课程给定的最小交互 timing 对比输入响应性；完整 React Profiler / Browser Trace 在下一 Module 11.18。
 
 ---
 
@@ -223,10 +223,9 @@ Transition 控制 update，DeferredValue 控制消费到的 value。
 组合两者解决不同层成本。
 
 <a id="lesson-re-defer-007"></a>
-### Lesson RE-DEFER-007：DeferredValue 是否真的提升性能必须怎么测
+### Lesson RE-DEFER-007：DeferredValue 是否改善响应性，怎样建立最小证据对比
 
-用 Profiler / Performance 观察响应性而非只看“感觉”。
-
+固定数据量与设备条件，用输入响应时间和 Render 日志做最小对照；Profiler / Performance 的系统测量在下一 Module 11.18。
 <a id="lesson-re-defer-008"></a>
 ### Lesson RE-DEFER-008：综合实现——搜索、图表、列表多消费者的 Deferred UI
 
@@ -257,10 +256,9 @@ Transition 控制 update，DeferredValue 控制消费到的 value。
 设计页面骨架先出、慢区域后出的加载体验。
 
 <a id="lesson-re-suspense-005"></a>
-### Lesson RE-SUSPENSE-005：Suspense 与 Error Boundary 如何分工
+### Lesson RE-SUSPENSE-005：Suspense 为什么只处理 Pending，而不负责普通 Error
 
-Promise pending 与真正 Error 分别由不同边界处理。
-
+建立“Promise pending 进入 Suspense、真正 Error 进入独立错误恢复边界”的职责划分；Error Boundary 的实现与恢复模型在 Module 11.21。
 <a id="lesson-re-suspense-006"></a>
 ### Lesson RE-SUSPENSE-006：Retry 是怎么发生的
 
@@ -314,7 +312,7 @@ Promise pending 与真正 Error 分别由不同边界处理。
 <a id="lesson-re-suspense-016"></a>
 ### Lesson RE-SUSPENSE-016：综合实现——多层异步 Dashboard
 
-组合 Lazy、Query/Resource、Nested Boundary、Error Boundary、Transition，并主动制造 Waterfall。
+组合 Lazy、Query/Resource、Nested Boundary、Transition 并主动制造 Waterfall；错误路径使用课程提供的 TeachingErrorBoundary 作为教学基础设施，不要求理解其 Class 实现，完整 Error Model 在 Module 11.21。
 
 ---
 
@@ -336,10 +334,9 @@ Promise pending 触发 Suspense、fulfilled 返回值、rejected 进入错误路
 Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 <a id="lesson-re-use-004"></a>
-### Lesson RE-USE-004：use() 与 Error Boundary 如何连接
+### Lesson RE-USE-004：use() 读取的 Promise Reject 后应该进入什么错误路径
 
-制造 Promise rejection 并设计恢复 UI。
-
+制造 Promise rejection，并使用课程提供的 TeachingErrorBoundary 验证 rejected path；本课关注 use() / Suspense 契约，Error Boundary 实现与恢复 UI 在 Module 11.21。
 <a id="lesson-re-use-005"></a>
 ### Lesson RE-USE-005：条件调用 use() 为什么与其他 Hook 规则不同
 
@@ -377,8 +374,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 <a id="lesson-re-activity-004"></a>
 ### Lesson RE-ACTIVITY-004：Activity 与 Component Identity 有什么关系
 
-连接 11.13 的 State Preservation 模型。
-
+连接 Module 11.07 的 Component Identity / State Preservation 行为模型。
 <a id="lesson-re-activity-005"></a>
 ### Lesson RE-ACTIVITY-005：Activity 如何用于后台预渲染可能访问的 UI
 
@@ -432,7 +428,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 <a id="lesson-re-activity-015"></a>
 ### Lesson RE-ACTIVITY-015：综合项目——完整验收 High-interaction Workbench
 
-输出异步边界图、State/Cache Map、用户交互 Trace 和已知性能问题。
+输出异步边界图、State/Cache Map、用户交互 timing/log baseline 和已知性能问题；下一 Module 11.18 再把同一 Workbench 升级为 Profiler/Trace 证据。
 
 ---
 

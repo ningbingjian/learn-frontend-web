@@ -32,8 +32,7 @@
 <a id="lesson-re-error-002"></a>
 ### Lesson RE-ERROR-002：Error Boundary 能捕获什么
 
-用 Render Error 建立最小 Boundary。
-
+先使用课程提供的最小 TeachingErrorBoundary 验证 Render Error 的捕获范围，重点学习 Boundary 行为和恢复合同；其 Class Component 实现形态在 Module 11.33 再正式阅读。
 <a id="lesson-re-error-003"></a>
 ### Lesson RE-ERROR-003：Error Boundary 捕获不了什么
 

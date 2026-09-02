@@ -2,7 +2,7 @@
 
 > [← Module 11.33：Legacy React 与 Migration](../module11-33-legacy-migration/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.35：React Architecture Review 与最终综合项目 →](../module11-35-architecture-final/README.md)
 
-本 Module 将一次升级变成长期治理能力：Stable/Canary/Experimental、SemVer、安全公告、依赖兼容、Compiler/Framework、Pilot、Canary、Rollback、Exception 和组织流程。
+本 Module 只治理 React Upgrade：Stable/Canary/Experimental、React ecosystem compatibility、Pilot、Canary、Rollback 与 Exception。通用 CI/Test/Monorepo/Technology Governance 由后续 Stage 16/17/28 负责，本 Module 使用既有工程 Harness 做 React 升级决策。
 
 <!-- LESSON_NAV:START -->
 <details>
@@ -57,8 +57,7 @@ React、react-dom、types、router、query、UI library、framework、compiler�
 <a id="lesson-re-upgrade-007"></a>
 ### Lesson RE-UPGRADE-007：升级前后必须跑哪些 Test / Benchmark
 
-Unit/Integration/E2E/Visual/SSR/Performance/Bundle。
-
+定义升级必须覆盖的 Unit/Integration/E2E/Visual/SSR/Performance/Bundle 验证矩阵，并执行课程现成 scripts；本课不重教各测试/构建工具。
 <a id="lesson-re-upgrade-008"></a>
 ### Lesson RE-UPGRADE-008：Rollback 为什么必须在升级前设计
 
@@ -72,8 +71,7 @@ Unit/Integration/E2E/Visual/SSR/Performance/Bundle。
 <a id="lesson-re-upgrade-010"></a>
 ### Lesson RE-UPGRADE-010：多应用 Monorepo 如何分批升级 React
 
-处理 shared package/peer range 和一致性。
-
+在课程提供的多应用 workspace 中处理 shared package / peer range / React version consistency；Monorepo 工具与 workspace 工程化在 Stage 16 正式学习。
 <a id="lesson-re-upgrade-011"></a>
 ### Lesson RE-UPGRADE-011：如何写 React Upgrade RFC
 

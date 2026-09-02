@@ -2,7 +2,7 @@
 
 > [← Module 11.34：React Upgrade Governance](../module11-34-upgrade-governance/README.md) · [↑ Stage 11 总纲](../README.md)
 
-本 Module 是 Stage 11 的最终收束。所有架构评审、最终 React Enterprise Platform、故障制造、性能证据、源码 Debug、迁移方案和答辩全部继续作为普通 Lesson，不创建新的项目层级。
+本 Module 是 Stage 11 的最终收束。Review Lesson 不重新教授 State/Effect/Router/RSC 等知识，只使用前面 Owner Module 的证据清单进行综合判断；最终项目只考察 Stage 11 已正式学习的 React-specific 能力，Node/Bundler/数据库/全栈框架/组织治理等未来 Stage 技术只能作为课程提供的基础设施，不能成为项目隐藏前置。
 
 <!-- LESSON_NAV:START -->
 <details>

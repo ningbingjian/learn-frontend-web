@@ -32,7 +32,7 @@
 - [RE-IMP-007：第三方 Chart / Map 实例应该如何包进 React Component](#lesson-re-imp-007)
 - [RE-IMP-008：多个 Ref 如何组合和转发](#lesson-re-imp-008)
 - [RE-IMP-009：Imperative API 如何做 TypeScript 类型设计](#lesson-re-imp-009)
-- [RE-IMP-010：如何测试 Imperative Component](#lesson-re-imp-010)
+- [RE-IMP-010：Imperative Component 应该暴露什么可验证合同](#lesson-re-imp-010)
 - [RE-IMP-011：Imperative API 反模式——父组件遥控子组件内部实现](#lesson-re-imp-011)
 - [RE-IMP-012：综合重构——把命令式组件 API 收敛到最小边界](#lesson-re-imp-012)
 
@@ -164,10 +164,9 @@
 为 Handle、nullable lifecycle、generic element 设计明确类型合同。
 
 <a id="lesson-re-imp-010"></a>
-### Lesson RE-IMP-010：如何测试 Imperative Component
+### Lesson RE-IMP-010：Imperative Component 应该暴露什么可验证合同
 
-从用户行为和必要 Handle 两个层面验证，不把实现细节变成测试合同。
-
+从用户可观察行为与必要 Handle 两个层面定义合同，避免把内部 DOM/State 变成公共测试接口；自动化测试写法留到 Module 11.23。
 <a id="lesson-re-imp-011"></a>
 ### Lesson RE-IMP-011：Imperative API 反模式——父组件遥控子组件内部实现
 

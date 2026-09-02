@@ -2,11 +2,11 @@
 
 > [← Module 11.24：SSR、Hydration、Streaming 与 Prerender](../module11-24-ssr-hydration-streaming/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.26：React Source Research 与 Fiber Model →](../module11-26-source-fiber/README.md)
 
-本 Module 一次建立 Server Component、Client Component、SSR、RSC Payload、Build/Request-time、Bundle/Data Boundary，并坚决避免把 RSC 等同于 SSR。
+本 Module 一次建立 Server Component、Client Component、SSR、RSC Payload、Build/Request-time、Bundle/Data Boundary，并坚决避免把 RSC 等同于 SSR。Node Server、Bundler RSC Plugin、数据库/Auth/Cache 实现均属于后续 Stage 15/16/18/19/25 的 Owner 能力；本 Module 使用固定教学 Harness / Data Service，只把 React-specific RSC Boundary、Serialization、Mutation 与 Cache Contract 作为核心知识。
 
 <!-- LESSON_NAV:START -->
 <details>
-<summary><strong>Lesson 导航（68 课）</strong></summary>
+<summary><strong>Lesson 导航（69 课）</strong></summary>
 
 - [RE-RSC-001：RSC 为什么出现](#lesson-re-rsc-001)
 - [RE-RSC-002：Server Component 与 SSR Component 是同一个概念吗](#lesson-re-rsc-002)
@@ -52,7 +52,7 @@
 - [RE-SERVERFN-014：综合攻击实验——Unauthorized / Duplicate / Invalid Mutation](#lesson-re-serverfn-014)
 - [RE-RSCUSE-001：Server 直接 await 与把 Promise 传给 Client 有何区别](#lesson-re-rscuse-001)
 - [RE-RSCUSE-002：稳定 Promise 如何跨 Boundary 传递](#lesson-re-rscuse-002)
-- [RE-RSCUSE-003：Client use(Promise) 如何进入 Suspense](#lesson-re-rscuse-003)
+- [RE-RSCUSE-003：Server-created Promise 到 Client use() 后哪些 Suspense 语义保持不变](#lesson-re-rscuse-003)
 - [RE-RSCUSE-004：多个 Promise 如何并行启动避免 Waterfall](#lesson-re-rscuse-004)
 - [RE-RSCUSE-005：Nested Boundary 如何设计 reveal](#lesson-re-rscuse-005)
 - [RE-RSCUSE-006：Server Error 与 Client Error Boundary 如何连接](#lesson-re-rscuse-006)
@@ -60,7 +60,7 @@
 - [RE-RSCUSE-008：RSC Streaming 如何与 HTML Streaming 区分](#lesson-re-rscuse-008)
 - [RE-RSCUSE-009：综合实现——Server Promise → Client use() → Suspense Dashboard](#lesson-re-rscuse-009)
 - [RE-RSCUSE-010：异步边界图验收](#lesson-re-rscuse-010)
-- [RE-RSCDATA-001：Server Component 应该直接查 DB 还是走 Service Layer](#lesson-re-rscdata-001)
+- [RE-RSCDATA-001：Server Component 应该直接依赖数据源还是走 Service Boundary](#lesson-re-rscdata-001)
 - [RE-RSCDATA-002：Request Memoization 与跨请求 Cache 是同一个东西吗](#lesson-re-rscdata-002)
 - [RE-RSCDATA-003：Cache Key 必须包含哪些 Security Context](#lesson-re-rscdata-003)
 - [RE-RSCDATA-004：RSC N+1 是怎么产生的](#lesson-re-rscdata-004)
@@ -71,6 +71,7 @@
 - [RE-RSCDATA-009：Serialization Cost 如何影响 RSC Payload](#lesson-re-rscdata-009)
 - [RE-RSCDATA-010：Secret / Internal Object 如何保证不跨 Client Boundary](#lesson-re-rscdata-010)
 - [RE-RSCDATA-011：RSC Observability 如何串联 DB / Cache / Render / Stream](#lesson-re-rscdata-011)
+- [RE-STATIC-008：Static / SSR / CSR / RSC 应该怎么选](#lesson-re-static-008)
 - [RE-RSCDATA-012：综合项目——Full-stack React Runtime 运行时骨架](#lesson-re-rscdata-012)
 - [RE-RSCDATA-013：综合项目——加入 Auth/Tenant/Cache/Data Boundary](#lesson-re-rscdata-013)
 - [RE-RSCDATA-014：综合项目——加入 Suspense/Streaming/use()](#lesson-re-rscdata-014)
@@ -98,8 +99,7 @@
 <a id="lesson-re-rsc-004"></a>
 ### Lesson RE-RSC-004：Server Component 可以直接访问什么
 
-DB、filesystem、secret-bearing server service 的边界与安全责任。
-
+通过课程提供的 server-only data service / file adapter 演示服务器可访问能力，并建立 secret-bearing service 的安全边界；真实数据库/对象存储接入留到后续 Data Platform Stage。
 <a id="lesson-re-rsc-005"></a>
 ### Lesson RE-RSC-005：Server Component 为什么不能使用 useState / Event Handler
 
@@ -266,13 +266,11 @@ Server secret、serialized props、auth context、tenant data。
 <a id="lesson-re-serverfn-008"></a>
 ### Lesson RE-SERVERFN-008：Mutation 事务边界怎么设计
 
-处理多步写入、失败和部分成功。
-
+使用课程提供的 in-memory repository / transaction helper 模拟多步写入、失败和部分成功，当前学习 mutation 原子边界；真实数据库事务留到后续 Data Stage。
 <a id="lesson-re-serverfn-009"></a>
 ### Lesson RE-SERVERFN-009：Idempotency 如何处理重复提交
 
-对高风险 mutation 设计 idempotency key / unique constraint。
-
+用教学 idempotency store 演示重复提交保护，并认识 unique constraint 等生产实现选项；数据库实现细节留到后续 Data Stage。
 <a id="lesson-re-serverfn-010"></a>
 ### Lesson RE-SERVERFN-010：Server Function Error 如何返回 Client UX
 
@@ -313,10 +311,9 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 建立 Promise ownership 和 serialization/framework transport 模型。
 
 <a id="lesson-re-rscuse-003"></a>
-### Lesson RE-RSCUSE-003：Client use(Promise) 如何进入 Suspense
+### Lesson RE-RSCUSE-003：Server-created Promise 到 Client use() 后哪些 Suspense 语义保持不变
 
-观察 pending、fulfilled、rejected 三条路径。
-
+不重复 Module 11.17 的 use(Promise) 基础，而是验证 Promise 跨 Server/Client Boundary 后，pending/fulfilled/rejected 仍如何进入既有 Suspense/Error 契约。
 <a id="lesson-re-rscuse-004"></a>
 ### Lesson RE-RSCUSE-004：多个 Promise 如何并行启动避免 Waterfall
 
@@ -357,10 +354,9 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 本 Module 负责 Server Component 数据访问、Service Layer、Cache、Invalidation、Auth/Tenant、N+1、Waterfall、Serialization、Observability，并完成 Full-stack React Runtime 综合项目。
 
 <a id="lesson-re-rscdata-001"></a>
-### Lesson RE-RSCDATA-001：Server Component 应该直接查 DB 还是走 Service Layer
+### Lesson RE-RSCDATA-001：Server Component 应该直接依赖数据源还是走 Service Boundary
 
-从复用、授权、事务、测试和架构边界比较。
-
+从复用、授权、事务、测试替身和架构边界比较直接数据源访问与 Service Layer；本课使用教学 Data Service，不教授数据库 API。
 <a id="lesson-re-rscdata-002"></a>
 ### Lesson RE-RSCDATA-002：Request Memoization 与跨请求 Cache 是同一个东西吗
 
@@ -411,16 +407,18 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 
 设计 trace span 和 boundary timing。
 
+<a id="lesson-re-static-008"></a>
+### Lesson RE-STATIC-008：Static / SSR / CSR / RSC 应该怎么选
+
+在已经完整学习 CSR、SSR、Static Rendering 与 RSC 后，从 personalization、freshness、SEO、server cost、client bundle 和 interaction 建立最终选择矩阵。
 <a id="lesson-re-rscdata-012"></a>
 ### Lesson RE-RSCDATA-012：综合项目——Full-stack React Runtime 运行时骨架
 
-从零连接 SSR、RSC、Client Component、Server Function，不使用 Next.js 黑盒。
-
+从零连接 SSR、RSC、Client Component、Server Function；HTTP/Build/Data/Auth/Cache 使用课程固定教学 Harness，不把尚未学习的 Node/Bundler/Database 技术作为项目核心。
 <a id="lesson-re-rscdata-013"></a>
 ### Lesson RE-RSCDATA-013：综合项目——加入 Auth/Tenant/Cache/Data Boundary
 
-验证 Server-only data 和 client serialization。
-
+在教学 Auth/Tenant/Cache Adapter 上验证 Server-only data、tenant scope 与 client serialization；当前验收 React Boundary，完整身份/缓存平台实现留后续 Owner Stage。
 <a id="lesson-re-rscdata-014"></a>
 ### Lesson RE-RSCDATA-014：综合项目——加入 Suspense/Streaming/use()
 

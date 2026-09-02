@@ -1,8 +1,8 @@
-# Module 11.30：Server Renderer、Hydration 与 RSC Internals
+# Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone
 
 > [← Module 11.29：Lane、Scheduler 与 Suspense / Activity Internals](../module11-29-lane-scheduler-suspense-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.31：React Library 与 Headless Component Architecture →](../module11-31-library-headless/README.md)
 
-本 Module 是 React Server Runtime 的专家级源码段，覆盖 Segment/Boundary/Stream、Server Task、Hydration、Event Replay、RSC Payload、Client/Server Reference、Bundler Integration，并用一次完整 Source Debug 串起 State Update 到 DOM Commit。
+本 Module 先完成 React Server Runtime 的专家级源码研究：Segment/Boundary/Stream、Server Task、Hydration、Event Replay、RSC Payload、Client/Server Reference 与 Bundler Integration；随后用 Source Debug Capstone 把前面 Fiber/Reconciler/Hooks/Queue/Lane 的 Client 链与 Server Runtime 放回一张统一内部模型中。
 
 <!-- LESSON_NAV:START -->
 <details>

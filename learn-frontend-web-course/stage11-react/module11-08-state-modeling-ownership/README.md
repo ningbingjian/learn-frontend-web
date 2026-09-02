@@ -93,8 +93,7 @@
 <a id="lesson-re-modeling-013"></a>
 ### Lesson RE-MODELING-013：Server State 为什么不是普通 Global State
 
-只建立远程所有权、缓存、Stale、Refetch 的概念，完整 Query 模型留到 11.29。
-
+只建立远程所有权、缓存、Stale、Refetch 的概念，完整 Server State / Query 模型留到 Module 11.15。
 <a id="lesson-re-modeling-014"></a>
 ### Lesson RE-MODELING-014：Persistent State 为什么有独立生命周期
 

@@ -56,7 +56,7 @@
 - [RE-API-010：Trace ID / Correlation ID 如何进入前端诊断](#lesson-re-api-010)
 - [RE-API-011：OpenAPI Codegen 应该生成到什么边界](#lesson-re-api-011)
 - [RE-API-012：Multi-tenant API Client 如何防止上下文串用](#lesson-re-api-012)
-- [RE-API-013：Mock API / Contract Test 如何服务 React 开发](#lesson-re-api-013)
+- [RE-API-013：Mock API / Contract Verification 如何服务 React 开发](#lesson-re-api-013)
 - [RE-API-014：综合项目——React Enterprise SPA 需求与边界设计](#lesson-re-api-014)
 - [RE-API-015：综合项目——实现 Route + Query + Form 的读写闭环](#lesson-re-api-015)
 - [RE-API-016：综合项目——加入 Auth、Tenant、Runtime Validation 与 Trace ID](#lesson-re-api-016)
@@ -315,10 +315,9 @@
 明确 tenant scope、cache key、header 和 client instance 生命周期。
 
 <a id="lesson-re-api-013"></a>
-### Lesson RE-API-013：Mock API / Contract Test 如何服务 React 开发
+### Lesson RE-API-013：Mock API / Contract Verification 如何服务 React 开发
 
-让前端在后端不稳定时仍能验证 schema 和错误路径。
-
+使用课程提供的 Mock Server 与 schema 样例验证正常/错误响应合同，让前端在后端不稳定时仍能工作；Mock/Test 工具工程化统一留到 Module 11.23 与后续质量 Stage。
 <a id="lesson-re-api-014"></a>
 ### Lesson RE-API-014：综合项目——React Enterprise SPA 需求与边界设计
 

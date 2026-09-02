@@ -165,8 +165,7 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 <a id="lesson-re-fiber-015"></a>
 ### Lesson RE-FIBER-015：一个 Function Component 的 Hook State 在 Fiber 哪里
 
-连接 memoizedState 到 Hook linked list，详细结构留 11.66。
-
+连接 memoizedState 到 Hook linked list；Hook 链与 Dispatcher 的完整源码结构留到 Module 11.28。
 <a id="lesson-re-fiber-016"></a>
 ### Lesson RE-FIBER-016：综合源码观察——打印一棵最小 App Fiber Tree
 

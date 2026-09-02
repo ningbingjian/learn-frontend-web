@@ -15,7 +15,7 @@
 - [RE-ACTION-005：Action 与 Transition 的关系](#lesson-re-action-005)
 - [RE-ACTION-006：多个 Action 并发会发生什么](#lesson-re-action-006)
 - [RE-ACTION-007：Form Action 与传统 onSubmit 怎么选](#lesson-re-action-007)
-- [RE-ACTION-008：Action 如何与 Router / Server Function 连接](#lesson-re-action-008)
+- [RE-ACTION-008：Action 如何与 Router 和未来 Server Mutation Boundary 对接](#lesson-re-action-008)
 - [RE-ACTION-009：综合实现——把 Enterprise SPA 的一个 Mutation 重构为 Action Flow](#lesson-re-action-009)
 - [RE-ACTIONSTATE-001：useActionState 解决什么重复模式](#lesson-re-actionstate-001)
 - [RE-ACTIONSTATE-002：第一个 useActionState](#lesson-re-actionstate-002)
@@ -23,7 +23,7 @@
 - [RE-ACTIONSTATE-004：Validation Error 如何通过 Action State 返回](#lesson-re-actionstate-004)
 - [RE-ACTIONSTATE-005：useFormStatus 为什么必须在 Form 子树中使用](#lesson-re-actionstate-005)
 - [RE-ACTIONSTATE-006：一个页面多个 Form 时 Pending 状态如何隔离](#lesson-re-actionstate-006)
-- [RE-ACTIONSTATE-007：Action State 与 Server Function 如何连接](#lesson-re-actionstate-007)
+- [RE-ACTIONSTATE-007：Action State 如何与未来 Server Mutation Result 对接](#lesson-re-actionstate-007)
 - [RE-ACTIONSTATE-008：Action State Failure——重复提交、旧错误、字段改变](#lesson-re-actionstate-008)
 - [RE-ACTIONSTATE-009：综合实现——带字段错误和 Pending UX 的订单提交表单](#lesson-re-actionstate-009)
 - [RE-OPT-001：什么叫 Optimistic UI](#lesson-re-opt-001)
@@ -77,10 +77,9 @@
 从渐进增强、表单语义、客户端-only 交互比较两者。
 
 <a id="lesson-re-action-008"></a>
-### Lesson RE-ACTION-008：Action 如何与 Router / Server Function 连接
+### Lesson RE-ACTION-008：Action 如何与 Router 和未来 Server Mutation Boundary 对接
 
-建立 client action、route action、server action/function 的边界，不混淆名称。
-
+比较 client action 与已学 route action，并只建立“未来可把 mutation 放到 server boundary”的接口概念；Server Function / `use server` 的实现统一留到 Module 11.25。
 <a id="lesson-re-action-009"></a>
 ### Lesson RE-ACTION-009：综合实现——把 Enterprise SPA 的一个 Mutation 重构为 Action Flow
 
@@ -121,10 +120,9 @@
 验证最近 Form 边界和按钮行为。
 
 <a id="lesson-re-actionstate-007"></a>
-### Lesson RE-ACTIONSTATE-007：Action State 与 Server Function 如何连接
+### Lesson RE-ACTIONSTATE-007：Action State 如何与未来 Server Mutation Result 对接
 
-建立 client UX state 与 server mutation result 的合同。
-
+先设计 client UX state 与远端 mutation result 的序列化合同，不实现 Server Function；完整 Server Function + useActionState 组合留到 Module 11.25。
 <a id="lesson-re-actionstate-008"></a>
 ### Lesson RE-ACTIONSTATE-008：Action State Failure——重复提交、旧错误、字段改变
 

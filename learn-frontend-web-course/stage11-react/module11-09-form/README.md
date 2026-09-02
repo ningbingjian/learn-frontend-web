@@ -11,7 +11,7 @@
 - [RE-FORM-001：先理解浏览器原生 Form，再谈 React Form](#lesson-re-form-001)
 - [RE-FORM-002：Controlled Input 的最小模型](#lesson-re-form-002)
 - [RE-FORM-003：Uncontrolled Input 到底是什么](#lesson-re-form-003)
-- [RE-FORM-004：Controlled 与 Uncontrolled 应该怎么选](#lesson-re-form-004)
+- [RE-FORM-004：Form 场景下 Controlled / Uncontrolled Input 应该怎么选](#lesson-re-form-004)
 - [RE-FORM-005：Input、Textarea、Select 的 React 行为差异](#lesson-re-form-005)
 - [RE-FORM-006：Checkbox 与 Radio 为什么不能照搬 text input](#lesson-re-form-006)
 - [RE-FORM-007：File Input 为什么天然更偏 Uncontrolled](#lesson-re-form-007)
@@ -56,10 +56,9 @@
 使用 `defaultValue`、DOM 自己保存当前值和提交时读取，比较它与 Controlled 的状态所有权差异。
 
 <a id="lesson-re-form-004"></a>
-### Lesson RE-FORM-004：Controlled 与 Uncontrolled 应该怎么选
+### Lesson RE-FORM-004：Form 场景下 Controlled / Uncontrolled Input 应该怎么选
 
-从即时联动、复杂 Validation、超大表单、第三方组件和原生能力比较两种策略，不做教条结论。
-
+只从表单输入语义比较即时联动、Validation、字段规模、第三方控件和原生 Form 能力；通用 Component State Ownership 已在 Module 11.08 学过，这里不重复。
 <a id="lesson-re-form-005"></a>
 ### Lesson RE-FORM-005：Input、Textarea、Select 的 React 行为差异
 
@@ -178,7 +177,7 @@
 <a id="lesson-re-form-028"></a>
 ### Lesson RE-FORM-028：综合项目——Order Editor 完整验收
 
-运行测试、键盘操作、IME、Validation、生产构建，输出 Component Tree、State Ownership Map 和已知限制。
+运行课程提供的验收脚本，并手工验证键盘、IME、Validation 与 production build；输出 Component Tree、State Ownership Map 和已知限制。React 自动化测试统一在 Module 11.23。
 
 ---
 

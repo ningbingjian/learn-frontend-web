@@ -33,7 +33,7 @@
 - [RE-DATAROUTER-007：Redirect 应该在什么层发生](#lesson-re-datarouter-007)
 - [RE-DATAROUTER-008：Revalidation 是什么](#lesson-re-datarouter-008)
 - [RE-DATAROUTER-009：Nested Route Data 如何组合](#lesson-re-datarouter-009)
-- [RE-DATAROUTER-010：Deferred / Streaming Route Data 与 Suspense 的连接](#lesson-re-datarouter-010)
+- [RE-DATAROUTER-010：Deferred Route Data 为什么需要独立异步边界](#lesson-re-datarouter-010)
 - [RE-DATAROUTER-011：Route Error Boundary 如何隔离局部失败](#lesson-re-datarouter-011)
 - [RE-DATAROUTER-012：Data Router 与 Query Cache 会不会重复](#lesson-re-datarouter-012)
 - [RE-DATAROUTER-013：Route Architecture 如何处理 Auth / Tenant / Feature Flag](#lesson-re-datarouter-013)
@@ -172,10 +172,9 @@
 父子 Layout 各自拥有数据，避免一个顶层 Loader 包办所有资源。
 
 <a id="lesson-re-datarouter-010"></a>
-### Lesson RE-DATAROUTER-010：Deferred / Streaming Route Data 与 Suspense 的连接
+### Lesson RE-DATAROUTER-010：Deferred Route Data 为什么需要独立异步边界
 
-建立部分数据先显示、慢数据后揭示的前置模型。
-
+只建立“快数据先可用、慢数据后完成”的 Route Data 生命周期和接口边界，不在这里实现 Suspense；Suspense 与 Streaming 的正式模型留到 Module 11.17 / 11.24。
 <a id="lesson-re-datarouter-011"></a>
 ### Lesson RE-DATAROUTER-011：Route Error Boundary 如何隔离局部失败
 

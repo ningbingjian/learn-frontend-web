@@ -24,7 +24,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 - [RE-EFFECT-014：Race Condition 是怎么形成的](#lesson-re-effect-014)
 - [RE-EFFECT-015：Stale Closure 为什么会让 Effect 读到旧值](#lesson-re-effect-015)
 - [RE-EFFECT-016：Object Dependency 为什么让 Effect 重复执行](#lesson-re-effect-016)
-- [RE-EFFECT-017：Function Dependency 为什么经常不停变化](#lesson-re-effect-017)
+- [RE-EFFECT-017：Function Dependency 为什么经常不停变化，优先应该怎么修](#lesson-re-effect-017)
 - [RE-EFFECT-018：Infinite Effect 的两个必要条件是什么](#lesson-re-effect-018)
 - [RE-EFFECT-019：多个 Effect 的 Cleanup / Setup 顺序应该怎么推理](#lesson-re-effect-019)
 - [RE-EFFECT-020：Effect Error 应该如何处理](#lesson-re-effect-020)
@@ -39,10 +39,10 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 - [RE-REMOVE-004：Props 改变时“调整 State”应该怎么处理](#lesson-re-remove-004)
 - [RE-REMOVE-005：通知 Parent 某个 State 改变为什么可能不需要 Effect](#lesson-re-remove-005)
 - [RE-REMOVE-006：应用级一次性初始化为什么不一定属于 Effect](#lesson-re-remove-006)
-- [RE-REMOVE-007：订阅外部 Store 为什么更适合 useSyncExternalStore](#lesson-re-remove-007)
+- [RE-REMOVE-007：外部 Store Subscription 为什么应该交给专用 Store Hook](#lesson-re-remove-007)
 - [RE-REMOVE-008：Server State 为什么更适合 Query Cache](#lesson-re-remove-008)
 - [RE-REMOVE-009：Chained Effects 为什么会形成脆弱状态机](#lesson-re-remove-009)
-- [RE-REMOVE-010：昂贵计算应该用 Effect + State 还是 useMemo](#lesson-re-remove-010)
+- [RE-REMOVE-010：昂贵纯计算为什么不应该用 Effect + State](#lesson-re-remove-010)
 - [RE-REMOVE-011：复杂表单派生状态如何删掉大量 Effect](#lesson-re-remove-011)
 - [RE-REMOVE-012：Effect Audit——对一个 Effect-heavy 页面做系统重构](#lesson-re-remove-012)
 - [RE-EFFECTEVENT-001：Reactive Logic 与 Non-reactive Logic 怎么区分](#lesson-re-effectevent-001)
@@ -51,7 +51,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 - [RE-EFFECTEVENT-004：为什么 useEffectEvent 不能用来隐藏真正的 Dependency](#lesson-re-effectevent-004)
 - [RE-EFFECTEVENT-005：Timer / Listener 中什么逻辑适合 Effect Event](#lesson-re-effectevent-005)
 - [RE-EFFECTEVENT-006：Effect Event 与 Ref latest-value pattern 怎么比较](#lesson-re-effectevent-006)
-- [RE-EFFECTEVENT-007：Effect Event API 应该如何测试](#lesson-re-effectevent-007)
+- [RE-EFFECTEVENT-007：如何验证 Effect Event 没有破坏订阅生命周期](#lesson-re-effectevent-007)
 - [RE-EFFECTEVENT-008：综合重构——把聊天室 Effect 拆成同步关系与最新事件逻辑](#lesson-re-effectevent-008)
 - [RE-LAYOUT-001：浏览器 Layout / Paint 与 React Commit 的关系](#lesson-re-layout-001)
 - [RE-LAYOUT-002：为什么 Tooltip Measurement 可能需要 useLayoutEffect](#lesson-re-layout-002)
@@ -148,10 +148,9 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 比较 render 中创建对象、对象字段依赖、Effect 内创建对象等修复策略。
 
 <a id="lesson-re-effect-017"></a>
-### Lesson RE-EFFECT-017：Function Dependency 为什么经常不停变化
+### Lesson RE-EFFECT-017：Function Dependency 为什么经常不停变化，优先应该怎么修
 
-比较内联函数、移动逻辑、useCallback 和 Effect 内定义，避免为了静态 identity 机械 memoize。
-
+比较移动逻辑、Effect 内定义函数、缩小 Reactive Input 等结构性修复；函数 Memoization 只作为后续选项提示，useCallback 在 Module 11.18 正式学习。
 <a id="lesson-re-effect-018"></a>
 ### Lesson RE-EFFECT-018：Infinite Effect 的两个必要条件是什么
 
@@ -227,10 +226,9 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 区分 module initialization、root bootstrap、用户会话启动与组件挂载。
 
 <a id="lesson-re-remove-007"></a>
-### Lesson RE-REMOVE-007：订阅外部 Store 为什么更适合 useSyncExternalStore
+### Lesson RE-REMOVE-007：外部 Store Subscription 为什么应该交给专用 Store Hook
 
-从 tearing / SSR / subscription contract 解释专用 Hook 比手工 Effect 更可靠。
-
+这里只识别“外部可变数据源 + subscribe”不是普通 Effect 同步问题，并把实现责任交给下一 Module 11.13；useSyncExternalStore 的 tearing / SSR / snapshot contract 不在本课展开。
 <a id="lesson-re-remove-008"></a>
 ### Lesson RE-REMOVE-008：Server State 为什么更适合 Query Cache
 
@@ -242,10 +240,9 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 制造 Effect A 更新 State → Effect B 再更新 State 的链式流程，改为事件内一次计算或 reducer transition。
 
 <a id="lesson-re-remove-010"></a>
-### Lesson RE-REMOVE-010：昂贵计算应该用 Effect + State 还是 useMemo
+### Lesson RE-REMOVE-010：昂贵纯计算为什么不应该用 Effect + State
 
-区分“同步外部系统”与“缓存纯计算”的职责。
-
+先把纯计算放回 Render 数据流，消除 Effect + State 的二次同步；是否需要缓存以及 useMemo 的成本模型统一留到 Module 11.18。
 <a id="lesson-re-remove-011"></a>
 ### Lesson RE-REMOVE-011：复杂表单派生状态如何删掉大量 Effect
 
@@ -291,10 +288,9 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 从语义、Linter、可读性和 React 数据流角度比较两者。
 
 <a id="lesson-re-effectevent-007"></a>
-### Lesson RE-EFFECTEVENT-007：Effect Event API 应该如何测试
+### Lesson RE-EFFECTEVENT-007：如何验证 Effect Event 没有破坏订阅生命周期
 
-验证外部订阅不重复建立，同时回调能看到最新 State。
-
+通过订阅次数、重连次数和回调读取值的运行日志验证语义；自动化 React 测试写法统一留到 Module 11.23。
 <a id="lesson-re-effectevent-008"></a>
 ### Lesson RE-EFFECTEVENT-008：综合重构——把聊天室 Effect 拆成同步关系与最新事件逻辑
 
@@ -347,12 +343,11 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 <a id="lesson-re-layout-009"></a>
 ### Lesson RE-LAYOUT-009：性能故障——同步 LayoutEffect 把交互拖慢
 
-用 Performance Trace 观察阻塞 Commit/Paint，并完成重构。
-
+用课程给定的简单 timing / browser recording 步骤观察同步工作阻塞 Paint，并完成结构重构；Profiler 与 Performance Trace 的系统分析在 Module 11.18。
 <a id="lesson-re-layout-010"></a>
 ### Lesson RE-LAYOUT-010：综合实现——无闪烁自适应 Popover
 
-结合 Ref、LayoutEffect、ResizeObserver 前置和 Portal 前置设计定位流程。
+结合 Ref、LayoutEffect 与课程提供的 ResizeObserver helper 完成无闪烁定位；本课先不要求 Portal，DOM 跨层挂载在 Module 11.19 正式加入。
 
 ---
 

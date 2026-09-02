@@ -78,8 +78,7 @@
 <a id="lesson-re-list-010"></a>
 ### Lesson RE-LIST-010：Key 与 Component Identity / State Preservation 的连接
 
-把 Key 放到组件级切换场景，提前建立“type + position + key”决定 identity 的模型，完整机制留到 Module 11.13。
-
+把 Key 放到组件级切换场景，先建立“type + position + key”决定 identity 的直觉；Component Identity / State Preservation 的完整行为模型在 Module 11.07，Reconciler 源码验证在 Module 11.27。
 <a id="lesson-re-list-011"></a>
 ### Lesson RE-LIST-011：列表删除、插入、重排时 React 在比较什么
 

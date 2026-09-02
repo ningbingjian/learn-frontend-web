@@ -1,6 +1,6 @@
 # Module 11.29：Lane、Scheduler 与 Suspense / Activity Internals
 
-> [← Module 11.28：Hooks 与 Update Queue Internals](../module11-28-hooks-update-queue-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.30：Server Renderer、Hydration 与 RSC Internals →](../module11-30-server-renderer-hydration-rsc-internals/README.md)
+> [← Module 11.28：Hooks 与 Update Queue Internals](../module11-28-hooks-update-queue-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone →](../module11-30-server-renderer-hydration-rsc-internals/README.md)
 
 本 Module 完整学习 Update Priority、Lane、Pending/Suspended/Pinged/Entangled、Transition、Root Scheduling、Scheduler、Yield、Starvation 和 Expiration。
 
@@ -188,4 +188,4 @@ Promise ping 后重新选择 lanes。
 
 ---
 
-> [← Module 11.28：Hooks 与 Update Queue Internals](../module11-28-hooks-update-queue-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.30：Server Renderer、Hydration 与 RSC Internals →](../module11-30-server-renderer-hydration-rsc-internals/README.md)
+> [← Module 11.28：Hooks 与 Update Queue Internals](../module11-28-hooks-update-queue-internals/README.md) · [↑ Stage 11 总纲](../README.md) · [Module 11.30：Server Renderer、Hydration、RSC Internals 与 Source Debug Capstone →](../module11-30-server-renderer-hydration-rsc-internals/README.md)
