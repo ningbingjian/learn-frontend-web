@@ -1,1173 +1,1077 @@
-# Learn Frontend Web 统一教学规范
+# Learn Frontend Web 统一教学与课程编写规范
 
-> 版本：v1.0  
-> 适用范围：`learn-frontend-web` 全部 Stage、Module、Knowledge Point、Lab、Project。  
-> 定位：本文件同时承担**教学规范**与**课程内容落地规范**，是仓库课程建设的唯一规范来源。  
-> 目标：让学习者从零基础开始，通过“边做、边看、边解释、再抽象”的方式，一路深入到浏览器机制、框架原理、源码、测试、性能、安全、稳定性、工程化和前端架构设计。
+> 版本：v2.0  
+> 基线日期：2026-09-02  
+> 适用范围：`learn-frontend-web` 全部 Stage、Module、Knowledge Point / Lesson、Lab、Project。  
+> 定位：本文件是正式课程内容的**统一教学规范与课程编写规范**，是后续课程建设的强制规则来源。
 
 ---
 
-# 1. 为什么需要这份规范
+# 1. 最终目标
 
-`learn-frontend-web` 的目标不是只教会 HTML、CSS、JavaScript 或某个框架 API，而是建立一条从零基础到前端架构师的长期能力链。
+`learn-frontend-web` 不是 API 笔记、框架速成教程或面试八股合集。
 
-前端知识类型差异很大：
-
-- HTML / CSS 更依赖 DOM、布局、可访问性和浏览器行为。
-- JavaScript 更依赖运行时、Event Loop、内存与语言机制。
-- React / Vue 更依赖状态、Render、Effect、Reconciliation、框架调度和工程集成。
-- 网络、安全、性能需要 DevTools、抓包、指标和故障实验。
-- 工程化、架构与治理需要构建产物、ADR、迁移方案和 Trade-off，而不一定需要“一个 Demo 项目”。
-
-因此，本仓库不强制所有课程采用同一种模板，但所有课程必须遵守同一种学习逻辑。
-
-最终采用三级体系：
+目标是让学习者从零基础一路成长到极其资深的前端工程师 / 前端架构师，并真正形成下面的能力链：
 
 ```text
-Frontend Teaching Standard
-│
-├── Level 1：Universal Rules
-│      所有课程强制遵守
-│
-├── Level 2：Frontend Lesson Patterns
-│      根据知识类型选择教学模式
-│
-└── Level 3：Module Teaching Contract
-       每个 Module 定义自己的实验、工具、项目、源码、故障、性能与验收方式
+会跟着做
+    ↓
+能独立复刻
+    ↓
+能解释现象
+    ↓
+能处理边界和故障
+    ↓
+能 Debug 和测量
+    ↓
+能理解底层机制
+    ↓
+能阅读关键源码
+    ↓
+能做性能 / 安全 / 可靠性分析
+    ↓
+能做技术选型和架构演进
+    ↓
+能建设平台、标准和治理机制
 ```
 
+整个教学过程必须做到：
+
+> **像老师坐在学习者旁边一样，明确告诉他现在做什么、在哪个目录做、操作哪个文件、代码写在哪里、为什么这样写、什么时候运行、应该看到什么，以及这个现象在理论上叫什么。**
+
 ---
 
-# 2. 核心教学思想
+# 2. 五条最高优先级规则
 
-统一原则：
+这五条高于文档形式、篇幅、目录整齐度和作者个人习惯。
 
-> **问题驱动学习，现象建立直觉，动手推动理解；每完成一个关键变化，立即解释对应理论，再逐步深入原理、源码和生产边界。**
+## 2.1 一个 Module，一次学透
 
-更短地说：
+一个知识主题只能有一个主教学 Module。
 
-> **边做、边看、边解释、再抽象。**
-
-课程不是下面这种结构：
+该 Module 必须在计划范围内从基础一路讲到资深 / 专家深度，形成完整闭环：
 
 ```text
-先讲完整理论
+为什么存在
+    ↓
+基础概念
+    ↓
+最小可运行使用
+    ↓
+完整能力
+    ↓
+工程实践
+    ↓
+高级特性与边界
+    ↓
+Wrong Way / Failure
+    ↓
+Debug / 诊断
+    ↓
+底层机制 / 原理
+    ↓
+核心源码（适用时）
+    ↓
+性能 / 安全 / 兼容 / A11Y（适用时）
+    ↓
+Production Boundary
+    ↓
+替代方案 / Trade-off / 架构
+    ↓
+Module Project / Review
+```
+
+禁止：
+
+```text
+先讲 React State 基础
+以后再建 React State 高级篇
+再以后建 React State 原理篇
+最后再建 React State 源码篇
+```
+
+复杂 Module 可以拆很多 Lesson / KP，但必须在同一个 Module 内把主题一次讲透。
+
+后续课程只能使用、引用或组合应用该能力，不能靠同名“高级篇 / 源码篇 / 性能篇”补前面的缺口。
+
+## 2.2 每一课必须可复刻
+
+任何需要代码、命令、浏览器操作或实验的 Lesson，只允许两种起点：
+
+### A. 当前课从零状态建立
+
+```text
+空目录 / 最小空项目
+    ↓
+README 从头创建
+    ↓
+得到本课完整最终源码
+```
+
+### B. 明确复制上一课源码继续演进
+
+确实需要连续上下文时，必须有：
+
+```text
+Step 0：准备本课起始项目
+```
+
+至少写清：
+
+1. 来源 Lesson 名称和路径。
+2. 复制哪个完整目录。
+3. 复制到当前课的哪个目录。
+4. 复制后的目录结构。
+5. 是否重新安装依赖。
+6. 在哪个目录执行什么命令。
+7. 复制后的基线页面 / Console / Network 应该是什么。
+8. 本课预计新增、修改、删除哪些文件。
+
+禁止只写：
+
+> “在上一课基础上继续。”
+
+然后直接开始改代码。
+
+## 2.3 每一课最终源码必须独立运行
+
+即使当前课来源于上一课复制，当前 Lesson 最终也必须保存一份完整可运行源码。
+
+学习者进入当前 Lesson 后，可以根据 README 独立完成：
+
+```text
+安装依赖
+启动
+构建
+测试
+验证
+```
+
+禁止运行时依赖上一课源码路径、上一课 Dev Server 或作者本地特殊环境。
+
+## 2.4 禁止默认学生懂了
+
+以下理由都不能用于省略当前课程真正需要的信息：
+
+```text
+“上一课讲过”
+“这个很简单”
+“属于常识”
+“前端应该都知道”
+“IDE 会提示”
+“照 Final Source 看就懂”
+“这个命令大家都会”
+```
+
+课程作者统一假设学习者：
+
+```text
+第一次接触当前知识点
+第一次打开当前课程项目
+不记得上一课源码的具体细节
+不会主动猜作者省略的操作
+```
+
+允许声明已经学过的理论前置，但**当前项目中的准备工作、文件关系和实际操作不能省略**。
+
+## 2.5 所有关键操作必须精确到文件与位置
+
+教学步骤必须尽量写清：
+
+```text
+完整文件路径
+→ 创建 / 修改 / 删除
+→ 找到哪个函数 / 组件 / 配置块 / CSS 规则
+→ 在上面 / 下面 / 内部增加什么
+→ 或替换哪个完整代码片段
+→ 增加哪些 import / dependency / script
+→ 为什么修改这里
+→ 修改后当前状态
+```
+
+高级课程同样保留这条规则。
+
+独立思考通过 `Challenge / Project / Architecture Exercise` 训练，而不是通过 README 故意缺步骤训练。
+
+---
+
+# 3. 核心教学思想：范围做减法，解释做加法
+
+## 3.1 最小充分项目
+
+> **用能够完整证明当前知识点的最小项目教学。**
+
+增加任何组件、页面、Store、Route、Mock、依赖、配置和辅助工具前都先问：
+
+```text
+如果删除它，
+当前知识点还能不能被完整实现、观察、解释和验证？
+```
+
+如果可以，默认删除。
+
+深度不能通过以下指标证明：
+
+```text
+README 行数
+代码行数
+组件数量
+目录数量
+依赖数量
+Step 数量
+框架数量
+API 数量
+```
+
+## 3.2 核心知识必须解释完整
+
+项目可以小，但本课声明的主问题必须形成闭环：
+
+```text
+为什么需要
 ↓
-展示完整最终源码
+是什么
 ↓
-学习者照着复制
-```
-
-也不是：
-
-```text
-一直写代码
+当前项目哪里需要
 ↓
-课程最后才统一解释为什么
-```
-
-而应该形成反复出现的小循环：
-
-```text
-当前问题
-    ↓
-写 / 改一个最小步骤
-    ↓
-运行 / 操作
-    ↓
-观察现象
-    ↓
-用一句人话解释
-    ↓
-给现象命名
-    ↓
-解释当前所需理论 / 原理
-    ↓
-继续下一步
-```
-
-这个循环是所有 BUILD、MECHANISM、FAILURE、PERFORMANCE 类课程的核心。
-
----
-
-# 3. Level 1：所有课程强制遵守的统一原则
-
-## 3.1 一课只解决一个主问题
-
-每个 Knowledge Point 必须有一个唯一主问题。
-
-例如：
-
-```text
-为什么 Effect 需要 cleanup？
-```
-
-而不是：
-
-```text
-useEffect + cleanup + race condition + AbortController + StrictMode + useEffectEvent
-```
-
-每课原则上：
-
-```text
-1 个核心问题
-+
-最多 2～3 个必要辅助概念
-```
-
-如果一次必须引入过多新术语，应继续拆分 KP。
-
----
-
-## 3.2 “从 0 到 1”是课程主骨架，不是课后练习
-
-BUILD 类课程必须从空文件或最小可运行状态开始。
-
-禁止 README 只展示 Final Version。
-
-推荐循环：
-
-```text
-Step 0：最小状态
-Step 1：加入一个能力
-Step 2：运行并观察
-Step 3：发现问题
-Step 4：只修改一个关键点
-Step 5：再次验证
-Step 6：给变化命名
-Step 7：解释当前所需理论 / 原理
-Step 8：继续下一轮
-```
-
-每个关键 Step 尽量只修改 1～3 个关键点。
-
-复杂改动优先展示 Diff，例如：
-
-```diff
-- setCount(count + 1);
-+ setCount(current => current + 1);
-```
-
-并明确说明：
-
-> 这一步只改变了一件事：更新不再依赖当前 Render 快照中的 `count`，而是让 React 根据队列中的最新状态计算下一值。
-
----
-
-## 3.3 理论不再固定放在编码之前
-
-旧的固定顺序：
-
-```text
-学习目标
-→ 理论讲解
-→ 动手编码
-→ 运行案例
-→ 效果验证
-```
-
-不再作为强制模板。
-
-理论应尽量由刚刚发生的行为自然引出：
-
-```text
-行为 / 代码
-    ↓
-观察结果
-    ↓
-一句人话
-    ↓
-专业术语
-    ↓
-严谨定义
-    ↓
-必要原理
-```
-
-课程最后可以设置“理论收束”，把各 Step 中已经经历过的现象整理为完整心智模型，但不能依赖“先把全部理论背完”才能开始实验。
-
----
-
-## 3.4 新概念第一次出现必须解释职责
-
-第一次出现任何新的：
-
-- API
-- Hook
-- 组件
-- 浏览器对象
-- 命令
-- 配置
-- 构建概念
-- 协议字段
-- DevTools 面板
-- 框架内部对象
-
-必须回答：
-
-1. 它是什么。
-2. 为什么现在需要它。
-3. 谁创建 / 调用 / 管理它。
-4. 它和已经学过的东西是什么关系。
-5. 本课暂时不需要理解它的哪些高级部分。
-
-例如第一次出现：
-
-```js
-hydrateRoot(container, <App />)
-```
-
-不能只给代码，而应先说明：
-
-```text
-页面里已经有 React 在服务端生成的 HTML。
-现在客户端要接管已有 DOM，而不是从空容器重新创建。
-hydrateRoot 就是完成这个工作的客户端 Root API。
-本课暂时不需要理解 Streaming SSR。
-```
-
----
-
-## 3.5 专业术语统一采用“三层解释法”
-
-### 第一层：一句人话
-
-例如：
-
-> Hydration 可以先理解成：React 给已经存在的服务端 HTML 接上客户端 State、事件和更新能力。
-
-### 第二层：图 / 代码 / 可观察证据
-
-```text
-Server HTML
-    ↓
-页面已经可见
-    ↓
-hydrateRoot
-    ↓
-React 接管已有 DOM
-    ↓
-State / Event / Update 可用
-```
-
-### 第三层：准确技术定义
-
-最后再给 React、浏览器、ECMAScript、HTTP 或工具语境中的严谨定义。
-
-禁止用一个陌生抽象概念解释另一个陌生抽象概念。
-
----
-
-## 3.6 每个抽象概念必须有可观察模型
-
-根据课程类型，至少提供一种真实证据：
-
-```text
-DOM Tree
-CSSOM
-Render Tree
-Accessibility Tree
-React Tree
-Fiber / Component Tree
-Call Stack
-Task Queue
-Microtask Queue
-Event Propagation Path
-Network Waterfall
-Request / Response Headers
-HTTP Timing
-Performance Timeline
-React Profiler
-Memory Heap / Snapshot
-Bundle Graph
-Source Map
-Layout / Paint
-Hydration Timeline
-Server Stream Chunk
-Console Warning / Error
-测试结果
-Benchmark / Web Vitals
-```
-
-图和实验必须解释真实关系，例如：
-
-```text
-谁创建谁
-谁调用谁
-谁依赖谁
-数据往哪里流
-事件怎么走
-DOM 在哪里
-React Tree 在哪里
-状态在哪里保留
-浏览器在哪个阶段工作
-网络在哪一步发生
-```
-
-禁止只放装饰性架构图。
-
----
-
-## 3.7 每个关键变化必须映射到理论
-
-README 应尽量明确：
-
-| 代码 / 行为变化 | 对应理论 |
-| --- | --- |
-| `setCount(count + 1)` 改为 updater | State Update Queue |
-| 普通更新改为 `startTransition` | Non-urgent Update |
-| Effect 增加 cleanup | External Synchronization Lifecycle |
-| `createRoot` 改为 `hydrateRoot` | Hydration |
-| 普通 children 改为 Portal | React Tree vs DOM Tree |
-| 条件卸载改为 `Activity mode="hidden"` | State Preservation |
-
-学习者必须知道：
-
-> “我刚才改的这一步，在理论上叫什么？”
-
----
-
-## 3.8 每课必须有可验证的 Learning Artifact
-
-不强制每个知识点都创建一个独立“大项目”，但每课必须有验证载体。
-
-前端常见 Learning Artifact：
-
-```text
-可运行 HTML / CSS / JavaScript
-React / Vue Demo
-单元测试
-组件测试
-E2E 测试
-DOM Snapshot
-Accessibility Tree
-Console 输出
-Network 请求 / Header / Waterfall
-Performance Record
-React Profiler 结果
-Memory Snapshot
-Bundle Report
-Lighthouse / Web Vitals 数据
-Hydration Warning
-故障复现
-安全实验
-源码 Debug 记录
-架构图
-ADR
-设计重构
-部署配置
-```
-
-统一要求：
-
-> **重要理论结论必须能够被某种证据验证，而不是只靠文字相信。**
-
----
-
-## 3.9 错误用法必须主动展示
-
-课程不能只给最佳实践。
-
-重要模块必须尽量主动展示：
-
-```text
-能运行但设计差的写法
-常见误区
-边界条件
-浏览器兼容问题
-真实 Warning / Error
-性能退化
-安全问题
-错误优化
-生产故障
-```
-
-并回答：
-
-```text
-为什么它能工作？
-为什么仍然有问题？
-什么时候暴露？
-如何观察 / 证明？
-怎么修？
-```
-
----
-
-## 3.10 源码永远不能先于行为模型
-
-SOURCE 类课程统一遵循：
-
-```text
-先会使用
+具体在哪里写
 ↓
-理解外部现象
+为什么这样写
 ↓
-自己猜内部可能怎么实现
+什么时候运行
 ↓
-画出假想流程
+运行看到什么
 ↓
-设置断点
+为什么出现
 ↓
-Debug
+理论上叫什么
 ↓
-观察核心对象 / 队列 / 状态
-↓
-整理真实源码模型
-↓
-讨论设计 Trade-off
+与其他对象是什么关系
 ```
 
-禁止一上来背 React Fiber、Vue Renderer、Vite、Webpack、TypeScript Compiler 的内部调用链。
+适合深入时继续：
+
+```text
+错误使用会怎样
+边界在哪里
+底层机制是什么
+源码如何体现
+性能成本是什么
+生产如何治理
+```
+
+统一记忆：
+
+> **范围做减法，解释做加法。**
 
 ---
 
-## 3.11 每课必须明确学习深度
+# 4. Must / Should / Expert 深度标签
 
-统一使用：
+每个 Module / Lesson 可以标记：
+
+- **Must**：正常前端开发必须掌握。要求会正确使用、理解基础心智模型、处理最常见错误。
+- **Should**：高级 / 资深前端应该掌握。要求能处理复杂场景、边界、故障、调试、性能和工程问题。
+- **Expert**：技术专家 / 前端架构师需要掌握。要求理解底层机制、关键源码、系统级性能 / 安全 / 架构取舍和治理。
+
+例如 React Effect：
 
 ```text
 Must
+→ 依赖、cleanup、取消请求、什么时候不需要 Effect
+
 Should
+→ stale closure、race condition、StrictMode、Layout Effect、外部系统同步边界
+
 Expert
+→ Render/Commit、Passive Effect、Fiber Effect 模型、源码 Debug、Effect-heavy Architecture 治理
 ```
 
-- **Must**：正常前端开发必须掌握。
-- **Should**：高级 / 资深前端应该掌握。
-- **Expert**：技术专家 / 前端架构师需要掌握。
+重要约束：
+
+> **Must / Should / Expert 不是“讲 / 不讲”的开关。**
+
+对于本课程中被定义为完整主教学 Module 的主题，最终计划范围内的三层深度都必须完成。
+
+标签的作用只是帮助学习者知道当前所处深度。
+
+---
+
+# 5. 课程基本单位
+
+## 5.1 Lesson / Knowledge Point
+
+一个 Lesson 解决一个可以单独提出、单独操作、单独验证的主问题。
 
 例如：
 
 ```text
-useState → Must
-Effect Cleanup → Must
-useTransition → Should
-useSyncExternalStore → Should
-renderToPipeableStream → Expert
-resumeAndPrerenderToNodeStream → Expert
+React 列表为什么不能随便使用 index 作为 key？
 ```
 
-避免所有 KP 看起来权重完全相同。
-
----
-
-## 3.12 安全课程不得为了“效果”制造无意义危险示例
-
-安全相关课程必须能解释漏洞机制，但实验要控制边界。
-
-例如 `dangerouslySetInnerHTML`：
-
-- 可以展示可信 HTML 与普通文本渲染的差异。
-- 必须解释 XSS 风险。
-- 不应为了“可视化效果”默认提供直接执行任意不可信 payload 的按钮。
-- 需要攻击实验时，应使用明确、隔离、无外部影响的教学场景。
-
----
-
-# 4. Level 2：Frontend Lesson Patterns
-
-一课选择一个主模式，可以组合 1～2 个辅助模式。
-
-## 4.1 BUILD-LAB：从 0 构建型
-
-适用：
-
-- HTML
-- CSS
-- JavaScript / TypeScript
-- React / Vue
-- 表单
-- 组件
-- Router
-- 状态管理
-- Node.js / BFF
-- 工程 API
-
-标准流程：
+原则上：
 
 ```text
-小需求
-↓
-最小实现
-↓
-增加一个能力
-↓
-出现问题
-↓
-只修改关键点
-↓
-运行 / 验证
-↓
-理论命名
+1 个主问题
++
+为解决它必须出现的少量辅助概念
 ```
 
----
+## 5.2 Module
 
-## 4.2 BROWSER-MECHANISM-LAB：浏览器机制实验型
+Module 是“一个知识主题一次学透”的单位。
 
-适用：
-
-- Event Loop
-- DOM / CSSOM
-- Render Tree
-- Layout / Paint
-- Event Propagation
-- Storage
-- History
-- Browser Cache
-
-标准流程：
+Module README 至少负责：
 
 ```text
-制造现象
-↓
-先预测
+模块为什么存在
+模块边界
+学习顺序
+Lesson / KP 索引
+Must / Should / Expert 分布
+机制 / 故障 / 性能 / 源码分布
+Module Project
+Definition of Done
+```
+
+## 5.3 Stage
+
+Stage 组合多个已经形成闭环的 Module，完成一个更大的能力阶段和综合项目。
+
+Stage 不是把大量无关高级名词塞在一起的容器。
+
+## 5.4 Project
+
+Project 用来组合能力，不替代知识教学。
+
+大型项目可以不给逐行答案，但必须明确：
+
+- 需求；
+- 约束；
+- 起始状态；
+- Milestone；
+- 运行方式；
+- 验收标准；
+- 故障和非功能要求。
+
+---
+
+# 6. Lesson 起始状态规范
+
+每个 Lesson README 必须有明确的“起始状态”章节。
+
+## 6.1 独立 Lesson
+
+写清：
+
+```text
+本课不继承上一课业务源码。
+本课从一个新的最小项目开始。
+```
+
+然后从创建目录和必要文件开始。
+
+## 6.2 连续演进 Lesson
+
+必须首先执行：
+
+```text
+Step 0：复制并验证上一课基线
+```
+
+推荐结构：
+
+```text
+来源课程：RE-KP006
+来源目录：...
+当前课程目录：...
+
+复制方式：...
+
+复制完成后的目录树：...
+
+进入目录：...
+安装依赖：...
+启动：...
+
+你现在应该看到：...
+
+这个基线说明：...
+
+本课将在这个基线上：
+- 修改 ...
+- 新增 ...
+- 删除 ...
+```
+
+如果仓库中的当前 Lesson 已经包含最终源码，README 仍然必须从复制起点讲解，不能要求学习者直接阅读最终源码倒推过程。
+
+---
+
+# 7. Step Contract：每一步怎么写
+
+一个 Step 只建立一个新的主要因果关系。
+
+正确例子：
+
+```text
+加入 state，让按钮点击后数字发生变化
+加入错误 key，观察组件状态错位
+增加 AbortController，取消上一轮请求
+加入 Suspense Boundary，观察 fallback 显示
+```
+
+错误例子：
+
+```text
+Step 3：完成 Redux + Router + Query + Form + 权限
+```
+
+也不要拆成纯语法碎片：
+
+```text
+Step 1：增加 import
+Step 2：增加一个 const
+Step 3：增加一个分号
+```
+
+一个合格 Step 应产生一个学习者能够说清楚的新状态或新因果关系。
+
+## 7.1 每个关键 Step 至少包含
+
+### ① 当前状态
+
+现在项目是什么状态，已经能做什么。
+
+### ② 当前问题
+
+为什么需要继续改。
+
+### ③ 本步目标
+
+这一步只解决什么。
+
+### ④ 操作对象
+
+必须写完整路径，并写清创建 / 修改 / 删除。
+
+### ⑤ 精确定位
+
+修改已有文件时写清：
+
+```text
+找到哪个函数 / JSX / CSS Rule / 配置块
+在它的什么位置修改
+替换哪一段
+```
+
+### ⑥ 本步骤代码 / Diff
+
+本步骤必须输入的关键代码不能使用 `...` 省略。
+
+### ⑦ 为什么这样写
+
+解释职责和因果关系，不机械解释每个标点。
+
+### ⑧ 当前能否运行
+
+明确：
+
+```text
+现在可以运行
+```
+
+或者：
+
+```text
+现在暂时不能运行，因为还缺少 ...；下一步完成后第一次运行。
+```
+
+### ⑨ 到可运行状态立即运行
+
+写清：
+
+```text
+在哪个目录
+执行什么命令
+打开哪个 URL / DevTools 面板
+做什么操作
+```
+
+### ⑩ 预期观察
+
+例如：
+
+```text
+页面显示什么
+Console 输出什么
+Network 出现什么请求
+DOM 发生什么变化
+Profiler / Trace 出现什么
+测试应该通过还是失败
+```
+
+### ⑪ 结果解释
+
+说明：
+
+```text
+为什么发生
+证明了什么
+理论上叫什么
+```
+
+### ⑫ 下一步为什么继续
+
+让学习链保持因果连续。
+
+---
+
+# 8. 到可运行状态立即运行
+
+课程不能长时间堆代码，到最后才第一次运行。
+
+推荐节奏：
+
+```text
+最小可运行状态
 ↓
 运行
 ↓
-记录结果
+增加一个关系
 ↓
-修改一个变量
+再运行
 ↓
-重新实验
+观察变化
 ↓
-根据结果推导机制
+解释
 ↓
-最后形成完整模型
+继续
 ```
 
----
-
-## 4.3 NETWORK-LAB：网络实验型
-
-适用：
-
-- HTTP
-- Cache
-- Cookie
-- CORS
-- SSE
-- WebSocket
-- Streaming
-- HTTP/2 / HTTP/3
-
-证据优先使用：
+Failure Lab：
 
 ```text
-DevTools Network
-curl
-Request Header
-Response Header
-Timing
-Waterfall
-Cache Status
-```
-
----
-
-## 4.4 FAILURE-LAB：故障驱动型
-
-适用：
-
-- Infinite Render
-- Infinite Effect
-- Stale Closure
-- Race Condition
-- Hydration Mismatch
-- Memory Leak
-- Chunk Load Error
-- CORS Error
-- 白屏
-- Unhandled Promise
-- Error Boundary
-- 构建 / 发布故障
-
-标准流程：
-
-```text
-正常系统
+正常基线
 ↓
-主动制造故障
+只改变一个故障条件
+↓
+运行
 ↓
 记录症状
 ↓
-提出可能原因
-↓
-使用 DevTools / 日志 / Debug 定位
-↓
-找到根因
+定位
 ↓
 修复
 ↓
-再次验证
-↓
-补防护 / 监控（适用时）
+回归
 ```
 
----
-
-## 4.5 PERFORMANCE-LAB：性能工程型
-
-适用：
-
-- LCP / INP / CLS / FCP / TTFB
-- Long Task
-- React Render
-- Bundle Size
-- Memory
-- Network
-- Animation
-- Large List
-- SSR / Streaming 性能
-
-标准流程：
+Performance Lab：
 
 ```text
 定义指标
 ↓
-建立 Baseline
+建立基线
 ↓
-记录数据
+只改变一个变量
 ↓
-只修改一个变量
-↓
-再次测试
+重新测量
 ↓
 比较
 ↓
-解释原因
-↓
-判断是否值得优化
+解释
 ```
-
-所有性能结论尽量使用数据证明。
 
 ---
 
-## 4.6 SOURCE-LAB：源码 Debug 型
+# 9. 新概念第一次出现必须讲职责
 
-适用：
+第一次出现任何新的：
 
-- React
-- Vue
-- Redux
-- React Router
-- TanStack Query
-- Vite
-- Webpack
-- TypeScript Compiler
-- 重要工具链源码
+- API；
+- Hook；
+- Component；
+- Browser Object；
+- Command；
+- Config；
+- Build Concept；
+- Protocol Field；
+- DevTools Panel；
+- Framework Internal Object；
+- Architecture Term；
+
+至少回答：
+
+1. 它是什么。
+2. 为什么当前步骤需要它。
+3. 谁创建 / 调用 / 管理它。
+4. 它与已经出现的对象什么关系。
+5. 当前先理解到哪里。
+
+禁止只贴：
+
+```tsx
+hydrateRoot(container, <App />)
+```
+
+而不解释 `hydrateRoot` 为什么此时出现。
+
+---
+
+# 10. 理论解释规范
+
+统一顺序：
+
+```text
+代码 / 操作
+↓
+真实现象
+↓
+一句人话
+↓
+专业术语
+↓
+准确定义
+↓
+当前必要原理
+↓
+更深机制 / 源码（适用时）
+```
+
+## 10.1 三层解释法
+
+### 第一层：人话
+
+先让第一次接触的人知道“它到底在干什么”。
+
+### 第二层：当前项目的可观察关系
+
+通过代码、DOM、Network、Profiler、Trace、测试、调用栈等说明真实关系。
+
+### 第三层：准确技术定义
+
+最后进入规范、运行时、框架、协议或源码语境。
+
+禁止用一个陌生抽象概念解释另一个陌生抽象概念。
+
+## 10.2 即时理论 + 末尾收束
+
+Step 内及时解释当前刚刚发生的现象；课程末尾再整理完整心智模型。
+
+不允许一直编码几十分钟，最后一次性补解释。
+
+---
+
+# 11. Learning Artifact 与证据优先
+
+重要结论必须有可观察证据。
+
+前端常见证据：
+
+```text
+DOM Tree
+Accessibility Tree
+Computed Style
+Layout / Paint
+Console
+断点 / Call Stack
+Task / Microtask 顺序
+Network Request / Response / Header / Timing
+HAR
+Application Storage
+Service Worker 状态
+Performance Trace
+Memory Heap Snapshot
+React Profiler
+Vue Devtools
+Bundle / Module Graph
+Source Map
+Hydration Warning
+测试结果
+Benchmark
+Web Vitals
+CSP Report
+架构图 / ADR / RFC
+```
+
+文字不能代替证据。
+
+证据也不能为了“显得专业”无限增加辅助设施；证据必须服务当前主问题。
+
+---
+
+# 12. 不同 Lesson Pattern
+
+所有模式都遵循：
+
+```text
+最小充分范围
++
+手把手可复刻
++
+真实证据
++
+及时理论
+```
+
+## 12.1 BUILD-LAB
+
+适用 HTML/CSS/JS/TS/React/Vue/组件/表单/Router/Node/BFF 等。
+
+```text
+准备最小项目
+↓
+增加一个能力
+↓
+运行
+↓
+观察
+↓
+解释
+↓
+继续
+```
+
+## 12.2 BROWSER-MECHANISM-LAB
+
+适用 DOM、CSSOM、Render、Event Loop、Storage、History、Worker 等。
+
+```text
+建立最小实验
+↓
+预测
+↓
+运行
+↓
+记录
+↓
+只改变一个变量
+↓
+再次运行
+↓
+推导机制
+```
+
+## 12.3 NETWORK-LAB
+
+首选：
+
+```text
+DevTools Network
+curl
+Header
+Timing
+Waterfall
+Cache 状态
+```
+
+## 12.4 FAILURE-LAB
+
+```text
+正常基线
+↓
+一个故障条件
+↓
+症状
+↓
+假设
+↓
+证据
+↓
+根因
+↓
+修复
+↓
+回归
+↓
+防护 / 监控
+```
+
+## 12.5 PERFORMANCE-LAB
+
+至少包含：
+
+```text
+环境
+指标
+基线
+单变量修改
+多轮数据
+Profiler / Trace / RUM 等证据
+结论边界
+```
+
+## 12.6 SOURCE-LAB
+
+源码课必须先有最小、独立、可运行触发项目。
 
 流程：
 
 ```text
-先会使用
+先会用
 ↓
-理解表面行为
+观察外部行为
 ↓
-猜内部实现
+提出内部实现假设
+↓
+确定源码版本 / Commit
 ↓
 设计断点
 ↓
-Debug
+运行触发项目
 ↓
-记录关键状态
+观察关键对象 / 变量 / 调用栈
 ↓
-整理调用模型
+得到真实调用模型
 ↓
-分析设计 Trade-off
+分析 Trade-off
 ```
+
+源码课至少写清：
+
+- 源码仓库和版本 / Commit；
+- 触发入口；
+- 断点类 / 文件 / 函数；
+- 关键变量；
+- 调用栈；
+- 下一断点；
+- 最终验证结论。
 
 禁止机械逐行抄源码。
 
----
+## 12.7 SECURITY-LAB
 
-## 4.7 SECURITY-LAB：Web 安全实验型
-
-适用：
-
-- XSS
-- CSRF
-- CSP
-- CORS
-- Cookie Security
-- DOM XSS
-- Prototype Pollution
-- Supply Chain Security
-
-重点是：
+受控环境中完成：
 
 ```text
-安全边界
+信任边界
 ↓
-可控实验
+漏洞 / 风险现象
 ↓
-真实证据
+证据
 ↓
 修复
 ↓
 防御模型
+↓
+自动验证
 ```
 
----
+## 12.8 A11Y-LAB
 
-## 4.8 A11Y-LAB：可访问性实验型
-
-适用：
-
-- HTML Semantics
-- Keyboard
-- Focus
-- ARIA
-- Screen Reader
-- Contrast
-- Accessibility Tree
-
-典型流程：
+至少关注：
 
 ```text
-div onClick
-↓
-Tab 无法聚焦
-↓
-Keyboard 无法激活
-↓
-Accessibility Tree 语义错误
-↓
-改为 button
-↓
-再次验证
-↓
-形成原生语义优先原则
+Keyboard
+Focus
+Semantic
+ARIA
+Accessibility Tree
+Screen Reader（适用时）
 ```
 
----
+## 12.9 ARCHITECTURE-LAB
 
-## 4.9 ARCHITECTURE-LAB：架构 / Trade-off 型
-
-适用：
-
-- 状态架构
-- 组件库 / 设计系统
-- Monorepo
-- 微前端
-- SSR 架构
-- BFF
-- 跨端
-- 缓存策略
-- 模块边界
-- 大型应用演进
-- 技术治理
-
-Learning Artifact 可以是：
+通过最小但足够真实的案例完成：
 
 ```text
-ADR
-架构图
-Trade-off 表
-迁移方案
-重构前后代码
-容量模型
-故障模型
+问题
+约束
+选项
+Trade-off
+决策
+验证
+失败模型
+迁移 / 退出策略
 ```
 
-不强制为了“有代码”创建无意义 Demo。
+产物可以是 ADR、RFC、C4、时序图、容量模型、迁移方案，不为了“有代码”强行制造无意义 Demo。
 
----
+## 12.10 PROJECT-LAB
 
-## 4.10 PROJECT-LAB：综合项目型
-
-适用：Module / Stage 综合项目。
-
-流程：
+项目比单课更大，但仍必须从自己的零状态或明确基线介绍：
 
 ```text
 需求
-↓
 约束
-↓
-架构方案
-↓
-Milestone 1
-↓
-功能验证
-↓
-Milestone 2
-↓
-测试 / 性能 / 安全 / A11y / 可观测增强
-↓
-架构演进
-↓
+起始结构
+Milestone
+每阶段运行
+测试
+性能 / 安全 / A11Y / 可靠性
 最终验收
+复盘
 ```
-
-综合项目不能只是“大号 Todo / CRUD”。
 
 ---
 
-# 5. 推荐 Lesson / KP README 结构
-
-不是所有课程都必须机械出现全部章节，但默认应尽量覆盖以下顺序。
-
-## 0. 文档目录
-
-知识点 README 必须有可导航目录；短课也至少列出主要章节。
-
-## 1. 课程元信息
-
-推荐包含：
+# 13. Lesson README 默认结构
 
 ```text
-课程类型：BUILD-LAB / FAILURE-LAB / ...
-学习深度：Must / Should / Expert
-前置课程：上一课或必要知识
-本课主问题：一句话
-Learning Artifact：代码 / DOM / Network / Profiler / 测试 / ADR ...
-本课暂时不用理解：容易干扰当前学习的高级内容
+0. 课程信息
+1. 本课最终要做出什么
+2. 本课解决什么问题
+3. 前置知识与本课边界
+4. 本课项目 / 实验介绍
+5. 起始状态
+6. 最终会有哪些文件
+7. Step 0：从零创建或复制上一课基线
+8. Step 1～N：手把手搭建 / 实验
+9. 完整运行与验收
+10. 图解 / 执行流程 / 心智模型
+11. 理论收束
+12. Wrong Way / 故障与排查
+13. 更深原理
+14. Source Dive（适用时）
+15. Performance / Security / A11Y（适用时）
+16. Production Boundary
+17. 本课只记住 3 件事
+18. Challenge
+19. Mastery Check
+20. 最终源码与实验说明
 ```
 
-## 2. 这节课只需要搞懂什么
+不是每课机械填满所有章节，但本课需要的教学闭环不能缺失。
 
-最多 3 条，控制认知负担。
+---
 
-## 3. 前置状态
+# 14. “最终会有哪些文件”规范
 
-说明：
-
-- 上一课做到哪里。
-- 当前代码 / 页面 / 系统是什么状态。
-- 本课依赖哪些已学知识。
-- 如果是独立实验，明确说明不延续上一课业务代码。
-
-## 4. 本课主问题
-
-问题必须尽量来自：
-
-- 真实需求
-- 当前代码缺陷
-- 浏览器现象
-- 性能现象
-- 故障
-- 安全边界
-- 工程限制
-- 架构约束
-
-## 5. 先预测
-
-揭晓答案前，让学习者判断：
+正式编码前，应先预览最终会创建的核心文件和职责，例如：
 
 ```text
-你觉得会发生什么？
-为什么？
+src/
+├── App.tsx              # 页面入口
+├── components/
+│   └── UserList.tsx     # 当前知识点主要发生位置
+└── api/
+    └── users.ts         # 实验用数据访问
 ```
 
-## 6. 动手编码 / 实验：从 0 到 1
+目录树只是预览。
 
-使用 Step 0、Step 1、Step 2……
+后续 Step 仍必须逐个告诉学习者如何创建 / 修改，不能因为前面展示了目录树就省略实际操作。
 
-每个关键 Step 至少回答：
+---
 
-```text
-① 当前状态
-② 当前问题
-③ 本步目标
-④ 修改 / 操作什么
-⑤ 为什么这样改
-⑥ 代码 / Diff / 命令
-⑦ 怎么运行 / 操作
-⑧ 应该观察什么
-⑨ 实际结果说明
-⑩ 对应理论 / 当前所需原理
-```
+# 15. 核心代码与实验辅助代码
 
-课程的核心节奏应反复体现：
+README 必须区分：
 
 ```text
-写一点 → 跑一下 → 看现象 → 解释一点 → 再写一点
-```
+本课核心代码
+→ 直接证明当前知识点
 
-## 7. 图解 / 心智模型
-
-把刚才亲手做过的实验抽象成：
-
-- 关系图
-- 时序图
-- 数据流图
-- DOM / React Tree 图
-- Event Loop 图
-- Network Waterfall
-- Rendering Pipeline
-- Bundle / Module Graph
-- 架构图
-
-## 8. 理论收束
-
-此时再把各 Step 中已经经历的现象整理为完整定义和模型。
-
-模块索引中该知识点“包含内容”的每一项，都必须在 README 的 Step、图解或理论收束中得到覆盖，不能漏项。
-
-## 9. Wrong Way / 边界
-
-主动展示错误方案、误区、异常条件或不适用场景（适用时）。
-
-## 10. 更深原理
-
-解释为什么刚才的行为会这样，但不要一次跳到学习者尚未建立直觉的高级内部实现。
-
-## 11. Source Dive（仅需要时）
-
-进入源码前必须已经建立行为模型。
-
-## 12. Production Boundary
-
-回答：
-
-```text
-生产环境什么时候应该用？
-什么时候不该用？
-常见故障是什么？
-性能 / 安全 / 兼容边界是什么？
-有什么替代方案？
-```
-
-## 13. 本课只记住 3 件事
-
-最多保留 3 个真正核心结论。
-
-## 14. Challenge
-
-让学习者自己修改 / 测量 / Debug / 设计一个东西，而不是复制答案。
-
-## 15. Mastery Check
-
-按：
-
-```text
-Must
-Should
-Expert
-```
-
-进行验收。
-
-## 16. 最终源码与实验说明
-
-README 末尾必须链接实际最终源码，并简要区分：
-
-```text
-本节核心代码
 实验辅助代码
+→ 为了日志、计时、模拟数据、故障开关、状态面板、测试存在
 ```
 
-不得再创建“完整源码讲解”章节重复粘贴整份 Final Source。
+辅助代码不能盖过知识点本体。
 
 ---
 
-# 6. Step 级教学规范
+# 16. Challenge 与教学步骤的边界
 
-BUILD / MECHANISM / FAILURE / PERFORMANCE / PROJECT 类课程中的关键 Step 推荐采用：
+## 16.1 正式 Lesson
 
-```text
-Step N：标题
+必须手把手、可复刻，不让学生猜作者省略的信息。
 
-① 当前状态
-② 当前问题
-③ 先预测
-④ 这一步只改什么
-⑤ 前后 Diff / 代码 / 操作
-⑥ 对应理论
-⑦ 运行 / 测量 / 观察
-⑧ 结果说明
-⑨ 下一步为什么继续
-```
+## 16.2 Challenge
 
-## 6.1 代码量控制
-
-- 第一次出现的新代码尽量控制在 20～30 行以内。
-- 单个 Step 尽量只改 1～3 个关键点。
-- 一次需要出现大量代码时，优先拆 Step 或展示关键 Diff。
-- 不要为了“步骤多”人为拆碎一个本来不可分割的简单动作。
-
-## 6.2 最终源码与阶段代码
-
-默认不为每课创建独立 `exercise/`、`solution/`。
-
-复杂课程如果最终源码过大、阶段变化本身就是学习重点，可以保留阶段文件 / 阶段目录，但必须由 Module Teaching Contract 明确，并避免无意义复制。
-
-例如：
+用于训练独立能力，可以只给：
 
 ```text
-kpxxx-example/
-├── README.md
-├── src/
-│   ├── step01/
-│   ├── step02/
-│   └── final/
-└── ...
+需求
+限制
+验收
 ```
 
-简单课程继续只保留实际最终源码，README 通过 Step 和 Diff 表达演进过程。
+不给逐步答案。
+
+## 16.3 Stage / Architecture Project
+
+随着能力提高，可以减少实现答案，但仍必须提供完整需求、上下文、运行环境、接口、约束和验收。
+
+> **教学清楚和挑战独立是两个不同目标，不能通过把教学文档写得含糊来训练独立能力。**
 
 ---
 
-# 7. 核心代码与实验辅助代码
+# 17. Module Teaching Contract
 
-必须明确区分：
+每个 Module 建设前必须定义 Teaching Contract，至少回答：
 
-```text
-本节核心代码：
-真正证明当前知识点的实现。
-
-实验辅助代码：
-为了展示日志、计时、按钮、状态面板、模拟数据、故障开关而存在。
-```
-
-学习者不能把观察工具误认为知识点本身。
-
-例如：
-
-- `useEffect` cleanup 是核心代码。
-- 为了显示连接数而更新 `<output>` 是实验辅助代码。
-
----
-
-# 8. Learning Artifact 领域建议
-
-| 课程领域 | 推荐 Learning Artifact |
-| --- | --- |
-| HTML | DOM、语义结构、Validator、Accessibility Tree、Keyboard |
-| CSS | Computed Style、Box Model、Layout、Paint、视觉对照 |
-| JavaScript | Console、断点、Call Stack、Task/Microtask、Memory |
-| TypeScript | 编译错误、类型推导、tsc 输出、类型测试 |
-| Browser | DevTools、DOM/CSSOM、Performance、Memory、Application |
-| HTTP / Network | Network、curl、Header、Waterfall、Cache 状态 |
-| React / Vue | 可运行 Demo、DevTools、Profiler、测试、Render 日志 |
-| SSR / Hydration | Server HTML、Hydration DOM identity、Mismatch Warning、Stream Chunk |
-| Testing | Unit/Component/E2E 测试、失败案例、覆盖关键行为 |
-| Performance | Web Vitals、Performance Record、Profiler、Bundle Report |
-| Security | 受控漏洞实验、Header、CSP、修复前后证据 |
-| A11y | Keyboard、Focus、Accessibility Tree、Screen Reader 记录 |
-| Engineering | Build Output、Bundle Graph、CI 结果、发布产物 |
-| Architecture | ADR、架构图、Trade-off、迁移计划、重构前后代码 |
+1. 这个 Module 的唯一主题是什么？
+2. 为什么它必须现在学？
+3. 它与其他 Module 的边界在哪里？
+4. 哪些内容是 Must？
+5. 哪些内容是 Should？
+6. 哪些内容是 Expert？
+7. 如何保证这个 Module 一次学透，不需要未来同名补课？
+8. Lesson 哪些从零开始？
+9. 哪些 Lesson 需要复制上一课演进？
+10. 连续 Lesson 的复制链如何设计？
+11. 使用哪些 DevTools / 测量 / Debug 工具？
+12. 哪些课制造故障？
+13. 哪些课做性能实验？
+14. 哪些课进入源码？
+15. 哪些课涉及安全 / A11Y / 兼容？
+16. Module Project 是什么？
+17. Module 完成后以后课程只会怎样引用它？
+18. Module Definition of Done 是什么？
 
 ---
 
-# 9. Level 3：Module Teaching Contract
+# 18. Lesson Definition of Done
 
-每个 Module 开始建设，或已有 Module 继续大规模扩展时，必须在 Module README 中增加“教学契约 / Teaching Contract”。
-
-Module README 的职责统一为：
-
-```text
-模块定位
-学习顺序 / KP 索引
-每个 KP 的“包含内容”
-完成状态
-Module Teaching Contract
-模块项目 / Definition of Done
-```
-
-至少回答：
-
-```text
-1. 模块主线问题是什么？
-2. 采用哪些 Lesson Pattern？
-3. 使用哪些观察 / 调试 / 测量工具？
-4. 是否维护持续演进案例？
-5. 每类课程的 Learning Artifact 是什么？
-6. 哪些课程进入源码？
-7. 哪些课程制造故障？
-8. 哪些课程做性能实验？
-9. 哪些课程涉及安全 / A11y？
-10. 模块综合项目是什么？
-11. Module Definition of Done 是什么？
-```
-
-例如 React Module：
-
-```text
-主模式：BUILD-LAB
-辅助模式：
-BROWSER-MECHANISM-LAB
-FAILURE-LAB
-PERFORMANCE-LAB
-SOURCE-LAB
-ARCHITECTURE-LAB
-
-主要观察工具：
-Console
-DOM
-React DevTools
-Profiler
-Network
-Performance
-Node SSR
-
-典型故障：
-Infinite Render
-Infinite Effect
-Stale Closure
-Race Condition
-Hydration Mismatch
-
-性能主线：
-Expensive Render
-Profiler
-Transition
-Bundle / SSR / Streaming
-
-高级主线：
-Suspense
-SSR
-Streaming
-RSC
-Framework Integration
-```
-
----
-
-# 10. Lesson Definition of Done
-
-一课只有满足适用项才算完成：
+一课完成至少满足适用项：
 
 ```text
 □ 有唯一主问题
-□ 明确前置状态
-□ 不默认学习者已经理解 Final Source
+□ 明确 Must / Should / Expert 深度位置
+□ 明确当前 Lesson 是零状态还是复制上一课演进
+□ 如果演进，写清来源路径、复制方法和基线验证
+□ 当前 Lesson 最终源码独立可运行
+□ 不运行时依赖上一课源码或 Dev Server
+□ 第一次打开当前课也能理解当前项目
 □ 新 API / 新概念第一次出现有职责解释
-□ 有从 0 到 1 或对应实验过程
-□ 每个关键 Step 说明为什么改
-□ 每个关键 Step 有运行 / 操作 / 测量方法
-□ 每个关键 Step 有预期观察和结果解释
-□ 理论与刚刚发生的现象有对应关系
-□ 关键修改映射对应理论
-□ 有 Learning Artifact
-□ 抽象概念有可观察模型
+□ 展示最终会创建哪些核心文件及职责
+□ 每个新文件写明完整路径
+□ 修改已有文件写明精确位置
+□ 本步骤必须输入的代码不使用 ... 省略
+□ 每个关键代码块解释为什么这样写
+□ Step 小而完整，每次主要建立一个因果关系
+□ 每一步明确当前能否运行
+□ 到可运行状态立即运行
+□ 每个运行点写清目录、命令、操作和 URL / 面板
+□ 每个运行点有预期观察
+□ 每个结果解释为什么出现、证明什么
+□ 理论紧跟刚刚发生的现象
+□ 抽象概念有真实可观察模型
 □ 有 Wrong Way / 边界案例（适用时）
-□ 故障课有真实故障证据（适用时）
-□ 性能结论有数据（适用时）
-□ 安全课明确攻击面和防护边界（适用时）
-□ Source Dive 前已经建立行为模型
+□ 故障课有正常基线、症状、根因、修复和回归
+□ 性能课有基线、单变量、数据和结论边界
+□ 安全课有受控边界和修复验证
+□ Source Dive 前有行为模型和明确源码版本
 □ 有 Production Boundary（适用时）
 □ 有“本课只记住 3 件事”
 □ 有 Challenge
-□ 有 Must / Should / Expert Mastery Check
-□ README、实际源码、文件路径、运行命令、预期结果保持一致
-□ 模块索引“包含内容”没有遗漏
+□ 有 Mastery Check
+□ README、源码、路径、命令、预期结果一致
+□ 最终源码可以从干净环境安装、运行和测试
 ```
 
-最重要的验收条件：
+最高标准：
 
-> **学习者不需要先阅读 Final Source，也可以只按 README / Lab 指引一步一步自己完成并理解本课。**
+> **一名第一次打开当前 Lesson、没有阅读 Final Source、也不记得上一课具体代码的学习者，只阅读当前 README，就能准备正确起始项目、完成全部修改、独立运行和验证，并理解每一步为什么这么做。**
 
 ---
 
-# 11. Module Definition of Done
+# 19. Module Definition of Done
 
-一个 Module 不以“所有 KP 文件都存在”为唯一完成标准。
+一个 Module 不以“Lesson 文件都存在”为完成标准。
 
-完整模块应尽量形成：
+必须形成：
 
 ```text
 为什么存在
@@ -1176,215 +1080,241 @@ Framework Integration
 ↓
 完整能力
 ↓
+高级场景
+↓
 机制 / 原理
 ↓
-错误 / 故障
+Wrong Way / Failure
 ↓
-Debug / 诊断
+Debug
 ↓
-性能
+性能 / 安全 / A11Y / 兼容（适用时）
 ↓
-生产边界
+源码（适用时）
 ↓
-架构 Trade-off
+Production Boundary
 ↓
-综合项目
+Trade-off / 架构
+↓
+综合实战
 ```
 
-并能够回答：
+并能回答：
 
-1. 为什么需要它？
-2. 怎么一步一步使用 / 构建？
-3. 底层为什么这样工作？
-4. 怎么出错？
-5. 怎么定位？
-6. 性能边界在哪里？
-7. 安全 / 兼容 / A11y 边界是什么？
-8. 什么时候不该用？
+1. 为什么需要？
+2. 怎么从零完成？
+3. 完整能力是什么？
+4. 底层为什么这样工作？
+5. 怎么出错？
+6. 怎么定位？
+7. 性能 / 安全边界在哪里？
+8. 什么时候不应该用？
 9. 替代方案是什么？
 10. 生产环境怎么设计和演进？
+11. 是否已经完整到未来不再需要同名高级 / 源码补课？
 
 ---
 
-# 12. Stage Definition of Done
+# 20. Stage Definition of Done
 
-一个 Stage 不以“所有 README 写完”为完成标准，至少应满足：
+Stage 至少满足：
 
 ```text
-□ 所有计划 Module 完成
-□ 每个新增 / 深度扩展 Module 有 Teaching Contract
-□ 每个 Module 有明确验收闭环
-□ Stage 综合项目完成
-□ 能把本 Stage 多个 Module 串联
+□ 所有计划 Module 达到自己的 Definition of Done
+□ 每个知识主题有明确 Owner Module
+□ 没有把高级 / 源码知识拆到未来同名模块
+□ Stage Project 可以独立从其起点复刻
+□ 项目能组合多个 Module
 □ 有功能验收
 □ 有机制 / 原理验收
+□ 有故障诊断验收
 □ 有测试 / 工程验收
-□ 有故障诊断验收（适用时）
-□ 有性能 / 安全 / A11y 验收（适用时）
+□ 有性能 / 安全 / A11Y / 可靠性验收（适用时）
+□ 有设计 / 复盘 / 答辩
 ```
 
-Stage 综合项目不能只是“大号 CRUD”。
+Stage 数量和 Module 数量不为了形式整齐强行固定。
 
 ---
 
-# 13. 仓库内容生成与目录规范
+# 21. 提交前必须执行三重审查
 
-本节是本仓库所有课程内容的强制落地约束。
+## 21.1 Scope Review：做减法
 
-## 13.1 KP 与 Module
-
-- 每个基础知识点独立一个目录。
-- 知识点目录使用 `kp001-standard-declaration` 形式命名；编号遵循各 Module 已定义前缀，例如 React 使用 `RE-KPxxx`。
-- 知识点目录必须包含 `README.md`。
-- Module README 必须维护目录、学习顺序、包含内容、完成状态，并在新建或深度扩展时维护 Teaching Contract。
-- Module 索引中的“包含内容”必须在知识点 README 中被完整覆盖。
-
-## 13.2 README 与源码一致性
-
-- README 中的代码片段、文件路径、命令、运行方式和预期结果必须与实际源码一致。
-- 不能写“应该可以运行”却没有对应源码。
-- 不能把实验辅助代码描述成 API / 理论本体。
-- README 最后必须链接实际 Final Source。
-- 不得设置“完整源码讲解”章节再次复制整份最终源码。
-
-## 13.3 目录与文件
-
-- 源码文件结构由课程需要决定，不限制固定文件数量。
-- 目录统一使用小写英文和连字符命名。
-- 知识点目录默认不创建独立 `exercise/`、`solution/`。
-- 复杂课程是否保留 `step01/step02/final` 等阶段版本，由 Module Teaching Contract 决定。
-
-## 13.4 综合项目
-
-- Module 综合项目统一放在模块的 `projects/` 目录下。
-- 项目目录使用 `c01-city-news` 形式命名。
-- 项目编号使用 `C01`、`C02`……，不占用 KP 编号。
-- 综合项目必须整合多个知识点，并有约束、验收和复盘，不能只是把多个 API 堆在一个 Demo 中。
-
-## 13.5 新增依赖与工具链
-
-- 不因为单个课程方便就随意修改整个 Module 的 React / Vue / Vite / TypeScript / ESLint / Test 工具链。
-- 确需新增依赖时，README 必须解释为什么需要、它属于核心能力还是实验工具。
-- 能用现有依赖完成的实验优先复用现有工具链。
-- Node-only、Browser-only、Framework-only API 必须尊重运行时边界，不能为了统一形式强行塞进错误环境。
-
----
-
-# 14. 课程作者 / AI 生成课程时的禁止项
-
-以下行为视为不符合规范：
+逐项检查：
 
 ```text
-❌ 一上来展示最终源码
-❌ 先堆完整理论，再让学习者照着抄
-❌ 用抽象概念解释另一个陌生抽象概念
-❌ 连续堆叠大量新术语
-❌ 默认学习者已经知道新 API / 新工具的职责
-❌ README 只解释 Final Version
-❌ 代码变化和理论没有映射
+这个组件能删吗？
+这个业务类能删吗？
+这个依赖能删吗？
+这个配置能删吗？
+这个 Step 能删吗？
+这个辅助场景能删吗？
+```
+
+删除后仍能完整证明主问题，则删除。
+
+## 21.2 Depth Review：做加法
+
+逐项检查本课核心知识：
+
+```text
+为什么需要？
+是什么？
+在哪里写？
+为什么写这里？
+谁创建 / 调用 / 管理？
+为什么产生这个结果？
+专业上叫什么？
+边界是什么？
+错误会怎样？
+当前深度是否足够？
+```
+
+有一项无法回答，就补讲解。
+
+## 21.3 Evidence Review：查证据
+
+逐项检查：
+
+```text
+核心结论在哪里被运行 / DevTools / 测试 / Trace / 源码证明？
+```
+
+没有证据的关键结论不能仅靠文字宣称。
+
+---
+
+# 22. 从空目录重新跟做
+
+课程提交前，作者 / AI 必须：
+
+1. 不先阅读最终源码。
+2. 按 README 从空目录开始，或严格执行 README 声明的上一课复制步骤。
+3. 逐步创建和修改。
+4. 执行所有声明的运行点。
+5. 核对页面、Console、Network、测试和其他证据。
+6. 确保 README 中没有依赖作者脑中“默认知识”的跳步。
+
+---
+
+# 23. 课程内容禁止项
+
+```text
+❌ 一上来展示 Final Source 要学生自己看懂
+❌ 默认上一课代码学生记得很清楚
+❌ 只写“基于上一课继续”却不给复制和基线步骤
+❌ 当前 Lesson 最终源码必须引用上一课目录
+❌ 因为操作简单就不告诉文件路径和位置
+❌ 因为是高级课就故意省略关键施工步骤
+❌ 用“这是常识”省略当前必须操作
+❌ 连续堆大量新术语
 ❌ API 列表式教学
-❌ 每个 Step 一次改太多关键点
-❌ 写完很多代码后才统一解释前面所有原因
-❌ 源码调用链直接给答案，没有行为模型和 Debug 过程
-❌ 只讲正确用法，不展示关键 Wrong Way / 边界
-❌ 性能结论没有数据
-❌ 故障课程没有真实症状
-❌ 安全课程为了效果默认执行不可信输入
-❌ 测试只追覆盖率，没有证明课程结论
-❌ 架构课为了“有代码”强行创建无意义 Demo
-❌ README、源码、命令、预期结果互相不一致
-❌ 每课随意切换完全不同业务背景，增加无关认知成本
+❌ 一个 Step 改多个不相关机制
+❌ Step 拆成没有新因果关系的语法碎片
+❌ 一直写到最后才第一次运行
+❌ 写完大量代码后才统一解释原因
+❌ 新 API 第一次出现不解释职责
+❌ 只讲正确用法，不展示关键 Wrong Way / Failure
+❌ 性能结论没有基线和数据
+❌ 故障课没有真实症状和回归
+❌ Source Dive 没有最小触发项目和明确源码版本
+❌ 架构课只有图，没有约束、取舍、失败和退出策略
+❌ 以后再开同名“高级篇 / 原理篇 / 源码篇”弥补 Module 没讲透
+❌ README、源码、路径、命令和预期结果不一致
 ```
 
 ---
 
-# 15. 对已有课程的处理原则
+# 24. 课程目录原则
 
-本规范从 v1.0 开始作为所有新增课程和继续建设课程的默认标准。
-
-已有课程**不要求一次性全部推倒重写**。
-
-但以下情况必须逐步升级：
-
-1. Module 后续继续扩展。
-2. 课程被确认“理论先行、过于抽象”。
-3. README 默认学习者已经理解 Final Source。
-4. 机制课缺少可观察实验。
-5. 故障课没有真实故障现象。
-6. 性能课没有数据。
-7. 高级源码课程缺少前置行为模型。
-8. README 与实际源码、路径或运行方式明显不一致。
-
-优先升级对后续学习影响最大的领域：
+知识点目录可以使用稳定编号，例如：
 
 ```text
-JavaScript Async / Event Loop
-React State / Effect
-Concurrent Rendering
-Suspense
-SSR / Hydration / Streaming
-Browser Rendering
-Network / Cache
-Web Security
-Performance
+kp001-...
+kp002-...
 ```
+
+每个需要源码的 Lesson 目录必须保存当前 Lesson 的完整最终成果。
+
+连续课程可以在生成当前 Lesson 时从上一课复制，但**提交到仓库后，当前 Lesson 必须自己完整存在**。
+
+简单课默认不需要同时维护 `exercise/`、`solution/` 两套重复源码。
+
+README 是施工教程；课程目录中的源码是最终核对、测试和排障成果。
 
 ---
 
-# 16. 最终能力目标
+# 25. 不同领域的首选证据
 
-这套课程的目标不是：
-
-```text
-看完很多 README
-背下很多 API
-记住很多框架名称
-```
-
-而是让学习者形成：
-
-```text
-我知道这个问题为什么出现
-        ↓
-我亲手制造 / 观察过它
-        ↓
-我能一步一步把它实现 / 修复 / 验证出来
-        ↓
-我知道每一步为什么改
-        ↓
-我知道刚才的行为在理论上叫什么
-        ↓
-我知道浏览器 / 运行时 / 框架为什么这样工作
-        ↓
-我能读关键源码
-        ↓
-我能制造和定位生产问题
-        ↓
-我能做性能、安全、稳定性分析
-        ↓
-我知道生产边界和替代方案
-        ↓
-我能做技术选型与架构演进
-```
-
-任何 Lesson、Module、Stage、Project 的设计，都应该服务于这条能力链。
+| 领域 | 首选证据 |
+| --- | --- |
+| HTML | DOM、Validator、Accessibility Tree、Keyboard |
+| CSS | Computed、Box Model、Layout、Paint、视觉对照 |
+| JavaScript | Console、断点、Call Stack、Task/Microtask、Memory |
+| TypeScript | 编译错误、类型推导、tsc、类型测试 |
+| Browser | Performance、Memory、Application、Rendering、Process/Trace（适用时） |
+| Network | curl、Network、Header、Waterfall、Cache、HAR |
+| React / Vue | 可运行 Demo、DevTools、Profiler、测试、源码断点 |
+| SSR / Hydration | Server HTML、Stream、Hydration Warning、DOM identity |
+| Testing | Unit / Component / E2E、Trace、失败样本 |
+| Performance | Web Vitals、Trace、Profiler、Bundle、RUM |
+| Security | 受控漏洞实验、Header、CSP Report、修复验证 |
+| A11Y | Keyboard、Focus、Accessibility Tree、Screen Reader |
+| Engineering | Build Output、Module Graph、CI、Artifact |
+| Architecture | ADR、RFC、C4、时序、容量、故障、迁移 |
+| Platform | 用户路径、采用率、升级率、SLO、支持成本 |
+| AI | Tool Trace、Evals、Approval、成本、时延、安全测试 |
 
 ---
 
-# 17. 最终执行原则
-
-当课程设计出现冲突时，按下面优先级判断：
+# 26. 最终执行公式
 
 ```text
-学习者能否一步一步理解并亲手验证
-        >
-是否符合固定文档模板
-        >
-是否形式统一
+确定 Module 唯一主题
+↓
+规划 Must / Should / Expert 完整闭环
+↓
+拆成一个个独立主问题
+↓
+每课先决定：零状态 or 复制上一课
+↓
+删到最小充分项目
+↓
+明确文件、位置和操作
+↓
+一次建立一个主要因果关系
+↓
+到可运行状态立即运行
+↓
+观察真实证据
+↓
+及时解释为什么
+↓
+给现象准确命名
+↓
+适用时制造故障 / Debug / 性能 / 源码实验
+↓
+完成 Production Boundary 和 Trade-off
+↓
+保证当前课源码独立可运行
+↓
+完成 Module 后不再开同名补课
+↓
+Scope / Depth / Evidence 三重审查
+↓
+从空目录或复制基线重新跟做
 ```
 
-因此：
+最终追求的不是“写得多”，而是：
 
-> **不再强制“先理论、后编码”。强制的是：问题清楚、步骤足够小、每一步可观察、每一步及时解释、理论能由证据推出、最终源码和文档完全一致。**
-
-这就是 `learn-frontend-web` 后续课程建设的统一标准。
+```text
+范围足够准
+项目足够小
+步骤足够清楚
+文件位置足够明确
+解释足够深
+证据足够真
+源码能够独立运行
+Module 真正一次学透
+```
