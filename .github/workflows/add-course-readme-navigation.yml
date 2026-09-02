@@ -1,0 +1,162 @@
+name: Add course README navigation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-course-readme-navigation.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add stable navigation to course READMEs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          NAV_START = '<!-- NAVIGATION:START -->'
+          NAV_END = '<!-- NAVIGATION:END -->'
+
+          def remove_nav(text: str) -> str:
+              text = re.sub(r'\n?' + re.escape(NAV_START) + r'.*?' + re.escape(NAV_END) + r'\n?', '\n', text, flags=re.S)
+              return text
+
+          def remove_generated_anchors(text: str) -> str:
+              text = re.sub(r'(?m)^<a id="(?:section-[0-9-]+|stage-\d{2}|module-11-\d{2})"></a>\n', '', text)
+              return text
+
+          def add_section_anchors(text: str) -> str:
+              def repl_h1(m):
+                  number = m.group(1).replace('.', '-')
+                  return f'<a id="section-{number}"></a>\n{m.group(0)}'
+              text = re.sub(r'(?m)^# (\d+)\. .+$', repl_h1, text)
+
+              def repl_h2(m):
+                  number = m.group(1).replace('.', '-')
+                  return f'<a id="section-{number}"></a>\n{m.group(0)}'
+              text = re.sub(r'(?m)^## (\d+\.\d+) .+$', repl_h2, text)
+              return text
+
+          def insert_after_intro_separator(text: str, nav: str) -> str:
+              marker = '\n---\n\n<a id="section-1"></a>\n# 1.'
+              if marker not in text:
+                  raise SystemExit('intro separator / section 1 marker not found')
+              return text.replace(
+                  marker,
+                  '\n---\n\n' + NAV_START + '\n' + nav.rstrip() + '\n' + NAV_END + '\n\n---\n\n<a id="section-1"></a>\n# 1.',
+                  1,
+              )
+
+          # -----------------------------------------------------------------
+          # Course master README: top-level sections + Stage 00-30 navigation
+          # -----------------------------------------------------------------
+          course_path = Path('learn-frontend-web-course/README.md')
+          course = course_path.read_text(encoding='utf-8')
+          course = remove_nav(course)
+          course = remove_generated_anchors(course)
+          course = add_section_anchors(course)
+
+          stage_matches = re.findall(r'(?m)^# Stage (\d{2})：(.+)$', course)
+          if len(stage_matches) != 31:
+              raise SystemExit(f'expected 31 stages, got {len(stage_matches)}')
+
+          for num, title in stage_matches:
+              heading = f'# Stage {num}：{title}'
+              course = course.replace(heading, f'<a id="stage-{num}"></a>\n{heading}', 1)
+
+          course_sections = re.findall(r'(?m)^# (\d+)\. (.+)$', course)
+          section_lines = []
+          for num, title in course_sections:
+              section_lines.append(f'- [{num}. {title}](#section-{num})')
+
+          stage_lines = []
+          for num, title in stage_matches:
+              stage_lines.append(f'- [Stage {num}：{title}](#stage-{num})')
+              if num == '11':
+                  stage_lines.append('  - [React Stage 11：Module / Lesson 详细大纲](./stage11-react/README.md)')
+
+          course_nav = '\n'.join([
+              '## 导航目录',
+              '',
+              '> 总纲目录只导航到 Section / Stage；具体 Stage 内部再导航到 Module，避免目录本身变成另一份超长正文。',
+              '',
+              '### 文档入口',
+              '',
+              '- [统一教学与课程编写规范](./FRONTEND_TEACHING_GUIDE.md)',
+              '- [React Stage 11 详细大纲](./stage11-react/README.md)',
+              '',
+              '### 总纲章节',
+              '',
+              *section_lines,
+              '',
+              '### Stage 导航',
+              '',
+              *stage_lines,
+          ])
+          course = insert_after_intro_separator(course, course_nav)
+          course_path.write_text(course, encoding='utf-8')
+
+          # -----------------------------------------------------------------
+          # React Stage README: top-level sections + Module 11.01-11.35
+          # -----------------------------------------------------------------
+          react_path = Path('learn-frontend-web-course/stage11-react/README.md')
+          react = react_path.read_text(encoding='utf-8')
+          react = remove_nav(react)
+          react = remove_generated_anchors(react)
+          react = add_section_anchors(react)
+
+          module_matches = re.findall(r'(?m)^# Module 11\.(\d{2})：(.+)$', react)
+          if len(module_matches) != 35:
+              raise SystemExit(f'expected 35 React modules, got {len(module_matches)}')
+
+          for num, title in module_matches:
+              heading = f'# Module 11.{num}：{title}'
+              react = react.replace(heading, f'<a id="module-11-{num}"></a>\n{heading}', 1)
+
+          react_sections = re.findall(r'(?m)^# (\d+)\. (.+)$', react)
+          react_section_lines = [f'- [{num}. {title}](#section-{num})' for num, title in react_sections]
+          module_lines = [f'  - [Module 11.{num}：{title}](#module-11-{num})' for num, title in module_matches]
+
+          react_nav = '\n'.join([
+              '## 导航目录',
+              '',
+              '> React 大纲包含大量 Lesson；这里导航到 Module 层级，进入 Module 后再顺序阅读 Lesson，避免把 700+ Lesson 全堆进目录。',
+              '',
+              '- [返回前端课程总纲](../README.md)',
+              '- [统一教学与课程编写规范](../FRONTEND_TEACHING_GUIDE.md)',
+              '',
+              *react_section_lines[:3],
+              *module_lines,
+              *react_section_lines[3:],
+          ])
+          react = insert_after_intro_separator(react, react_nav)
+          react_path.write_text(react, encoding='utf-8')
+
+          # Final assertions
+          final_course = course_path.read_text(encoding='utf-8')
+          final_react = react_path.read_text(encoding='utf-8')
+          assert final_course.count(NAV_START) == 1
+          assert final_react.count(NAV_START) == 1
+          assert len(re.findall(r'(?m)^<a id="stage-\d{2}"></a>$', final_course)) == 31
+          assert len(re.findall(r'(?m)^<a id="module-11-\d{2}"></a>$', final_react)) == 35
+          print('course navigation: 31 stages')
+          print('react navigation: 35 modules')
+          PY
+
+      - name: Commit navigation and remove one-shot workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/add-course-readme-navigation.yml
+          git add learn-frontend-web-course/README.md learn-frontend-web-course/stage11-react/README.md
+          git commit -m 'add navigation to course READMEs'
+          git push origin HEAD:main
