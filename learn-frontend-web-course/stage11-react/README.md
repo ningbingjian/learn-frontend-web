@@ -1,6 +1,6 @@
 # Stage 11：React 完整体系
 
-> 版本：v1.1-draft  
+> 版本：v1.2-draft  
 > 基线日期：2026-09-02  
 > React 基线：React 19.2.x Stable；正式课程编写时使用当时最新稳定补丁并重新核验官方文档、安全公告和生态兼容性。  
 > 上级总纲：[`../README.md`](../README.md)  
@@ -76,7 +76,7 @@ Stage
 6. Module 的 Must / Should / Expert 深度通过多个 Lesson 在本 Module 内一次闭环，不能未来再补“高级篇 / 源码篇”。
 7. Lesson ID 使用稳定语义 ID；即使后续调整 Module 顺序，引用关系也尽量不被破坏。
 
-下面先把 `Module 11.01 ～ 11.08` 完整拆成 Lesson，用来确定 Stage 11 后续统一粒度。
+当前已经把 `Module 11.01 ～ 11.18` 拆到 Lesson 粒度；后续继续保持完全相同的规则向 11.78 推进。
 
 ---
 
@@ -520,61 +520,769 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 # Module 11.09：React Event System
 
-完整学习 Event Handler、Function Reference、SyntheticEvent、nativeEvent、Capture/Bubble、target/currentTarget、preventDefault、stopPropagation、Keyboard、Pointer、Input、Composition、Event Delegation 和 Event Priority 前置模型。
+本 Module 从最基础的点击事件一路学习到 SyntheticEvent、传播模型、默认行为、键盘/指针/输入事件、IME、事件委托、TypeScript 事件类型和 React Event Priority 前置模型。目标不是背 `onClick`，而是能够解释浏览器事件如何进入 React，再如何驱动状态更新。
+
+### Lesson RE-EVENT-001：React 事件处理器和普通函数调用有什么区别
+
+从 `onClick={handleClick}`、`onClick={handleClick()}` 和内联箭头函数对比开始，理解“传递函数”与“立即调用函数”的区别，以及为什么初学者经常在 Render 阶段误触发事件逻辑。
+
+### Lesson RE-EVENT-002：第一个 Click Event 到底经历了什么
+
+从用户点击 DOM 开始，观察浏览器 Native Event、React Event Handler、Component 代码之间的调用链，建立浏览器事件进入 React 的第一张时序图。
+
+### Lesson RE-EVENT-003：SyntheticEvent 是什么，为什么 React 不直接把所有细节暴露成原生事件
+
+查看 SyntheticEvent 常用字段、`nativeEvent` 和跨浏览器抽象，理解 React 事件对象与 DOM Event 的关系以及哪些场景需要回到原生事件。
+
+### Lesson RE-EVENT-004：target 与 currentTarget 为什么经常被混淆
+
+通过嵌套按钮/列表点击实验观察 `target` 与 `currentTarget`，建立事件真正发生位置和当前处理器挂载位置的区别。
+
+### Lesson RE-EVENT-005：Capture、Target、Bubble 三个阶段如何工作
+
+先回顾浏览器传播模型，再在 React 中分别注册 Capture / Bubble Handler，通过日志验证事件传播顺序。
+
+### Lesson RE-EVENT-006：stopPropagation 到底停止了什么
+
+主动加入父子事件处理器，比较不停止、停止传播以及错误滥用 `stopPropagation` 的行为，理解它为何可能破坏组件组合和全局交互。
+
+### Lesson RE-EVENT-007：preventDefault 与“阻止事件传播”完全不是一回事
+
+使用 Link、Form、Checkbox 等默认行为案例区分 Default Action 与 Event Propagation，并观察 `defaultPrevented`。
+
+### Lesson RE-EVENT-008：React 为什么常常不需要手工做 Event Delegation
+
+通过大列表点击场景理解 React DOM 的事件委托高层模型，同时学习什么时候业务层自己的 delegation 仍然有价值。
+
+### Lesson RE-EVENT-009：Keyboard Event 如何设计可用交互
+
+覆盖 key/code、Enter、Escape、Arrow、Modifier，结合按钮/菜单/快捷键场景讨论重复按键、输入焦点和 A11Y 边界。
+
+### Lesson RE-EVENT-010：Mouse、Pointer、Touch 应该怎么选
+
+比较 MouseEvent、PointerEvent、Touch 兼容模型，理解 Pointer Capture、pressure、pointerId，并避免为桌面和触屏维护两套交互逻辑。
+
+### Lesson RE-EVENT-011：Input、Change、BeforeInput 到底有什么差异
+
+通过文本输入、删除、粘贴实验观察浏览器输入事件和 React `onChange` 的行为，为 Form Module 建立正确前置知识。
+
+### Lesson RE-EVENT-012：中文输入法为什么会让“实时搜索”出 Bug
+
+使用 CompositionStart / CompositionUpdate / CompositionEnd 复现中文/日文 IME 场景，理解不能把每一次 input 都当成最终用户输入。
+
+### Lesson RE-EVENT-013：事件处理器里的异步代码会遇到什么状态问题
+
+在事件处理器中加入 Promise / setTimeout，先观察事件参数、闭包和未来 State 的关系，为 Render Snapshot / Stale State Module 建立前置问题。
+
+### Lesson RE-EVENT-014：React Event Priority 先建立什么心智模型
+
+通过点击、输入与 Transition 的高层比较认识离散/连续事件的优先级概念，只建立“不同交互更新紧急程度不同”的模型，源码细节留到 Lane / Scheduler Module。
+
+### Lesson RE-EVENT-015：TypeScript 如何正确标注 React Event
+
+系统练习 MouseEvent、KeyboardEvent、ChangeEvent、FormEvent、PointerEvent，以及从 handler 参数推导类型，避免到处写 `any`。
+
+### Lesson RE-EVENT-016：事件 API 设计——组件到底应该暴露 onClick 还是业务动作
+
+从 Button、Dialog、ProductCard 等案例比较 DOM-oriented API 与 domain-oriented callback，学习组件公共 API 的语义边界。
+
+### Lesson RE-EVENT-017：事件故障综合——重复触发、冒泡冲突、默认行为与 IME
+
+组合制造四类常见事件 Bug，用 DevTools、日志和最小复现逐个解释根因并修复。
+
+### Lesson RE-EVENT-018：综合实现——给 Product Catalog 加入第一批真实交互
+
+在不使用 State Manager、Router、Query、Effect 的前提下，为当前项目加入可由 Props/Callback 驱动的操作和键盘交互，为下一 Module 的 State 做自然过渡。
 
 ---
 
 # Module 11.10：State 与 useState 一次学透
 
-完整学习 State 为什么存在、普通变量为什么不能驱动 UI、Hook、useState、Lazy Initialization、Setter、Object.is、Object/Array State、Immutable Update、Same-value Update、State 生命周期和 Hook Storage 心智模型。
+本 Module 负责建立 React State 的基本存储与更新模型：为什么普通变量不够、State 属于谁、`useState` 返回什么、Setter 为什么不是赋值、初始化与重置如何工作。复杂队列/Batching 在下一 Module，Object/Array 不可变更新在 11.12 深入。
+
+### Lesson RE-STATE-001：普通局部变量为什么不能驱动 React UI
+
+先做一个普通 `let count` Counter，观察变量确实变化但 UI 不更新；再解释 Render、局部变量生命周期和“触发下一次 Render”是三个不同问题。
+
+### Lesson RE-STATE-002：第一个 useState
+
+从 `[count, setCount] = useState(0)` 开始，逐个解释 Hook 调用、当前 State 值、Setter 和初始值，而不是把数组解构当成模板代码。
+
+### Lesson RE-STATE-003：State 到底存在哪里
+
+通过 Component Function 每次重新执行但 State 仍保留的现象，建立“State 不存在局部变量里，而由 React 按组件身份管理”的核心模型。
+
+### Lesson RE-STATE-004：Setter 为什么不是普通赋值语句
+
+比较 `count = 1` 与 `setCount(1)`，理解 Setter 的职责是请求 React 安排一次更新，而不是修改当前 Render 中的变量。
+
+### Lesson RE-STATE-005：一次 State Update 如何触发下一次 Render
+
+用 Console、React DevTools 观察事件 → Setter → 下一次 Component Function 执行 → 新 UI 的过程，先建立不涉及源码的完整行为链。
+
+### Lesson RE-STATE-006：Initial State 为什么只在初始化时生效
+
+修改 Props / 变量后再次经过 `useState(initialValue)`，观察初始值不会每次覆盖已有 State，理解 mount 与 update 的差异。
+
+### Lesson RE-STATE-007：Lazy Initialization 解决什么问题
+
+把昂贵初始化函数分别写成 `useState(expensive())` 和 `useState(expensive)`，通过调用次数证明 Lazy Init 的真实价值。
+
+### Lesson RE-STATE-008：Same-value Update 为什么可能不产生可见更新
+
+使用重复 `setCount(count)` / `setCount(0)`，理解 React 对相同 State 的处理以及 `Object.is` 在状态比较中的意义。
+
+### Lesson RE-STATE-009：一个组件里可以有多少份 State
+
+比较一个对象 State 与多个独立 State，讨论状态关联性、更新频率和可维护性，但把复杂 State Shape 决策留到 State Modeling Module。
+
+### Lesson RE-STATE-010：State 是私有的吗
+
+渲染两个相同 Counter，观察它们拥有独立 State；再由父组件保存共享值，建立 Local State 与 Shared State 的第一层直觉。
+
+### Lesson RE-STATE-011：Props 改变为什么不会自动重新初始化 State
+
+复现“从 Props 初始化 State 后 Props 更新但 State 不跟着变”的常见 Bug，引出 Derived / Duplicate State 问题，完整处理留到 11.14。
+
+### Lesson RE-STATE-012：State Hook 的调用顺序为什么必须稳定
+
+通过条件调用 `useState` 制造 Hook Rule 错误，先从行为层解释 React 依赖调用顺序识别 Hook State，源码细节留到 Hooks Internals。
+
+### Lesson RE-STATE-013：什么时候应该用 State，什么时候普通变量或 Ref 更合适
+
+用 UI 可见数据、临时计算、跨 Render 非 UI 数据三个场景建立第一版选择规则，Ref 在后续 Module 完整学习。
+
+### Lesson RE-STATE-014：综合实现——可编辑数量与选择状态
+
+把上一 Module 的交互升级为真正可保存的 UI State，实现选择、数量和开关，并明确每一份 State 为什么存在。
 
 ---
 
 # Module 11.11：Render Snapshot、Update Queue 与 Batching
 
-通过连续 setState 实验学习 Render Snapshot、Closure、Update Queue、Replace Update、Functional Updater、Batching、Scheduling、Event Boundary、Async Callback 和 Stale State。
+本 Module 解释 React State 最核心的时间模型：每次 Render 都看到自己的 Snapshot，Setter 把 Update 放入 Queue，React 再按规则处理队列和 Batching。完成后必须能解释“为什么代码按这个顺序写，结果却不是普通变量直觉”。
+
+### Lesson RE-SNAPSHOT-001：什么叫一次 Render 的 State Snapshot
+
+在事件处理器和 JSX 中同时打印 State，观察一次 Render 内读取到的是固定值，建立 Snapshot 概念。
+
+### Lesson RE-SNAPSHOT-002：为什么 setState 后马上 console.log 还是旧值
+
+通过最小实验解释 Setter 安排未来 Render，而当前函数闭包仍然属于当前 Snapshot。
+
+### Lesson RE-SNAPSHOT-003：事件处理器为什么“记住”它创建时的 State
+
+保存旧 Render 的 handler 并延迟调用，观察 Closure 与 Render Snapshot 的组合行为。
+
+### Lesson RE-SNAPSHOT-004：连续三次 setCount(count + 1) 为什么不是 +3
+
+逐次记录三个 Update 的输入值，解释它们都基于同一 Snapshot 计算 replacement value。
+
+### Lesson RE-SNAPSHOT-005：Functional Updater 为什么能解决连续累加
+
+使用 `setCount(c => c + 1)`，把 Updater 看作“等待 React 处理的计算步骤”，而不是特殊语法。
+
+### Lesson RE-SNAPSHOT-006：Replace Update 与 Updater Function 可以混在一起吗
+
+组合 `setNumber(number + 5)`、`setNumber(n => n + 1)` 等实验，手工推演最终结果。
+
+### Lesson RE-SNAPSHOT-007：Update Queue 到底保存了什么
+
+在不进入 React 源码的前提下建立 Queue 项、replacement/updater、处理顺序和 next state 的行为模型。
+
+### Lesson RE-SNAPSHOT-008：Batching 是什么，为什么 React 要批量处理更新
+
+在一次 Click Handler 中触发多个 Setter，观察 Render 次数与最终值，理解批处理对一致性和性能的意义。
+
+### Lesson RE-SNAPSHOT-009：React 18+ 的 Automatic Batching 扩展到了哪些异步边界
+
+比较事件、Promise、setTimeout 等场景，观察现代 React 自动批处理行为，并认识与旧版本 React 的历史差异。
+
+### Lesson RE-SNAPSHOT-010：什么时候会需要 flushSync，为什么它应该很少用
+
+只建立紧急 DOM 同步场景和性能代价的概念，完整 `flushSync` 边界在 React DOM Integration Module 再深入。
+
+### Lesson RE-SNAPSHOT-011：Async Callback 为什么容易读到旧 Snapshot
+
+使用 Timer / Promise 复现“延迟逻辑读取旧 State”，区分逻辑真正需要旧值还是最新值。
+
+### Lesson RE-SNAPSHOT-012：Stale State 与 Stale Closure 是同一个问题吗
+
+比较“计算 next state 用旧值”和“异步闭包捕获旧 Render”两个问题，为 Effect 中 Stale Closure 做准确术语准备。
+
+### Lesson RE-SNAPSHOT-013：跨多个 State 的更新如何保持业务一致性
+
+用订单数量 + 总价的错误示例讨论独立 Setter、派生值和 Reducer 前置，不提前教授 Reducer API。
+
+### Lesson RE-SNAPSHOT-014：使用测试验证 Update Queue 与 Batching 行为
+
+把几个“看起来反直觉”的 State 更新写成可重复测试，让理论结论由运行证据固定下来。
+
+### Lesson RE-SNAPSHOT-015：从行为模型连接到未来的 Fiber Update Queue
+
+画出 `setState → Update → Queue → Render` 的高层图，只标记未来源码 Module 将继续验证的位置。
+
+### Lesson RE-SNAPSHOT-016：综合推演——十组 State Update 最终结果
+
+给出 replacement、functional updater、async callback、multiple state 的混合案例，要求先手工预测再运行验证，真正形成 Snapshot/Queue 心智模型。
 
 ---
 
 # Module 11.12：Object / Array State 与不可变更新
 
-学习 Reference、Shallow Copy、Nested Update、Normalization、Immutable、Mutation、Immer 类方案的取舍以及 State Shape 对维护和 Render 的影响。
+本 Module 解决复杂 State 的引用、Mutation 与结构更新问题。完成后不仅会 spread，还要理解为什么 React、Memoization、Concurrent Render 和未来 Compiler 都依赖可预测的不可变更新习惯。
+
+### Lesson RE-IMMUTABLE-001：Primitive State 与 Reference State 有什么本质差异
+
+比较 Number/String 与 Object/Array 的值和引用，理解 React State 中存的是引用值这一事实。
+
+### Lesson RE-IMMUTABLE-002：直接修改对象以后为什么 UI 可能不更新
+
+复现 `state.user.name = ...; setState(state)`，观察引用未变化带来的问题，并联系 Same-value Update。
+
+### Lesson RE-IMMUTABLE-003：Shallow Copy 到底复制了什么
+
+用展开运算符复制对象并比较 nested reference，理解 shallow copy 不等于 deep clone。
+
+### Lesson RE-IMMUTABLE-004：正确更新一层 Object State
+
+实践 property replace、multiple fields、dynamic key，并保持旧对象不变。
+
+### Lesson RE-IMMUTABLE-005：Nested Object State 应该怎么更新
+
+手工逐层 copy，观察代码复杂度并为 State Shape / Normalization 做铺垫。
+
+### Lesson RE-IMMUTABLE-006：Array append / prepend / remove / replace 的不可变写法
+
+使用 spread、filter、map 等已有 JavaScript 能力完成常见更新。
+
+### Lesson RE-IMMUTABLE-007：Array sort / reverse 为什么特别容易误改 State
+
+复现原地 sort/reverse 造成的 Mutation，并使用 copy-before-mutate 修复。
+
+### Lesson RE-IMMUTABLE-008：数组中的对象怎么更新
+
+处理 `Array<Object>` 中单条记录修改、删除、批量标记，避免同时修改数组和内部对象。
+
+### Lesson RE-IMMUTABLE-009：为什么“深拷贝一切”不是正确答案
+
+比较 deep clone 的性能、Prototype/Date/Map 丢失风险和无意义 identity 变化，理解只复制改变路径的原则。
+
+### Lesson RE-IMMUTABLE-010：Immer 的 Draft 为什么看起来可以直接修改
+
+引入 Immer 类方案，理解 Proxy/Draft/Structural Sharing 高层模型以及它解决的是可读性而不是取消不可变约束。
+
+### Lesson RE-IMMUTABLE-011：什么时候值得使用 Immer，什么时候普通更新更清晰
+
+用简单表单和深层编辑器两个案例比较依赖成本、Debug、Bundle、团队认知和代码复杂度。
+
+### Lesson RE-IMMUTABLE-012：Structural Sharing 与 Render Performance 有什么关系
+
+建立 unchanged reference / changed reference 对 Memoization、Selector、Context 的前置意义。
+
+### Lesson RE-IMMUTABLE-013：Mutation Bug 为什么在复杂 React 中更难排查
+
+用共享引用导致“修改 A 却影响 B”的案例，结合 Object Freeze / DevTools / Test 定位。
+
+### Lesson RE-IMMUTABLE-014：State Shape 不合理会让不可变更新变得多痛苦
+
+观察深层嵌套数据更新，提出 flatten / normalize 的问题，但完整 State Modeling 留到 11.14。
+
+### Lesson RE-IMMUTABLE-015：综合实现——可编辑订单行的不可变更新
+
+在订单数据中完成增删改、批量标记、排序与撤销前置数据结构，所有修改都通过运行测试验证原对象没有被污染。
 
 ---
 
 # Module 11.13：Component Identity 与 State Preservation
 
-学习 Tree Position、Component Type、Key、Same/Different Position、State Preserve/Reset、Conditional Tree、Tabs、Form、Modal、Hidden UI，并为 Activity 建立前置模型。
+本 Module 完整回答“React 为什么有时保留 State、有时重置 State”。这是 Key、条件渲染、Tabs、Form Reset、Activity、Reconciliation 甚至 Bug 定位的关键基础。
+
+### Lesson RE-IDENTITY-001：State 为什么必须绑定到某个组件身份
+
+从两个 Counter 独立 State 重新解释 React 如何把 State 与 Tree 中的位置关联。
+
+### Lesson RE-IDENTITY-002：相同位置 + 相同 Component Type 会发生什么
+
+切换 Props 但保持 Tree Position / Type，观察 State 被保留。
+
+### Lesson RE-IDENTITY-003：相同位置换成不同 Component Type 会发生什么
+
+在 Counter 与 Paragraph / Different Component 间切换，观察 State 被销毁并重建。
+
+### Lesson RE-IDENTITY-004：JSX 代码位置和 Tree Position 是一回事吗
+
+用条件分支看起来写了两份 JSX、实际仍落在同一 Tree Position 的例子纠正常见误解。
+
+### Lesson RE-IDENTITY-005：Key 如何主动改变组件身份
+
+在非列表场景用 Key 重置 Chat / Profile / Form，理解 Key 是 identity hint 而不只是列表属性。
+
+### Lesson RE-IDENTITY-006：为什么把 Component Definition 写在另一个 Component 内部会重置 State
+
+连接 Module 11.06 的 Nested Definition，从 Component Type 每次变新的角度完整解释。
+
+### Lesson RE-IDENTITY-007：表单什么时候应该保留，什么时候应该重置
+
+用编辑不同用户资料的场景比较 preserve state、key reset、手工清空 state 三种策略。
+
+### Lesson RE-IDENTITY-008：Tabs 切换为什么默认可能丢失隐藏页面 State
+
+比较 conditional unmount、CSS hide、保留组件树三种策略，为 Activity 做前置。
+
+### Lesson RE-IDENTITY-009：Modal / Drawer 关闭后 State 应不应该消失
+
+从业务语义而不是技术偏好决定 unmount / preserve，并讨论 Draft、Privacy、Memory 取舍。
+
+### Lesson RE-IDENTITY-010：State Preservation 与 DOM Preservation 是一回事吗
+
+观察组件 State、Fiber 身份和真实 DOM 节点复用可能不完全等价，建立更准确的分层模型。
+
+### Lesson RE-IDENTITY-011：如何用 React DevTools 判断组件到底被更新还是重新挂载
+
+通过 Profiler / mount log / Effect 前置观察区分 update 与 remount，形成实际 Debug 手段。
+
+### Lesson RE-IDENTITY-012：Identity Bug 综合——错误 Key、Nested Component、条件树
+
+一次复现三种导致意外重置/串 State 的问题，并根据 Type + Position + Key 模型定位。
+
+### Lesson RE-IDENTITY-013：从 Identity 高层模型连接到 Reconciler
+
+画出 Element Type / Key → Child Reconciliation → Fiber reuse/reset 的连接图，源码验证留到 Reconciler Module。
 
 ---
 
 # Module 11.14：State Modeling 与 Ownership
 
-学习 Minimal、Derived、Redundant、Duplicate、Impossible、Normalized、Local、Shared、URL、Server、Persistent State，State Ownership、Lift State、Controlled State 和 Single Source of Truth。
+本 Module 从“会维护 State”升级到“会设计 State”。目标是让学习者能决定哪些数据应该是 State、State 应该放在哪里、哪些 State 应被删除，以及 Client / URL / Server / Persistent State 各自的职责。
+
+### Lesson RE-MODELING-001：什么数据才有资格成为 State
+
+建立 State 的最小判定：是否随时间变化、是否影响 Render、能否由现有输入计算得到。
+
+### Lesson RE-MODELING-002：Derived State 为什么通常不应该再存一份
+
+用 items + total、firstName + fullName 等案例制造同步 Bug，改为 Render 期间计算。
+
+### Lesson RE-MODELING-003：Duplicate State 为什么最终一定会产生冲突
+
+把同一实体同时存在多个 State 中，制造更新不一致并学习 Single Source of Truth。
+
+### Lesson RE-MODELING-004：Redundant State 与 Cache 有什么区别
+
+区分“为了方便重复保存”和“有明确成本模型的 memo/cache”，避免用性能借口破坏数据一致性。
+
+### Lesson RE-MODELING-005：Impossible State 是怎么被设计出来的
+
+用 `isLoading/isSuccess/isError` 多 boolean 产生非法组合，引出 Discriminated Union / State Machine 的建模方式。
+
+### Lesson RE-MODELING-006：State Shape 应该按 UI 结构还是业务关系设计
+
+比较 deeply nested UI-shaped state 与 domain-shaped state，讨论更新、复用和测试成本。
+
+### Lesson RE-MODELING-007：什么时候应该 Normalize State
+
+处理实体被多个位置引用、列表和详情共享对象的场景，理解 id map / order list 等结构。
+
+### Lesson RE-MODELING-008：State Ownership 到底是什么意思
+
+通过两个 sibling 需要同一数据的场景，找出最近共同 Owner，而不是机械“状态提升到 App”。
+
+### Lesson RE-MODELING-009：Lifting State Up 的代价是什么
+
+观察状态提升后 Props 传递和 Render 范围扩大，理解“共享”与“全局化”不是一回事。
+
+### Lesson RE-MODELING-010：Controlled 与 Uncontrolled State 应该怎么选
+
+从 Input、Accordion、Dialog 等组件比较内部 ownership 和外部 ownership，建立可复用组件设计模式。
+
+### Lesson RE-MODELING-011：Local State、Shared State、Global State 不是三个库
+
+用生命周期和消费范围定义三者，而不是根据“组件层级深”直接选 Redux/Zustand。
+
+### Lesson RE-MODELING-012：URL State 为什么不能随便复制到 useState
+
+用 search/filter/page 参数展示 Refresh、Deep Link、Back/Forward 的需求，建立 URL 作为状态所有者的概念。
+
+### Lesson RE-MODELING-013：Server State 为什么不是普通 Global State
+
+只建立远程所有权、缓存、Stale、Refetch 的概念，完整 Query 模型留到 11.29。
+
+### Lesson RE-MODELING-014：Persistent State 为什么有独立生命周期
+
+比较 React State 与 LocalStorage/IndexedDB 数据，理解初始化、同步、版本和多标签问题。
+
+### Lesson RE-MODELING-015：Transient UI State 应该离业务数据多远
+
+讨论 hover、open、selection、draft、server entity 的不同生命周期，减少“大一统 Store”。
+
+### Lesson RE-MODELING-016：State Colocation 为什么通常是默认好策略
+
+通过把 State 从顶层移回真正消费位置，观察 Props、Render 和模块边界的改善。
+
+### Lesson RE-MODELING-017：State Modeling Code Review——删掉一半 State
+
+给出一个故意过度状态化的业务页面，逐项判断 derived / duplicate / URL / server / local 并重构。
+
+### Lesson RE-MODELING-018：输出一张真实应用 State Ownership Map
+
+对后续 Order Editor 标注每份 State 的 Owner、生命周期、来源和消费者，为复杂表单项目做设计准备。
 
 ---
 
 # Module 11.15：React Form 完整体系
 
-学习 input、textarea、select、checkbox、radio、file、Controlled/Uncontrolled、value/defaultValue、checked/defaultChecked、IME、Selection、同步/异步 Validation、Server Error、Dynamic Field、Field Array、Draft、Autosave、大型表单性能和 A11Y。
+本 Module 不把表单简化成 `value + onChange`。从原生 Form 行为、Controlled/Uncontrolled 一路覆盖多控件、IME、Validation、异步校验、动态字段、Draft、Autosave、性能、A11Y，并将 Order Editor 综合项目直接拆成连续 Lesson。
+
+### Lesson RE-FORM-001：先理解浏览器原生 Form，再谈 React Form
+
+回顾 form、name、submit、FormData、默认提交和浏览器 Validation，明确 React 没有发明表单本身。
+
+### Lesson RE-FORM-002：Controlled Input 的最小模型
+
+从 `value + onChange + State` 建立 React 控制输入值的闭环，并观察忘记 onChange / value 为 undefined 等典型问题。
+
+### Lesson RE-FORM-003：Uncontrolled Input 到底是什么
+
+使用 `defaultValue`、DOM 自己保存当前值和提交时读取，比较它与 Controlled 的状态所有权差异。
+
+### Lesson RE-FORM-004：Controlled 与 Uncontrolled 应该怎么选
+
+从即时联动、复杂 Validation、超大表单、第三方组件和原生能力比较两种策略，不做教条结论。
+
+### Lesson RE-FORM-005：Input、Textarea、Select 的 React 行为差异
+
+系统实现文本、多行、单选 select、多选 select，并理解 value 类型和选项同步。
+
+### Lesson RE-FORM-006：Checkbox 与 Radio 为什么不能照搬 text input
+
+学习 checked/value、group semantics、boolean vs selected value，以及受控状态设计。
+
+### Lesson RE-FORM-007：File Input 为什么天然更偏 Uncontrolled
+
+理解浏览器安全限制、FileList、清空方式、Preview URL 生命周期，为上传 Module 前置。
+
+### Lesson RE-FORM-008：一个 onChange Handler 如何管理多个字段
+
+使用 name / computed property 更新对象，同时讨论“所有表单都塞一个大 Object State”何时开始失控。
+
+### Lesson RE-FORM-009：IME / Composition 对 React Form 有什么影响
+
+把 Event Module 的输入法知识真正放进搜索、字符限制、实时校验场景。
+
+### Lesson RE-FORM-010：同步 Validation 应该在什么时候发生
+
+比较 onChange、onBlur、onSubmit、Render-derived validation，避免每个规则都写 Effect。
+
+### Lesson RE-FORM-011：Touched、Dirty、Visited、Submitted 分别是什么
+
+建立表单 UX 状态模型，解释这些状态为什么不能和字段值混为一个概念。
+
+### Lesson RE-FORM-012：异步 Validation 如何避免 Race Condition
+
+模拟 username availability 请求，加入请求序号/取消前置，完整 Abort/Effect 方案在后续 Effect Module 再深入。
+
+### Lesson RE-FORM-013：Server Error 应该如何映射回字段和表单
+
+设计 field error、form error、global error，并处理服务器返回错误后用户继续编辑的生命周期。
+
+### Lesson RE-FORM-014：Dynamic Field 与 Field Array 如何建模
+
+实现可增删订单行，正确处理 Stable Key、字段 State 和 Validation。
+
+### Lesson RE-FORM-015：Draft 与 Reset 的语义怎么设计
+
+区分初始值、已保存值、当前编辑值、Reset、Cancel、Switch Entity，连接 Component Identity / Key Reset。
+
+### Lesson RE-FORM-016：Autosave 为什么不是简单 setInterval
+
+先从 dirty detection、debounce、pending、last saved、failure、conflict 的状态模型分析需求，避免过早引入 Effect。
+
+### Lesson RE-FORM-017：大型 Controlled Form 为什么可能变慢
+
+用数十/数百字段观察 Render 范围、State Colocation、Component Split，性能工具完整使用留到 Performance Module。
+
+### Lesson RE-FORM-018：Form A11Y 的 React-specific 连接点
+
+覆盖 label/id、aria-describedby、error announcement、focus invalid field、dynamic errors 和 `useId` 前置。
+
+### Lesson RE-FORM-019：TypeScript 如何描述复杂 Form State
+
+使用 discriminated union、field model、error type 和 domain value，避免 stringly-typed form。
+
+### Lesson RE-FORM-020：什么时候值得引入 React Hook Form 等表单库
+
+从注册模型、uncontrolled strategy、validation ecosystem、bundle、team complexity 讨论选型；这里只建立边界，不把第三方库变成课程主线。
+
+### Lesson RE-FORM-021：综合项目——Order Editor 需求、数据模型和知识边界
+
+设计订单头、订单行、价格、数量、校验、Dirty/Reset 等需求，列出当前允许使用的 React 能力和明确禁止的未来 Router/Query/Effect 技术。
+
+### Lesson RE-FORM-022：综合项目——设计 Order Editor 的 Component Tree 与 State Ownership
+
+把 State Modeling Map 落到 OrderEditor、OrderHeader、LineList、LineEditor、Summary 等组件，明确每份状态放置位置。
+
+### Lesson RE-FORM-023：综合项目——实现订单行增删改与金额派生
+
+综合 Event、State、Immutable Update、List/Key、Derived State，禁止存冗余 total。
+
+### Lesson RE-FORM-024：综合项目——实现 Validation、Dirty、Reset 与错误展示
+
+完成字段/表单级校验和完整 UX 状态，不引入未来表单库隐藏机制。
+
+### Lesson RE-FORM-025：综合项目——主动制造 Form State Bug
+
+制造 duplicate state、wrong key、props-to-state sync、mutation 等问题，用当前已学模型逐个定位。
+
+### Lesson RE-FORM-026：综合项目——大型表单 Render 重构
+
+使用 State Colocation、Component Boundary 和数据建模降低无意义 Render，并记录 before/after 行为。
+
+### Lesson RE-FORM-027：综合项目——从空目录复刻 Order Editor
+
+不查看最终源码重新搭建核心功能，证明不是只会在上一课 Diff 上继续修改。
+
+### Lesson RE-FORM-028：综合项目——Order Editor 完整验收
+
+运行测试、键盘操作、IME、Validation、生产构建，输出 Component Tree、State Ownership Map 和已知限制。
 
 ---
 
 # Module 11.16：useReducer 与复杂状态
 
-学习 Reducer、State、Action、Dispatch、Pure Reducer、Initializer、Action Modeling、Domain Event、Reducer Composition、Undo/Redo、Reducer Test 和 State Machine 思想。
+本 Module 从“多个 Setter 难以表达一次业务变化”出发，完整学习 Reducer、Action、Dispatch、Initializer、测试、Undo/Redo 和 State Machine 前置。重点是业务状态转换，而不是把 useReducer 当 Redux 的简化版。
+
+### Lesson RE-REDUCER-001：什么时候多个 useState 开始不够表达问题
+
+用复杂订单编辑状态观察“一个用户动作触发多处 Setter”的维护问题，引出把状态转换集中表达的需要。
+
+### Lesson RE-REDUCER-002：Reducer 的最小模型
+
+实现 `(state, action) => nextState`，先脱离 React 写纯函数，再接入 `useReducer`。
+
+### Lesson RE-REDUCER-003：Action 应该描述“怎么改”还是“发生了什么”
+
+比较 `SET_FIELD`、`INCREMENT` 与 `ITEM_ADDED/ORDER_SUBMITTED` 的语义，建立 Action Modeling。
+
+### Lesson RE-REDUCER-004：Dispatch 到底做了什么
+
+从 event handler dispatch action 到 React 调用 reducer 产生 next state，建立完整行为链。
+
+### Lesson RE-REDUCER-005：Reducer 为什么必须是 Pure Function
+
+主动在 reducer 中请求网络、读时间或修改外部对象，观察可测试性和 StrictMode 问题。
+
+### Lesson RE-REDUCER-006：Initializer 什么时候比直接 initialState 更好
+
+学习第三参数初始化、Props 输入和昂贵初始化，并比较重置状态策略。
+
+### Lesson RE-REDUCER-007：复杂 Reducer 如何避免一个巨大 switch
+
+讨论 action grouping、domain function、sub-reducer、state machine，而不是机械拆文件。
+
+### Lesson RE-REDUCER-008：Reducer 与 Immutable Update 如何结合
+
+处理 nested order state，并比较手工 structural sharing 与 Immer reducer。
+
+### Lesson RE-REDUCER-009：Reducer Test 为什么特别有价值
+
+不渲染 React，直接对 action sequence 测试 state transition，建立业务规则可验证性。
+
+### Lesson RE-REDUCER-010：Undo / Redo 的本质是什么
+
+通过 past/present/future 或 command history 实现可撤销编辑，理解历史 State 与普通业务 State 的区别。
+
+### Lesson RE-REDUCER-011：Reducer 如何表达 Impossible State
+
+把多个 boolean 重构为 discriminated state/action，使非法状态更难产生。
+
+### Lesson RE-REDUCER-012：Reducer 与 State Machine 有什么关系
+
+比较 reducer 的任意 transition 与显式 state/event transition table，为后续复杂流程架构建立前置。
+
+### Lesson RE-REDUCER-013：什么时候不应该使用 useReducer
+
+比较简单 toggle、独立 fields、Server State 和 URL State，避免“复杂项目一律 reducer”。
+
+### Lesson RE-REDUCER-014：把 Order Editor 的核心编辑逻辑重构为 Reducer
+
+保留 UI 行为不变，把多处业务 Setter 收敛为可测试 Action / Reducer，并用测试证明行为一致。
+
+### Lesson RE-REDUCER-015：Reducer Source Connection——Dispatch/Queue 先看到哪里
+
+只建立 `dispatch → update queue → next render` 的源码入口地图，完整 Hooks Internals 后续验证。
 
 ---
 
 # Module 11.17：Context 一次学透
 
-学习 createContext、Provider、最近 Provider、Default Value、Value Identity、Update Propagation、Context Splitting、Dependency Injection、Context + Reducer、性能和滥用边界。
+本 Module 解决跨层级依赖传递，但必须同时讲清 Context 的更新传播、Value Identity、性能和滥用边界。目标不是“不会传 Props 就上 Context”。
+
+### Lesson RE-CONTEXT-001：Prop Drilling 什么时候真的成为问题
+
+从多层组件传递 theme/current user/order actions 的例子判断哪些只是正常显式依赖，哪些适合 Context。
+
+### Lesson RE-CONTEXT-002：第一个 createContext / Provider / useContext
+
+建立 Provider 提供值、后代消费最近值的最小模型。
+
+### Lesson RE-CONTEXT-003：Default Value 到底什么时候会生效
+
+移除 Provider、传 undefined/null，观察 default value 行为，避免把它误认为运行时 fallback。
+
+### Lesson RE-CONTEXT-004：Nested Provider 为什么是作用域而不是全局变量
+
+使用嵌套 Theme / Locale Provider 观察最近 Provider 覆盖，建立 scope 模型。
+
+### Lesson RE-CONTEXT-005：Context Value 更新时哪些 Consumer 会重新 Render
+
+通过多个 consumer 记录 Render，理解 Context update propagation 的高层行为。
+
+### Lesson RE-CONTEXT-006：Value Identity 为什么会造成无意义传播
+
+把 Provider value 写成每次新对象，观察 Consumer Render，为 Memoization/Context Split 建立前置。
+
+### Lesson RE-CONTEXT-007：把 State 与 Dispatch 放在一个 Context 还是拆开
+
+比较单 Context 与 State/Dispatch 分离，分析读取频率、API 和 Render 范围。
+
+### Lesson RE-CONTEXT-008：Context + Reducer 如何形成局部业务 Store
+
+把 Order Reducer 放入 Context，让深层组件消费 state/dispatch，同时保持明确 Provider Boundary。
+
+### Lesson RE-CONTEXT-009：Context 适合 Dependency Injection 吗
+
+用 API client、feature flag、runtime config 等稳定依赖讨论 Context 作为 dependency boundary 的价值。
+
+### Lesson RE-CONTEXT-010：Context 为什么不是完整 State Manager
+
+讨论 selector、middleware、devtools、persistence、server state 等需求，认识 Context 的能力边界。
+
+### Lesson RE-CONTEXT-011：Context Selector / External Store 为什么会出现
+
+从“大 Context 任意字段变化导致所有 consumer 受影响”的问题，引出 selector/store 方案，但不提前深入第三方库。
+
+### Lesson RE-CONTEXT-012：Provider 放太高会带来什么架构问题
+
+观察全 App Provider Stack、隐式依赖、测试困难，学习将 Provider 收敛到 Feature/Route Boundary。
+
+### Lesson RE-CONTEXT-013：如何测试依赖 Context 的组件
+
+建立 wrapper/provider、default dependency 和 test helper 的最小方式，不展开完整 Testing Stage。
+
+### Lesson RE-CONTEXT-014：Context 故障综合——缺 Provider、Value 抖动、巨大 Context
+
+主动制造三类实际问题并用 DevTools / Render Log 诊断。
+
+### Lesson RE-CONTEXT-015：把 Multi-step Order Workflow 的共享依赖迁入 Context
+
+只迁移真正跨层级共享的 workflow state/dispatch/config，保留应当局部化的 UI State。
 
 ---
 
 # Module 11.18：React State Architecture
 
-比较 useState、useReducer、Context、Redux Toolkit、Zustand、Jotai、State Machine、URL State、External Store 和 Server Cache，建立 State Type → Ownership → Lifecycle → Storage Position 的选择模型。
+本 Module 是前面 State / Modeling / Reducer / Context 的第一次架构收束。它不把 Redux Toolkit、Zustand、Jotai 教成 API 大全，而是通过同一组真实问题比较 State Ownership、生命周期、订阅粒度、DevTools、Persistence、Server State 和 URL State，形成技术选型能力，并完成 Multi-step Order Workflow 综合项目。
+
+### Lesson RE-STATEARCH-001：先建立 React 应用中的 State Taxonomy
+
+把真实应用状态分类为 Local UI、Shared Client、URL、Server、Persistent、External Mutable、Workflow State，明确分类依据是 ownership/lifecycle 而不是“全局/局部”两个词。
+
+### Lesson RE-STATEARCH-002：useState 适合解决哪一类 State
+
+总结 colocation、简单生命周期、组件私有状态的优势和边界。
+
+### Lesson RE-STATEARCH-003：useReducer 适合解决哪一类 State
+
+总结 complex transition、action log、testability、workflow 的优势与成本。
+
+### Lesson RE-STATEARCH-004：Context 适合解决哪一类依赖
+
+区分 value distribution 与 state management，明确 Provider Scope 和更新传播成本。
+
+### Lesson RE-STATEARCH-005：URL State 为什么应该交给 Router / URL
+
+用 filter/sort/page/tab 案例验证 refresh、share、back/forward 和 deep link，不再复制一份 React State。
+
+### Lesson RE-STATEARCH-006：Server State 为什么应该交给 Query Cache
+
+从 remote ownership、stale、dedup、retry、invalidation 解释为什么 Redux/Context 直接存 API response 常常是在重造缓存；具体 TanStack Query 后续再学。
+
+### Lesson RE-STATEARCH-007：External Mutable Store 解决什么 React 自身没有解决的问题
+
+从 subscribe/getSnapshot、fine-grained subscription、React 外部读写认识 external store，并连接未来 `useSyncExternalStore`。
+
+### Lesson RE-STATEARCH-008：Redux Toolkit 的核心价值到底是什么
+
+从 predictable reducer、selector、middleware、devtools、large-team convention、RTK Query 边界做架构级认识，不陷入老 Redux boilerplate。
+
+### Lesson RE-STATEARCH-009：Zustand 的核心取舍是什么
+
+从 external store、selector、low ceremony、imperative access、middleware/persist 分析适用与滥用场景。
+
+### Lesson RE-STATEARCH-010：Jotai / Atomic State 的核心取舍是什么
+
+从 atom dependency graph、derived atom、fine-grained subscription 比较 centralized store 思路。
+
+### Lesson RE-STATEARCH-011：State Machine / XState 类方案什么时候值得引入
+
+从 explicit state/event/guard/effect model 讨论复杂流程、支付/审批/长流程与普通 reducer 的边界。
+
+### Lesson RE-STATEARCH-012：一个应用可以同时使用多种 State 方案吗
+
+设计 Local State + URL + Query Cache + Feature Store + Workflow Machine 的合理组合，反对“一库统治所有状态”。
+
+### Lesson RE-STATEARCH-013：如何避免 Global Store 变成业务垃圾桶
+
+学习 ownership、feature boundary、public API、selector、write authority 和 state lifecycle review。
+
+### Lesson RE-STATEARCH-014：状态架构如何影响 Render Performance
+
+比较 context broadcast、selector subscription、atom dependency、local state，建立性能模型但把实测留到 Performance Module。
+
+### Lesson RE-STATEARCH-015：状态持久化要解决哪些额外问题
+
+讨论 storage version、migration、rehydration、partial persistence、sensitive data、multi-tab，而不是简单 `persist: true`。
+
+### Lesson RE-STATEARCH-016：状态调试与可观测应该记录什么
+
+比较 action log、state snapshot、query devtools、URL、trace correlation，建立生产诊断意识。
+
+### Lesson RE-STATEARCH-017：状态方案选型矩阵怎么做
+
+用规模、数据来源、生命周期、更新频率、团队、调试、SSR、并发兼容、迁移成本形成实际 Trade-off 表。
+
+### Lesson RE-STATEARCH-018：综合项目——Multi-step Order Workflow 需求与 State 分类
+
+增加步骤导航、草稿、权限、Undo/Redo、提交状态等需求，先把每份数据分类再决定存放方案。
+
+### Lesson RE-STATEARCH-019：综合项目——设计 Workflow State Machine / Reducer
+
+明确 step、event、guard、transition 和 impossible state，保持业务转换可测试。
+
+### Lesson RE-STATEARCH-020：综合项目——划分 Local State、Context、URL 与未来 Server State 边界
+
+只使用目前已经学过的能力实现可实现部分，同时给未来 Router/Query Module 留明确接口而不偷用它们。
+
+### Lesson RE-STATEARCH-021：综合项目——实现多步骤导航、草稿与 Undo/Redo
+
+完成主要交互并验证切换、回退和当前数据生命周期边界。
+
+### Lesson RE-STATEARCH-022：综合项目——制造状态架构反模式再重构
+
+故意做巨大 Context、duplicate derived state、过度 lifting、single giant reducer，再依据 taxonomy 重构。
+
+### Lesson RE-STATEARCH-023：综合项目——比较两种 State Architecture
+
+为同一核心场景实现“Context + Reducer”和一种 External Store PoC，比较代码、订阅、Debug 和迁移成本；第三方库仅用于架构对照，不替代后续正式 Module。
+
+### Lesson RE-STATEARCH-024：综合项目——输出 State Architecture ADR
+
+记录问题、候选方案、Decision、Trade-off、Rejected Alternatives、Migration Boundary 和未来 Router/Query 接入位置。
+
+### Lesson RE-STATEARCH-025：综合项目——完整验收 Multi-step Order Workflow
+
+从用户流程、State Ownership、Impossible State、Render 行为、可测试性和生产构建六个维度验收，要求能解释每份 State 为什么在那里。
 
 ---
 
@@ -976,7 +1684,17 @@ Module 11.04 → Lesson
 Module 11.05 → Lesson
 Module 11.06 → Lesson
 Module 11.07 → Lesson
-Module 11.08 → Lesson（包含第一个综合项目）
+Module 11.08 → Lesson
+Module 11.09 → Lesson
+Module 11.10 → Lesson
+Module 11.11 → Lesson
+Module 11.12 → Lesson
+Module 11.13 → Lesson
+Module 11.14 → Lesson
+Module 11.15 → Lesson（包含 Order Editor 综合项目）
+Module 11.16 → Lesson
+Module 11.17 → Lesson
+Module 11.18 → Lesson（包含 Multi-step Order Workflow 综合项目）
 ```
 
-后续从 `Module 11.09：React Event System` 继续按照完全相同的粒度向下拆。
+后续从 `Module 11.19：Ref 一次学透` 继续按照完全相同的广度、深度和粒度向下拆。
