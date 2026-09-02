@@ -1,6 +1,6 @@
 # Stage 11：React 完整体系
 
-> 版本：v2.0-draft  
+> 版本：v2.1-draft  
 > 基线日期：2026-09-02  
 > React 基线：React 19.2.x Stable；正式课程编写时使用当时最新稳定补丁并重新核验官方文档、安全公告和生态兼容性。  
 > 上级总纲：[`../README.md`](../README.md)  
@@ -76,13 +76,13 @@ Stage
 6. Module 的 Must / Should / Expert 深度通过多个 Lesson 在本 Module 内一次闭环，不能未来再补“高级篇 / 源码篇”。
 7. Lesson ID 使用稳定语义 ID；即使后续调整 Module 顺序，引用关系也尽量不被破坏。
 
-当前 `Module 11.01 ～ 11.78` 已全部拆到 Lesson 粒度；正式课程编写前只继续做全局依赖、重复、粒度与 Knowledge Ceiling 复审。
+当前 Stage 11 已收敛为 `Module 11.01 ～ 11.35`；原有 Lesson、综合项目、源码、性能、故障、迁移与治理内容全部保留，仅合并过碎 Module 边界。正式课程编写前只继续做全局依赖、重复、粒度与 Knowledge Ceiling 复审。
 
 ---
 
 # 3. Module / Lesson 学习顺序
 
-# Module 11.01：React 是什么、为什么需要 React
+# Module 11.01：React Problem Domain、Project Bootstrap 与 Root Lifecycle
 
 本 Module 不急着写 Hook，而是先建立 React 的问题域。完成后必须知道 React 为什么存在、它负责什么、不负责什么，以及它与浏览器 DOM 的关系。
 
@@ -123,8 +123,6 @@ Stage
 完成一个小型筛选列表的双版本实现，只比较状态与 UI 同步方式；不提前使用 State Manager、Router、Query 等未来知识。
 
 ---
-
-# Module 11.02：从空目录建立 React + TypeScript 项目
 
 本 Module 必须从空目录开始，不允许直接 `create-vite` 一条命令把所有文件生成完以后再解释。目标是亲手建立一个 React 项目的最小运行链路，再逐步引入 Vite 和 TypeScript。
 
@@ -202,8 +200,6 @@ Stage
 
 ---
 
-# Module 11.03：React Root 与应用启动生命周期
-
 本 Module 把 Root 从“照着文档写 createRoot”提升到完整运行边界：一个 Root 管什么、什么时候创建、什么时候销毁、多个 Root 如何共存，以及 Hydration Root 与 Client Root 为什么不同。
 
 ### Lesson RE-ROOT-001：DOM Container 与 React Root 是两个什么对象
@@ -248,7 +244,7 @@ Stage
 
 ---
 
-# Module 11.04：JSX 一次学透
+# Module 11.02：JSX 与 React Object Model
 
 JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transform、Element Object、类型检查和常见错误边界。
 
@@ -302,8 +298,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.05：React Element、React Node、Component、DOM Node
-
 本 Module 专门消除 React 初学和进阶阶段最常见的概念混淆，并为 Fiber 源码学习建立统一词汇。
 
 ### Lesson RE-MODEL-001：Function 与 Component Definition 有什么区别
@@ -340,7 +334,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.06：Function Component、Pure Render 与 StrictMode
+# Module 11.03：Component、Pure Render、Props 与 Composition
 
 本 Module 从“会写函数组件”深入到 React 正确性规则。后续 State、Effect、Concurrency、Compiler 和 Fiber 都依赖这里建立的纯 Render 模型。
 
@@ -385,8 +379,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 把 Pure Render、Hook Rules、不可变输入、Effect 边界等规则放在同一张图里解释“React 为什么需要这些约束”。
 
 ---
-
-# Module 11.07：Props、Children 与单向数据流
 
 本 Module 不止讲“父传子”，还覆盖组件 API 设计、Composition、回调、不可变输入、TypeScript Props 和常见 API 失控问题。
 
@@ -440,7 +432,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.08：Conditional Rendering、List、Key 与 Identity
+# Module 11.04：Conditional Rendering、List、Key 与 Identity
 
 本 Module 从条件显示和列表渲染一路进入 Key、Identity、Reconciliation 前置模型，并在末尾自然完成第一个 React 综合项目。
 
@@ -518,7 +510,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.09：React Event System
+# Module 11.05：React Event System
 
 本 Module 从最基础的点击事件一路学习到 SyntheticEvent、传播模型、默认行为、键盘/指针/输入事件、IME、事件委托、TypeScript 事件类型和 React Event Priority 前置模型。目标不是背 `onClick`，而是能够解释浏览器事件如何进入 React，再如何驱动状态更新。
 
@@ -596,7 +588,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.10：State 与 useState 一次学透
+# Module 11.06：State Fundamentals、Render Snapshot、Update Queue 与 Batching
 
 本 Module 负责建立 React State 的基本存储与更新模型：为什么普通变量不够、State 属于谁、`useState` 返回什么、Setter 为什么不是赋值、初始化与重置如何工作。复杂队列/Batching 在下一 Module，Object/Array 不可变更新在 11.12 深入。
 
@@ -657,8 +649,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 把上一 Module 的交互升级为真正可保存的 UI State，实现选择、数量和开关，并明确每一份 State 为什么存在。
 
 ---
-
-# Module 11.11：Render Snapshot、Update Queue 与 Batching
 
 本 Module 解释 React State 最核心的时间模型：每次 Render 都看到自己的 Snapshot，Setter 把 Update 放入 Queue，React 再按规则处理队列和 Batching。完成后必须能解释“为什么代码按这个顺序写，结果却不是普通变量直觉”。
 
@@ -728,7 +718,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.12：Object / Array State 与不可变更新
+# Module 11.07：Immutable State 与 Component Identity
 
 本 Module 解决复杂 State 的引用、Mutation 与结构更新问题。完成后不仅会 spread，还要理解为什么 React、Memoization、Concurrent Render 和未来 Compiler 都依赖可预测的不可变更新习惯。
 
@@ -794,8 +784,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.13：Component Identity 与 State Preservation
-
 本 Module 完整回答“React 为什么有时保留 State、有时重置 State”。这是 Key、条件渲染、Tabs、Form Reset、Activity、Reconciliation 甚至 Bug 定位的关键基础。
 
 ### Lesson RE-IDENTITY-001：State 为什么必须绑定到某个组件身份
@@ -852,7 +840,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.14：State Modeling 与 Ownership
+# Module 11.08：State Modeling 与 Ownership
 
 本 Module 从“会维护 State”升级到“会设计 State”。目标是让学习者能决定哪些数据应该是 State、State 应该放在哪里、哪些 State 应被删除，以及 Client / URL / Server / Persistent State 各自的职责。
 
@@ -930,7 +918,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.15：React Form 完整体系
+# Module 11.09：React Form 完整体系
 
 本 Module 不把表单简化成 `value + onChange`。从原生 Form 行为、Controlled/Uncontrolled 一路覆盖多控件、IME、Validation、异步校验、动态字段、Draft、Autosave、性能、A11Y，并将 Order Editor 综合项目直接拆成连续 Lesson。
 
@@ -1048,7 +1036,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.16：useReducer 与复杂状态
+# Module 11.10：Reducer、Context 与 State Architecture
 
 本 Module 从“多个 Setter 难以表达一次业务变化”出发，完整学习 Reducer、Action、Dispatch、Initializer、测试、Undo/Redo 和 State Machine 前置。重点是业务状态转换，而不是把 useReducer 当 Redux 的简化版。
 
@@ -1114,8 +1102,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.17：Context 一次学透
-
 本 Module 解决跨层级依赖传递，但必须同时讲清 Context 的更新传播、Value Identity、性能和滥用边界。目标不是“不会传 Props 就上 Context”。
 
 ### Lesson RE-CONTEXT-001：Prop Drilling 什么时候真的成为问题
@@ -1179,8 +1165,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 只迁移真正跨层级共享的 workflow state/dispatch/config，保留应当局部化的 UI State。
 
 ---
-
-# Module 11.18：React State Architecture
 
 本 Module 是前面 State / Modeling / Reducer / Context 的第一次架构收束。它不把 Redux Toolkit、Zustand、Jotai 教成 API 大全，而是通过同一组真实问题比较 State Ownership、生命周期、订阅粒度、DevTools、Persistence、Server State 和 URL State，形成技术选型能力，并完成 Multi-step Order Workflow 综合项目。
 
@@ -1286,7 +1270,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.19：Ref 一次学透
+# Module 11.11：Ref 与 Imperative Escape Hatches
 
 本 Module 负责 React 的可变容器和 DOM Escape Hatch。完成后必须能区分 State 与 Ref、声明式与命令式边界，并正确处理 DOM、Timer、第三方实例和生命周期。
 
@@ -1352,8 +1336,6 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.20：Imperative API 与 useImperativeHandle
-
 本 Module 讨论组件对外暴露命令式能力的正确边界。目标不是“会调用 useImperativeHandle”，而是学会只在声明式 Props 不足以表达的场景暴露最小 API。
 
 ### Lesson RE-IMP-001：什么叫 Imperative Escape Hatch
@@ -1406,7 +1388,7 @@ JSX 不作为“HTML 写进 JS”简单带过，而是一直学习到 JSX Transf
 
 ---
 
-# Module 11.21：useEffect 一次学透
+# Module 11.12：Effect 与 External Synchronization
 
 Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部系统同步”一路进入 Dependency、Cleanup、StrictMode、Race、Stale Closure、Abort、Passive Effect、SSR 和源码连接，确保后续不需要再开 Effect 高级篇。
 
@@ -1512,8 +1494,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.22：Removing Effects
-
 本 Module 负责把“不需要 Effect 的逻辑”重新放回正确位置，建立 React 数据流优先于同步补丁的设计习惯。
 
 ### Lesson RE-REMOVE-001：Derived Data 为什么应该在 Render 中直接计算
@@ -1566,8 +1546,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.23：useEffectEvent
-
 本 Module 解决 Effect 内“同步关系是 Reactive，但某段回调逻辑只想读取最新值”的场景，并明确它不能成为逃避 Dependency 的工具。
 
 ### Lesson RE-EFFECTEVENT-001：Reactive Logic 与 Non-reactive Logic 怎么区分
@@ -1603,8 +1581,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 在真实连接场景中验证 dependency、reconnect 次数和最新 UI 配置。
 
 ---
-
-# Module 11.24：useLayoutEffect / useInsertionEffect
 
 本 Module 专门处理 Commit 与浏览器 Layout/Paint 之间的时机问题，并解释同步阻塞的性能代价。
 
@@ -1650,7 +1626,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.25：Custom Hook 一次学透
+# Module 11.13：Custom Hook 与 External Store Integration
 
 本 Module 从逻辑复用进入 Hook API、生命周期、依赖、SSR、测试、Debug 和 Library 设计，避免“看到三行重复就抽 Hook”。
 
@@ -1708,8 +1684,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.26：useSyncExternalStore
-
 本 Module 建立 React 与外部可变 Store 的正式订阅合同，并深入 tearing、snapshot identity、SSR 与自定义 Store 设计。
 
 ### Lesson RE-STORE-001：什么叫 External Mutable Store
@@ -1762,7 +1736,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.27：Router 完整体系
+# Module 11.14：Router 与 Route Data Architecture
 
 本 Module 从 URL/History 出发，以 React Router 为代表完整覆盖 Route Tree、Nested Layout、Params、Search Params、Navigation、Deep Link、Error/Lazy Route、Scroll、Auth 与 URL State。
 
@@ -1832,8 +1806,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.28：Data Router 与 Route Architecture
-
 本 Module 在 Router 基础上加入 Loader、Action、Pending、Redirect、Error、Revalidation 与 Route Data，建立“导航就是数据生命周期的一部分”的模型。
 
 ### Lesson RE-DATAROUTER-001：为什么 Route Match 之后还需要 Data Lifecycle
@@ -1894,7 +1866,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.29：Server State 完整模型
+# Module 11.15：Server State、TanStack Query 与 API Boundary
 
 本 Module 不从某个库 API 开始，而是先完整建立 Server State 的所有权、缓存、Stale、去重、重试、失效、分页、乐观更新和离线模型。
 
@@ -1955,8 +1927,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 对真实应用做一次缓存所有权重构。
 
 ---
-
-# Module 11.30：TanStack Query 生产级使用
 
 本 Module 用 TanStack Query 验证上一 Module 的 Server State 模型，并覆盖 Query Key、staleTime、GC、取消、Mutation、Optimistic、Prefetch、Persistence、SSR/Hydration、DevTools 和生产边界。
 
@@ -2050,8 +2020,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.31：API Client 与 React 数据边界
-
 本 Module 把 React UI 与 HTTP/Schema/DTO/Auth/Error/Trace 隔离开，形成稳定的数据访问边界，并在末尾把 Router、Form、Query、API Client 组合成 React Enterprise SPA。
 
 ### Lesson RE-API-001：为什么 Component 不应该到处直接拼 fetch
@@ -2128,7 +2096,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.32：React Actions
+# Module 11.16：Actions 与 Optimistic Mutations
 
 本 Module 学习 React 19 Action 心智模型、Form Action、Pending、错误、Transition 连接与渐进增强边界。
 
@@ -2170,8 +2138,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.33：useActionState / useFormStatus
-
 本 Module 聚焦 Action 状态累积和 Form 子树 Pending Context。
 
 ### Lesson RE-ACTIONSTATE-001：useActionState 解决什么重复模式
@@ -2211,8 +2177,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 完成可访问错误提示、提交状态和恢复。
 
 ---
-
-# Module 11.34：useOptimistic
 
 本 Module 从用户感知延迟出发完整学习乐观状态、提交、回滚、并发操作、排序和服务器校准。
 
@@ -2262,7 +2226,7 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.35：Concurrent Rendering Mental Model
+# Module 11.17：Concurrent React：Transition、Suspense、use 与 Activity
 
 本 Module 不从 API 开始，而是先建立 Concurrent React 的可中断 Render、优先级、重启和原子 Commit 心智模型。
 
@@ -2307,8 +2271,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 先制造卡顿，再为 Transition / DeferredValue 留出明确问题。
 
 ---
-
-# Module 11.36：Transition
 
 本 Module 完整学习 startTransition/useTransition、Pending、Interrupt、Async Action、Navigation、错误顺序和使用禁区。
 
@@ -2358,8 +2320,6 @@ Effect 是 React 最容易被误用的能力之一。本 Module 从“与外部�
 
 ---
 
-# Module 11.37：useDeferredValue
-
 本 Module 学习“消费方读取一个滞后的值”，并与 Transition、Debounce、Throttle 做清晰区分。
 
 ### Lesson RE-DEFER-001：Deferred Value 与 Transition 的方向差异
@@ -2395,8 +2355,6 @@ Transition 控制 update，DeferredValue 控制消费到的 value。
 为不同高成本消费组件共享最新输入和延迟视图。
 
 ---
-
-# Module 11.38：Suspense 一次学透
 
 本 Module 从“Render 暂时无法完成”完整学习 Boundary、Fallback、Nested Reveal、Lazy、Data、Retry、Error、Transition、Streaming、Waterfall 和架构设计。
 
@@ -2466,8 +2424,6 @@ Promise pending 与真正 Error 分别由不同边界处理。
 
 ---
 
-# Module 11.39：use()
-
 本 Module 学习 React 的 Resource Reading 模型：Promise / Context 如何在 Render 中读取、Suspense/Error Boundary 如何承接，以及 Server-created Promise 如何交给 Client。
 
 ### Lesson RE-USE-001：use() 与普通 Hook 有什么不同
@@ -2499,8 +2455,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 为 RSC Module 建立 Promise 传递与 Suspense 消费模型。
 
 ---
-
-# Module 11.40：Activity
 
 本 Module 学习 React 19.2 的 Activity：在隐藏 UI 保留 State、处理 Effect 生命周期、后台优先级和预渲染候选页面，并完成高交互 Workbench。
 
@@ -2566,7 +2520,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.41：React DevTools Profiler 与 Performance Track
+# Module 11.18：Profiling、Render Performance、Memoization 与 React Compiler
 
 本 Module 建立证据驱动的 React 性能诊断方法，而不是先背 memo/useMemo。
 
@@ -2619,8 +2573,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 固定步骤、数据规模、设备条件和 before/after 证据。
 
 ---
-
-# Module 11.42：React Render Performance
 
 本 Module 系统分析 Render Propagation、State Locality、Props/Context Identity、Selector、Virtualization、List、Expensive Computation、Memory 与 Bundle 的 React-specific 连接。
 
@@ -2690,8 +2642,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.43：Memoization
-
 本 Module 一次讲透 memo、useMemo、useCallback 的语义、成本、依赖和错误优化，并为 React Compiler 做迁移前置。
 
 ### Lesson RE-MEMO-001：Memoization 到底缓存什么
@@ -2735,8 +2685,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 制造 memo 更多但更慢/更难维护的页面，再恢复到证据驱动策略。
 
 ---
-
-# Module 11.44：React Compiler
 
 本 Module 完整覆盖 Compiler 目标、自动 Memoization、Rules of React、Build Integration、Diagnostics、Bailout、Directive、Library、渐进迁移和 Benchmark，并完成性能段综合项目。
 
@@ -2814,7 +2762,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.45：React DOM Integration
+# Module 11.19：React DOM 与 Portal
 
 本 Module 聚焦 React 与真实 HTML/SVG/Custom Element/DOM API 的边界，并一次讲清 flushSync 等宿主整合能力。
 
@@ -2860,8 +2808,6 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.46：Portal
-
 本 Module 用 Portal 深化“React Tree ≠ DOM Tree”，覆盖事件、Context、Focus、Stacking Context、Modal/Overlay 和 A11Y。
 
 ### Lesson RE-PORTAL-001：为什么有些 UI 需要脱离父 DOM 层级
@@ -2906,7 +2852,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.47：Resource Loading / Metadata
+# Module 11.20：Resource Loading 与 Metadata
 
 本 Module 学习 React DOM 的资源提示与 Metadata 能力，并连接 SSR/Streaming/性能，而不是把它们孤立成 API 背诵。
 
@@ -2952,7 +2898,7 @@ Render 中不断创建新 Promise 会造成重复 suspend/工作浪费。
 
 ---
 
-# Module 11.48：React Error Model
+# Module 11.21：React Error Model
 
 本 Module 系统区分 Render、Event、Async、Resource、Route、Root、Server 错误，并设计 Error Boundary、Reset、Fallback 和 Production Reporting。
 
@@ -3006,7 +2952,7 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.49：React-specific Accessibility
+# Module 11.22：React-specific Accessibility、Security 与 Debugging
 
 本 Module 不重教完整 Web A11Y，而是聚焦 React 动态 UI、Portal、Route、Suspense、Virtualization、useId 与 Focus 管理的框架连接点。
 
@@ -3059,8 +3005,6 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 结合键盘、axe 类工具和手工 screen-reader-friendly 检查记录问题。
 
 ---
-
-# Module 11.50：React-specific Security
 
 本 Module 聚焦 React 渲染、HTML、URL、Markdown、SSR/Hydration、RSC、Server Function 与权限 UI 的安全边界。
 
@@ -3122,8 +3066,6 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.51：React Debugging & Failure Model
-
 本 Module 不重复教授每个 Bug 的机制，而是建立跨 React 问题的系统诊断方法：症状分类、最小复现、DevTools、Profiler、Network、Heap、Source Map、Release/Trace 关联。
 
 ### Lesson RE-DEBUG-001：React Bug 应该先按哪几类症状分类
@@ -3184,7 +3126,7 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.52：React Testing Integration
+# Module 11.23：React Testing Integration
 
 本 Module 只覆盖 React-specific 测试方法，把 Component 行为、用户交互、Hook、Context、Router、Query、Suspense、Error Boundary、Timer 和 Hydration 的可验证性串起来。
 
@@ -3246,7 +3188,7 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.53：SSR Mental Model
+# Module 11.24：SSR、Hydration、Streaming 与 Prerender
 
 本 Module 不依赖 Next.js 黑盒，从 React Server Renderer 开始建立 Request → React Tree → HTML/Stream → Browser 的完整模型。
 
@@ -3308,8 +3250,6 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.54：Hydration 一次学透
-
 本 Module 完整学习 hydrateRoot、HTML Identity、Event、Mismatch、Date/Random/Locale、useId、Browser Extension/DOM Mutation、Recoverable Error 和性能。
 
 ### Lesson RE-HYDRATE-001：Hydration 到底“复用”了什么
@@ -3370,8 +3310,6 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.55：Streaming SSR
-
 本 Module 学习 React 如何利用 Suspense Boundary 把 Server HTML 分段输出，并覆盖 Shell、Chunk、Backpressure、Abort、Proxy Buffering、Crawler 和失败恢复。
 
 ### Lesson RE-STREAMSSR-001：为什么一次等完整 HTML 再发送会产生 Waterfall
@@ -3423,8 +3361,6 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 主动加入快/中/慢数据并验证 Shell、Reveal、Abort、Error。
 
 ---
-
-# Module 11.56：Static Rendering / Prerender / Resume
 
 本 Module 学习 React 静态预渲染能力、Hydration、CDN、PPR/Resume 等版本敏感能力的设计边界，并完成从零 React SSR App 综合项目。
 
@@ -3486,7 +3422,7 @@ Route、user-safe id、tenant、release、trace、feature flag、component stack
 
 ---
 
-# Module 11.57：RSC Mental Model
+# Module 11.25：RSC、Server/Client Boundary、Server Functions 与 Data/Cache Architecture
 
 本 Module 一次建立 Server Component、Client Component、SSR、RSC Payload、Build/Request-time、Bundle/Data Boundary，并坚决避免把 RSC 等同于 SSR。
 
@@ -3556,8 +3492,6 @@ DB、filesystem、secret-bearing server service 的边界与安全责任。
 
 ---
 
-# Module 11.58：Server / Client Boundary
-
 本 Module 深入 `"use client"`、Module Graph、Serialization、Props、Browser API、Context、Bundle 与 Boundary Placement。
 
 ### Lesson RE-BOUNDARY-001：`"use client"` 标记的是 Component 还是 Module Boundary
@@ -3609,8 +3543,6 @@ Server secret、serialized props、auth context、tenant data。
 用 bundle/data flow 证据证明边界变化。
 
 ---
-
-# Module 11.59：Server Functions
 
 本 Module 完整学习 `"use server"`、Server Reference、调用/序列化、Validation、Authorization、Mutation、错误、幂等、审计和安全边界。
 
@@ -3672,8 +3604,6 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 
 ---
 
-# Module 11.60：RSC + Suspense + use()
-
 本 Module 把 Server Async、Promise 传递、RSC Stream、Client use()、Suspense/Error Boundary 串成完整异步数据路径。
 
 ### Lesson RE-RSCUSE-001：Server 直接 await 与把 Promise 传给 Client 有何区别
@@ -3717,8 +3647,6 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 为一次请求标出 Promise 创建、RSC、HTML、Client Hydration 和 use() 的位置。
 
 ---
-
-# Module 11.61：RSC Data / Cache Architecture
 
 本 Module 负责 Server Component 数据访问、Service Layer、Cache、Invalidation、Auth/Tenant、N+1、Waterfall、Serialization、Observability，并完成 Full-stack React Runtime 综合项目。
 
@@ -3788,7 +3716,7 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 
 ---
 
-# Module 11.62：React 源码研究方法
+# Module 11.26：React Source Research 与 Fiber Model
 
 本 Module 先建立可重复源码研究方法，再进入 Fiber。目标是避免“搜索源码名词然后背结论”。
 
@@ -3833,8 +3761,6 @@ trace、actor、tenant、operation、result、latency，不记录 secret payload
 包含版本、问题、复现、断点、调用链、对象、结论、边界和未验证项。
 
 ---
-
-# Module 11.63：Fiber 一次学透
 
 本 Module 从 Fiber 为什么存在一路深入 Node 字段、树链接、current/workInProgress、alternate、flags、lanes、memoized state/props、updateQueue 和调试观察。
 
@@ -3904,7 +3830,7 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 
 ---
 
-# Module 11.64：Reconciler
+# Module 11.27：Reconciler 与 Render / Commit Pipeline
 
 本 Module 一次学习 Element → Fiber、beginWork、completeWork、Child Reconciliation、Key、Placement/Delete/Reuse、Bailout 和 Diff，并用源码验证前面 Key/Identity 结论。
 
@@ -3974,8 +3900,6 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 
 ---
 
-# Module 11.65：Render / Commit Pipeline
-
 本 Module 跑通 Schedule → Render → beginWork → completeWork → Commit，并深入 Mutation、Layout、Ref、Passive Effect 和 Error/Interrupted Render 边界。
 
 ### Lesson RE-PIPE-001：一次 Update 从什么时候进入 Render Pipeline
@@ -4044,7 +3968,7 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 
 ---
 
-# Module 11.66：Hooks Internals
+# Module 11.28：Hooks 与 Update Queue Internals
 
 本 Module 一次进入 Dispatcher、Hook Linked List、mount/update、useState/useReducer Queue、Effect、Memo/Ref 和 Hook Rules 的内部实现。
 
@@ -4114,8 +4038,6 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 
 ---
 
-# Module 11.67：Update Queue
-
 本 Module 专门把 setState → Update → Queue → Lane → Render → Base State 跑透，验证前面所有 Update Queue 行为模型。
 
 ### Lesson RE-QUEUE-001：一次 setState 会创建什么 Update
@@ -4168,7 +4090,7 @@ Element 是本次 UI 描述，Fiber 是跨 Render 保存运行工作/状态的�
 
 ---
 
-# Module 11.68：Lane 与 Scheduler
+# Module 11.29：Lane、Scheduler 与 Suspense / Activity Internals
 
 本 Module 完整学习 Update Priority、Lane、Pending/Suspended/Pinged/Entangled、Transition、Root Scheduling、Scheduler、Yield、Starvation 和 Expiration。
 
@@ -4238,8 +4160,6 @@ Promise ping 后重新选择 lanes。
 
 ---
 
-# Module 11.69：Suspense / Activity Internals
-
 本 Module 从 Promise Suspend、Boundary Capture、Retry/Ping、Fallback、Offscreen/Hidden Tree、Transition 与 Activity 内部连接验证用户层行为。
 
 ### Lesson RE-SUSPENSESRC-001：Component “Suspend” 时源码里发生了什么
@@ -4292,7 +4212,7 @@ Promise ping 后重新选择 lanes。
 
 ---
 
-# Module 11.70：Server Renderer / Hydration / RSC Internals
+# Module 11.30：Server Renderer、Hydration 与 RSC Internals
 
 本 Module 是 React Server Runtime 的专家级源码段，覆盖 Segment/Boundary/Stream、Server Task、Hydration、Event Replay、RSC Payload、Client/Server Reference、Bundler Integration，并用一次完整 Source Debug 串起 State Update 到 DOM Commit。
 
@@ -4378,7 +4298,7 @@ Promise ping 后重新选择 lanes。
 
 ---
 
-# Module 11.71：React Library Authoring
+# Module 11.31：React Library 与 Headless Component Architecture
 
 本 Module 从公共 API、Package Entry、Exports、Types、ESM、Peer React、Tree Shaking、SSR/RSC/Compiler Compatibility、Testing、Release 和版本治理建设可消费 React Library。
 
@@ -4448,8 +4368,6 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 
 ---
 
-# Module 11.72：React Headless Component Architecture
-
 本 Module 负责 React-specific Headless Component：State/Behavior/DOM/A11Y/Style 分离、Controlled API、Composition、Compound Pattern、Portal/Focus、Positioning、Adapter 和版本合同。
 
 ### Lesson RE-HEADLESS-001：Headless UI 到底“无头”在哪里
@@ -4510,7 +4428,7 @@ React versions、TS types、browser behavior、SSR、bundle consumer。
 
 ---
 
-# Module 11.73：Large-scale React Application Architecture
+# Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary
 
 本 Module 从 Feature/Domain/Layer/Public API、DTO/Domain/ViewModel、State/Route/Async/Error Ownership、Dependency Rule、Architecture Test、Code Split 和多团队 Ownership 设计大型 React 应用。
 
@@ -4588,8 +4506,6 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 
 ---
 
-# Module 11.74：React 在 Microfrontend 中的边界
-
 本 Module只学习 React-specific Microfrontend 问题：Multiple Roots、React Singleton、Context/Router Boundary、Version Conflict、Shared Component、Error Isolation；完整微前端体系归后续架构 Stage。
 
 ### Lesson RE-MFE-001：一个页面多个 React Root 与真正 Microfrontend 有什么区别
@@ -4634,7 +4550,7 @@ State、Router、Data、SSR/RSC、Error、Compiler、Library Boundary。
 
 ---
 
-# Module 11.75：Legacy React
+# Module 11.33：Legacy React 与 Migration
 
 本 Module 让学习者能维护 React 15～18、Class、Lifecycle、Legacy Context、HOC/Render Props、Old Redux/Router、CRA/Webpack、Enzyme，并理解这些模式与现代 React 的映射。
 
@@ -4704,8 +4620,6 @@ Switch/Route/history 等历史 API 到现代模型映射。
 
 ---
 
-# Module 11.76：React Migration
-
 本 Module 系统学习 Class→Function、Legacy Context、Old Root、Old SSR、React 18→19、Manual Memo→Compiler、SPA→SSR/RSC、Codemod、Compatibility Layer、Feature Flag、Canary、Rollback。
 
 ### Lesson RE-MIGRATE-001：迁移前为什么必须先建立行为基线
@@ -4774,7 +4688,7 @@ Switch/Route/history 等历史 API 到现代模型映射。
 
 ---
 
-# Module 11.77：React Upgrade Governance
+# Module 11.34：React Upgrade Governance
 
 本 Module 将一次升级变成长期治理能力：Stable/Canary/Experimental、SemVer、安全公告、依赖兼容、Compiler/Framework、Pilot、Canary、Rollback、Exception 和组织流程。
 
@@ -4828,7 +4742,7 @@ Unit/Integration/E2E/Visual/SSR/Performance/Bundle。
 
 ---
 
-# Module 11.78：React Architecture Review 与最终综合项目
+# Module 11.35：React Architecture Review 与最终综合项目
 
 本 Module 是 Stage 11 的最终收束。所有架构评审、最终 React Enterprise Platform、故障制造、性能证据、源码 Debug、迁移方案和答辩全部继续作为普通 Lesson，不创建新的项目层级。
 
@@ -4979,11 +4893,11 @@ Unit/Integration/E2E/Visual/SSR/Performance/Bundle。
 
 # 5. Lesson 拆分完成状态
 
-`Module 11.01 ～ Module 11.78` 已全部拆到 Lesson 粒度。
+`Module 11.01 ～ Module 11.35` 已全部拆到 Lesson 粒度；这是在不删除任何 Lesson 内容的前提下，由原 78 个过碎 Module 收敛而来。
 
 ```text
 Stage 11：React 完整体系
-└── Module 11.01 ～ 11.78
+└── Module 11.01 ～ 11.35
     └── Lesson（基础 / 机制 / 故障 / Debug / 源码 / 性能 / 项目 / 架构均统一为 Lesson）
 ```
 
