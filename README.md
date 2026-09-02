@@ -11,7 +11,7 @@
 + 原理 / 源码
 + 故障与 Debug
 + 性能 / 安全 / 可靠性
-+ 自然穿插的综合项目
++ 顺着学习进度自然出现的综合项目
 + 架构设计、平台建设与治理
 ```
 
@@ -31,12 +31,12 @@
 
 ## 核心文档
 
-当前课程设计区只保留两个核心来源：
+课程设计区只保留两个核心来源：
 
 - [前端架构师唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
-不再为 React、Vue、浏览器、性能、安全、项目等另外建立平行的专项总纲或项目路线。
+不再为 React、Vue、浏览器、性能、安全或项目单独建立平行专项大纲。
 
 所有内容统一进入一条课程主线：
 
@@ -58,47 +58,80 @@ Module
 下一 Stage
 ```
 
-项目和实验是正常学习顺序中的节点，不是另一套课程体系。
+项目和实验都是正常学习顺序中的节点，不是另一套课程体系。
+
+---
+
+## Stage / Module 组织原则
+
+课程参考 `learn-java-course` 的结构思想：
+
+```text
+Stage = 一个较完整的技术 / 能力领域
+Module = 该领域中的一个独立知识主题
+```
+
+因此不会再把同一核心技术人为拆成：
+
+```text
+React 基础 Stage
+→ React 高级 Stage
+→ React 源码 Stage
+```
+
+而是：
+
+```text
+Stage：React 完整体系
+  ↓
+State / Effect / Router / Suspense / SSR / RSC / Fiber / Migration / Architecture ...
+```
+
+React 只学一次，但这一次从零一路学习到源码、性能、服务端、迁移和大型架构。
+
+Vue 同理。
 
 ---
 
 ## 当前总纲
 
-新版总纲当前规划 **Stage 00 ～ Stage 35**，覆盖：
+新版总纲当前规划 **Stage 00 ～ Stage 30**：
 
 ```text
-开发环境 / Git
-→ 计算机 / OS / Linux / 网络基础
-→ Internet / DNS / TCP / TLS / HTTP
-→ HTML / SEO / A11Y
-→ CSS / Modern CSS / Token / Theme
-→ JavaScript 基础 / 对象 / 模块 / DOM / Async
-→ JavaScript Runtime / Event Loop / Memory / Engine / JIT
-→ TypeScript 类型架构
-→ Browser Internals / Multi-process / Worker / PWA
-→ HTTP2/3 / CDN / API / Realtime / Offline
-→ React 从启动到 State / Effect / Suspense / RSC / Fiber 源码
-→ Vue 从启动到响应式 / Renderer / Compiler / SSR 源码
-→ 多框架 / Angular / Web Components / Legacy Migration
-→ UI Engineering / Design System / A11Y / Globalization
-→ Node.js / Compiler / Bundler / Package / Monorepo
-→ Testing / Quality Engineering
-→ BFF / Next.js / Nuxt / Edge / CDN
-→ 数据一致性 / 企业身份 / CMS / Search / Storage / Analytics
-→ PWA / Desktop / Mobile / Miniapp / TV
-→ Realtime Collaboration / Local-first / OT / CRDT
-→ SVG / Canvas / WebGPU / Media / WASM / WebXR
-→ Schema-driven UI / Low-code / Visual Editor
-→ Performance / RUM / Capacity
-→ Security / Privacy / Supply Chain / Threat Modeling
-→ Observability / SLO / CI/CD / Kubernetes / GitOps
-→ DDD / Microfrontend / Plugin / Multitenancy / Frontend Platform
-→ Migration / Governance / Staff & Principal Leadership
-→ AI-assisted Development / MCP / Agent UX / AI Security
-→ Principal 级毕业项目与架构答辩
+Stage 00  开发环境、命令行、Git 与工程师基本功
+Stage 01  计算机组成、操作系统、Linux 与网络底层基础
+Stage 02  Internet、URL、DNS、TCP/TLS、HTTP 与 Web 系统模型
+Stage 03  HTML、语义、表单、媒体、SEO 与可访问性
+Stage 04  CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
+Stage 05  JavaScript 语言、对象体系、集合、模块、元编程与设计抽象
+Stage 06  JavaScript Async、Runtime、Event Loop、Memory、Engine 与算法
+Stage 07  DOM、Event、Form、History 与原生浏览器应用
+Stage 08  TypeScript 从基础到高级类型、Schema、SDK 与类型架构
+Stage 09  浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
+Stage 10  HTTP/2/3、缓存、API、实时通信、流式、数据一致性与离线韧性
+Stage 11  React 完整体系
+Stage 12  Vue 完整体系
+Stage 13  多框架范式、Angular 企业认知、Web Components 与历史系统迁移
+Stage 14  UI Engineering、复杂组件、Design System、A11Y、国际化与样式平台
+Stage 15  Node.js Runtime、CLI、Stream、Process 与前端服务工具
+Stage 16  Compiler、AST、Bundler、Package、Monorepo 与 Developer Experience
+Stage 17  静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
+Stage 18  BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
+Stage 19  数据与平台集成：数据库认知、CMS、Search、Object Storage、Payment、Analytics
+Stage 20  PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
+Stage 21  Realtime Collaboration、Local-first、离线同步、OT/CRDT 与多人系统
+Stage 22  SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
+Stage 23  Schema-driven UI、动态表单、低代码、Visual Editor 与插件式业务平台
+Stage 24  前端性能工程、RUM、Core Web Vitals、Memory、Capacity 与规模治理
+Stage 25  Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
+Stage 26  Observability、SLO、故障治理、CI/CD、Container、Kubernetes、GitOps 与云交付
+Stage 27  DDD、模块化、Microfrontend、Plugin、Multitenancy 与大型前端架构
+Stage 28  Frontend Platform、迁移、技术债、Governance、成本、产品与 Staff/Principal 影响力
+Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全与评估
+Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-详细 Stage、Module、综合实践和阶段验收全部直接写在：
+每个 Stage 的详细 Module、自然穿插的综合实践、Failure/Performance/Source Lab 和阶段项目全部直接写在：
 
 - [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
 
@@ -118,32 +151,27 @@ Module
 → 源码篇
 ```
 
-而在唯一 Owner Module 中，从基础一路覆盖到：
+而是在唯一 Owner Module 中完成：
 
 ```text
-为什么需要
-→ 从零使用
+为什么存在
+→ 基础使用
 → 完整能力
 → 工程实践
+→ 高级边界
 → Wrong Way / Failure
 → Debug
-→ 底层原理
-→ 关键源码（适用时）
+→ 原理
+→ 源码（适用时）
 → 性能 / 安全 / A11Y（适用时）
 → Production Boundary
 → Trade-off / 架构
 → 综合实践
 ```
 
-### 2. 项目顺着学习进度自然出现
+复杂 Module 可以拆很多 Lesson，但完成后不再通过同名“高级 / 源码课程”补课。
 
-不单独建设一条 Projects 支线。
-
-当截至当前位置学过的知识已经能够组成有意义的完整成果，就安排综合实践；随着学习深入，项目自然越来越复杂。
-
-项目不得偷用未来课程尚未正式教授的核心技术。
-
-### 3. 每一课都必须完整可复刻
+### 2. 每一课都必须能被学生完整复刻
 
 需要代码、命令或实验的 Lesson，只允许：
 
@@ -155,49 +183,63 @@ Module
 
 ```text
 明确复制上一课最终源码
-→ 先验证基线
+→ 验证上一课基线
 → 再逐步新增 / 修改 / 删除
 ```
 
-当前 Lesson 最终源码必须独立安装、运行、测试和验证。
+禁止只写“在上一课基础上继续”然后直接给代码。
 
-### 4. 不允许默认读者“应该会”
+### 3. 每一课最终源码必须独立运行
 
-不能因为“上一课讲过”“太简单”“属于常识”“IDE 会提示”就省略当前课程真正需要的上下文和操作。
+即使当前课从上一课复制演进，当前 Lesson 自己仍然必须保存完整最终源码，可以独立安装、运行、测试和验证。
 
-### 5. 手把手必须精确到文件和代码位置
+### 4. 不允许默认读者懂了
 
-关键步骤必须说明：
+不能因为：
+
+```text
+以前讲过
+太简单
+属于常识
+IDE 会提示
+前端应该知道
+```
+
+就省略当前课程真正需要的操作和上下文。
+
+### 5. 教学步骤必须精确到文件和位置
+
+关键步骤必须写清：
 
 ```text
 哪个目录
 哪个文件
 创建 / 修改 / 删除
-找到哪段代码
-在哪里增加 / 替换
+找到哪一段代码
+在上面 / 下面 / 内部修改什么
 为什么这样改
 什么时候运行
-应该看到什么
+看到什么
 为什么出现
 理论上叫什么
 ```
 
-高级课程也保留该要求。独立架构能力通过 Challenge / Project / Architecture Exercise 训练，而不是靠教学文档故意少写信息训练。
+独立设计能力通过 Challenge / Project / Architecture Exercise 训练，而不是通过把教学文档故意写得不完整训练。
 
 ---
 
-## 仓库规划
+## 当前目录
 
 ```text
 learn-frontend-web/
 ├── README.md
 ├── learn-frontend-web-course/
-│   ├── README.md                   # 唯一总纲
-│   └── FRONTEND_TEACHING_GUIDE.md  # 唯一教学 / 编写规范
+│   ├── README.md                    # 唯一总纲
+│   └── FRONTEND_TEACHING_GUIDE.md   # 唯一教学 / 编写规范
 └── courses/
-    └── frontend-architect/          # 总纲确认后逐 Stage 正式建设
+    └── frontend-architect/          # 总纲确认后逐 Stage 正式建设课程
 ```
 
-当前最重要的工作是继续评审：
+当前阶段的重点：
 
-> **这份唯一总纲的 Stage 顺序是否正确、Module 是否足够完整、广度是否遗漏、深度是否真正达到资深架构师，以及综合实践是否在正确的学习时机自然出现。**
+> **先把总纲的广度、深度、Stage/Module 边界和学习顺序确定正确，再正式从 Stage 00 开始逐课建设。**
