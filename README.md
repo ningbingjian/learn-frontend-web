@@ -1,43 +1,106 @@
 # Learn Frontend Web
 
-一个从 **零基础前端开发** 持续成长到 **极其资深前端工程师 / 前端架构师** 的长期学习与实践仓库。
+一个从 **完全零基础** 持续成长到 **极其资深前端工程师 / Staff / Principal / 前端架构师** 的长期学习与实践仓库。
 
-本仓库不是单纯的知识点笔记，而是以 **系统课程 + 可独立运行源码 + 手把手复刻过程 + 项目实战 + 工程化实践 + 原理 / 源码 + 架构设计与治理** 的方式，重新构建完整的前端学习体系。
+本仓库不是 API 笔记、框架速成教程或面试八股合集，而是以：
+
+```text
+系统课程
++ 手把手可复刻过程
++ 每课独立可运行源码
++ 原理 / 源码
++ 故障与 Debug
++ 性能 / 安全 / 可靠性
++ 自然穿插的综合项目
++ 架构设计、平台建设与治理
+```
+
+构建完整前端学习体系。
 
 ---
 
 ## 当前状态
 
-> 🚧 **Frontend Architect 课程正在重新设计。**
+> 🚧 **Frontend Architect 正式课程正在重新设计。**
 
-原 `courses/frontend-architect` 下的旧课程内容已经清理。
+原 `courses/frontend-architect` 旧课程已经清理。
 
-当前阶段先在 `learn-frontend-web-course/` 中完成：
-
-- 能力模型；
-- 课程大纲；
-- Module 深度边界；
-- 项目体系；
-- 验收标准；
-- 统一教学与课程编写规范；
-- 课程演进和版本治理规则。
-
-确认后再重新创建正式课程内容。
+当前先在 `learn-frontend-web-course/` 中把**唯一总纲**和**统一教学规范**设计正确，再按总纲逐 Stage → Module → Lesson 落地正式课程。
 
 ---
 
-## 课程设计与大纲
+## 核心文档
 
-核心文档：
+当前课程设计区只保留两个核心来源：
 
-- [Learn Frontend Web Course](./learn-frontend-web-course/README.md)
-- [从零基础到极其资深前端架构师：总览、能力模型与课程地图](./learn-frontend-web-course/00-overview-and-capability-model.md)
-- [Frontend Teaching Guide](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
-- [长期项目、阶段验收、拆课与课程演进规则](./learn-frontend-web-course/05-projects-assessment-and-evolution.md)
+- [前端架构师唯一总纲](./learn-frontend-web-course/README.md)
+- [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
-当前大纲版本：`v0.2`。
+不再为 React、Vue、浏览器、性能、安全、项目等另外建立平行的专项总纲或项目路线。
 
-v0.1 的 28 卷 / 84 Stage 详细地图继续保留为重构底稿，但 **v0.2 不再把“固定 84 Stage”作为最终约束**。后续会根据知识本身拆开过载 Stage、合并重复内容并补齐缺失领域。
+所有内容统一进入一条课程主线：
+
+```text
+Stage
+  ↓
+Module
+  ↓
+Module
+  ↓
+知识已经足够组合
+  ↓
+综合实践 / Failure Lab / Source Lab / Performance Lab
+  ↓
+继续 Module
+  ↓
+阶段综合项目
+  ↓
+下一 Stage
+```
+
+项目和实验是正常学习顺序中的节点，不是另一套课程体系。
+
+---
+
+## 当前总纲
+
+新版总纲当前规划 **Stage 00 ～ Stage 35**，覆盖：
+
+```text
+开发环境 / Git
+→ 计算机 / OS / Linux / 网络基础
+→ Internet / DNS / TCP / TLS / HTTP
+→ HTML / SEO / A11Y
+→ CSS / Modern CSS / Token / Theme
+→ JavaScript 基础 / 对象 / 模块 / DOM / Async
+→ JavaScript Runtime / Event Loop / Memory / Engine / JIT
+→ TypeScript 类型架构
+→ Browser Internals / Multi-process / Worker / PWA
+→ HTTP2/3 / CDN / API / Realtime / Offline
+→ React 从启动到 State / Effect / Suspense / RSC / Fiber 源码
+→ Vue 从启动到响应式 / Renderer / Compiler / SSR 源码
+→ 多框架 / Angular / Web Components / Legacy Migration
+→ UI Engineering / Design System / A11Y / Globalization
+→ Node.js / Compiler / Bundler / Package / Monorepo
+→ Testing / Quality Engineering
+→ BFF / Next.js / Nuxt / Edge / CDN
+→ 数据一致性 / 企业身份 / CMS / Search / Storage / Analytics
+→ PWA / Desktop / Mobile / Miniapp / TV
+→ Realtime Collaboration / Local-first / OT / CRDT
+→ SVG / Canvas / WebGPU / Media / WASM / WebXR
+→ Schema-driven UI / Low-code / Visual Editor
+→ Performance / RUM / Capacity
+→ Security / Privacy / Supply Chain / Threat Modeling
+→ Observability / SLO / CI/CD / Kubernetes / GitOps
+→ DDD / Microfrontend / Plugin / Multitenancy / Frontend Platform
+→ Migration / Governance / Staff & Principal Leadership
+→ AI-assisted Development / MCP / Agent UX / AI Security
+→ Principal 级毕业项目与架构答辩
+```
+
+详细 Stage、Module、综合实践和阶段验收全部直接写在：
+
+- [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
 
 ---
 
@@ -45,7 +108,7 @@ v0.1 的 28 卷 / 84 Stage 详细地图继续保留为重构底稿，但 **v0.2 
 
 ### 1. 一个 Module，一次学透
 
-同一个知识主题不再采用：
+同一个知识主题不采用：
 
 ```text
 基础篇
@@ -55,26 +118,32 @@ v0.1 的 28 卷 / 84 Stage 详细地图继续保留为重构底稿，但 **v0.2 
 → 源码篇
 ```
 
-而是在唯一 Owner Module 中，从基础一路覆盖到：
+而在唯一 Owner Module 中，从基础一路覆盖到：
 
 ```text
-基础使用
+为什么需要
+→ 从零使用
 → 完整能力
 → 工程实践
-→ 高级边界
 → Wrong Way / Failure
 → Debug
-→ 原理
-→ 源码（适用时）
+→ 底层原理
+→ 关键源码（适用时）
 → 性能 / 安全 / A11Y（适用时）
 → Production Boundary
 → Trade-off / 架构
-→ 综合实战
+→ 综合实践
 ```
 
-复杂 Module 可以拆很多 Lesson，但完成后不再通过同名“高级 / 源码课程”补课。
+### 2. 项目顺着学习进度自然出现
 
-### 2. 每一课都必须能被学生完整复刻
+不单独建设一条 Projects 支线。
+
+当截至当前位置学过的知识已经能够组成有意义的完整成果，就安排综合实践；随着学习深入，项目自然越来越复杂。
+
+项目不得偷用未来课程尚未正式教授的核心技术。
+
+### 3. 每一课都必须完整可复刻
 
 需要代码、命令或实验的 Lesson，只允许：
 
@@ -86,132 +155,49 @@ v0.1 的 28 卷 / 84 Stage 详细地图继续保留为重构底稿，但 **v0.2 
 
 ```text
 明确复制上一课最终源码
-→ 验证上一课基线
+→ 先验证基线
 → 再逐步新增 / 修改 / 删除
 ```
 
-禁止只写“在上一课基础上继续”然后直接给代码。
+当前 Lesson 最终源码必须独立安装、运行、测试和验证。
 
-### 3. 每一课最终源码必须独立运行
+### 4. 不允许默认读者“应该会”
 
-即使当前课从上一课复制演进，当前 Lesson 自己仍然必须保存完整最终源码，可以独立安装、运行、测试和验证。
+不能因为“上一课讲过”“太简单”“属于常识”“IDE 会提示”就省略当前课程真正需要的上下文和操作。
 
-### 4. 不允许默认读者懂了
+### 5. 手把手必须精确到文件和代码位置
 
-不能因为：
-
-```text
-以前讲过
-太简单
-属于常识
-IDE 会提示
-前端应该知道
-```
-
-就省略当前课程真正需要的操作和上下文。
-
-### 5. 教学步骤必须精确到文件和位置
-
-关键步骤必须写清：
+关键步骤必须说明：
 
 ```text
 哪个目录
 哪个文件
 创建 / 修改 / 删除
-找到哪一段代码
-在上面 / 下面 / 内部修改什么
+找到哪段代码
+在哪里增加 / 替换
 为什么这样改
 什么时候运行
-看到什么
+应该看到什么
 为什么出现
 理论上叫什么
 ```
 
-高级课程也不取消这项要求。独立设计能力通过 Challenge / Project / Architecture Exercise 训练，而不是通过把教学文档故意写得不完整训练。
+高级课程也保留该要求。独立架构能力通过 Challenge / Project / Architecture Exercise 训练，而不是靠教学文档故意少写信息训练。
 
 ---
 
-## Must / Should / Expert
-
-三档表示同一主题的不同学习深度：
-
-```text
-Must
-→ 正常前端开发必须掌握的正确使用和基础模型
-
-Should
-→ 高级 / 资深前端需要掌握的复杂场景、故障、Debug、工程和性能
-
-Expert
-→ 技术专家 / 前端架构师需要掌握的机制、源码、系统性能、安全、架构与治理
-```
-
-它们不是三个不同课程，也不是“Expert 可以不讲”的选修开关。
-
-本课程目标是从零到极其资深前端架构师，因此一个完整主教学 Module 计划内的 Must / Should / Expert 最终都要覆盖。
-
----
-
-## 学习目标
-
-课程最终建立完整的前端技术能力体系，包括但不限于：
-
-- 计算机、操作系统与工程师基本功；
-- Web、HTTP、浏览器与网络；
-- HTML / CSS / JavaScript / TypeScript；
-- React / Vue 以及至少一个框架的源码与架构深度；
-- UI 工程、A11Y、全球化与设计系统；
-- Node.js、编译器、构建器、Monorepo 与包工程；
-- 测试、性能、安全、身份、隐私与可靠性；
-- BFF、SSR、Edge、CDN、容器、Kubernetes 与云交付；
-- 实时、离线、数据一致性和第三方集成；
-- Desktop / Mobile / TV、图形、媒体和新兴 Web 能力；
-- DDD、微前端、插件、多租户、Schema-driven UI / Low-code；
-- 前端平台、Developer Portal、迁移和技术治理；
-- 产品、数据实验、成本和组织影响；
-- AI 辅助研发、MCP、Agent UX、AI 安全与评估。
-
----
-
-## 实践体系
-
-```text
-Lesson Minimal Lab / Evolving Lesson
-        ↓
-Module Project
-        ↓
-Stage Project
-        ↓
-Frontend Cloud Workbench
-        ↓
-Specialization / Domain Capstone
-        ↓
-Principal Capstone
-```
-
-长期主线项目继续使用 **Frontend Cloud Workbench (FCW)**，但架构阶段还会加入企业 SaaS、电商交易、内容 / SEO、实时协作、媒体 / TV、数据分析、低代码和 AI Agent 等不同领域项目，避免只会设计一种后台 SaaS。
-
----
-
-## 目录
+## 仓库规划
 
 ```text
 learn-frontend-web/
 ├── README.md
 ├── learn-frontend-web-course/
-│   ├── README.md
-│   ├── FRONTEND_TEACHING_GUIDE.md
-│   ├── 00-overview-and-capability-model.md
-│   ├── 01-foundation-to-typescript.md
-│   ├── 02-browser-framework-ui.md
-│   ├── 03-engineering-fullstack-cross-platform.md
-│   ├── 04-quality-security-architecture-ai.md
-│   └── 05-projects-assessment-and-evolution.md
+│   ├── README.md                   # 唯一总纲
+│   └── FRONTEND_TEACHING_GUIDE.md  # 唯一教学 / 编写规范
 └── courses/
-    └── frontend-architect/
-        └── 大纲确认后重新创建正式课程
+    └── frontend-architect/          # 总纲确认后逐 Stage 正式建设
 ```
 
-当前阶段的重点不是马上批量生成课程，而是：
+当前最重要的工作是继续评审：
 
-> **先把广度、深度、Module 边界、可复刻教学规则和验收标准设计正确，再开始正式课程建设。**
+> **这份唯一总纲的 Stage 顺序是否正确、Module 是否足够完整、广度是否遗漏、深度是否真正达到资深架构师，以及综合实践是否在正确的学习时机自然出现。**
