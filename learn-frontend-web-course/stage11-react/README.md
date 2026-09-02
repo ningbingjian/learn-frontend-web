@@ -1,12 +1,10 @@
 # Stage 11：React 完整体系
 
-> 版本：v2.2-draft  
+> 版本：v2.3-draft  
 > 基线日期：2026-09-02  
 > React 基线：React 19.2.x Stable；正式课程编写时使用当时最新稳定补丁并重新核验官方文档、安全公告和生态兼容性。  
 > 上级总纲：[`../README.md`](../README.md)  
 > 教学规范：[`../FRONTEND_TEACHING_GUIDE.md`](../FRONTEND_TEACHING_GUIDE.md)
-
----
 
 ---
 
@@ -16,43 +14,8 @@
 - [返回前端课程总纲](../README.md)
 - [统一教学与课程编写规范](../FRONTEND_TEACHING_GUIDE.md)
 - [1. 阶段定位](#section-1)
-- [2. Stage 11 固定结构](#section-2)
+- [2. Stage 11 课程与文件结构](#section-2)
 - [3. Module 总纲](#section-3)
-  - [Module 11.01：React Problem Domain、Project Bootstrap 与 Root Lifecycle](./module11-01-react-foundation/README.md)
-  - [Module 11.02：JSX 与 React Object Model](./module11-02-jsx-object-model/README.md)
-  - [Module 11.03：Component、Pure Render、Props 与 Composition](./module11-03-component-props-composition/README.md)
-  - [Module 11.04：Conditional Rendering、List、Key 与 Identity](./module11-04-conditional-list-key-identity/README.md)
-  - [Module 11.05：React Event System](./module11-05-event-system/README.md)
-  - [Module 11.06：State Fundamentals、Render Snapshot、Update Queue 与 Batching](./module11-06-state-snapshot-queue-batching/README.md)
-  - [Module 11.07：Immutable State 与 Component Identity](./module11-07-immutable-state-identity/README.md)
-  - [Module 11.08：State Modeling 与 Ownership](./module11-08-state-modeling-ownership/README.md)
-  - [Module 11.09：React Form 完整体系](./module11-09-form/README.md)
-  - [Module 11.10：Reducer、Context 与 State Architecture](./module11-10-reducer-context-state-architecture/README.md)
-  - [Module 11.11：Ref 与 Imperative Escape Hatches](./module11-11-ref-imperative/README.md)
-  - [Module 11.12：Effect 与 External Synchronization](./module11-12-effect-external-sync/README.md)
-  - [Module 11.13：Custom Hook 与 External Store Integration](./module11-13-custom-hook-external-store/README.md)
-  - [Module 11.14：Router 与 Route Data Architecture](./module11-14-router-route-data/README.md)
-  - [Module 11.15：Server State、TanStack Query 与 API Boundary](./module11-15-server-state-query-api/README.md)
-  - [Module 11.16：Actions 与 Optimistic Mutations](./module11-16-actions-optimistic/README.md)
-  - [Module 11.17：Concurrent React：Transition、Suspense、use 与 Activity](./module11-17-concurrent-suspense-activity/README.md)
-  - [Module 11.18：Profiling、Render Performance、Memoization 与 React Compiler](./module11-18-performance-compiler/README.md)
-  - [Module 11.19：React DOM 与 Portal](./module11-19-react-dom-portal/README.md)
-  - [Module 11.20：Resource Loading 与 Metadata](./module11-20-resource-metadata/README.md)
-  - [Module 11.21：React Error Model](./module11-21-error-model/README.md)
-  - [Module 11.22：React-specific Accessibility、Security 与 Debugging](./module11-22-a11y-security-debugging/README.md)
-  - [Module 11.23：React Testing Integration](./module11-23-testing/README.md)
-  - [Module 11.24：SSR、Hydration、Streaming 与 Prerender](./module11-24-ssr-hydration-streaming/README.md)
-  - [Module 11.25：RSC、Server/Client Boundary、Server Functions 与 Data/Cache Architecture](./module11-25-rsc-server-functions-data/README.md)
-  - [Module 11.26：React Source Research 与 Fiber Model](./module11-26-source-fiber/README.md)
-  - [Module 11.27：Reconciler 与 Render / Commit Pipeline](./module11-27-reconciler-render-commit/README.md)
-  - [Module 11.28：Hooks 与 Update Queue Internals](./module11-28-hooks-update-queue-internals/README.md)
-  - [Module 11.29：Lane、Scheduler 与 Suspense / Activity Internals](./module11-29-lane-scheduler-suspense-internals/README.md)
-  - [Module 11.30：Server Renderer、Hydration 与 RSC Internals](./module11-30-server-renderer-hydration-rsc-internals/README.md)
-  - [Module 11.31：React Library 与 Headless Component Architecture](./module11-31-library-headless/README.md)
-  - [Module 11.32：Large-scale React Architecture 与 Microfrontend Boundary](./module11-32-large-scale-microfrontend/README.md)
-  - [Module 11.33：Legacy React 与 Migration](./module11-33-legacy-migration/README.md)
-  - [Module 11.34：React Upgrade Governance](./module11-34-upgrade-governance/README.md)
-  - [Module 11.35：React Architecture Review 与最终综合项目](./module11-35-architecture-final/README.md)
 - [4. Stage 11 阶段验收](#section-4)
 - [5. 文件拆分状态](#section-5)
 <!-- NAVIGATION:END -->
@@ -105,7 +68,7 @@ React 不再拆成“基础 / 高级 / SSR / 源码”等多个 Stage，而是�
 ---
 
 <a id="section-2"></a>
-# 2. Stage 11 固定结构
+# 2. Stage 11 课程与文件结构
 
 Stage 11 后续只使用三级课程结构：
 
@@ -130,8 +93,6 @@ Stage
 7. Lesson ID 使用稳定语义 ID；即使后续调整 Module 顺序，引用关系也尽量不被破坏。
 
 当前 Stage 11 已收敛为 `Module 11.01 ～ 11.35`；原有 Lesson、综合项目、源码、性能、故障、迁移与治理内容全部保留，仅合并过碎 Module 边界。正式课程编写前只继续做全局依赖、重复、粒度与 Knowledge Ceiling 复审。
-
----
 
 ---
 
