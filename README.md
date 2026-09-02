@@ -1,73 +1,204 @@
 # Learn Frontend Web
 
-一个从 **零基础前端开发** 持续成长到 **资深前端工程师 / 前端架构师** 的长期学习与实践仓库。
+一个从 **零基础前端开发** 持续成长到 **极其资深前端工程师 / 前端架构师** 的长期学习与实践仓库。
 
-本仓库不是单纯的知识点笔记，而是计划以 **系统课程 + 可运行源码 + 项目实战 + 工程化实践 + 架构设计** 的方式，重新构建完整的前端学习体系。
+本仓库不是单纯的知识点笔记，而是以 **系统课程 + 可独立运行源码 + 手把手复刻过程 + 项目实战 + 工程化实践 + 原理 / 源码 + 架构设计与治理** 的方式，重新构建完整的前端学习体系。
+
+---
 
 ## 当前状态
 
 > 🚧 **Frontend Architect 课程正在重新设计。**
 
-原 `courses/frontend-architect` 下的旧课程内容已经清理。接下来会先完成课程体系、阶段划分、模块设计、项目主线和验收标准，再重新编写正式课程。
+原 `courses/frontend-architect` 下的旧课程内容已经清理。
 
-因此，当前仓库暂时不再标记 HTML、CSS、TypeScript、React 等旧模块为“已完成”。新课程会在整体大纲评审后重新创建并逐步落地。
+当前阶段先在 `learn-frontend-web-course/` 中完成：
+
+- 能力模型；
+- 课程大纲；
+- Module 深度边界；
+- 项目体系；
+- 验收标准；
+- 统一教学与课程编写规范；
+- 课程演进和版本治理规则。
+
+确认后再重新创建正式课程内容。
+
+---
 
 ## 课程设计与大纲
 
-课程设计、大纲和统一教学规范集中放在：
+核心文档：
 
 - [Learn Frontend Web Course](./learn-frontend-web-course/README.md)
 - [从零基础到极其资深前端架构师：总览、能力模型与课程地图](./learn-frontend-web-course/00-overview-and-capability-model.md)
 - [Frontend Teaching Guide](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
+- [长期项目、阶段验收、拆课与课程演进规则](./learn-frontend-web-course/05-projects-assessment-and-evolution.md)
 
-当前总纲采用 **8 个能力等级、28 卷、84 个阶段**，覆盖从计算机、Web、HTML、CSS、JavaScript、TypeScript、浏览器和网络，到 React、Vue、工程化、全栈、跨端、性能、安全、可靠性、前端架构、平台治理、领导力与 AI 原生前端。
+当前大纲版本：`v0.2`。
 
-`learn-frontend-web-course/` 用于统一维护课程大纲、教学规范、项目主线和课程演进设计；确认后的正式课程内容会拆入 `courses/frontend-architect`。
+v0.1 的 28 卷 / 84 Stage 详细地图继续保留为重构底稿，但 **v0.2 不再把“固定 84 Stage”作为最终约束**。后续会根据知识本身拆开过载 Stage、合并重复内容并补齐缺失领域。
+
+---
+
+## 最重要的课程原则
+
+### 1. 一个 Module，一次学透
+
+同一个知识主题不再采用：
+
+```text
+基础篇
+→ 高级篇
+→ 深入篇
+→ 原理篇
+→ 源码篇
+```
+
+而是在唯一 Owner Module 中，从基础一路覆盖到：
+
+```text
+基础使用
+→ 完整能力
+→ 工程实践
+→ 高级边界
+→ Wrong Way / Failure
+→ Debug
+→ 原理
+→ 源码（适用时）
+→ 性能 / 安全 / A11Y（适用时）
+→ Production Boundary
+→ Trade-off / 架构
+→ 综合实战
+```
+
+复杂 Module 可以拆很多 Lesson，但完成后不再通过同名“高级 / 源码课程”补课。
+
+### 2. 每一课都必须能被学生完整复刻
+
+需要代码、命令或实验的 Lesson，只允许：
+
+```text
+从零状态开始
+```
+
+或者：
+
+```text
+明确复制上一课最终源码
+→ 验证上一课基线
+→ 再逐步新增 / 修改 / 删除
+```
+
+禁止只写“在上一课基础上继续”然后直接给代码。
+
+### 3. 每一课最终源码必须独立运行
+
+即使当前课从上一课复制演进，当前 Lesson 自己仍然必须保存完整最终源码，可以独立安装、运行、测试和验证。
+
+### 4. 不允许默认读者懂了
+
+不能因为：
+
+```text
+以前讲过
+太简单
+属于常识
+IDE 会提示
+前端应该知道
+```
+
+就省略当前课程真正需要的操作和上下文。
+
+### 5. 教学步骤必须精确到文件和位置
+
+关键步骤必须写清：
+
+```text
+哪个目录
+哪个文件
+创建 / 修改 / 删除
+找到哪一段代码
+在上面 / 下面 / 内部修改什么
+为什么这样改
+什么时候运行
+看到什么
+为什么出现
+理论上叫什么
+```
+
+高级课程也不取消这项要求。独立设计能力通过 Challenge / Project / Architecture Exercise 训练，而不是通过把教学文档故意写得不完整训练。
+
+---
+
+## Must / Should / Expert
+
+三档表示同一主题的不同学习深度：
+
+```text
+Must
+→ 正常前端开发必须掌握的正确使用和基础模型
+
+Should
+→ 高级 / 资深前端需要掌握的复杂场景、故障、Debug、工程和性能
+
+Expert
+→ 技术专家 / 前端架构师需要掌握的机制、源码、系统性能、安全、架构与治理
+```
+
+它们不是三个不同课程，也不是“Expert 可以不讲”的选修开关。
+
+本课程目标是从零到极其资深前端架构师，因此一个完整主教学 Module 计划内的 Must / Should / Expert 最终都要覆盖。
+
+---
 
 ## 学习目标
 
-课程最终目标不是只掌握某一个前端框架，而是建立完整的前端技术能力体系：
+课程最终建立完整的前端技术能力体系，包括但不限于：
 
-- Web 与浏览器基础
-- HTML / CSS / JavaScript / TypeScript
-- React / Vue 等现代前端框架及其生态
-- 前端工程化与构建体系
-- Node.js 与前端服务层能力
-- 网络、浏览器原理与性能优化
-- 前端测试体系与质量工程
-- 组件库、设计系统与大型应用架构
-- 微前端、插件系统、跨端与多端工程
-- 前端安全、隐私、监控与可观测性
-- CI/CD、部署与云原生前端工程
-- 多租户、前端平台与大型团队架构治理
-- AI 时代的前端开发、Agent UX 与工程效率
-- 从业务开发到 Principal 级前端架构能力的综合项目实战
+- 计算机、操作系统与工程师基本功；
+- Web、HTTP、浏览器与网络；
+- HTML / CSS / JavaScript / TypeScript；
+- React / Vue 以及至少一个框架的源码与架构深度；
+- UI 工程、A11Y、全球化与设计系统；
+- Node.js、编译器、构建器、Monorepo 与包工程；
+- 测试、性能、安全、身份、隐私与可靠性；
+- BFF、SSR、Edge、CDN、容器、Kubernetes 与云交付；
+- 实时、离线、数据一致性和第三方集成；
+- Desktop / Mobile / TV、图形、媒体和新兴 Web 能力；
+- DDD、微前端、插件、多租户、Schema-driven UI / Low-code；
+- 前端平台、Developer Portal、迁移和技术治理；
+- 产品、数据实验、成本和组织影响；
+- AI 辅助研发、MCP、Agent UX、AI 安全与评估。
 
-## 课程建设原则
+---
 
-课程将尽量遵循以下方式组织：
+## 实践体系
 
-1. **从 0 到 1**：不默认已经掌握关键前置知识。
-2. **理论 + 实践**：知识点必须尽量配套可运行代码或其他可验证证据。
-3. **循序渐进**：基础、进阶、高级、工程化、质量、架构和组织能力逐层提升。
-4. **面向真实开发**：不仅解释 API，还要解释为什么这样设计、实际项目怎么使用。
-5. **长期主线项目**：重要能力持续演进到同一个企业级项目，而不是长期停留在孤立 Demo。
-6. **证据优先**：通过 DevTools、测试、网络记录、性能数据、源码断点或架构产物验证结论。
-7. **架构视角**：后期重点训练技术选型、复杂度控制、性能、安全、稳定性、成本、可维护性和团队协作。
-8. **持续更新**：课程内容根据 Web 标准、现代前端生态和工程实践持续演进。
+```text
+Lesson Minimal Lab / Evolving Lesson
+        ↓
+Module Project
+        ↓
+Stage Project
+        ↓
+Frontend Cloud Workbench
+        ↓
+Specialization / Domain Capstone
+        ↓
+Principal Capstone
+```
 
-## 教学规范
+长期主线项目继续使用 **Frontend Cloud Workbench (FCW)**，但架构阶段还会加入企业 SaaS、电商交易、内容 / SEO、实时协作、媒体 / TV、数据分析、低代码和 AI Agent 等不同领域项目，避免只会设计一种后台 SaaS。
 
-正式课程详细内容遵循：
+---
 
-- [Frontend Teaching Guide](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
-
-## 目录规划
+## 目录
 
 ```text
 learn-frontend-web/
 ├── README.md
-├── learn-frontend-web-course/        # 课程大纲、教学规范、能力模型与演进设计
+├── learn-frontend-web-course/
 │   ├── README.md
 │   ├── FRONTEND_TEACHING_GUIDE.md
 │   ├── 00-overview-and-capability-model.md
@@ -77,11 +208,10 @@ learn-frontend-web/
 │   ├── 04-quality-security-architecture-ai.md
 │   └── 05-projects-assessment-and-evolution.md
 └── courses/
-    └── frontend-architect/            # 大纲确认后重新创建正式课程
-        ├── README.md
-        ├── level00-...
-        ├── level01-...
-        └── ...
+    └── frontend-architect/
+        └── 大纲确认后重新创建正式课程
 ```
 
-> 当前阶段的重点：**先把从零基础到极其资深前端架构师的完整课程体系设计正确，再开始批量编写具体课程。**
+当前阶段的重点不是马上批量生成课程，而是：
+
+> **先把广度、深度、Module 边界、可复刻教学规则和验收标准设计正确，再开始正式课程建设。**
