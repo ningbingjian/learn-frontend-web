@@ -1,8 +1,8 @@
 # Learn Frontend Web Course
 
-> 一套从完全零基础一路学习到极其资深前端工程师 / 前端架构师的系统化课程总纲。
+> 一套从完全零基础一路学习到极其资深前端工程师 / Staff / Principal / 前端架构师的系统化课程总纲。
 >
-> 版本：v1.0-draft  
+> 版本：v1.1-draft  
 > 基线日期：2026-09-02  
 > 课程编写规范：[`FRONTEND_TEACHING_GUIDE.md`](./FRONTEND_TEACHING_GUIDE.md)
 
@@ -12,7 +12,7 @@
 
 这不是 HTML/CSS/JavaScript API 大全，不是 React/Vue 快速入门，也不是面试八股合集。
 
-整套课程希望建立下面这条完整能力链：
+整套课程最终希望建立下面这条能力链：
 
 ```text
 完全零基础
@@ -27,26 +27,25 @@
   ↓
 能够定位浏览器、网络、内存、性能、安全和线上故障
   ↓
-能够设计大型前端应用、组件平台和基础设施
+能够设计大型前端应用、组件平台与开发基础设施
   ↓
-能够负责多团队前端平台、迁移、治理和技术战略
+能够负责多团队前端平台、迁移、治理与技术战略
   ↓
 Staff / Principal / 极其资深前端架构师
 ```
 
-最终不仅要会“用某项技术”，还要能够回答：
+最终不仅要会“使用某项技术”，还必须能够回答：
 
-- 它为什么存在，真正解决什么问题？
-- 从空项目开始应该怎样一步一步使用？
-- 浏览器、JavaScript Runtime、框架和工具链底层为什么这样工作？
+- 它为什么存在，解决什么问题？
+- 从空项目开始怎样一步一步使用？
+- 浏览器、JavaScript Runtime、框架和工具链为什么这样工作？
 - 核心数据结构、调度、协议、编译、缓存和运行模型是什么？
-- 关键源码在哪里，怎样通过断点和运行证据验证？
+- 关键源码在哪里，怎样通过断点、Profiler、Trace、Network、Heap 等证据验证？
 - 性能成本在哪里，CPU、内存、网络、DOM、Bundle 和服务器成本如何衡量？
-- 会出现哪些真实故障，怎样稳定复现、定位、修复和防止回归？
+- 会出现哪些真实故障，怎样稳定复现、定位、修复并防止回归？
 - 安全、隐私、A11Y、国际化和兼容边界是什么？
-- 什么场景应该使用，什么场景不应该使用？
-- 替代方案是什么，Trade-off 是什么？
-- 系统从 1 个页面增长到大型产品，从 5 人团队增长到 100 人团队后如何演进？
+- 什么场景应该使用，什么场景不应该使用？替代方案和 Trade-off 是什么？
+- 系统从一个页面增长为大型产品、从 5 人团队增长到 100 人团队后怎样演进？
 - 如何建设标准、平台、Golden Path、质量门禁和组织治理机制？
 
 最终形成：
@@ -55,15 +54,14 @@ Staff / Principal / 极其资深前端架构师
 实现能力
 + Web / 浏览器原理能力
 + JavaScript / TypeScript 深度
-+ 框架能力
++ React / Vue 框架能力
 + 工程能力
 + 源码能力
 + 性能能力
 + 安全与可靠性能力
 + 故障诊断能力
 + 全栈与云交付能力
-+ 架构设计能力
-+ 架构演进能力
++ 架构设计与演进能力
 + 平台建设能力
 + 技术治理与组织影响能力
 + AI 原生前端能力
@@ -71,68 +69,83 @@ Staff / Principal / 极其资深前端架构师
 
 ---
 
-# 2. 最重要的课程原则：一个模块，一次学透
+# 2. Stage 与 Module 的边界
 
-本课程不采用：
+本课程参考 `learn-java-course` 的课程组织思想：
 
-```text
-先学“基础篇”
-→ 几个月以后再学“高级篇”
-→ 再以后补“原理篇”
-→ 最后再单独开“源码篇”
-```
+> **Stage 表示一个较完整的技术 / 能力领域；Module 表示这个领域中的一个独立知识主题。**
 
-而采用：
+因此不再按照下面这种方式拆 Stage：
 
 ```text
-一个知识主题
-  ↓
-一个 Owner Module
-  ↓
-从入门一直学习到完整能力、复杂边界、原理、源码、性能和生产实践
-  ↓
-模块闭环
+React 基础 Stage
+→ React 高级 Stage
+→ React SSR Stage
+→ React 源码 Stage
 ```
 
-例如 React State 学完以后，后续不会再创建：
+而是：
 
 ```text
-React State 高级篇
-React State 深入篇
-React State 源码篇
+Stage：React 完整体系
+  ↓
+Module：State
+Module：Effect
+Module：Router
+Module：Suspense
+Module：SSR
+Module：RSC
+Module：Fiber
+Module：Migration
+...
 ```
 
-而是在第一次学习 React State 所属 Module 时，就按课程依赖允许的深度把它完整学透。
+React 只学习一次，但这一次从零一路学到源码、性能、服务端、生产架构和治理。
 
-## 2.1 每个 Module 的统一深度
+Vue 同理。
 
-真正拆 Lesson 时，一个核心 Module 原则上都要覆盖：
+## 2.1 一个 Module，一次学透
 
-1. **背景与问题**：为什么需要它。
-2. **基础概念**：术语、对象和关系。
-3. **从零实践**：最小可运行使用。
-4. **完整能力**：重要 API、配置和特性。
-5. **工程实践**：真实项目如何使用。
-6. **高级特性**：复杂场景和边界。
-7. **Wrong Way**：能运行但有问题的常见写法。
-8. **故障模式**：真实 Bug 和生产问题。
-9. **调试诊断**：DevTools、日志、Network、Profiler、Trace、Heap、断点等。
-10. **底层原理**：算法、调度、协议、存储、编译、渲染或线程模型。
-11. **关键源码**：适用时进入源码，不机械逐行抄代码。
-12. **性能**：时间、空间、CPU、内存、DOM、网络、Bundle、服务端成本。
-13. **安全 / A11Y / 兼容**：适用时必须覆盖。
-14. **测试验证**：Unit、Component、E2E、Contract、Performance、Failure Injection 等。
-15. **Production Boundary**：生产环境怎么设计、监控、发布和演进。
-16. **技术选型**：什么时候用，什么时候不用，替代方案和 Trade-off。
-17. **综合实践**：用截至当前已经正式学习过的知识证明掌握。
+同一个知识主题只能有一个 Owner Module。
 
-> 深度不通过 README 行数、技术名词数量、代码量或依赖数量证明，而通过“能否解释、复现、Debug、验证、设计和演进”证明。
+一个核心 Module 原则上必须覆盖：
+
+1. 背景与问题；
+2. 基础概念；
+3. 从零实践；
+4. 完整能力；
+5. 工程实践；
+6. 高级特性与复杂边界；
+7. Wrong Way；
+8. 故障模式；
+9. Debug / 诊断；
+10. 底层原理；
+11. 关键源码（适用时）；
+12. 性能；
+13. 安全 / A11Y / 兼容（适用时）；
+14. 测试验证；
+15. Production Boundary；
+16. 替代方案与 Trade-off；
+17. 综合实践。
+
+禁止以后再通过：
+
+```text
+XXX 高级篇
+XXX 深入篇
+XXX 原理篇
+XXX 源码篇
+```
+
+补前面没有讲透的内容。
+
+复杂 Module 可以拆成很多 Lesson，但它仍属于同一个 Module。
 
 ---
 
-# 3. 项目与实验如何进入课程
+# 3. 项目与实验如何进入正常学习路径
 
-项目、Failure Lab、Performance Lab、Source Lab **不是另一条学习支线**。
+项目、Failure Lab、Performance Lab、Source Lab 不是另一条学习支线。
 
 它们直接出现在正常学习顺序中：
 
@@ -141,7 +154,7 @@ Module
 ↓
 Module
 ↓
-知识已经能够组成完整成果
+知识已经足够组合
 ↓
 综合实践
 ↓
@@ -156,34 +169,9 @@ Failure / Performance / Source 实验
 进入下一 Stage
 ```
 
-项目规模随知识自然增长，不强制机械标记 Small / Medium / Large。
+项目规模随着学习内容自然增长，不机械规定每个 Module 都必须有 Small / Medium / Large 三类项目。
 
-例如：
-
-```text
-只学 HTML
-→ 做语义化内容页
-
-HTML + CSS
-→ 做响应式产品网站
-
-JavaScript + DOM + Async
-→ 做原生 JavaScript 应用
-
-TypeScript
-→ 把数据层和公共 SDK 类型化
-
-React
-→ 做完整 React 企业应用
-
-全栈渲染 + BFF
-→ 做生产级全栈 Web 产品
-
-性能 + 安全 + SRE + 架构
-→ 做可观测、可灰度、可回滚的企业平台
-```
-
-## 3.1 Knowledge Ceiling：项目不得偷用未来知识
+## 3.1 Knowledge Ceiling
 
 任何综合实践使用的核心技术必须满足：
 
@@ -193,20 +181,20 @@ React
 
 禁止为了项目方便突然引入尚未学习的框架、状态库、请求库、构建工具或后端能力，然后告诉学习者“先复制，后面再讲”。
 
-如果必须使用尚未学习的辅助设施，例如为了 HTTP 课程启动一个简单 Mock Server，必须明确：
+如果必须使用尚未学习的教学辅助设施，例如 HTTP 课程需要一个简单 Mock Server，必须明确：
 
 - 它只是教学辅助设施；
 - 当前不要求理解内部实现；
 - 提供完整启动方式和预期结果；
-- 它对应的正式知识会在哪个 Stage 学习。
+- 对应知识会在哪个 Stage 正式学习。
 
 ---
 
 # 4. 每一课都必须可复刻
 
-需要代码、命令或实验的 Lesson 只有两种合法起点：
+需要代码、命令或实验的 Lesson 只有两种合法起点。
 
-### 方式 A：从零状态开始
+### A. 从零状态开始
 
 ```text
 空目录 / 最小空项目
@@ -214,15 +202,15 @@ React
 → 得到当前 Lesson 完整最终源码
 ```
 
-### 方式 B：明确从上一课最终项目演进
+### B. 明确从上一课最终项目演进
 
-必须先写：
+必须先提供：
 
 ```text
 Step 0：准备本课起始项目
 ```
 
-并明确：
+并写清：
 
 1. 上一课最终源码在哪里；
 2. 复制哪个目录；
@@ -231,21 +219,11 @@ Step 0：准备本课起始项目
 5. 是否重新安装依赖；
 6. 在哪个目录执行什么命令；
 7. 复制后的基线应该看到什么；
-8. 当前课会新增、修改、删除哪些文件。
+8. 本课会新增、修改、删除哪些文件。
 
-每一课最终源码都必须是一份**可以独立安装、运行、测试和验证的完整工程**。
+每一课最终源码必须是一份可以独立安装、运行、测试和验证的完整工程。
 
-课程不能因为：
-
-```text
-“上一课讲过了”
-“这个很简单”
-“这个是常识”
-“IDE 会提示”
-“读者应该懂”
-```
-
-就省略当前课程真正需要的操作。
+课程不能因为“上一课讲过了”“这个很简单”“这是常识”“IDE 会提示”“读者应该懂”而省略当前课程需要的操作。
 
 所有关键修改必须尽量明确：
 
@@ -260,11 +238,11 @@ Step 0：准备本课起始项目
 → 现在能不能运行
 → 怎么运行
 → 应该看到什么
-→ 为什么出现这个结果
+→ 为什么出现
 → 理论上叫什么
 ```
 
-完整要求继续以 [`FRONTEND_TEACHING_GUIDE.md`](./FRONTEND_TEACHING_GUIDE.md) 为准。
+详细要求以 [`FRONTEND_TEACHING_GUIDE.md`](./FRONTEND_TEACHING_GUIDE.md) 为准。
 
 ---
 
@@ -274,39 +252,34 @@ Step 0：准备本课起始项目
 Stage 00  开发环境、命令行、Git 与工程师基本功
 Stage 01  计算机组成、操作系统、Linux 与网络底层基础
 Stage 02  Internet、URL、DNS、TCP/TLS、HTTP 与 Web 系统模型
-Stage 03  HTML、语义、表单、媒体、SEO 与基础可访问性
-Stage 04  CSS 语法、层叠、盒模型、布局与响应式
-Stage 05  现代 CSS、动画、Token、主题与大型 CSS 架构
-Stage 06  JavaScript 语言基础、数据类型、控制流与函数
-Stage 07  JavaScript 对象、集合、模块、错误、元编程与设计抽象
-Stage 08  DOM、事件、表单、History 与原生浏览器应用
-Stage 09  Promise、Async/Await、Fetch、Stream 与异步并发控制
-Stage 10  JavaScript Runtime、原型、Event Loop、内存、引擎与算法
-Stage 11  TypeScript 从基础到高级类型、Schema、SDK 与类型架构
-Stage 12  浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
-Stage 13  HTTP/2/3、缓存、API、实时通信、数据一致性与离线韧性
-Stage 14  React 启动、JSX、Component、Props、State、Event 与 Form
-Stage 15  React 状态架构、Reducer、Context、Ref、Effect、Hook 与 Router
-Stage 16  React Server State、Suspense、Concurrency、Actions、Activity、性能与 Compiler
-Stage 17  React SSR、Hydration、RSC、Server Functions、Fiber、Reconciler 与源码架构
-Stage 18  Vue 启动、模板、SFC、Composition API、状态、路由与企业应用
-Stage 19  Vue 响应式、Renderer、Compiler、SSR、Nuxt 连接点与源码
-Stage 20  多框架范式、Angular 企业认知、Web Components 与历史系统迁移
-Stage 21  UI 工程、复杂组件、Design System、A11Y、国际化与样式平台
-Stage 22  Node.js Runtime、CLI、脚本、Stream、进程与前端服务工具
-Stage 23  编译、AST、Vite/Rolldown、Webpack/Rspack、Package、Monorepo 与 DX
-Stage 24  静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
-Stage 25  BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
-Stage 26  数据库与一致性认知、企业身份、CMS、搜索、对象存储、支付与分析集成
-Stage 27  PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
-Stage 28  实时协作、Local-first、离线同步、OT/CRDT 与多人系统
-Stage 29  SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
-Stage 30  Schema-driven UI、动态表单、低代码、编辑器与插件式业务平台
-Stage 31  前端性能工程、RUM、Core Web Vitals、容量模型与规模化治理
-Stage 32  Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
-Stage 33  可观测、SLO、故障治理、CI/CD、容器、Kubernetes、GitOps 与云交付
-Stage 34  DDD、模块化、微前端、插件、多租户、前端平台、迁移、治理与技术战略
-Stage 35  AI 辅助研发、AI 原生前端、Agent UX 与 Principal 级毕业项目
+Stage 03  HTML、语义、表单、媒体、SEO 与可访问性
+Stage 04  CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
+Stage 05  JavaScript 语言、对象体系、集合、模块、元编程与设计抽象
+Stage 06  JavaScript Async、Runtime、Event Loop、Memory、Engine 与算法
+Stage 07  DOM、Event、Form、History 与原生浏览器应用
+Stage 08  TypeScript 从基础到高级类型、Schema、SDK 与类型架构
+Stage 09  浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
+Stage 10  HTTP/2/3、缓存、API、实时通信、流式、数据一致性与离线韧性
+Stage 11  React 完整体系：从项目启动到 RSC、Fiber、源码、迁移与大型架构
+Stage 12  Vue 完整体系：从 SFC 到响应式、Renderer、Compiler、SSR、源码与架构
+Stage 13  多框架范式、Angular 企业认知、Web Components 与历史系统迁移
+Stage 14  UI Engineering、复杂组件、Design System、A11Y、国际化与样式平台
+Stage 15  Node.js Runtime、CLI、Stream、Process 与前端服务工具
+Stage 16  Compiler、AST、Bundler、Package、Monorepo 与 Developer Experience
+Stage 17  静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
+Stage 18  BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
+Stage 19  数据与平台集成：数据库认知、CMS、Search、Object Storage、Payment、Analytics
+Stage 20  PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
+Stage 21  Realtime Collaboration、Local-first、离线同步、OT/CRDT 与多人系统
+Stage 22  SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
+Stage 23  Schema-driven UI、动态表单、低代码、Visual Editor 与插件式业务平台
+Stage 24  前端性能工程、RUM、Core Web Vitals、Memory、Capacity 与规模治理
+Stage 25  Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
+Stage 26  Observability、SLO、故障治理、CI/CD、Container、Kubernetes、GitOps 与云交付
+Stage 27  DDD、模块化、Microfrontend、Plugin、Multitenancy 与大型前端架构
+Stage 28  Frontend Platform、迁移、技术债、Governance、成本、产品与 Staff/Principal 影响力
+Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全与评估
+Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
 ---
@@ -319,63 +292,55 @@ Stage 35  AI 辅助研发、AI 原生前端、Agent UX 与 Principal 级毕业�
 
 ## Module 00.01：程序、代码与运行环境
 
-完整学习程序、源代码、编译/解释、CPU、内存、磁盘、进程、线程、端口、客户端/服务端、依赖、构建产物，以及浏览器和 Node.js 分别是什么运行环境。
+程序、源代码、编译/解释、CPU、内存、磁盘、进程、线程、端口、客户端/服务端、依赖、构建产物，以及浏览器与 Node.js 分别是什么运行环境。
 
 ## Module 00.02：文件系统、Terminal 与 Shell
 
-完整学习路径、绝对/相对目录、权限、环境变量、PATH、管道、重定向、退出码，以及 `pwd/ls/cd/cp/mv/rm/cat/grep/find/curl/lsof/ps/kill` 等开发排障常用命令。
+路径、绝对/相对目录、权限、环境变量、PATH、管道、重定向、退出码，以及 `pwd/ls/cd/cp/mv/rm/cat/grep/find/curl/lsof/ps/kill` 等开发排障命令。
 
-## Module 00.03：编辑器与 Debug 基础
+## Module 00.03：编辑器、Language Server 与 Debug 基础
 
-学习工作区、文件树、搜索、重构、格式化、Language Server、断点、变量、Call Stack、Console、Terminal 与浏览器 DevTools 的职责区别。
+工作区、搜索、格式化、重构、Language Server、断点、变量、Call Stack、Console、Terminal 与浏览器 DevTools 的职责。
 
-## Module 00.04：Node.js 与包管理器最小工具认知
+## Module 00.04：Git 与 GitHub
 
-只学习前端课程启动所需的 Node 版本、npm/pnpm、`package.json`、dependency、script、lockfile 和执行命令，不在这里提前深入 Node Runtime。
-
-## Module 00.05：Git 与 GitHub
-
-从 `init/add/commit/status/log/diff` 一直到 branch、merge、rebase、conflict、revert、remote、PR、Review、Tag，并建立 Blob/Tree/Commit/HEAD 的基本对象模型。
+工作区、暂存区、Commit、Blob/Tree/Ref/HEAD、Branch、Merge、Rebase、Conflict、Revert、Remote、PR、Review、Tag、Release 和安全提交习惯。
 
 ### 综合实践：Frontend Developer Bootstrap
 
-从空目录建立第一个学习仓库，创建 HTML 页面、启动本地 HTTP 服务、使用 DevTools 查看页面，完成 feature branch、冲突解决、PR、合并和 Tag。
+从空目录创建最小 HTML 页面，启动本地 HTTP 服务，使用 Git 完成分支、Commit、冲突解决、PR 和 Tag。
 
 ### 阶段验收
 
-能在不知道当前目录状态的情况下自行定位项目、运行服务、识别端口问题、查看错误、提交 Git 历史并说明修改来源。
+能够在不依赖“已有脚手架”的情况下创建工作目录、运行程序、定位端口问题，并解释 Git 中一次修改从工作区到 Commit 的全过程。
 
 ---
 
 # Stage 01：计算机组成、操作系统、Linux 与网络底层基础
 
-## 阶段目标
+## Module 01.01：CPU、Memory Hierarchy 与前端性能直觉
 
-建立后续理解 JavaScript Engine、浏览器、多进程、性能、网络、Node.js、Docker/Kubernetes 所需要的底层直觉。
+CPU、寄存器、指令、Cache、Cache Line、内存层级、分支预测和这些机制如何影响 JavaScript、浏览器、Node、WASM 性能。
 
-## Module 01.01：CPU、内存层级与计算机运行模型
+## Module 01.02：Process、Thread、Scheduling 与系统调用
 
-CPU、寄存器、指令、时钟、Cache、Cache Line、主内存、磁盘、总线、分支预测、NUMA 的高层模型，以及它们如何影响 JavaScript 与浏览器性能。
+Process/Thread、Kernel/User Mode、Context Switch、Scheduler、Signal、System Call、CPU Utilization 和 Load Average。
 
-## Module 01.02：进程、线程、调度与系统调用
+## Module 01.03：Virtual Memory、File System 与 IO
 
-Process、Thread、Kernel/User Mode、Context Switch、Scheduler、System Call、Signal、CPU Usage、Load Average，以及浏览器多进程和 Worker 的前置模型。
+Page、Page Fault、Swap、mmap、File Descriptor、inode、Page Cache、fsync、Buffer 与 IO 成本。
 
-## Module 01.03：虚拟内存、文件与 IO
+## Module 01.04：Linux 生产诊断
 
-Virtual Memory、Page、Page Fault、Swap、File Descriptor、Page Cache、mmap、同步/异步 IO 的基本模型。
+`top/vmstat/iostat/pidstat/ss/lsof/tcpdump/strace/perf`、`/proc`、ulimit、cgroup、namespace 的基础认知。
 
-## Module 01.04：Linux 开发与生产诊断
+## Module 01.05：Ethernet、IP、Routing、NAT 与 UDP
 
-`top/htop/vmstat/iostat/pidstat/ss/lsof/tcpdump/strace` 等工具的用途，理解 CPU 高、内存增长、端口占用、FD 耗尽和网络连接问题。
+MAC、ARP、IPv4/IPv6、CIDR、Subnet、Gateway、Routing、ICMP、NAT、UDP。
 
-## Module 01.05：Ethernet、IP、路由、UDP 与 TCP 基础
+### 综合实验：Linux & Network Lab
 
-MAC、ARP、IPv4/IPv6、CIDR、Subnet、Gateway、Routing、NAT、ICMP、UDP、TCP 的职责与关系。
-
-### 综合实验：Local System & Network Lab
-
-启动本地前端服务器，观察进程、端口、TCP 连接、文件读取和资源请求；制造端口冲突、进程退出和连接失败并使用系统工具定位。
+启动本地 HTTP/TCP 服务，使用系统工具观察 Process、Port、Socket、CPU、Memory、File Descriptor 和 Packet。
 
 ---
 
@@ -383,1374 +348,1529 @@ MAC、ARP、IPv4/IPv6、CIDR、Subnet、Gateway、Routing、NAT、ICMP、UDP、T
 
 ## Module 02.01：Internet 与 URL
 
-浏览器、路由器、ISP、自治系统、数据中心、源站、代理、CDN；URL 的 scheme/host/port/path/query/fragment 和编码规则。
+Internet、ISP、AS、Data Center、Cloud、Origin、Proxy、CDN；URL Scheme/Host/Port/Path/Query/Fragment。
 
 ## Module 02.02：DNS
 
-递归解析、权威 DNS、A/AAAA/CNAME、TTL、缓存、DNS 故障和浏览器/操作系统 DNS 路径。
+Recursive/Authoritative、A/AAAA/CNAME、TTL、Cache、DNS Failure 和诊断。
 
-## Module 02.03：TCP 深入与 QUIC 直觉
+## Module 02.03：TCP 深入
 
-握手、关闭、Sequence/ACK、重传、窗口、拥塞、RTT/RTO、TIME_WAIT/CLOSE_WAIT，以及为什么 HTTP/3 选择 QUIC。
+Handshake、Sequence/ACK、Window、Congestion、Retransmission、RTT/RTO、TIME_WAIT、CLOSE_WAIT、KeepAlive。
 
-## Module 02.04：TLS 与 HTTPS
+## Module 02.04：TLS / HTTPS
 
-证书、CA、域名校验、密钥协商、加密、TLS 握手、证书错误、安全上下文以及 HTTPS 对现代 Web API 的影响。
+Certificate、CA、Handshake、Key Exchange、Cipher、SNI、ALPN、证书错误、HTTPS 安全边界。
 
-## Module 02.05：HTTP/1.1 基础到完整报文
+## Module 02.05：HTTP 请求响应模型
 
-Method、Status、Header、Body、Content-Type、Content-Encoding、Cookie、Redirect、Conditional Request、Range、Connection 等。
+Method、Status、Header、Body、Content Type、Compression、Cookie、Redirect、Idempotency。
 
-### 综合实践：一次 URL 请求全链路实验
+## Module 02.06：Browser → CDN → Gateway → Application 全链路
 
-从输入 URL 开始，使用 `dig/curl/DevTools/tcpdump` 观察 DNS、TCP/TLS、HTTP、HTML 和静态资源请求，画出真实时序图。
+Static Site、MPA、SPA、SSR、SSG、BFF、API、DB、Object Storage、CDN 的整体角色。
 
-## Module 02.06：Web 应用形态与系统边界
+### 综合实验：从 URL 到页面
 
-Static Site、MPA、SPA、SSR、SSG、Hybrid Rendering、BFF、API、CDN、Object Storage、Database、Search、Queue 的位置；先建立全景，后续分别深入。
+使用 `curl`、DevTools Network、DNS 工具与抓包，解释一次真实请求从地址栏到服务器响应的完整路径。
 
 ---
 
-# Stage 03：HTML、语义、表单、媒体、SEO 与基础可访问性
+# Stage 03：HTML、语义、表单、媒体、SEO 与可访问性
 
-## Module 03.01：HTML 文档、解析与 DOM
+## Module 03.01：HTML Document 与 Parsing
 
-DOCTYPE、html/head/body、metadata、字符集、Viewport、Token、Tree Builder、DOM、浏览器容错和错误嵌套修复。
+DOCTYPE、html/head/body、Meta、Charset、Viewport、Tokenizer、Tree Builder、DOM、错误恢复。
 
-## Module 03.02：语义内容与页面结构
+## Module 03.02：Semantic Content
 
-Heading、Paragraph、List、Link、article/section/nav/main/header/footer/aside、figure、time、code 等语义和内容模型。
+Heading、Paragraph、List、Link、Article、Section、Nav、Main、Aside、Footer、Time、Code、Quote。
 
-### 综合实践：语义化个人/产品介绍页
+### 综合实践：语义化个人 / 产品介绍页
 
-只使用截至当前已学习的 HTML 与基础开发工具完成结构正确、链接可用、没有 CSS 依赖的内容页。
+只使用已经学习的 HTML 与基础浏览器能力完成结构正确的内容页面。
 
-## Module 03.03：表单与原生校验
+## Module 03.03：Image、Responsive Image 与 Media
 
-form、input、select、textarea、label、fieldset、autocomplete、Validity API、GET/POST、multipart、文件上传和移动端输入模式。
+img、alt、picture、srcset、sizes、figure、audio/video、track、lazy loading。
 
-## Module 03.04：表格、图片、音视频与嵌入内容
+## Module 03.04：Form
 
-Data Table、picture/srcset/sizes、audio/video、track、iframe、lazy loading、媒体语义和嵌入安全基础。
+Form/Input/Select/Textarea/Button、Label、Fieldset、Validation、Autocomplete、Multipart、File Upload 语义。
 
-## Module 03.05：HTML Accessibility
+## Module 03.05：Table 与复杂内容结构
 
-Native Semantics、Keyboard、Focus、Accessible Name、Accessibility Tree、ARIA 的适用边界、Screen Reader 基础。
+Caption、thead/tbody、th/scope、复杂表头与数据表语义。
 
-## Module 03.06：SEO 与渐进增强基础
+## Module 03.06：A11Y 基础
 
-Title/Meta、Semantic Content、Robots/Sitemap 初识、结构化数据概念、无 JavaScript/弱网环境和 Progressive Enhancement。
+Keyboard、Focus、Accessibility Tree、Accessible Name、原生语义优先、ARIA 使用边界。
+
+## Module 03.07：SEO 与 Progressive Enhancement
+
+Title/Meta、Canonical、Robots、Sitemap、Structured Data 基础、无 JavaScript 场景和渐进增强。
 
 ### 阶段综合项目：企业内容网站
 
-完成首页、产品介绍、帮助中心、复杂联系表单、数据表格、媒体页面和基础 SEO/A11Y；用 Validator、Keyboard 和 Accessibility Tree 验收。
+完成多页面产品站 / 帮助中心，包含导航、内容、表单、媒体、表格、SEO 和键盘可访问性。
 
 ---
 
-# Stage 04：CSS 语法、层叠、盒模型、布局与响应式
+# Stage 04：CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
 
-## Module 04.01：CSS 语法、选择器与 Cascade
+## Module 04.01：CSS Syntax、Selector 与 Cascade
 
-Selector、Specificity、Inheritance、Initial/Computed/Used Value、Cascade Origin、Importance、Source Order、Cascade Layer。
+Selector、Specificity、Inheritance、Origin、Importance、Cascade Layer、Scope、Computed Style。
 
-## Module 04.02：Box Model 与尺寸
+## Module 04.02：Box Model 与 Formatting Context
 
-Content/Padding/Border/Margin、box-sizing、Margin Collapse、Intrinsic Size、单位、calc/min/max/clamp。
+Content/Padding/Border/Margin、box-sizing、Normal Flow、BFC/IFC、Containing Block。
 
-## Module 04.03：Normal Flow、Formatting Context 与 Position
+## Module 04.03：Position、Stacking Context 与 Overflow
 
-Block/Inline/BFC、Containing Block、static/relative/absolute/fixed/sticky、z-index、Stacking Context、Overflow 和 Scroll Container。
+relative/absolute/fixed/sticky、z-index、Stacking Context、Scroll Container、Overflow。
 
 ## Module 04.04：Flexbox
 
-主轴、交叉轴、Basis/Grow/Shrink、Auto Minimum Size、Alignment、Wrap 和常见布局陷阱。
+Axis、Basis、Grow/Shrink、Alignment、Wrapping、Min Size Trap 和典型布局。
 
-### 综合实践：后台页面骨架
+### 综合实践：后台管理布局
 
-仅使用已经学习的 HTML/CSS 实现 Header、Sidebar、Main、Card List、Toolbar 等布局，并用 DevTools 解释布局行为。
+使用 HTML + CSS 完成导航、侧栏、内容区、卡片流和复杂表单布局。
 
-## Module 04.05：CSS Grid
+## Module 04.05：Grid
 
-Track、Line、Area、fr、minmax、auto-placement、explicit/implicit grid、二维布局和复杂 Dashboard。
+Track、Line、Area、fr、minmax、Auto Placement、Subgrid、复杂 Dashboard。
 
 ## Module 04.06：Responsive Design
 
-Mobile First、Content-driven Breakpoint、Media Query、Responsive Image、Viewport、Touch、布局重排。
+Mobile First、Media Query、Container Query、Fluid Layout、Viewport、Safe Area。
 
-## Module 04.07：Typography、Color 与视觉还原
+## Module 04.07：Typography、Color、Image 与 Theme
 
-字体、Web Font、Line Height、Fallback、FOIT/FOUT、现代颜色空间、对比度、Icon/SVG、Spacing/Type Scale。
+Web Font、Fallback、FOIT/FOUT、现代颜色空间、Dark Mode、High Contrast、SVG/Icon。
 
-### 阶段综合项目：响应式产品官网
+## Module 04.08：Modern CSS
 
-把 Stage 03 的内容能力和本阶段 CSS 能力组合为手机/平板/桌面可用的完整产品网站，不引入 JavaScript 框架。
+`:has()`、`:is()`、`:where()`、Logical Properties、Intrinsic Sizing、Aspect Ratio、Scroll Snap、Baseline/Feature Detection。
 
----
+## Module 04.09：Animation 与 Rendering Cost
 
-# Stage 05：现代 CSS、动画、Token、主题与大型 CSS 架构
+Transition、Keyframe、Transform、View Transition 基础、Scroll-driven Animation、Reduced Motion、Layout/Paint/Composite。
 
-## Module 05.01：Modern CSS Layout
+## Module 04.10：Design Token 与 CSS Architecture
 
-Container Query、Subgrid、Intrinsic Sizing、Logical Properties、Writing Mode、Aspect Ratio、Safe Area、Dynamic Viewport。
+BEM/OOCSS/ITCSS/Utility/CSS Modules/CSS-in-JS 比较、Token、Theme、Layer、Stylelint、Migration。
 
-## Module 05.02：Transition、Animation 与 Motion
+### 阶段综合项目：响应式产品官网 / Dashboard
 
-Transition、Keyframes、Transform、Compositor、View Transition Web API、Scroll-driven Animation、Reduced Motion 和性能边界。
-
-## Module 05.03：CSS Variables、Design Token 与 Theme
-
-Primitive/Semantic/Component Token、CSS Custom Properties、Light/Dark/High Contrast、Brand/Tenant Theme 和运行时切换。
-
-### 综合实践：多主题组件页面
-
-在现有产品网站中加入 Token、暗色、高对比度和品牌主题，验证主题切换、RTL 和文本膨胀。
-
-## Module 05.04：CSS Architecture
-
-BEM/OOCSS/ITCSS、Utility First、CSS Modules、CSS-in-JS、Zero-runtime、Cascade Layer、Scope、第三方样式隔离与方案 Trade-off。
-
-## Module 05.05：CSS Quality & Performance
-
-Stylelint、Unused CSS、Critical CSS、字体/样式加载、Layout/Paint/Composite 成本、视觉回归和兼容治理。
-
-### 阶段综合项目：可主题化响应式应用壳
-
-构建一套可复用页面壳、Token、主题和基础组件样式，为后续 JavaScript/框架课程提供真实 UI 基础。
+在 Stage 03 项目基础上升级响应式、主题、现代布局、动画和 Token；提交多视口和性能证据。
 
 ---
 
-# Stage 06：JavaScript 语言基础、数据类型、控制流与函数
+# Stage 05：JavaScript 语言、对象体系、集合、模块、元编程与设计抽象
 
-## Module 06.01：JavaScript 运行入口、变量与类型
+## Module 05.01：Value、Type、Expression 与 Conversion
 
-Script/Module、Strict Mode、let/const/var、Primitive/Object、Number/BigInt/String/Boolean/Symbol/null/undefined。
+Undefined/Null/Boolean/Number/BigInt/String/Symbol/Object、Truthy/Falsy、Equality、Conversion。
 
-## Module 06.02：表达式、转换、比较与控制流
+## Module 05.02：Variable、Scope 与 Control Flow
 
-Operator、Truthy/Falsy、显式/隐式转换、==/===/Object.is、条件、循环、异常入口和边界值。
+let/const/var、Lexical Scope、Hoisting、TDZ、Condition、Loop、Early Return。
 
-## Module 06.03：函数与参数
+## Module 05.03：Function、Closure 与 this
 
-Declaration/Expression/Arrow、参数、默认值、Rest、返回值、Callback、Higher-order Function、Pure Function 基础。
+Function Form、Parameter、Rest、Higher-order Function、Closure、this Binding、Pure Function、副作用。
 
-### 综合实践：价格与订单规则计算器
+### 综合实践：价格 / 订单规则计算器
 
-只使用截至当前的 JavaScript 语言能力实现商品、折扣、税费、订单统计和错误输入处理，不使用 DOM。
+使用函数、数组、对象和控制流完成可测试的业务计算程序。
 
-## Module 06.04：Scope、Closure 与 this
+## Module 05.04：Object、Array 与 Collection
 
-Lexical Scope、Hoisting、TDZ、Closure、生命周期、this 调用规则、bind/call/apply、箭头函数差异。
+Object、Descriptor、Array、Map、Set、WeakMap、WeakSet、Date、Intl、RegExp、URL。
 
-## Module 06.05：Debug 与错误定位基础
+## Module 05.05：Prototype、Class 与 Object Model
 
-Breakpoint、Watch、Call Stack、Exception、Console、Source Map 初识，用真实错误训练代码定位。
+Prototype Chain、new、Constructor、Class、Private Field、Inheritance、Composition。
 
----
+## Module 05.06：Iterator、Generator、Symbol 与 Protocol
 
-# Stage 07：JavaScript 对象、集合、模块、错误、元编程与设计抽象
+Iterable、Iterator、Async Iterator 前置、Generator、Well-known Symbol。
 
-## Module 07.01：Object、Array 与不可变更新
+## Module 05.07：Proxy、Reflect 与 Meta Programming
 
-Property、Descriptor 初识、Destructuring、Spread、Clone 边界、Array map/filter/reduce/sort/group、数据转换。
+Trap、Invariant、Virtual Object、Validation、Reactivity 前置。
 
-## Module 07.02：Map、Set、Weak Collection 与常用内建对象
+## Module 05.08：ES Module
 
-Map/Set/WeakMap/WeakSet、Date、Intl、RegExp、URL、URLSearchParams、JSON、序列化边界。
+Import/Export、Live Binding、Circular Dependency、Dynamic Import、Native ESM。
 
-## Module 07.03：模块系统
+## Module 05.09：Error 与 Defensive Programming
 
-ESM import/export、Named/Default、Live Binding、Dynamic Import、循环依赖、浏览器 Native Module 和模块边界设计。
+Error、Cause、Try/Catch/Finally、Custom Error、Boundary、Don't Swallow Error。
 
-### 综合实践：模块化数据处理工具库
+## Module 05.10：Programming Paradigm 与 Design Pattern
 
-将 Stage 06 的业务逻辑拆成可测试、可组合、错误边界清晰的 ES Module 工具库。
+Functional/OOP、Composition、Observer、Command、Strategy、Adapter、Facade、Factory、State、Middleware、Plugin。
 
-## Module 07.04：原型、Class 与对象模型
+### 阶段综合项目：模块化 JavaScript 业务应用核心
 
-[[Prototype]]、Prototype Chain、new、constructor、class、private field、继承、组合与真实对象关系。
-
-## Module 07.05：Iterator、Generator、Symbol、Proxy 与 Reflect
-
-Iteration Protocol、Generator、Async Iterator 前置、Proxy/Reflect、不变量、响应式系统前置直觉。
-
-## Module 07.06：错误模型与 API Design
-
-Error/Cause、Custom Error、Result Pattern、不要吞错、业务错误/系统错误、输入边界和公共 API。
-
-## Module 07.07：设计模式与前端抽象
-
-Observer、Pub/Sub、Command、Strategy、Adapter、Facade、Factory、State、Middleware、Plugin；强调问题驱动而不是套模式。
+构建不依赖 DOM 的业务核心库，包含领域模型、事件、错误、模块边界、测试和插件式扩展。
 
 ---
 
-# Stage 08：DOM、事件、表单、History 与原生浏览器应用
+# Stage 06：JavaScript Async、Runtime、Event Loop、Memory、Engine 与算法
 
-## Module 08.01：DOM Tree、查询与更新
+## Module 06.01：Promise 一次学透
 
-Document/Element/Node/Text、Selector、Traversal、Create/Insert/Replace/Delete、Template、Fragment、Live/Static Collection。
+State、Then Chain、Resolution、Error Propagation、Finally、all/allSettled/race/any。
 
-## Module 08.02：安全 DOM 更新
+## Module 06.02：Async/Await 与 Concurrency Control
 
-textContent、innerHTML、Attribute/URL/CSS Context、Sanitization 前置、用户内容和 DOM XSS 基础。
+Serial/Parallel、Dependency Task、Concurrency Limit、Timeout、Abort、Retry、Backoff、Jitter。
 
-## Module 08.03：Event System
+### Failure Lab：Race、Timeout 与重复任务
 
-Capture/Target/Bubble、Default Action、Delegation、Passive/Once、Keyboard/Pointer/Input/Composition、Custom Event。
+制造乱序响应、超时、重复调用和部分失败，使用日志和测试证明修复。
 
-### 综合实践：动态商品/任务列表
+## Module 06.03：Browser Event Loop
 
-把 Stage 06～08 的语言、模块、DOM、Event 能力组合成支持新增、编辑、删除、筛选和键盘操作的页面。
+Call Stack、Task、Microtask、Rendering Opportunity、rAF、Idle、Scheduler、Observer Callback Timing。
 
-## Module 08.04：浏览器表单脚本
+## Module 06.04：Node.js Event Loop 差异
 
-FormData、Constraint Validation、异步校验前置、File Input、Selection、IME、Focus 和用户输入状态。
+Timer、I/O Callback、Immediate、Microtask 与浏览器差异。
 
-## Module 08.05：History、Location 与原生 Routing
+## Module 06.05：Memory Model 与 Garbage Collection
 
-URL State、pushState/replaceState、popstate、Deep Link、404、刷新、滚动恢复和 Router 的最小模型。
+Reachability、Heap、Closure Retention、Generational/Incremental/Concurrent GC 高层模型。
 
-## Module 08.06：浏览器 Storage 基础
+## Module 06.06：Memory Leak Debug
 
-Cookie、localStorage、sessionStorage 的用途、生命周期、安全和多标签同步初识。
+Global、Timer、Listener、Detached DOM、Cache、Closure、Heap Snapshot、Retainer Path。
 
-### 阶段综合项目：原生 JavaScript 单页工作台 v1
+## Module 06.07：JavaScript Engine
 
-不依赖 React/Vue，实现路由、列表、表单、本地状态、持久化、错误提示和基础测试结构。
+Parse、AST、Bytecode、Interpreter、JIT、Shape/Hidden Class、Inline Cache、Optimization/Deoptimization 与性能误区。
 
----
+## Module 06.08：Data Structure 与 Algorithm
 
-# Stage 09：Promise、Async/Await、Fetch、Stream 与异步并发控制
+Stack、Queue、Hash、Tree、Trie、Graph、Heap、LRU、Complexity、前端树遍历/搜索/调度/缓存场景。
 
-## Module 09.01：异步来源与 Promise
+### 阶段综合项目：JavaScript Runtime & Performance Lab
 
-Event/Timer/Network、Promise State、then chain、rejection propagation、finally、Promise resolution 和错误传播。
-
-## Module 09.02：Async/Await 与任务组合
-
-Serial/Parallel/Dependency Task、all/allSettled/race/any、错误边界、Partial Failure。
-
-## Module 09.03：Fetch 与 HTTP Client
-
-Request/Response、Header/Body、JSON/Form/Binary、HTTP Error vs Network Error、AbortController、Timeout。
-
-### 综合实践：搜索与远程数据页面
-
-在原生工作台中加入真实/模拟 API、Loading、Error、取消、空状态、搜索建议和请求竞态处理。
-
-## Module 09.04：并发控制与网络韧性基础
-
-Concurrency Limit、Queue、Deduplication、Retry、Exponential Backoff、Jitter、Stale Response、Race Condition。
-
-## Module 09.05：Streams 与 Backpressure
-
-Readable/Writable/Transform Stream、Chunk、Streaming Parse、Backpressure、增量 UI 和大文件处理直觉。
-
-## Module 09.06：Timer、Animation Frame、Idle 与任务调度
-
-setTimeout/setInterval、requestAnimationFrame、Idle、Scheduler API 认知以及什么时候不能用轮询。
-
-### 阶段综合项目：原生 JavaScript 单页工作台 v2
-
-加入远程 API、请求缓存、超时取消、重试、流式数据显示和弱网错误恢复。
+实现并发任务队列、LRU、树形数据处理；制造 Long Task、内存泄漏和 Deopt 观察实验。
 
 ---
 
-# Stage 10：JavaScript Runtime、原型、Event Loop、内存、引擎与算法
+# Stage 07：DOM、Event、Form、History 与原生浏览器应用
 
-## Module 10.01：执行上下文、Call Stack 与词法环境
+## Module 07.01：DOM Tree 与 Node API
 
-Parsing、Execution Context、Lexical Environment、Closure Retention、Call Stack、Exception Unwind。
+Document/Element/Text/Attribute、Query、Traversal、Create/Insert/Replace/Delete、Template/Fragment。
 
-## Module 10.02：Browser Event Loop
+## Module 07.02：DOM Event System
 
-Task、Microtask、Rendering Opportunity、Animation Frame、Observer Callback、事件顺序和饥饿问题。
+Capture/Target/Bubble、Delegation、Default、Passive、Once、Custom Event、Shadow Retargeting 前置。
 
-## Module 10.03：内存、GC 与泄漏
+## Module 07.03：Form DOM 与 Input Events
 
-Heap/Stack 实用模型、Reachability、Mark-Sweep、Generational/Incremental GC、Detached DOM、Listener/Timer/Cache/Closure 泄漏。
+FormData、Constraint Validation、beforeinput/input/composition、Selection、IME、异步校验。
 
-### 故障实验：Long Task + Memory Leak Lab
+### 综合实践：动态数据表格 + 表单编辑器
 
-主动制造主线程阻塞、Detached DOM、无限缓存和重复监听器，用 Performance、Memory、Heap Snapshot、Retainer Path 定位并修复。
+使用 DOM/Event/Form 完成增删改查、过滤、校验和焦点管理。
 
-## Module 10.04：JavaScript Engine 与 JIT
+## Module 07.04：History、Location 与 Client-side Routing
 
-源码到 AST/Bytecode/JIT 的高层路径、Hidden Class/Shape、Inline Cache、Optimization/Deoptimization、热点代码和性能迷思。
+push/replace/back/forward、Deep Link、404、Scroll Restore、Navigation API 认知。
 
-## Module 10.05：数据结构、复杂度与前端算法
+## Module 07.05：Fetch 与 Browser Network API
 
-Array/List/Stack/Queue/Hash/Tree/Trie/Graph/Heap/LRU，时间空间复杂度，以及权限树、路由匹配、虚拟列表、缓存淘汰等前端场景。
+Request/Response、Header、Body、Stream、Abort、HTTP Error vs Network Error、CORS 前置。
 
-## Module 10.06：自制 Runtime 实验
+## Module 07.06：Browser Storage 基础
 
-实现最小 Event Emitter、Task Scheduler、LRU、Reactive Core 或 Virtual List 核心，用实现反推抽象。
+Cookie、LocalStorage、SessionStorage、Storage Event、序列化、版本与过期。
 
----
+## Module 07.07：原生 SPA Architecture
 
-# Stage 11：TypeScript 从基础到高级类型、Schema、SDK 与类型架构
+View/State/Service/Repository/Router/Infrastructure、Client/Server/URL/Persistent State、Error/Loading/Cache。
 
-## Module 11.01：TypeScript 编译模型与基础类型
+### 阶段综合项目：Vanilla JavaScript SPA
 
-类型擦除、tsc、Language Service、Primitive/Array/Tuple/Object/Function、Union/Intersection、unknown/never/any、strict。
-
-## Module 11.02：Narrowing、Interface、Type 与函数类型
-
-Control Flow Analysis、Type Guard、Assertion Function、Structural Typing、Excess Property、Overload。
-
-## Module 11.03：Generic、keyof、Indexed Access 与类型推导
-
-Generic Constraint/Default、Utility Type、API 输入输出关系和可复用类型设计。
-
-### 综合实践：把原生工作台数据层迁移到 TypeScript
-
-逐步从 JavaScript 迁移，建立 API DTO、Domain Model、状态和错误类型；禁止用 any 掩盖问题。
-
-## Module 11.04：Mapped、Conditional、infer、Template Literal Type
-
-高级类型计算、Discriminated Union、State Machine、类型级路径/事件/Token，以及可读性与复杂度边界。
-
-## Module 11.05：Runtime Validation 与 Schema
-
-TypeScript 不验证外部数据；Schema Parser/Decoder、JSON Schema、OpenAPI、GraphQL Codegen、Error Aggregation。
-
-## Module 11.06：Declaration、Package Types 与公共 API
-
-.d.ts、Module Augmentation、Exports/Imports、ESM/CJS 类型差异、Library Declaration、API Compatibility。
-
-## Module 11.07：大型 TypeScript 工程
-
-Project Reference、Incremental、Build Mode、Monorepo Type Boundary、类型检查性能、Strict Migration 和 any 债务治理。
-
-### 阶段综合项目：Type-safe Frontend SDK
-
-发布一套可被两个独立项目消费的 SDK：Runtime Validation、声明输出、类型测试、版本策略、错误模型和迁移说明完整。
+完成路由、查询、编辑、持久化、错误处理、取消请求和测试，不依赖前端框架。
 
 ---
 
-# Stage 12：浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
+# Stage 08：TypeScript 从基础到高级类型、Schema、SDK 与类型架构
 
-## Module 12.01：Navigation 与浏览器多进程架构
+## Module 08.01：TypeScript Compile Model 与 Strict Basics
 
-Browser/Renderer/Network/GPU Process、Site Isolation、Frame/OOPIF、Sandbox、IPC、Navigation Commit 和安全边界。
+Type Erasure、Compiler/Language Service、Primitive/Union/Intersection/Unknown/Never、Strict Config。
 
-## Module 12.02：HTML/CSS Parsing 与 Rendering Pipeline
+## Module 08.02：Interface、Type、Function 与 Narrowing
 
-Tokenizer/Tree Builder、Preload Scanner、DOM/CSSOM、Style、Layout、Paint、Raster、Composite、Layer 和 GPU 边界。
+Structural Typing、Excess Property、Overload、Type Guard、Assertion Function。
 
-## Module 12.03：Rendering Performance Mechanism
+## Module 08.03：Generic、keyof、Indexed Access
 
-Forced Layout、Layout Thrashing、Long Animation Frame、Layout Shift、DOM Size、Paint/Composite 成本和 Trace 证据。
+Constraint、Default、Generic API、输入输出关系保持。
 
-### 浏览器机制实验：从导航到首屏 Trace
+## Module 08.04：Mapped、Conditional、infer、Template Literal Type
 
-录制真实 Performance Trace，逐段解释网络、Parse、Script、Style、Layout、Paint 和 Composite。
+Mapped Modifier、Key Remapping、Conditional Distribution、infer、Recursive Type、Route/Token String Protocol。
 
-## Module 12.04：事件、Focus、Selection 与页面生命周期
+### 综合实践：类型安全 Router / Event Bus
 
-Event Path、Shadow Retargeting、DOMContentLoaded/Load、Visibility、pagehide/pageshow、BFCache、Focus/Selection、Navigation API。
+使用高级类型实现路由参数推导、事件名与 payload 关联、错误结果模型。
 
-## Module 12.05：IndexedDB、Cache Storage、OPFS 与数据生命周期
+## Module 08.05：Discriminated Union 与 State Modeling
 
-数据模型、Transaction、Version/Migration、Quota、损坏恢复、Private Mode 和多标签一致性。
+Exhaustiveness、Impossible State、State Machine、Brand/Opaque Type。
 
-## Module 12.06：Worker 家族
+## Module 08.06：Declaration、Module Resolution 与 Package Types
+
+.d.ts、Ambient、Augmentation、Exports/Imports、ESM/CJS、Dual Package Hazard。
+
+## Module 08.07：Runtime Schema Validation
+
+TypeScript 不验证外部数据；Schema/Parser/Decoder、Zod 类方案、JSON Schema、Error Aggregation。
+
+## Module 08.08：OpenAPI / GraphQL Codegen 与 Contract
+
+Shared Type vs Generated Client、Schema Evolution、Backward Compatibility。
+
+## Module 08.09：Large-scale Type Architecture
+
+Project Reference、Incremental、Monorepo、Public API、SemVer、Type Test、Compile Performance、Migration Governance。
+
+### 阶段综合项目：Type-safe API SDK
+
+把原生 SPA 的数据访问抽成独立 SDK，包含 runtime validation、声明输出、类型测试、版本和消费示例。
+
+---
+
+# Stage 09：浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
+
+## Module 09.01：Browser Multi-process Architecture
+
+Browser/Renderer/Network/GPU Process、Site Isolation、OOPIF、Sandbox、IPC、Navigation Commit。
+
+## Module 09.02：HTML/CSS Parse 与 Rendering Pipeline
+
+Tokenizer、Tree Builder、Preload Scanner、DOM/CSSOM、Style、Layout、Paint、Raster、Composite、Layer。
+
+### Browser Lab：从导航到首屏 Trace
+
+录制真实 Performance Trace，逐段解释 Network、Parse、Script、Style、Layout、Paint、Composite。
+
+## Module 09.03：Rendering Performance Mechanism
+
+Forced Layout、Layout Thrashing、Layout Shift、DOM Size、Layer Explosion、Long Animation Frame。
+
+## Module 09.04：Page Lifecycle、BFCache、Focus 与 Selection
+
+DOMContentLoaded/Load、Visibility、pagehide/pageshow、Freeze、BFCache、Focus、Selection。
+
+## Module 09.05：IndexedDB、Cache Storage、OPFS
+
+Transaction、Schema Version、Migration、Quota、Recovery、Private Mode、多标签一致性。
+
+## Module 09.06：Worker Family
 
 Dedicated/Shared/Service Worker、Worklet、Structured Clone、Transferable、MessageChannel、BroadcastChannel、Web Locks。
 
-## Module 12.07：PWA 与 Offline 基础
+## Module 09.07：PWA 与 Offline
 
-App Shell、Precache、Runtime Cache、Background Sync、Offline Queue、更新生命周期和旧 Service Worker 故障。
+App Shell、Precache、Runtime Cache、Background Sync、Offline Queue、Service Worker Update/Failure。
 
-## Module 12.08：Web Platform Capability & Permission
+## Module 09.08：Web Platform Capability
 
-Clipboard、File System Access、Notification、Geolocation、Share、Permission、Feature Detection、Baseline、渐进增强。
+Clipboard、File System Access、Notification、Geolocation、Share、Permission、Feature Detection、Baseline、Progressive Enhancement。
 
 ### 阶段综合项目：Offline-capable Browser App
 
-基于原生/TypeScript 应用加入 IndexedDB、Worker、Service Worker、离线读取、待同步队列和多标签协调。
+基于 TypeScript 应用加入 IndexedDB、Worker、Service Worker、离线读取、待同步队列和多标签协调。
 
 ---
 
-# Stage 13：HTTP/2/3、缓存、API、实时通信、数据一致性与离线韧性
+# Stage 10：HTTP/2/3、缓存、API、实时通信、流式、数据一致性与离线韧性
 
-## Module 13.01：HTTP/1.1 深入、HTTP/2 与 HTTP/3
+## Module 10.01：HTTP/1.1 Deep Dive、HTTP/2、HTTP/3
 
-Persistent Connection、Head-of-line Blocking、Multiplex、HPACK/QPACK 高层、QUIC、0-RTT、连接迁移和部署边界。
+Persistent Connection、HOL、Multiplex、HPACK/QPACK 高层、QUIC、0-RTT、Connection Migration。
 
-## Module 13.02：Browser/CDN/Origin 多级缓存
+## Module 10.02：Browser/CDN/Origin Multi-layer Cache
 
-Cache-Control、ETag、Vary、Immutable、Stale、Cache Key、Purge、Shield、Negative Cache、租户串缓存风险。
+Cache-Control、ETag、Vary、Immutable、Stale、Cache Key、Purge、Shield、Negative Cache、Tenant Cache Isolation。
 
-### 网络实验：Browser → CDN → Origin Cache Lab
+### Network Lab：Browser → CDN → Origin Cache
 
-通过本地反向代理/教学环境验证 200、304、Age、Cache Status、资源 Hash 和错误 Cache Key。
+验证 200/304、Age、Cache Status、Hash Asset、错误 Cache Key 与失效策略。
 
-## Module 13.03：REST、GraphQL、RPC 与契约设计
+## Module 10.03：REST、GraphQL、RPC 与 API Contract
 
-Resource/Method/Status、Cursor Pagination、OpenAPI、GraphQL Schema、gRPC-Web/Connect/tRPC 认知、兼容演进和选型。
+Resource、Method、Cursor Pagination、OpenAPI、GraphQL、gRPC-Web/Connect/tRPC 认知、Evolution。
 
-## Module 13.04：写操作与一致性
+## Module 10.04：Write Consistency
 
-Idempotency Key、Optimistic Concurrency、Version/ETag、重复提交、部分成功、Compensation、最终一致性前置。
+Idempotency Key、Optimistic Concurrency、Version/ETag、Duplicate Submit、Partial Success、Compensation。
 
-## Module 13.05：Realtime Transport
+## Module 10.05：Realtime Transport
 
-Polling/Long Polling/SSE/WebSocket/WebRTC Data/WebTransport、连接生命周期、Heartbeat、Reconnect、Auth Refresh、Backpressure。
+Polling/Long Polling/SSE/WebSocket/WebRTC Data/WebTransport、Heartbeat、Reconnect、Auth Refresh、Backpressure。
 
-## Module 13.06：消息协议与流式 UI
+## Module 10.06：Message Protocol 与 Streaming
 
-Envelope、Version、Sequence、Ack、Dedup、Ordering、Replay、ReadableStream、增量 JSON/文本解析。
+Envelope、Version、Sequence、Ack、Dedup、Ordering、Replay、ReadableStream、Incremental Parsing。
 
-## Module 13.07：Upload 与对象存储传输模型
+## Module 10.07：Upload 与 Object Storage Transfer
 
-Multipart、Signed URL、分片、断点续传、Checksum、取消、并发、Resume 和安全边界。
+Multipart、Signed URL、Chunk、Resume、Checksum、Cancel、Concurrency。
 
-## Module 13.08：Offline Write、Outbox 与冲突
+## Module 10.08：Offline Write、Outbox 与 Conflict
 
-Pending Queue、Operation Log、Retry、Conflict、Last-write-wins、Manual Merge、OT/CRDT 前置。
+Pending Queue、Operation Log、Retry、Conflict、LWW、Manual Merge、OT/CRDT 前置。
 
-### 阶段综合项目：实时 + 离线数据应用
+### 阶段综合项目：Realtime + Offline Data App
 
-完成实时通知、断线重连、流式数据、分片上传、离线写入和冲突提示，全部带弱网/乱序/重复消息测试。
-
----
-
-# Stage 14：React 启动、JSX、Component、Props、State、Event 与 Form
-
-> React 使用课程编写时当前稳定版。React 所有 Owner Module 一次学透，不另建“React 高级篇”。
-
-## Module 14.01：React 的问题域与项目启动链路
-
-从空目录建立 React + TypeScript 项目；完整理解 package、Vite、index.html、main.tsx、createRoot、Root、render、App、React Tree 与 DOM Tree。
-
-## Module 14.02：JSX、React Element、React Node 与 Component
-
-JSX Transform、Expression/Attribute/Children/Fragment、Element Object、Component Definition、`App`/`App()`/`<App />`、Component Identity。
-
-## Module 14.03：Props、Composition 与单向数据流
-
-Props/children、Function Props、Immutable Input、Component Composition、TypeScript Props、API 初步设计。
-
-### 综合实践：React 商品目录
-
-基于 Component/Props/Conditional/List/Key 构建商品目录；不提前使用 State Manager、Router、Query 等未来能力。
-
-## Module 14.04：Conditional Rendering、List、Key 与 Identity
-
-列表更新、Stable Key、错误 index key、State Preservation 的前置机制和 Failure Lab。
-
-## Module 14.05：State 与 useState
-
-State 为什么存在、普通变量为何不工作、Lazy Init、Setter、Object/Array Update、Immutable、Same-value Update。
-
-## Module 14.06：Render Snapshot、Update Queue 与 Batching
-
-闭包、Render Snapshot、Functional Updater、Replace Update、Batching 和一次更新从事件到下一次 Render 的完整行为模型。
-
-## Module 14.07：Event System
-
-Synthetic Event、Capture/Bubble、Target/currentTarget、Default Action、Keyboard/Pointer/Input/Composition、Event Priority 前置。
-
-## Module 14.08：Form、Controlled / Uncontrolled
-
-Input/Select/Textarea/Checkbox/Radio/File、value/defaultValue、Selection/IME、Validation、Large Form 基础和 A11Y。
-
-### 阶段综合项目：React 订单编辑器 v1
-
-使用截至当前的 Component、Props、State、Event、List/Key、Form 构建订单编辑流程，并主动制造错误 Key、重复提交和表单状态问题。
+完成实时通知、断线重连、流式数据、分片上传、离线写入和冲突提示，并进行弱网/乱序/重复消息测试。
 
 ---
 
-# Stage 15：React 状态架构、Reducer、Context、Ref、Effect、Hook 与 Router
+# Stage 11：React 完整体系
 
-## Module 15.01：State Modeling 与 Ownership
+> React 只设置这一个 Stage。所有 React Owner Module 从零开始一路进入企业开发、并发、SSR/RSC、源码、性能、Library、迁移和架构，不再拆“React 基础 / 高级 / 源码 Stage”。
 
-Minimal/Derived/Redundant/Duplicate/Impossible State、Lift State、Controlled State、State Ownership、URL/Server/Client State 分类。
+## Module 11.01：React Problem Domain 与 Project Bootstrap
 
-## Module 15.02：useReducer 与状态机思想
+从空目录建立 React + TypeScript 项目；理解 package、Vite、index.html、main.tsx、createRoot、Root、render、App、React Tree 与 DOM Tree。
 
-Reducer/Action/Dispatch、Pure Reducer、复杂 State、Undo/Redo、State Machine、Reducer Test 和 React 内部 Dispatch 连接点。
+## Module 11.02：JSX、React Element、React Node 与 Component
 
-## Module 15.03：Context 一次学透
+JSX Transform、Expression/Attribute/Children/Fragment、Element Object、`App`/`App()`/`<App />`、Component Identity、Pure Render、Rules of React、StrictMode。
 
-Provider、Nearest Value、Update Propagation、Value Identity、Context Splitting、Dependency Injection、Context + Reducer、性能与滥用边界。
+## Module 11.03：Props、Children、Composition 与 One-way Data Flow
 
-### 综合实践：多步骤订单工作流
+Props、Function Prop、children、Immutable Input、Component Composition、TypeScript Props、基础 API Design。
 
-把 Stage 14 的订单编辑器演进为多步骤流程，使用 State Modeling、Reducer、Context，加入 Undo/Redo 和状态机式边界。
+## Module 11.04：Conditional Rendering、List、Key 与 Identity
 
-## Module 15.04：Ref 与 Imperative Escape Hatch
+Stable Key、错误 index key、Reorder/Insert/Delete、State Preservation 前置。
 
-useRef、DOM Ref、Callback Ref、Measurement、Focus、Scroll、Timer、Third-party Widget、useImperativeHandle 和 API Boundary。
+### 综合实践：React Product Catalog
 
-## Module 15.05：Effect 一次学透
+使用 Component/Props/Conditional/List/Key 构建商品目录；主动制造错误 Key 导致的 UI/State 问题。
 
-External Synchronization、Setup/Cleanup、Dependency、StrictMode、Stale Closure、Race、Abort、Subscription、Timer、Infinite Effect、Passive Effect 内部模型和架构治理。
+## Module 11.05：State 与 useState 一次学透
 
-## Module 15.06：Removing Effects 与 useEffectEvent
+State Why、Lazy Init、Setter、Object/Array Update、Immutable、Same-value、Hook Storage 前置。
 
-Derived State、Event Logic、Key Reset、External Store、Server State Library、Reactive/Non-reactive Logic，以及什么时候应删除 Effect。
+## Module 11.06：Render Snapshot、Update Queue 与 Batching
+
+Closure、Functional Updater、Replace Update、Batch、一次 Update 从 Event 到 Render 的完整行为模型与源码入口。
+
+## Module 11.07：React Event System
+
+Synthetic Event、Capture/Bubble、Target/currentTarget、Default Action、Keyboard/Pointer/Input/Composition、Event Priority。
+
+## Module 11.08：Form、Controlled / Uncontrolled
+
+Input/Select/Textarea/Checkbox/Radio/File、Selection/IME、Validation、大表单基础、A11Y。
+
+### 综合实践：React Order Editor v1
+
+使用 Component、Props、State、Event、List/Key、Form 构建订单编辑流程；处理重复提交和状态问题。
+
+## Module 11.09：State Modeling 与 Ownership
+
+Minimal/Derived/Redundant/Duplicate/Impossible State、Lift State、Controlled State、URL/Server/Client State 分类。
+
+## Module 11.10：useReducer 与 State Machine Thinking
+
+Reducer/Action/Dispatch、Pure Reducer、Undo/Redo、State Machine、Reducer Test、内部 Dispatch 连接点。
+
+## Module 11.11：Context 一次学透
+
+Provider、Nearest Value、Update Propagation、Value Identity、Splitting、Dependency Injection、Context + Reducer、Performance、Misuse。
+
+### 综合实践：Multi-step Order Workflow
+
+把订单编辑器演进成多步骤流程，使用 State Modeling、Reducer、Context、Undo/Redo 和显式状态边界。
+
+## Module 11.12：Ref、DOM Ref 与 Imperative Escape Hatch
+
+useRef、Callback Ref、Focus、Scroll、Measurement、Timer、Third-party Widget、useImperativeHandle。
+
+## Module 11.13：Effect 一次学透
+
+External Synchronization、Setup/Cleanup、Dependency、StrictMode、Stale Closure、Race、Abort、Subscription、Timer、Infinite Effect、Passive Effect 内部模型。
+
+## Module 11.14：Removing Effects 与 useEffectEvent
+
+Derived State、Event Logic、Key Reset、External Store、Server State、Reactive/Non-reactive Logic、Effect-heavy Architecture Review。
 
 ### Failure Lab：Effect Hell
 
-主动制造 Infinite Effect、重复 Subscription、Stale Closure、Race Condition、卸载后任务和依赖对象导致的重复执行，逐个用证据定位。
+制造 Infinite Effect、重复 Subscription、Stale Closure、Race、Unmount 后任务和 Dependency Identity 问题，逐个定位。
 
-## Module 15.07：Custom Hook 与 Hook API Design
+## Module 11.15：Custom Hook 与 Hook API Design
 
-Logic Reuse、生命周期、参数/返回 API、错误边界、SSR、Testability、useDebugValue、Library Hook 设计。
+Logic Reuse、Lifecycle、Parameter/Return API、Error、SSR、Testability、useDebugValue、Library Hook。
 
-## Module 15.08：Router 与 URL State
+## Module 11.16：Router 与 URL State
 
-Route Tree、Nested Layout、Params/Search Params、Deep Link、Lazy Route、Error Route、Scroll、Auth Boundary、URL State。
+Route Tree、Nested Layout、Params/Search Params、Deep Link、Lazy Route、Error Route、Scroll、Auth Boundary。
 
-### 阶段综合项目：React 企业工作台 v2
+## Module 11.17：Server State 与 Query Cache
 
-加入多路由、多角色 UI、复杂表单、Context/Reducer、Effect 外部同步、Custom Hook 和错误路由；每个 Effect 必须能说明外部系统是谁。
+Client vs Server State、Query Key、Stale、GC、Dedup、Retry、Invalidation、Mutation、Pagination、Infinite、Prefetch、Offline；使用 TanStack Query 类方案验证。
+
+## Module 11.18：API Client、Runtime Validation 与 Data Boundary
+
+Fetch Adapter、Abort、Auth、Error Model、Schema、DTO/Domain Model、Trace ID、OpenAPI Client。
+
+### 综合实践：React Enterprise Workbench v2
+
+加入 Router、Server State、Query Cache、Error Route、多角色 UI 和 API Contract。
+
+## Module 11.19：Actions、useActionState、Form Action 与 Optimistic UI
+
+Action、Pending、useActionState、useOptimistic、Rollback、Concurrent Mutation、Server Validation、Idempotency。
+
+## Module 11.20：Concurrent Rendering Mental Model
+
+Urgent/Non-urgent、Interruptible Render、Restart、Commit Atomicity、Concurrency ≠ Parallelism、Purity、Lane 前置。
+
+## Module 11.21：Transition 与 Deferred Value
+
+startTransition/useTransition、Pending、Interrupt、Ordering、Deferred UI、Search/Chart、Transition vs Debounce。
+
+## Module 11.22：Suspense 一次学透
+
+Boundary、Fallback、Nested Reveal、Retry、Lazy、Resource、Router、Transition、Waterfall、Internal Retry Model。
+
+## Module 11.23：use() 与 Resource Reading
+
+Promise/Context Resource、Suspense、Error Boundary、Conditional use、Server Promise → Client Read。
+
+## Module 11.24：Activity 与 Hidden UI
+
+State Preservation、Effect Lifecycle、Background Priority、Pre-render probable UI、Tabs/Navigation、Cost。
+
+### Performance Lab：Concurrent React
+
+通过 CPU Throttling、Profiler、Performance Track 比较阻塞 Render、Transition、Deferred、Suspense、Activity。
+
+## Module 11.25：React Performance Measurement
+
+React DevTools Profiler、Commit/Render、Flame/Ranked、Why Render、Browser Performance、React Performance Track。
+
+## Module 11.26：Render Optimization
+
+State Locality、Props Identity、Context Diffusion、Selector、memo/useMemo/useCallback 的真实边界、Virtualization。
+
+## Module 11.27：React Compiler
+
+Automatic Memoization、Rules of React、Diagnostics、Bailout、Incremental Adoption、Library Compilation、Manual Memo Compatibility、Benchmark。
+
+## Module 11.28：React DOM、Portal 与 Browser Integration
+
+DOM Props、Controlled Element、SVG、Custom Element、Portal、React Tree vs DOM Tree、Focus/Overlay/Stacking。
+
+## Module 11.29：Resource Loading 与 Metadata
+
+preload/preinit/preconnect、Script/Font/Stylesheet、Metadata、SEO、Streaming Coordination。
+
+## Module 11.30：React A11Y、i18n 与 Styling Architecture
+
+Semantic/Keyboard/Focus/ARIA、Locale/Timezone/RTL、CSS Module/Utility/CSS-in-JS/Token/Theme、SSR Compatibility。
+
+### 综合实践：Production React UI
+
+把 Workbench 补齐 A11Y、国际化、Theme、性能预算、错误/空/慢网状态。
+
+## Module 11.31：Error Boundary、Failure Model 与 Observability
+
+Render/Async/Event/Chunk/Hydration Error、Boundary Scope、Reset、Source Map、Component Stack、Release/Trace/Metric。
+
+## Module 11.32：React Security
+
+Escaping、dangerouslySetInnerHTML、Markdown/Rich Text、URL、CSP、Trusted Types、Client Permission vs Authorization、SSR/RSC Data Leak。
+
+## Module 11.33：React Testing Strategy
+
+Reducer/Hook/Component/Integration/E2E/Visual/A11Y/Performance、Testing Library、Playwright、Suspense/Router/Query Testing。
+
+## Module 11.34：SSR 一次学透
+
+react-dom/server、renderToPipeableStream/renderToReadableStream、Shell、Stream、Abort、Error、SEO、TTFB。
+
+## Module 11.35：Hydration 一次学透
+
+hydrateRoot、Server HTML Identity、Mismatch、Recoverable Error、Date/Random/Locale、useId、Performance、Debug。
+
+## Module 11.36：Streaming SSR、Static Rendering 与 Resume/PPR
+
+Suspense Stream、prerender、Static HTML、CDN、Partial Prerender/Resume 的版本化研究和生产边界。
+
+### 综合实践：React SSR Application
+
+不依赖 Next.js 黑盒，从 React Server API 建立 Streaming SSR + Hydration + Error/Abort 实验。
+
+## Module 11.37：React Server Components
+
+Server Component、Client Component、SSR vs RSC、Build/Request Time、Async Server Component、Bundle/Data Boundary。
+
+## Module 11.38：Server / Client Boundary 与 Server Functions
+
+`use client`、Serialization、Server Reference、`use server`、Authorization、Validation、Mutation、Error。
+
+## Module 11.39：RSC + Suspense + Cache Architecture
+
+Promise Passing、use()、Streaming、Waterfall、Direct Data Access、Cache/Invalidation、Tenant/Auth/Data Leak。
+
+### 综合实践：Full-stack React Boundary Lab
+
+设计 Server/Client Component 边界、Server Function、Suspense、Cache 和权限；输出运行位置图。
+
+## Module 11.40：React Source Research Method
+
+固定 React Version/Commit、Build/Test、Minimal Reproduction、Breakpoint、Call Stack、Object Snapshot、Hypothesis。
+
+## Module 11.41：Fiber 一次学透
+
+Fiber Node、child/sibling/return/alternate、flags、lanes、memoizedProps/state、updateQueue、current/workInProgress。
+
+## Module 11.42：Reconciler
+
+Element → Fiber、beginWork、completeWork、Child Reconciler、Key、Placement/Delete/Reuse/Bailout。
+
+## Module 11.43：Render / Commit Pipeline
+
+Schedule → Render → Complete → Commit；Before Mutation/Mutation/Layout/Passive、Ref/Effect。
+
+## Module 11.44：Hooks Internals
+
+Dispatcher、Hook Linked List、mount/update、useState/useReducer Queue、Effect、Dependency、Rules。
+
+## Module 11.45：Lane、Scheduler 与 Suspense Internals
+
+Priority/Lane、Pending/Suspended/Ping/Entangle、Interruption/Starvation、Promise Suspend/Retry、Hidden Tree。
+
+## Module 11.46：Server Renderer、Hydration 与 RSC Internals
+
+Segment/Boundary/Stream、Hydration/Event Replay、RSC Payload、Client/Server Reference、Bundler Integration。
+
+### Source Lab：一次 State Update 到 DOM Commit
+
+从事件触发 State Update，跨过 Update Queue、Lane、Reconciler、Commit，使用源码断点记录完整调用路径。
+
+## Module 11.47：React Library Authoring
+
+Package Exports、ESM、Types、Peer React、Tree Shaking、SSR/RSC/Compiler Compatibility、Release。
+
+## Module 11.48：Headless UI 与 Design System
+
+State/Behavior/DOM/A11Y/Style 分离、Controlled API、Compound/Headless、Token、Docs、Visual Test、Adoption。
+
+## Module 11.49：Large-scale React Architecture
+
+Feature/Domain/Layer、Public API、DTO/Domain/ViewModel、State/Route/Async/Error Ownership、Architecture Fitness Function。
+
+## Module 11.50：React Microfrontend 与 Cross-framework
+
+Multiple Root、Module Federation、Web Components、Iframe、Shared React Singleton、Context/Router/Style Boundary、Independent Deployment。
+
+## Module 11.51：Legacy React 与 Migration
+
+React 15～18、Class、Lifecycle、Legacy Context、HOC/Render Props、Old Redux/Router、CRA/Legacy Webpack；Class→Function、Old Root→createRoot、Old SSR→Streaming、18→19、SPA→SSR/RSC。
+
+## Module 11.52：Upgrade Governance 与 Architecture Review
+
+Stable/Canary/Experimental、Security Advisory、Compatibility Matrix、Pilot、Canary、Rollback、State/Effect/Cache/Boundary/Performance/Security/Testing Review。
+
+### React 阶段综合项目：React Enterprise Platform
+
+综合 React 全阶段能力完成一个企业级应用：Router、Form、Query、Actions、Optimistic、Suspense、Concurrency、SSR/RSC、Design System、A11Y、i18n、Performance、Security、Testing、Observability，并提交至少一份 React 源码 Debug 报告和迁移方案。
 
 ---
 
-# Stage 16：React Server State、Suspense、Concurrency、Actions、Activity、性能与 Compiler
+# Stage 12：Vue 完整体系
 
-## Module 16.01：Server State 与 Query Cache
+> Vue 同样只设置一个完整 Stage，不再拆“基础 Vue”和“Vue 源码 Stage”。
 
-Client State vs Server State、Query Key、Stale、GC、Dedup、Retry、Invalidation、Mutation、Pagination、Infinite Query、Prefetch、Offline；以 TanStack Query 等方案验证模型。
+## Module 12.01：Vue Problem Domain、createApp 与 SFC Bootstrap
 
-## Module 16.02：Optimistic UI 与 React Actions
+从空目录建立 Vue + TypeScript 项目，理解 createApp、Application、Root、Mount、SFC、Vite Plugin、Template Compile。
 
-Action、Pending、useActionState、useOptimistic、Form Action、Rollback、Concurrent Mutation、Server Validation、Idempotency。
+## Module 12.02：Template、Directive、Binding、Event、List 与 Key
 
-### 综合实践：带 Server State 的订单系统
+Interpolation、v-bind/v-on/v-if/v-for、Key、Class/Style、Template vs JSX。
 
-引入 Query Cache、Mutation、Optimistic Update、Error Recovery，不再把远程数据塞入普通全局 State。
+## Module 12.03：Component、Props、Emit、Slot、Model 与 Attribute
 
-## Module 16.03：Concurrent Rendering Mental Model
+Component Instance、Props/Emit、v-model、Slot、Fallthrough、Composition。
 
-Urgent/Non-urgent、Interruptible Render、Restart、Commit Atomicity、Concurrency ≠ Parallelism、Purity 与 Lane 前置。
+### 综合实践：Vue Product Catalog
 
-## Module 16.04：Transition 与 Deferred Value
+使用 Template/Component/Props/Emit/List/Key 完成商品目录和交互。
 
-startTransition/useTransition、Pending、Ordering、Navigation、useDeferredValue、Stale UI、Debounce/Throttle 区别和性能验证。
+## Module 12.04：Ref、Reactive、Computed 与响应式基础
 
-## Module 16.05：Suspense 一次学透
+ref/reactive、Unwrap、Computed、Readonly/Shallow、Identity、Destructure Trap。
 
-Boundary、Fallback、Nested Reveal、Retry、Lazy、Data Resource、Error Boundary、Transition、Waterfall、Architecture 和内部重试模型。
+## Module 12.05：Watch / WatchEffect 一次学透
 
-## Module 16.06：use() 与 Activity
+Dependency、Flush Timing、Cleanup、Deep Watch、Wrong Way、Performance。
 
-Promise/Context Resource、Conditional use、Suspense 协作、Activity hidden/visible、State Preservation、Effect Cleanup、后台优先级和适用场景。
+## Module 12.06：Composition API 与 Composable Design
 
-### Performance Lab：Slow Render / Suspense Waterfall
+Logic Reuse、Lifecycle、Effect Scope、Parameter/Return API、Testability。
 
-制造大列表、阻塞输入、错误 Suspense Boundary 和数据瀑布，用 Profiler + Browser Performance 分析并修复。
+## Module 12.07：Provide/Inject、Pinia 与 State Architecture
 
-## Module 16.07：React Performance Engineering
+Dependency Injection、Store、Getter/Action、Plugin、Persistence、SSR、State Boundary。
 
-Profiler、Render Propagation、State Locality、memo/useMemo/useCallback、Selector、Virtualization、Bundle、Memory、React Performance Track 和什么时候不优化。
+## Module 12.08：Vue Router 与 Application Architecture
 
-## Module 16.08：React Compiler
+Nested/Dynamic Route、Guard、Lazy、Scroll、Data、Permission、URL State。
 
-Compiler 目标、Rules of React、自动 Memoization、Build Integration、Diagnostics、Bailout、渐进采用、Library Compatibility 和前后 Benchmark。
+### 综合实践：Vue Operations Console
 
-### 阶段综合项目：高交互 React 数据工作台
+完成路由、状态、复杂表单、Pinia、Composable 和权限 UI。
 
-包含复杂 Query、Optimistic UI、Transition、Suspense、Activity、大列表与 Compiler；提交 Profiler 和 Performance Trace 证据。
+## Module 12.09：Teleport、KeepAlive、Suspense、Transition、Async Component
 
----
+Built-in Advanced Capability、Lifecycle、State Preservation、Error/Loading。
 
-# Stage 17：React SSR、Hydration、RSC、Server Functions、Fiber、Reconciler 与源码架构
+## Module 12.10：Vue Performance、A11Y、i18n 与 UI Engineering
 
-## Module 17.01：React DOM、Portal 与资源 API
+Render Scope、Computed/Watch Cost、Virtualization、Bundle、Focus/ARIA、Locale/RTL、Design System Integration。
 
-DOM Property、Controlled Native Element、Portal、React Tree vs DOM Tree、Metadata、Preload/Preinit/Preconnect、资源加载与 Browser Boundary。
+## Module 12.11：Vue Reactivity Internals
 
-## Module 17.02：Server Rendering
+Proxy、Track、Trigger、Dep、Effect、Cleanup、Batch、Scheduler。
 
-react-dom/server、renderToPipeableStream/renderToReadableStream、Shell、Bootstrap、Abort、Error、Streaming HTML、SEO 和服务器资源边界。
+## Module 12.12：Renderer 与 VNode
 
-## Module 17.03：Hydration 一次学透
+VNode、Patch、Component Update、Keyed Diff、Block Tree、Patch Flag、Static Hoist。
 
-hydrateRoot、DOM Identity、Event Attachment、Mismatch、Date/Random/Locale、useId、Recoverable Error、Hydration Performance 和 Debug。
+## Module 12.13：Compiler
 
-### 综合实验：手写最小 React SSR 应用
+Parse、AST、Transform、Codegen、Render Function、Compile-time Optimization。
 
-不依赖 Next.js，建立 Node Server + React Server Renderer + Browser Hydration，制造 Hydration Mismatch 并修复。
+## Module 12.14：Scheduler 与 Update Queue
 
-## Module 17.04：Static Rendering、Prerender、Resume / Partial Prerender
+Job Queue、Pre/Post Flush、nextTick、Dedup、Update Ordering。
 
-Static HTML、Prerender API、Streaming、Postponed State/Resume 的版本相关能力和生产选型；正式编课时按稳定 API 核验。
+## Module 12.15：SSR、Hydration 与 Server Renderer
 
-## Module 17.05：React Server Components
+Server Render、Streaming、State Serialization、Hydration Mismatch、Cross-request Pollution。
 
-Server Component、Client Component、SSR vs RSC、Build/Request Runtime、Serialization、Client Boundary、Bundle Impact、Data Access 和 Security。
+## Module 12.16：Nuxt Connection Point
 
-## Module 17.06：Server Functions
+File Routing、Data Fetch、Payload、Plugin/Middleware、Nitro、Layer、Hybrid Render；这里只建立 Vue→Nuxt 连接，Nuxt 完整全栈能力在 Stage 18 学习。
 
-"use server"、Client Reference、Argument/Result Serialization、Authorization、Validation、Mutation、Error、Audit 和安全边界。
+### Source Lab：Ref Update → DOM Patch
 
-### 综合实践：RSC 数据页面
+固定 Vue 版本，调试一次 Ref 更新经过 Effect/Scheduler/Renderer/Patch 到 DOM。
 
-构建最小 Server/Client Boundary、Suspense Streaming、Server Function 写操作，证明哪些代码进入浏览器、哪些不进入。
+## Module 12.17：Vue Library、Design System 与 Plugin
 
-## Module 17.07：React Source Research Method
+Composable/Component Library、Plugin API、Package、SSR、Versioning、Cross-framework Token。
 
-固定 React 版本/Commit、Build Source、Minimal Reproduction、Breakpoint、Call Stack、Object Snapshot、Test 和结论验证方法。
+## Module 12.18：Large-scale Vue Architecture、Legacy 与 Migration
 
-## Module 17.08：Fiber、Reconciler 与 Render/Commit
+Feature/Domain Boundary、Vue 2→3、Options→Composition、Vuex→Pinia、Build Migration、Codemod、Governance。
 
-Fiber Node、current/workInProgress、child/sibling/return/alternate、beginWork/completeWork、Child Reconcile、Flags、Mutation/Layout/Passive Commit。
+### Vue 阶段综合项目：Vue Enterprise Operations Platform
 
-## Module 17.09：Hooks Internals、Update Queue、Lane 与 Scheduler
-
-Hook Linked List、Dispatcher、mount/update、Queue、Base State、Lane、Priority、Transition、Suspended/Ping/Entangle、调度和中断。
-
-## Module 17.10：Suspense、Hydration 与 Server Renderer Internals
-
-Throw Promise、Retry/Ping、Boundary、Hidden Tree、Hydration Replay、Server Segment、Stream、RSC Transport 的关键源码路径。
-
-### 阶段综合项目：React Architecture & Source Review
-
-对企业 React 应用进行一次源码级架构答辩：State Update 如何走到 Commit、Transition/Suspense 如何调度、SSR/RSC 边界在哪里、故障和性能证据是什么。
+综合 Vue State、Router、Form、SSR、Source Debug、Design System、Performance、Testing 和 Migration 能力完成企业运营平台。
 
 ---
 
-# Stage 18：Vue 启动、模板、SFC、Composition API、状态、路由与企业应用
+# Stage 13：多框架范式、Angular 企业认知、Web Components 与历史系统迁移
 
-## Module 18.01：Vue 启动链路与 SFC
+## Module 13.01：Framework Paradigm
 
-createApp、Root、Mount、SFC template/script setup/style、编译前后、Application/Component Instance/DOM。
+Virtual DOM、Fine-grained Reactivity、Compiler-first、Template、JSX、Signal、Resumability、Server-first。
 
-## Module 18.02：Template、Directive、Props、Emit、Slots
+## Module 13.02：React / Vue / Angular / Svelte / Solid / Qwik 选型模型
 
-Interpolation、Binding、Event、Conditional/List/Key、Props/Emit/model/Slots、Fallthrough Attribute 和组件 API。
+团队、生态、性能、SSR、约束、招聘、升级、退出成本。
 
-## Module 18.03：ref/reactive/computed 基础到完整使用
+## Module 13.03：Angular Enterprise Mental Model
 
-Reactive State、Automatic Unwrap、Identity、Readonly/Shallow、解构边界、Computed Cache。
+DI、Component、Template、Signal、RxJS、Router、Form、Change Detection、SSR、Workspace、Migration；目标是架构选型和遗留维护，不要求与 React/Vue 同等源码深度。
 
-### 综合实践：Vue 商品与订单页面
+## Module 13.04：Web Components
 
-用 Vue 基础组件、响应式、Props/Emit/Slots 实现与 React 阶段可比较的业务流程。
+Custom Element、Shadow DOM、Slot、Attribute/Property、Event、Form-associated Element、Style Isolation。
 
-## Module 18.04：Composition API 与 Composable
+## Module 13.05：Cross-framework Interop
 
-Setup、Lifecycle、Template Ref、Composable、Effect Scope、Logic Reuse、API Design、Testability。
+React/Vue 包装 Custom Element、Event/Object Prop、SSR/Hydration、Design System Interop。
 
-## Module 18.05：watch/watchEffect 与副作用
+## Module 13.06：Legacy Web Stack
 
-Dependency、Flush Timing、Cleanup、Deep Watch、Async、错误滥用，与 React Effect 进行模型比较。
+jQuery、AMD/CMD、RequireJS、Backbone、AngularJS、Vue2、Class React、Old Build Chain。
 
-## Module 18.06：Pinia 与 Vue State Architecture
+## Module 13.07：Migration Pattern
 
-Store/Getter/Action、Plugin、Persistence、SSR、Store Boundary、Server State 区分。
+Strangler、Route-by-route、Island、Adapter、Dual Run、Feature Flag、Codemod、Rollback。
 
-## Module 18.07：Vue Router
+### 阶段综合项目：Legacy Frontend Modernization
 
-Nested/Dynamic Route、Guard、Lazy、Scroll、Data Fetch、Permission、Error 和 Route Architecture。
-
-## Module 18.08：Teleport、Suspense、KeepAlive、Transition、Async Component
-
-复杂 UI、State Preservation、Overlay、Async、Error Capture 和性能/生命周期边界。
-
-### 阶段综合项目：Vue 企业运营后台
-
-构建带复杂表单、Router、Pinia、权限、主题和异步数据的企业应用，并记录与 React 的关键设计差异。
+为一个旧系统设计 React/Vue 渐进迁移，包含 Web Component 互操作、Codemod、兼容层、回滚和退出策略。
 
 ---
 
-# Stage 19：Vue 响应式、Renderer、Compiler、SSR、Nuxt 连接点与源码
+# Stage 14：UI Engineering、复杂组件、Design System、A11Y、国际化与样式平台
 
-## Module 19.01：Vue Reactivity Internals
+## Module 14.01：Interaction State 与 UX State Model
 
-Proxy、Track、Trigger、Dep、Reactive Effect、Scheduler、Batch、Cleanup，实现 Mini Reactivity 并源码 Debug。
+Initial/Loading/Empty/Partial/Error/Offline/Permission/Success/Undo、Keyboard/Touch/Shortcut。
 
-## Module 19.02：VNode、Renderer 与 Patch
+## Module 14.02：WCAG、Accessibility Tree 与 Screen Reader
 
-VNode、Component Update、Patch、Keyed Diff、Block Tree、Patch Flag、Static Hoist 和 Renderer Architecture。
+WCAG 2.2、Name/Role/State、Keyboard、Focus、Live Region、Zoom、Contrast、Reduced Motion。
 
-## Module 19.03：Template Compiler
+## Module 14.03：Complex Accessible Component
 
-Parse、AST、Transform、Codegen、Render Function、Compiler Optimization，从模板观察生成代码。
-
-### Source Lab：一次 ref 更新如何到达 DOM
-
-断点观察 Track/Trigger → Scheduler → Component Update → Patch 的完整链路。
-
-## Module 19.04：Vue SSR 与 Hydration
-
-Server Render、State Serialization、Async Data、Streaming、Hydration、Mismatch、Cross-request Pollution。
-
-## Module 19.05：Nuxt 连接模型
-
-File Routing、Auto Import、Server Route、Plugin/Middleware、Payload、Data Fetch、Nitro、Module/Layer，仅建立 Vue 全栈框架连接；Stage 25 再完整学习全栈架构。
-
-## Module 19.06：Vue Performance、Testing 与 Production Boundary
-
-Reactive Granularity、Watch Cost、Component Render、Bundle、Devtools、SSR、Error、Migration 和升级边界。
-
-### 阶段综合项目：Vue SSR + Source Architecture Review
-
-实现最小 Vue SSR/Hydration，并提交 React/Vue 响应式、调度和渲染机制对比报告。
-
----
-
-# Stage 20：多框架范式、Angular 企业认知、Web Components 与历史系统迁移
-
-## Module 20.01：UI Framework Paradigms
-
-Virtual DOM、Fine-grained Reactivity、Signal、Compiler-first、Template/JSX、Server-first、Resumability 的思想与成本。
-
-## Module 20.02：Angular 企业级认知
-
-Component、DI、RxJS、Signal、Router、Forms、Change Detection、SSR、Workspace、约束式大型项目和 AngularJS→Angular 迁移。
-
-## Module 20.03：Svelte、Solid、Qwik 等架构认知
-
-不是追逐 API，而是用统一业务实验理解 Compiler/Fine-grained/Resumability 等不同路线。
-
-## Module 20.04：Web Components
-
-Custom Element、Shadow DOM、Slot、Property/Attribute、Event、Form-associated Element、Style Isolation、SSR 边界。
-
-### 综合实践：跨 React/Vue 的 Web Component
-
-实现同一组件在 React/Vue 中消费，处理 Event、Object Property、Theme 和 A11Y。
-
-## Module 20.05：Framework Selection
-
-团队能力、招聘、生态、性能、长期支持、SSR、合规、迁移、Vendor Risk 和 Exit Strategy。
-
-## Module 20.06：Legacy Frontend Migration
-
-jQuery、AMD/CMD/RequireJS、AngularJS、Vue2、Class React、旧构建链；Strangler、Adapter、Route-by-route、Dual Run、Codemod。
-
-### 阶段综合项目：历史系统迁移 RFC + Vertical Slice
-
-给一个旧前端系统制定分阶段迁移路线，并真正迁移一个垂直功能，要求业务不中断且可回滚。
-
----
-
-# Stage 21：UI 工程、复杂组件、Design System、A11Y、国际化与样式平台
-
-## Module 21.01：Component Architecture
-
-Primitive、Headless、Domain/Business Component、Controlled/Uncontrolled、Compound、Render Prop、Provider、Polymorphic、Public API。
-
-## Module 21.02：复杂组件工程
-
-Dialog、Select、Combobox、Menu、Tree、Data Grid、Date Picker、Upload、Virtual List、Rich Text 的状态、DOM、Focus、Keyboard 和 Performance。
+Dialog、Combobox、Tabs、Tree、Grid、Date Picker、Drag/Drop、Virtual List、Rich Text。
 
 ### 综合实践：Headless Dialog + Combobox
 
-分别提供 React/Vue Adapter，行为和 A11Y 契约一致，样式可替换。
+分别用 React/Vue Adapter 消费同一行为模型。
 
-## Module 21.03：WCAG 2.2 与复杂 Accessibility
+## Module 14.04：Component API Architecture
 
-Perceivable/Operable/Understandable/Robust、Focus、Live Region、Grid/Tree、Drag & Drop、虚拟化、Screen Reader、自动+人工审计。
+Controlled/Uncontrolled、Compound、Slot、Render Prop、Headless、Polymorphic、State Machine、Public API、Backward Compatibility。
 
-## Module 21.04：Internationalization / Globalization
+## Module 14.05：Design Token Pipeline
 
-Unicode、Code Point/Grapheme、Normalization、CLDR/ICU/MessageFormat、Plural、Date/Number/Currency/Timezone、RTL、CJK、字体、Pseudo-localization。
+Primitive/Alias/Semantic/Component Token、JSON/Codegen、CSS Variable、Native Output、Validation。
 
-## Module 21.05：Design Token Pipeline
+## Module 14.06：Design System Architecture
 
-Source/Alias/Semantic/Component Token、Codegen、CSS Variable、Native Output、Theme、Brand/Tenant、Validation。
+Foundation、Primitive、Component、Pattern、Template、Docs、Version、Canary、Codemod、Contribution、Adoption。
 
-## Module 21.06：Design System Platform
+## Module 14.07：Globalization Engineering
 
-Foundation/Primitive/Component/Pattern、Docs/Playground、Visual/A11Y Test、SemVer、Changeset、Canary、Codemod、Contribution、Adoption Metric。
+Unicode、Code Point/Grapheme、Normalization、CLDR/ICU、MessageFormat、Locale Fallback、Timezone、RTL/CJK、Pseudo-localization。
 
-### 阶段综合项目：跨框架 Design System
+## Module 14.08：Styling Platform
 
-发布 React/Vue 可消费的 Token + 组件包、文档站、主题、A11Y/Visual 测试，并执行一次 Breaking Change 迁移。
+CSS Module/Utility/CSS-in-JS/Zero-runtime、Theme、Brand/Tenant、Critical CSS、SSR、Style Quality、Migration。
 
----
+### 阶段综合项目：Cross-framework Design System
 
-# Stage 22：Node.js Runtime、CLI、脚本、Stream、进程与前端服务工具
-
-## Module 22.01：Node Runtime 与 Event Loop
-
-Browser vs Node、Global、Process、libuv 高层、Event Loop Phase、Thread Pool、Signal、Exit、Unhandled Error。
-
-## Module 22.02：File、Path、URL、Buffer、Crypto、HTTP
-
-核心标准库、Async IO、File Handle、Binary、Hash、HTTP Server 和安全文件处理。
-
-## Module 22.03：Stream 与 Backpressure
-
-Readable/Writable/Transform/Pipeline、Error/Close、Backpressure、大文件和网络代理。
-
-## Module 22.04：Child Process、Worker Thread 与并行任务
-
-spawn/exec、IPC、Worker Thread、任务并发、CPU-bound、Graceful Shutdown。
-
-### 综合实践：Frontend Automation CLI
-
-实现课程目录/代码生成/资源处理 CLI，要求参数、Help、Exit Code、日志、错误、幂等、Signal、测试完整。
-
-## Module 22.05：配置与环境
-
-Environment、Config Precedence、Secret Boundary、Development/Test/Production、.env 风险和 Schema Validation。
-
-## Module 22.06：Node Performance & Debug
-
-Inspector、CPU Profile、Heap、Async Stack、Trace、Process Leak 和 CLI/BFF 性能诊断。
+发布 Token + Headless + React/Vue Adapter，覆盖 A11Y、Theme、RTL、Visual Regression、Version Upgrade 和 Adoption Metrics。
 
 ---
 
-# Stage 23：编译、AST、Vite/Rolldown、Webpack/Rspack、Package、Monorepo 与 DX
+# Stage 15：Node.js Runtime、CLI、Stream、Process 与前端服务工具
 
-## Module 23.01：Module Resolution 与 ESM/CJS
+## Module 15.01：Node Runtime 与 Browser 差异
 
-Node/Browser Resolution、package exports/imports、Conditional Export、Dual Package Hazard、Import Map、循环依赖。
+Global、Module、Event Loop、libuv、Thread Pool、Process、Signal、I/O。
 
-## Module 23.02：Compiler & AST
+## Module 15.02：FS、Path、URL、Buffer、Crypto、HTTP
 
-Token/AST/Transform/Codegen、Scope/Binding、TypeScript/Babel/SWC/esbuild 的职责、Polyfill 与 Target。
+核心标准库、Async API、Handle、Error Close。
 
-### 综合实践：AST Codemod
+## Module 15.03：Stream 与 Backpressure
 
-实现一次 API Rename/Migration Codemod，支持 Dry Run、统计、幂等和失败样本。
+Readable/Writable/Transform/Pipeline、Backpressure、Memory、Error。
 
-## Module 23.03：Bundler 原理
+## Module 15.04：Process、Child Process、Worker Thread
 
-Module Graph、Chunk Graph、Resolve/Load/Transform、Tree Shaking、Side Effect、Code Splitting、Asset Pipeline、Source Map。
+spawn/exec、IPC、Signal、Graceful Shutdown、Parallel Task。
 
-## Module 23.04：Vite / Rolldown
+## Module 15.05：CLI Design
 
-Dev Server、Native ESM、Prebundle、HMR、Plugin Hook、Production Build、SSR/Library Mode、迁移和性能。
+Arg/Option、Help、Exit Code、TTY、Progress、Log、CI Mode、Idempotency。
 
-## Module 23.05：Webpack / Rspack
+## Module 15.06：Node Debug、CPU/Heap/Profile
 
-Loader/Plugin、Runtime/Chunk、Cache、Federation、生态、Legacy Build 和迁移边界。
+Inspector、CPU Profile、Heap、Async Stack、Trace、Unhandled Error。
 
-## Module 23.06：Package Engineering
+### 阶段综合项目：Frontend Engineering CLI
 
-Entry/Exports、ESM/CJS/Types/CSS、Tree Shaking、Peer Dependency、SemVer、Provenance、Registry、Release、Consumer Migration。
+实现课程目录生成 / Codemod / Build Orchestrator 类 CLI，具备日志、并发限制、错误码、测试和失败回滚。
 
-### 综合实践：发布一个真实前端 Package
+---
 
-至少两个独立消费项目安装、Tree Shake、升级，并模拟一次 Breaking Change。
+# Stage 16：Compiler、AST、Bundler、Package、Monorepo 与 Developer Experience
 
-## Module 23.07：Monorepo
+## Module 16.01：ESM/CJS 与 Package Resolution
 
-Workspace、Hoist/Strict Dependency、Task Graph、Turborepo/Nx、Affected、Remote Cache、Boundary、CODEOWNERS。
+type/main/module/exports/imports、Conditional Export、Browser ESM、Import Map、Dual Package Hazard。
 
-## Module 23.08：Developer Experience / Golden Path
+## Module 16.02：Compiler Pipeline 与 AST
 
-Scaffold、Shared Config、Dev Container、Mock、One-command Start、Dependency Governance、Build/Test Time、PR Lead Time 和平台产品思维。
+Token/AST/Transform/Codegen、Scope/Binding、Babel/SWC/esbuild/TypeScript Compiler 职责。
+
+## Module 16.03：Source Map 与 Codemod
+
+Mapping、Production Upload、Source Leak、AST Migration、Dry Run、Idempotency。
+
+### 综合实践：API Migration Codemod
+
+实现 API 重命名/组件 Props 迁移工具并生成变更统计。
+
+## Module 16.04：Vite / Rolldown / Rollup
+
+Dev Server、Native ESM、Prebundle、HMR、Plugin Hook、Build、Library/SSR Mode。
+
+## Module 16.05：Webpack / Rspack 与 Bundler Architecture
+
+Module/Chunk Graph、Loader/Plugin、Persistent Cache、Federation、Migration。
+
+## Module 16.06：Tree Shaking、Code Split 与 Bundle Analysis
+
+Side Effect、Dynamic Import、Chunk Strategy、Duplicate Dependency、Bundle Budget。
+
+## Module 16.07：Package Engineering
+
+Library Boundary、Exports、Types、ESM/CJS、Peer、SemVer、Changeset、Provenance、Tree Shaking、Consumer Migration。
+
+## Module 16.08：Monorepo
+
+Workspace、pnpm/yarn/npm、Nx/Turbo、Task Graph、Affected、Remote Cache、Dependency Boundary、CODEOWNERS。
+
+## Module 16.09：Developer Experience / Golden Path
+
+Scaffold、Shared Config、Local Environment、Dev Container、Mock、Dependency Governance、Setup/Build/Test/PR Lead Time。
 
 ### 阶段综合项目：Frontend Monorepo Platform
 
-包含 React/Vue App、Design System、SDK、CLI、共享配置和构建缓存；所有依赖方向和发布流程自动检查。
+包含 Web App、Component Package、SDK、CLI、Shared Config、Affected CI、Remote Cache 和 Package Release。
 
 ---
 
-# Stage 24：静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
+# Stage 17：静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
 
-## Module 24.01：Static Analysis
+## Module 17.01：Static Analysis
 
-ESLint AST/Type-aware Rule、Import Boundary、Dead Code、Duplicate、Complexity、Custom Rule、Format、Type Check。
+ESLint AST Rule、Type-aware Lint、Import Boundary、Dead Code、Complexity、Custom Rule。
 
-## Module 24.02：Unit Testing
+## Module 17.02：Unit Test 与 Testable Design
 
-Behavior、Boundary、Table-driven、Stub/Fake/Spy/Mock、Time/Random、Async、Coverage 和可测试设计。
+AAA、Boundary、Fake/Stub/Mock/Spy、Time/Random、Async、Dependency Injection、Coverage Risk。
 
-## Module 24.03：Component & Integration Testing
+## Module 17.03：Component Test
 
-真实 DOM、Accessible Query、User Event、Router/Store/Query/Form、Request Mock、Error/Suspense Boundary。
+Real DOM、Accessible Query、Interaction、Provider、Router、Network Mock、Async UI。
 
-### 综合实践：为现有 React/Vue 关键流程补质量网
+## Module 17.04：Integration Test
 
-从失败用例开始补 Unit + Component + Integration，证明测试能够发现真实缺陷。
+Route/State/Form/Query/Error/Suspense 多模块协作。
 
-## Module 24.04：E2E with Playwright
+## Module 17.05：E2E / Playwright
 
-Context/Isolation、Fixture、Locator、Auto-wait、Auth、Seed/Cleanup、Network Control、Trace/Video/Screenshot、多角色。
+Browser Context、Locator、Auto-wait、Fixture、Auth、Data Seed、Trace/Video/Screenshot、Network Failure。
 
-## Module 24.05：Visual / A11Y Regression
+## Module 17.06：Visual / A11Y Regression
 
-Screenshot Baseline、Theme/Viewport Matrix、A11Y Automation、人工验证和 Flaky 处理。
+Visual Diff、Responsive、Theme、Font、Animation Stabilization、axe 类自动化 + Manual Audit。
 
-## Module 24.06：Contract / Property / Mutation / Performance Test
+## Module 17.07：Contract / Property / Mutation Test
 
-Schema Contract、Property-based、Mutation、Bundle/Page Performance Budget 和适用成本。
+OpenAPI Contract、Property-based、Mutation Testing、State Machine Testing。
 
-## Module 24.07：Quality Platform & Governance
+## Module 17.08：Performance / Security Test
 
-PR/Main/Nightly Matrix、Risk-based Gate、Quarantine、Flaky Rate、Defect Escape、Change Failure、Owner 和豁免机制。
+Bundle Budget、Page Metric、Memory、Security Header、CSP、Dependency/Secret Scan。
 
-### 阶段综合项目：CI Quality Pipeline
+## Module 17.09：Flaky、Test Data 与 Quality Gate
 
-让 Monorepo 建立从 Type/Lint 到 Unit/Component/E2E/Visual/A11Y/Contract/Performance/Security 的分层质量门禁。
+Quarantine、Owner、Retry Policy、Factory/Seed、PR/Nightly Matrix、Risk-based Gate、Quality Metric。
+
+### 阶段综合项目：Frontend Quality Platform
+
+把 Stage 16 Monorepo 接入 Static/Unit/Component/E2E/Visual/A11Y/Contract/Performance/Security 门禁，治理一个 Flaky Case。
 
 ---
 
-# Stage 25：BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
+# Stage 18：BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
 
-## Module 25.01：BFF Architecture
+## Module 18.01：BFF Architecture
 
-Router/Controller/Application/Client、API Aggregation、Session、Feature Flag、Trace、Timeout/Retry/Partial Response、职责边界。
+Aggregation、Trim、Session、SSR Data、Feature Flag、Timeout/Retry/Circuit、Trace、Boundary with Core Backend。
 
-## Module 25.02：Session、OAuth/OIDC 与 BFF Authorization
+## Module 18.02：Session、OAuth/OIDC 与 Authorization 基础
 
-Cookie、Session Rotation、OAuth 2.0/OIDC + PKCE、RBAC/ABAC、CSRF、前端显示 vs 服务端授权。
+Cookie/Session、Authorization Code + PKCE、RBAC/ABAC/ReBAC 前置、CSRF、Rotation、Logout。
 
-### 综合实践：带登录与聚合的 BFF
+## Module 18.03：Next.js Full-stack Architecture
 
-建立 Session、权限、聚合、Trace ID、下游超时/降级，为全栈框架提供真实后端边界。
+App Router、Layout/Page/Loading/Error、RSC/Client Boundary、Data/Action、Cache/Revalidation、Streaming、PPR、Instrumentation。
 
-## Module 25.03：Next.js
+## Module 18.04：Nuxt / Nitro Full-stack Architecture
 
-App Router、Layout/Page/Error/Loading、Server/Client Component、RSC、Action、Cache/Revalidation、Streaming、Metadata、Runtime、Instrumentation 和安全升级。
+Page/Layout/Middleware/Plugin、useFetch/useAsyncData、Payload、Nitro、Hybrid Render、Route Rule、Layer。
 
-## Module 25.04：Nuxt
+### 综合实践：同一业务的 Next / Nuxt Vertical Slice
 
-Pages/Layouts/Middleware/Plugins、useFetch/useAsyncData、Nitro、Route Rule、SSR/Prerender/SWR/ISR、Pinia SSR、Module/Layer。
+用同一业务需求比较 React/Vue Full-stack Runtime、Cache、Deploy、DX 和 Migration Cost。
 
-## Module 25.05：Rendering Strategy
+## Module 18.05：SSR/SSG/ISR/Streaming Strategy
 
-CSR/SSR/SSG/ISR/Streaming/Partial/Edge，按路由选择，SEO、Cache、Freshness、Personalization 和成本 Trade-off。
+Build-time/Request-time/Edge/Client、Static/Dynamic/Hybrid、Cache、SEO、Failure。
 
-## Module 25.06：Edge / CDN / Serverless
+## Module 18.06：CDN / Edge / Serverless
 
-DNS/CDN/WAF/Edge/SSR/BFF/Origin 拓扑、Cold Start、Runtime Limit、Multi-region、Data Residency、Cache、Vendor Lock-in。
+DNS/CDN/WAF/Edge/SSR/BFF Topology、Cold Start、Runtime Limit、Cache、Secret、Vendor Lock-in。
 
-## Module 25.07：Release Topology & Cost
+## Module 18.07：Multi-region、Traffic 与 Rollout
 
-Static Asset/HTML Rollback、Canary/Blue-Green/Weighted/Tenant Cohort、Function/Request/Bandwidth/Image/Log 成本。
+Region、Data Residency、Session、Failover、Canary/Blue-Green/Weighted/Tenant Rollout。
+
+## Module 18.08：Cost Model
+
+Request、Bandwidth、Function Time、Image、Log、Cache Hit、Third-party Cost。
 
 ### 阶段综合项目：Production Full-stack Web Product
 
-使用 React/Next 或 Vue/Nuxt 主线之一完成登录、多租户上下文、SSR/Streaming、缓存、BFF、Edge/CDN、灰度和回滚；另一框架完成对照实现/架构实验。
+包含 BFF、Session、SSR/Streaming、Cache、Edge/CDN、Trace、Canary、Rollback 和 Cost Estimate。
 
 ---
 
-# Stage 26：数据库与一致性认知、企业身份、CMS、搜索、对象存储、支付与分析集成
+# Stage 19：数据与平台集成：数据库认知、CMS、Search、Object Storage、Payment、Analytics
 
-> 前端架构师不需要变成 DBA，但不能把数据和企业平台永远当黑盒。
+## Module 19.01：Frontend-facing Database & Transaction Mental Model
 
-## Module 26.01：SQL、关系模型、Index 与 Transaction 认知
+Relation/SQL、Index、Transaction、Isolation、Optimistic/Pessimistic Lock、Pagination Consistency、为什么影响前端交互。
 
-Table/Row/Relation、SQL CRUD/Join、Index、Transaction、Isolation、Optimistic/Pessimistic Lock、Pagination Consistency 及其对前端交互的影响。
+## Module 19.02：Data Consistency、Queue 与 Outbox/CDC 认知
 
-## Module 26.02：Cache、MQ、Eventual Consistency、Outbox/CDC 认知
+Cache Consistency、Message Queue、Idempotency、Eventual Consistency、Outbox、CDC、Ordering。
 
-为什么 UI 会看到旧数据、重复事件、乱序和最终一致；如何设计 Pending/Retry/Status UX。
+## Module 19.03：Object Storage
 
-## Module 26.03：Enterprise Identity
+Signed URL、Direct Upload、Multipart、Metadata、ACL、Lifecycle、Virus Scan、Thumbnail。
 
-OIDC 之外的 SAML、SCIM、SSO、JIT Provisioning、Domain Verification、Entitlement、User Lifecycle、Audit、多组织切换。
+## Module 19.04：Search
 
-### 综合实践：企业组织与成员管理流程
+Query/Filter/Facet/Highlight/Autocomplete、Index Delay、Cursor、No-result UX、Adapter。
 
-实现登录、组织、Role/Permission、成员邀请、模拟 Provisioning、审计展示和多组织切换 UI，后端辅助能力有清晰边界。
+## Module 19.05：CMS / Content Platform / SEO Architecture
 
-## Module 26.04：Object Storage & File Platform
+Content Model、Draft/Publish、Preview、Workflow、Canonical、Hreflang、Structured Data、Large-scale URL Migration。
 
-Signed URL、Multipart、Lifecycle、ACL、Metadata、Preview/Thumbnail、Virus Scan、Retention 和供应商抽象。
+## Module 19.06：Payment / Order Integration
 
-## Module 26.05：Search
+Tokenization、3DS、Redirect、Webhook、Idempotency、Final State、Reconciliation Mental Model。
 
-Query/Filter/Facet/Highlight/Autocomplete、Index Delay、Cursor、No-result UX、Search Analytics 和 API Boundary。
+## Module 19.07：Analytics / Experimentation
 
-## Module 26.06：CMS、Content Model 与 SEO Platform
+Event Taxonomy、Identity、Consent、Session、Exposure、Funnel/Cohort、A/B、Guardrail、SRM Awareness、Data Quality。
 
-Headless CMS、Draft/Preview/Publish、Workflow、Canonical、Hreflang、Structured Data、Sitemap、URL Migration 和缓存。
+## Module 19.08：Third-party Adapter & Exit Strategy
 
-## Module 26.07：Payment / Map / Analytics / Experiment
+SDK Isolation、CSP/Sandbox、Quota、SLA、Cost、Fallback、Vendor Switch。
 
-Tokenization/3DS/Webhook 最终状态、Map Quota/Privacy、Event Schema、Identity/Consent、Exposure、Funnel、A/B Guardrail、数据质量。
+### 阶段综合项目：Commerce / Content Integration App
 
-### 阶段综合项目：Enterprise SaaS Product Surface
-
-组合组织身份、文件、搜索、内容和分析中的多项能力，所有第三方 SDK 通过 Adapter 隔离，并设计降级、SLA、费用和退出路径。
+集成 Upload、Search、CMS/Content、Analytics，并模拟供应商超时、Index Delay、重复 Webhook 和配额问题。
 
 ---
 
-# Stage 27：PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
+# Stage 20：PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
 
-## Module 27.01：Cross-platform Runtime Model
+## Module 20.01：Cross-platform Runtime Model
 
-WebView、Native UI、JS Runtime、Bridge、Shell、Shared Domain/SDK/Token、Platform Adapter，以及什么不应该共享。
+WebView、Native Widget、JS Runtime、Bridge、Shell、共享 Domain/Schema/SDK/Token 的边界。
 
-## Module 27.02：PWA 深入
+## Module 20.02：PWA Production
 
-Install、Manifest、Service Worker、Offline、Push、Update、Background、平台限制和应用商店边界。
+Install、Manifest、Service Worker、Offline、Update、Push、Background、Platform Limit。
 
-## Module 27.03：Desktop
+## Module 20.03：Electron
 
-Electron Multi-process、Main/Renderer/Preload、IPC、Context Isolation、File/System、Auto Update、Signing；Tauri 等轻量方案比较。
+Main/Renderer/Preload、IPC、Context Isolation、Auto Update、Signing、Crash、Security。
 
-## Module 27.04：Mobile
+## Module 20.04：Tauri / Lightweight Desktop
 
-React Native、Hybrid/Capacitor、WebView、Navigation、Gesture、Native Module、Offline、Performance、Release。
+Rust/Native Boundary 高层、IPC、Permission、Bundle/Memory、安全和适用场景。
 
-## Module 27.05：Miniapp / Embedded Platform
+## Module 20.05：React Native / Hybrid
 
-运行时约束、组件映射、Package/分包、Bridge、权限、审核、平台 API、多端编译边界。
+Native Component、Layout、Navigation、Bridge/New Architecture 认知、Native Module、Capacitor/PWA 比较。
 
-## Module 27.06：TV/OTT / Large Screen
+## Module 20.06：Miniapp
 
-遥控器/键盘 Focus、10-foot UI、低性能 SoC、视频、长时间运行、分辨率、内存和无鼠标交互。
+Runtime Constraint、Component Mapping、Package Size、Subpackage、Permission、Platform API、Review。
 
-### 阶段综合项目：同一业务的 Web + 一个第二终端
+## Module 20.07：TV/OTT
 
-从 Desktop/Mobile/Miniapp/TV 中选择一个，把已有业务移植，明确共享与平台专用代码，提交性能、安全和发布 Trade-off。
+Remote Focus、10-foot UI、Low-end Device、Video、Resolution、Long-running Stability、Memory。
 
----
+## Module 20.08：Release / Update / Security
 
-# Stage 28：实时协作、Local-first、离线同步、OT/CRDT 与多人系统
+Store Review、Code Push Boundary、Desktop Update、Crash、Version Compatibility、Bridge Least Privilege。
 
-## Module 28.01：Realtime Collaboration State
+### 阶段综合项目：Multi-platform Client
 
-Document、Presence、Cursor、Selection、Typing、Awareness，Transient vs Persistent State。
-
-## Module 28.02：Sync Protocol
-
-Snapshot、Operation、Sequence、Ack、Version Vector、Reconnect、Replay、Compaction、Schema Version。
-
-## Module 28.03：Conflict Strategy
-
-Lock、Optimistic Concurrency、LWW、Field Merge、Operational Transformation、CRDT 的原理和适用边界。
-
-## Module 28.04：Local-first Architecture
-
-Local DB、Operation Log、Pending、Background Sync、Offline Queue、最终一致和用户可见同步状态。
-
-### 综合实践：离线优先任务板
-
-断网时继续编辑，恢复后自动同步；支持 Pending、Retry、Conflict 和历史版本。
-
-## Module 28.05：Collaboration Scale
-
-Room/Shard/Sticky、Fan-out、Presence Expiration、Backpressure、Large Document、旧客户端和服务器扩展认知。
-
-## Module 28.06：Collaboration Security & Testing
-
-Room Authorization、Message Validation、Replay、Abuse、Audit，以及断网/乱序/重复/并发编辑/时钟差故障注入。
-
-### 阶段综合项目：多人协作工作台
-
-实现 Presence、多人更新、断线恢复、离线编辑、冲突/合并 UI，并输出协议时序和一致性设计。
+选择 Desktop/Mobile/TV 中至少两个目标，复用 Domain/SDK/Token，同时记录不能共享的 UI/Navigation/Platform Boundary。
 
 ---
 
-# Stage 29：SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
+# Stage 21：Realtime Collaboration、Local-first、离线同步、OT/CRDT 与多人系统
 
-## Module 29.01：SVG
+## Module 21.01：Collaboration State
 
-Coordinate/ViewBox/Path/Transform/Filter/Event/A11Y、DOM Cost 和图表封装。
+Document、Presence、Cursor、Selection、Typing、Awareness、Persistent vs Ephemeral。
 
-## Module 29.02：Canvas 2D / OffscreenCanvas
+## Module 21.02：Sync Protocol
 
-Drawing State、Pixel、Text、HiDPI、Hit Test、Worker Offscreen、Export 和性能。
+Snapshot、Operation、Sequence、Ack、Version Vector、Reconnect、Replay、Compaction。
 
-## Module 29.03：WebGL / WebGPU
+## Module 21.03：Conflict Strategy
 
-Render Pipeline、Buffer、Shader、Texture、Resource Lifetime、Compute、Device Lost、Fallback 和库封装边界。
+Lock、Optimistic Concurrency、LWW、Field Merge、OT、CRDT 原理和适用边界。
 
-### 综合实践：大数据实时图表
+## Module 21.04：Local-first Architecture
 
-根据数据规模在 SVG/Canvas/GPU 中选型，加入 Worker、Progressive Rendering、Sampling、LOD，并测量 FPS/Memory。
+Local DB、Operation Log、Pending、Offline Queue、Background Sync、Eventual Consistency。
 
-## Module 29.04：Web Audio、Video、MSE、EME、WebCodecs
+## Module 21.05：Scale / Room / Fan-out / Backpressure
 
-播放、Buffer、Adaptive Streaming、DRM 概念、字幕、Live Latency、Audio Graph、Decode 和资源释放。
+Room、Shard、Sticky、Fan-out、Heartbeat、Presence Expiration、Large Document。
 
-## Module 29.05：WebAssembly
+## Module 21.06：Collaboration UX / Security
 
-Linear Memory、Module/Instance、JS Bridge、Copy Cost、Thread/SIMD、适用图像/媒体/解析/计算场景和性能比较。
+Offline/Pending/Conflict/History/Undo、Room Auth、Replay、Spam、Audit。
 
-## Module 29.06：WebXR 与 Device APIs
+### 阶段综合项目：Collaborative Workspace
 
-XR Session/Input/Frame、Bluetooth/USB/Serial/HID/MIDI 等 Permission/Secure Context/Feature Detection 和安全。
-
-### 阶段综合项目：High-performance Web Experience
-
-选择可视化、媒体或 WASM 场景完成 Research-to-Production Spike，提交兼容矩阵、性能基线、Fallback 和采用 ADR。
+实现 Presence、离线编辑、Reconnect、冲突、版本历史，并进行乱序、重复、断网和旧客户端测试。
 
 ---
 
-# Stage 30：Schema-driven UI、动态表单、低代码、编辑器与插件式业务平台
+# Stage 22：SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
 
-## Module 30.01：Schema-driven UI
+## Module 22.01：SVG
 
-JSON Schema/UI Schema、Component Registry、Renderer、Data/Validation Schema、Conditional Rendering、Version。
+Coordinate/ViewBox/Path/Group/Transform/Filter、DOM/Interaction/A11Y Cost。
 
-## Module 30.02：Dynamic Form Engine
+## Module 22.02：Canvas 2D
 
-Field Registry、Dependency、Rule、Validation、Layout、Async Option、Permissions、Draft 和 Schema Migration。
+Drawing State、HiDPI、Hit Test、OffscreenCanvas、Export、Worker。
 
-### 综合实践：Schema 驱动表单平台
+## Module 22.03：WebGL / GPU Pipeline
 
-从配置生成复杂表单，支持条件字段、权限、校验、版本和预览。
+Buffer、Shader、Texture、Coordinate、Batch、Resource Lifecycle。
 
-## Module 30.03：Visual Editor Architecture
+## Module 22.04：WebGPU
 
-Canvas/Tree/Property Panel、Selection、Drag/Drop、Command、Undo/Redo、History、Clipboard、Keyboard、Preview。
+Render/Compute Pipeline、Binding、Async Error、Device Lost、Compatibility、Fallback。
 
-## Module 30.04：Rule / Expression Engine
+## Module 22.05：Visualization Engineering
 
-安全表达式、Dependency Graph、Evaluation、Sandbox、Timeout、Capability、Debug 和风险。
+Scale/Axis/Layout/Interaction、Sampling/Aggregation、Progressive/LOD、Virtualization、Accessibility。
 
-## Module 30.05：Plugin / Extension Model
+## Module 22.06：Audio / Video / Streaming Media
 
-Manifest、Extension Point、Permission、Version、Sandbox、Lifecycle、Registry、Compatibility 和 Third-party Trust。
+HTML Media、MSE、EME、Web Audio、WebCodecs、Subtitle、ABR、Low-latency Live。
 
-## Module 30.06：Low-code Runtime & Governance
+## Module 22.07：WebAssembly
 
-Schema Version、Migration、Publish、Rollback、Multi-user Edit、Audit、Tenant、Performance、Security 和产品边界。
+Linear Memory、Module/Instance、JS Bridge、Copy Cost、Thread/SIMD、WASI/Component Model 认知。
 
-### 阶段综合项目：Low-code Page Builder
+## Module 22.08：WebXR / Device API Research
 
-构建最小页面/表单设计器，支持组件拖拽、属性配置、规则、预览、Undo/Redo、Schema Version 和插件扩展。
+XR、Bluetooth/USB/Serial/HID 等 Capability、Permission、Secure Context、Research/Adoption Framework。
 
----
+### 阶段综合项目：High-performance Visualization / Media App
 
-# Stage 31：前端性能工程、RUM、Core Web Vitals、容量模型与规模化治理
-
-## Module 31.01：Performance Metrics & Measurement
-
-TTFB/FCP/LCP/INP/CLS、Long Task/Long Animation Frame、业务指标、P50/P75/P95/P99、Lab vs Field、Experiment Design。
-
-## Module 31.02：RUM
-
-PerformanceObserver、Navigation/Resource/Event Timing、Sampling、Context、Release、Device/Network/Region 分析和数据质量。
-
-### 综合实践：给现有企业应用建立 Performance Baseline
-
-定义技术+业务指标、RUM 上报和 Dashboard，先有数据再优化。
-
-## Module 31.03：Loading Performance
-
-Critical Request Chain、DNS/TLS/TTFB、Resource Priority、Image/Font、Code Split、Third-party、Cache、Preload/Prefetch。
-
-## Module 31.04：Runtime / Rendering / Framework Performance
-
-JS Parse/Eval、Long Task、Scheduler/Worker、Style/Layout/Paint、React/Vue Render、Hydration、Virtualization、Memory。
-
-## Module 31.05：Memory / Energy / Long-running App
-
-Heap、Detached DOM、Listener/Timer/Cache、GPU/Media、Polling、Battery/Thermal、TV 长运行。
-
-## Module 31.06：Capacity Model
-
-Users/Concurrency/Request/Message/Data Row/DOM/Memory/CPU/Bandwidth/Third-party Quota，找到系统第一个失效点。
-
-## Module 31.07：Performance Budget & Governance
-
-CI Budget、RUM Regression、Owner、SLA、Bisect、Rollback、Exception、Performance Champion、成本/体验 Trade-off。
-
-### 阶段综合项目：Performance Engineering Review
-
-完成至少 LCP、INP、Bundle、Memory 四类优化；每项必须提交前后 Trace/Profiler/RUM 数据和回归保护。
+完成大数据可视化或媒体处理项目，包含 Worker/GPU、帧率、内存、释放资源和 A11Y 替代。
 
 ---
 
-# Stage 32：Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
+# Stage 23：Schema-driven UI、动态表单、低代码、Visual Editor 与插件式业务平台
 
-## Module 32.01：Browser Security Model
+## Module 23.01：Schema-driven UI
 
-Origin/Site、Same-origin Policy、Sandbox、CORS、Cookie、Storage、Iframe、Cross-origin Isolation 和 Trust Boundary。
+JSON/UI Schema、Renderer Registry、Component Mapping、Validation、Default/Override、Version。
 
-## Module 32.02：XSS / DOM Clobbering / Prototype Pollution / URL Security
+## Module 23.02：Dynamic Form Engine
 
-HTML/Attribute/URL/JS/CSS Context、Encoding、Sanitization、Safe DOM API、Trusted Types、富文本/Markdown/第三方组件。
+Field Schema、Dependency Rule、Conditional、Async Option、Validation、Layout、Permission。
 
-## Module 32.03：CSRF、Clickjacking、CORS Misconfiguration
+## Module 23.03：Rule / Expression Engine
 
-Cookie 自动携带、SameSite/Token/Origin、frame-ancestors、Credential、Preflight 和攻击/修复实验。
+Safe Expression、AST/Interpreter、Sandbox、Dependency Graph、Evaluation、Security。
 
-### Security Lab：受控 Web 攻防
+## Module 23.04：Visual Editor
 
-在隔离教学环境复现 XSS/CSRF/CORS/Clickjacking，然后逐项修复并用 Header/Browser Evidence 验证。
+Canvas/Outline/Property Panel、Selection、Drag/Drop、Command、Undo/Redo、Clipboard、History。
 
-## Module 32.04：OAuth/OIDC、Session、Passkey、SAML、SCIM
+## Module 23.05：Plugin / Extension Model
 
-认证、会话、强认证、企业 SSO、Provisioning/Deprovisioning 和恢复流程。
+Manifest、Capability、Permission、Lifecycle、Version、Dependency、Isolation、Crash Containment。
 
-## Module 32.05：Authorization & Multi-tenant Security
+## Module 23.06：Schema Migration / Compatibility
 
-RBAC/ABAC/ReBAC、Resource/Action/Tenant、Row-level、前端显示 vs 服务端强制、越权测试。
+Old Page、Schema Version、Migration、Compatibility Layer、Rollback、Audit。
 
-## Module 32.06：CSP、Trusted Types、Sandbox、COOP/COEP
+## Module 23.07：Collaboration / Preview / Publish
 
-从 Report-only 到 Enforce、Nonce/Hash/Strict-dynamic、Violation、Third-party Script、postMessage Protocol。
+Draft、Preview、Publish、Multi-user Edit、Conflict、Environment、Rollout。
 
-## Module 32.07：Supply Chain
+### 阶段综合项目：Low-code Business Builder
 
-Malicious Package、Typosquatting、Dependency Confusion、Lockfile、Registry、Integrity、Provenance、SBOM、Secret、Build Isolation。
-
-## Module 32.08：Privacy Engineering
-
-Data Minimization、Purpose、Retention、Consent、Cookie/Tracking、Export/Delete、Log/Replay Mask、Cross-border Awareness。
-
-## Module 32.09：Threat Modeling & Security Governance
-
-Asset/Actor/Entry/Boundary、STRIDE、Abuse Case、Risk、SAST/SCA/DAST、Owner/SLA、Incident Response。
-
-### 阶段综合项目：Secure Multi-tenant SaaS Review
-
-为现有全栈产品完成 Threat Model、CSP/Trusted Types、身份/权限矩阵、SBOM、隐私数据地图和高危依赖响应演练。
+实现动态表单 + 页面 Schema + 属性面板 + Undo/Redo + Plugin + Version Migration 的最小平台。
 
 ---
 
-# Stage 33：可观测、SLO、故障治理、CI/CD、容器、Kubernetes、GitOps 与云交付
+# Stage 24：前端性能工程、RUM、Core Web Vitals、Memory、Capacity 与规模治理
 
-## Module 33.01：Frontend Observability
+## Module 24.01：Performance Metric & Experiment
 
-Error/Unhandled Rejection/Resource/Chunk/Network、Source Map、Release、User/Tenant/Route/Feature Flag、Breadcrumb、Session Replay Privacy。
+TTFB/FCP/LCP/INP/CLS、Long Task/LoAF、自定义业务指标、P50/P75/P95/P99、Lab vs Field。
 
-## Module 33.02：Metric、Trace 与 Browser→BFF→Service 链路
+## Module 24.02：RUM
 
-Web Vital/Business Metric、Trace Context、Span、Sampling、Server Timing、Cross-origin、Cost。
+PerformanceObserver、Navigation/Resource/Event Timing、Sampling、Version/Region/Device Dimension、Data Quality。
 
-### 综合实践：从一条用户投诉定位到具体发布
+## Module 24.03：Loading Performance
 
-要求能够从 User/Time/Version/Route/Error/Request/Trace 定位问题，而不是只看截图。
+Critical Request Chain、DNS/TLS、Preload/Priority、Image/Font、Third-party、Cache。
 
-## Module 33.03：SLO / Error Budget / Alert
+## Module 24.04：Render / Interaction Performance
 
-Critical Journey、SLI/SLO、Availability/Latency/Correctness、Burn Rate、Alert、Runbook、Risk Prioritization。
+Style/Layout/Paint/Composite、Long Task、Scheduler、Input Handler、Framework Render、Virtualization。
 
-## Module 33.04：Failure Engineering & Incident
+## Module 24.05：Memory / Long-running Stability
 
-Chunk 404、CDN、Downstream Timeout、Cache Poison、Wrong Config、Certificate、Network Slow、Incident Timeline、Blameless Review。
+Heap、Detached DOM、Listener/Timer/Cache、GPU/Media、TV/Long Session。
 
-## Module 33.05：CI/CD & Reproducible Build
+### Performance Lab：LCP + INP + Memory
 
-Install/Lint/Test/Scan/Build/Artifact/Deploy/Verify/Promote、Lock、Runtime、Provenance、Environment、Preview。
+分别完成一次加载、交互、内存优化，必须提交前后 Trace/Profiler/Heap 数据。
 
-## Module 33.06：Container & Kubernetes
+## Module 24.06：Bundle / Build Performance
 
-Multi-stage Image、Non-root、Health/Signal、Deployment/Service/Ingress/Gateway、Config/Secret、Probe、Resource、Autoscaling、Rolling。
+Parse/Compile/Evaluate、Chunk、Tree Shaking、Duplicate、Polyfill/Locale、Build/CI Time。
 
-## Module 33.07：GitOps / IaC / Policy as Code
+## Module 24.07：Capacity Model
 
-Declarative Environment、Drift、Promotion、Approval、Policy、Secret Lifecycle、Audit 和平台权限。
+User/Concurrency/Request/Message/Data Row/DOM/Memory/CPU/Bandwidth/Third-party Quota。
 
-## Module 33.08：Release & Disaster Recovery
+## Module 24.08：Performance Governance
 
-Canary/Blue-Green/Cohort、RUM Guard、Auto Rollback、Roll-forward、Artifact Retention、DNS/CDN/Cert/Region Recovery。
+Budget、CI Gate、RUM Regression、Owner/SLA、Release Annotation、Bisect/Rollback、Performance Champion。
+
+### 阶段综合项目：Performance Governance System
+
+为一个复杂页面建立 Lab/RUM 基线、预算、容量模型、自动回归和发布阻断策略。
+
+---
+
+# Stage 25：Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
+
+## Module 25.01：Browser Security Model / Trust Boundary
+
+Origin、Site、Cookie、Storage、Iframe、Sandbox、Third-party、Extension、SSR Input。
+
+## Module 25.02：XSS / DOM XSS / HTML Context
+
+Reflected/Stored/DOM、HTML/Attribute/URL/Script/CSS Context、Sanitize、Safe DOM API。
+
+## Module 25.03：CSRF、CORS、Clickjacking、Open Redirect
+
+SameSite/Token/Origin、Preflight/Credential、frame-ancestors、URL Allowlist。
+
+## Module 25.04：Prototype Pollution / DOM Clobbering / File & Rich Content
+
+Object Merge、Named Property、SVG/Office/PDF/Upload、MIME、Download/Preview Security。
+
+## Module 25.05：OAuth 2.0 / OIDC / Session / Passkey
+
+Authorization Code + PKCE、State/Nonce、Cookie/Token、Rotation/Revocation、WebAuthn/Passkey、Step-up。
+
+## Module 25.06：Enterprise Identity
+
+SAML、SCIM、SSO、JIT Provisioning、Domain Verification、Entitlement、Join/Leave Lifecycle、Multi-org、Audit。
+
+## Module 25.07：Authorization
+
+RBAC/ABAC/ReBAC、Policy/Resource/Action/Tenant/Row-level、UI vs Server Enforcement。
+
+## Module 25.08：CSP、Trusted Types、Cross-origin Isolation
+
+Nonce/Hash/strict-dynamic、Report-only、Trusted Types、Iframe/postMessage、COOP/COEP/CORP。
+
+## Module 25.09：Supply Chain
+
+SCA、Typosquatting、Dependency Confusion、Lock/Registry/Integrity/Provenance/SBOM/Signing/Build Isolation。
+
+## Module 25.10：Privacy Engineering
+
+Data Minimization、Purpose、Retention、Consent、Export/Delete、Log Masking、Replay、Data Residency。
+
+## Module 25.11：Threat Modeling / Security Test / Incident
+
+STRIDE、Attack Tree、Abuse Case、SAST/SCA/DAST/Secret/Header/Pentest、Severity/Owner/SLA/Patch/Rollback。
+
+### 阶段综合项目：Secure Enterprise SaaS Frontend
+
+实现企业 SSO/权限前端体验、CSP/Trusted Types、Privacy Data Map、SBOM、安全门禁，并完成 Threat Model 和攻击/修复实验。
+
+---
+
+# Stage 26：Observability、SLO、故障治理、CI/CD、Container、Kubernetes、GitOps 与云交付
+
+## Module 26.01：Frontend Observability
+
+Log/Metric/Trace/Profile/RUM/Replay、Error/Unhandled/Resource/Chunk、Source Map、Context/Breadcrumb。
+
+## Module 26.02：Distributed Trace
+
+Browser Span、Trace Context、Fetch/BFF/Service、Sampling、Cross-origin、Business Transaction。
+
+## Module 26.03：SLO / Error Budget
+
+Critical Journey、Availability/Latency/Freshness、SLI/SLO、Burn Rate、Release Guard。
+
+## Module 26.04：Incident / Runbook / Chaos
+
+Detection、Triage、Timeline、Incident Command、Rollback、Postmortem、Action Verification、Failure Drill。
+
+## Module 26.05：CI/CD
+
+Install/Lint/Type/Test/Scan/Build/Package/Deploy/Verify/Promote、Artifact、Provenance、Environment。
+
+## Module 26.06：Static / SSR Deployment
+
+Atomic Asset、HTML/Hash Asset Order、CDN Purge、Old Asset Retention、Rollback、Graceful Shutdown。
+
+## Module 26.07：Container
+
+Multi-stage、Non-root、Minimal Image、Nginx/Node、Health、Signal、Config。
+
+## Module 26.08：Kubernetes
+
+Deployment/Service/Gateway/Config/Secret/Probe/Resource/Autoscaling/Rolling Update。
+
+## Module 26.09：GitOps / IaC / Policy as Code
+
+Declarative Environment、Drift、Promotion、Policy、Secret Lifecycle、Audit、Resource/Cost Guardrail。
+
+## Module 26.10：DR / Multi-region Delivery
+
+DNS/CDN/Certificate/Artifact/Config Backup、Region Failure、Recovery Drill。
 
 ### 阶段综合项目：Production Delivery Platform
 
-从 PR Preview 到 Production Canary，全链路接入 Observability/SLO/Alert/Auto Rollback；运行至少三种故障演练并复盘。
+从 PR Preview 到生产 Canary，打通 Trace/SLO/Alert/Auto Rollback、Container/K8s/GitOps，并完成故障演练。
 
 ---
 
-# Stage 34：DDD、模块化、微前端、插件、多租户、前端平台、迁移、治理与技术战略
+# Stage 27：DDD、模块化、Microfrontend、Plugin、Multitenancy 与大型前端架构
 
-## Module 34.01：Architecture Drivers & Quality Attributes
+## Module 27.01：Architecture Driver / Quality Attribute
 
-Business Goal、User、Scale、Team Boundary、Deployment、Compliance、Performance、Security、Reliability、Cost、Changeability；架构先从约束开始。
+Business/User/Team/Deploy/Compliance/Performance/Reliability/Cost/Evolution。
 
-## Module 34.02：DDD 与模块化前端
+## Module 27.02：DDD for Frontend
 
-Subdomain、Bounded Context、Ubiquitous Language、DTO/Domain/ViewModel、Feature/Domain/Shared/Infrastructure、Port/Adapter、Architecture Test。
+Subdomain、Bounded Context、Ubiquitous Language、Entity/Value/Policy/Event、DTO/Domain/ViewModel。
 
-### 综合实践：把大型前端重构成模块化单体
+## Module 27.03：Modular Monolith / Dependency Architecture
 
-从依赖图和业务变化出发划分边界，加入 Public API、Import Rule、Anti-corruption Layer 和 Fitness Function。
+Feature/Domain/Shared/Infrastructure、Public API、ACL、Port/Adapter、Import Rule、Fitness Function。
 
-## Module 34.03：Microfrontend
+### 综合实践：拆分一个大型前端单体
 
-采用条件、Build-time Package、Module Federation、Web Components、Iframe、Route/Server Composition、Shell、Contract、Shared Dependency、Failure/Version Governance。
+为真实后台建立 Bounded Context、依赖规则、Public API 和 Architecture Test。
 
-## Module 34.04：Plugin Architecture
+## Module 27.04：State Machine / Workflow / CQRS Mental Model
 
-Extension Point、Manifest、Capability/Permission、Version、Lifecycle、Sandbox、Quota、Crash Containment、Marketplace/Review。
+State/Event/Guard/Action、Command/Query/Read Model、Optimistic UI 适用边界。
 
-## Module 34.05：Multi-tenancy & White-label
+## Module 27.05：Microfrontend
 
-Tenant Context、Domain、Theme、Locale、Feature/Data/Permission/Quota/Region、Config Inheritance、Brand/Legal/SEO 和测试矩阵。
+Adoption Condition、Package/Federation/Web Component/Iframe/Route/Server Composition、Shell、Contract、Shared Dependency、Failure、SLO。
 
-## Module 34.06：Frontend Platform / Developer Portal
+## Module 27.06：Plugin Architecture
 
-Golden Path、Template/CLI/Design System/Test/Observability/CI/Security、Service Catalog、Owner、Self-service、Platform API/Plugin、SLO、Adoption。
+Extension Point、Manifest、Lifecycle、Capability/Permission、Sandbox/Worker/Iframe、Quota/Timeout/Crash Containment。
 
-### 综合实践：Frontend Developer Platform
+## Module 27.07：Multitenancy / White-label
 
-让两个不同前端项目通过自助方式创建/接入、构建、测试、发布、监控、回滚，记录 Adoption/Upgrade/Lead Time/Failure Rate。
+Tenant Context、Theme/Locale/Feature/Data/Permission/Quota/Region、Brand/Domain/Content/Legal、Runtime Config。
 
-## Module 34.07：Legacy Migration & Technical Debt
+## Module 27.08：Configuration / Feature Platform
 
-System Inventory、Debt Classification、Strangler/Branch by Abstraction/Dual Run、Codemod、Compatibility、Canary、Budget、Stop Condition、Value Metric。
+Schema/Default/Override/Inheritance、Validation、Rollout/Audit、Emergency Disable、Flag Lifecycle。
 
-## Module 34.08：Architecture Governance
+## Module 27.09：Architecture Decision / RFC / ADR
 
-RFC、ADR、C4/Sequence/Data Flow、Review、Fitness Function、Dependency Policy、Exception/Expiration、Technology Radar。
+Problem/Constraint/Option/Trade-off/Decision/Consequence、C4/Sequence/Data Flow/Capacity/Failure Model。
 
-## Module 34.09：Staff / Principal Technical Leadership
+### 阶段综合项目：Extensible Multi-tenant Frontend Platform
 
-跨团队影响、RFC Facilitation、Mentoring、Hiring Rubric、Ownership、On-call、Incident Leadership、Knowledge System、冲突处理。
-
-## Module 34.10：Product、Business、Cost & Portfolio
-
-Product Discovery、North Star/Funnel/Experiment、Build vs Buy、TCO、Vendor Risk、Roadmap、Opportunity Cost、Executive Communication。
-
-### 阶段综合项目：Enterprise Frontend Architecture Review
-
-为“多团队、多产品、多租户、历史系统并存”的企业前端提出 12～24 个月架构路线，包含平台、迁移、成本、风险、Owner、度量和退出策略。
+实现 Modular Architecture + Microfrontend/Plugin 二选一或组合 + 多租户 + Architecture Fitness Function，并模拟 Remote/Plugin/Tenant Failure。
 
 ---
 
-# Stage 35：AI 辅助研发、AI 原生前端、Agent UX 与 Principal 级毕业项目
+# Stage 28：Frontend Platform、迁移、技术债、Governance、成本、产品与 Staff/Principal 影响力
 
-## Module 35.01：AI-assisted Frontend Development
+## Module 28.01：Internal Frontend Platform
 
-模型能力边界、Context Engineering、Spec-driven Development、Coding Agent、Repo Rule、Diff Review、Test/Validation、成本和失败样本。
+Platform User、Capability Map、Template/CLI/Design System/Test/Observability/Delivery/Security、Product Thinking。
 
-## Module 35.02：MCP / Tool Integration
+## Module 28.02：Golden Path / Developer Portal
 
-Tool Schema、Permission、File/GitHub/Browser/DB 等工具边界、Prompt Injection、Tool Poisoning、Confused Deputy、Audit 和 Approval。
+Service Catalog、Owner、Docs、Dependency、Environment、Metric/SLO/Runbook、自助创建/发布/回滚。
 
-## Module 35.03：AI Native Interaction Model
+## Module 28.03：Platform API / Plugin / Self-service Permission
 
-Chat、Copilot、Command、Inline Suggestion、Workflow、Autonomous Agent、Human-in-the-loop，以及什么时候不应该做聊天框。
+Provider、Template Version、Backward Compatibility、Approval、Audit、Platform SLO/DR。
 
-## Module 35.04：Streaming UI Protocol
+### 综合实践：Frontend Developer Portal
 
-Message/Token/Tool Call/Tool Result/Artifact/Citation/Usage/Error/Retry/Resume、SSE/Stream、Backpressure、状态机和断线恢复。
+接入两个不同类型项目，展示创建→开发→测试→发布→监控→回滚的自助路径。
+
+## Module 28.04：Legacy Inventory / Technical Debt
+
+Business Value、Traffic、Owner、Dependency、Build/Test/Deploy/Incident/Vulnerability/Cost；Code/Arch/Dependency/Test/Data/Ops/Knowledge Debt。
+
+## Module 28.05：Migration Architecture
+
+Strangler、Branch by Abstraction、Route/Feature、Dual Run、Shadow、Adapter/Compatibility、Data/URL/Storage/Telemetry Migration。
+
+## Module 28.06：Automated Migration
+
+Codemod、Lint Rule、API Report、Visual Diff、Batch PR、Progress Dashboard、Canary/Rollback。
+
+## Module 28.07：Technology Governance
+
+RFC/ADR/Architecture Review/Fitness Function/Dependency Policy/Exception/Expiry/Tech Radar。
+
+## Module 28.08：Product / Business / Experiment / Cost
+
+User Journey、North Star/Funnel/Cohort、Experiment、Build vs Buy、CDN/SSR/Log/Test/Third-party/Engineering Cost、Opportunity Cost。
+
+## Module 28.09：Staff / Principal Technical Leadership
+
+Technical Strategy、Cross-team Influence、Pilot/Champion/Office Hour、Risk Communication、Review、Mentoring、Ownership、Incident Leadership。
+
+## Module 28.10：Organization Capability
+
+Career Ladder、Hiring/Rubric、Knowledge System、Bus Factor、On-call、Sustainable Engineering Culture、Conflict Resolution。
+
+### 阶段综合项目：Organization-wide Frontend Modernization Program
+
+为一个多团队旧系统制定 6～12 个月迁移与平台化方案，包含 Pilot、Codemod、Golden Path、Budget、Adoption、Risk、Stop Condition、Metrics。
+
+---
+
+# Stage 29：AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全与评估
+
+## Module 29.01：AI-assisted Frontend Development
+
+Model Capability/Limit、Context Engineering、Spec-driven Development、Coding Agent、Repo Rule、Diff Review、Test/Validation、Cost/Failure Dataset。
+
+## Module 29.02：MCP / Tool Integration
+
+Tool Schema、Permission、File/GitHub/Browser/DB Tool Boundary、Prompt Injection、Tool Poisoning、Confused Deputy、Audit/Approval。
+
+## Module 29.03：AI Native Interaction Model
+
+Chat/Copilot/Command/Inline Suggestion/Workflow/Autonomous Agent/Human-in-the-loop；什么时候不该做聊天框。
+
+## Module 29.04：Streaming UI Protocol
+
+Message/Token/Tool Call/Tool Result/Artifact/Citation/Usage/Error/Retry/Resume、SSE/Stream、Backpressure、Reconnect。
 
 ### 综合实践：Streaming AI Assistant
 
 实现流式消息、停止、重试、引用、Markdown/Code 安全渲染和基础 Tool Call 展示。
 
-## Module 35.05：Agent UX
+## Module 29.05：Agent UX
 
 Idle/Planning/Running Tool/Awaiting Approval/Paused/Completed/Failed/Cancelled、Progress、Permission、Approve/Reject/Edit/Undo/Checkpoint/Branch。
 
-## Module 35.06：RAG / Multimodal / Artifact UX
+## Module 29.06：RAG / Multimodal / Artifact UX
 
-Citation、Freshness/Permission/Conflict、Image/Document/Audio/Video Input、Artifact Preview/Edit/Diff、Large Context 和可访问性。
+Citation、Freshness/Permission/Conflict、Image/Document/Audio/Video、Artifact Preview/Edit/Diff、Large Context、A11Y。
 
-## Module 35.07：AI Security & Evaluation
+## Module 29.07：AI Security
 
-Prompt/Tool Injection、Data Exfiltration、Model Output XSS、Untrusted Attachment、Structured Output Validation、Task Success/Groundedness/Tool Success/Safety/Latency/Cost Evals。
+Prompt/Tool Injection、Data Exfiltration、Model Output XSS、Untrusted Attachment、Artifact Sandbox、Tool Authorization Lifecycle、Replay/Audit。
 
-### 综合实践：Agent Workbench
+## Module 29.08：Structured Output / Generative UI
 
-基于已经学习的 React/全栈/可观测/安全能力构建带 Tool、Approval、Resume、Artifact、Citation、Evals、Audit 和成本控制的 AI Agent 工作台。
+Schema Validation、Tool Result Contract、Dynamic Component/Generative UI、Untrusted Model Data、Fallback。
 
-## Module 35.08：Principal Capstone Architecture
+## Module 29.09：AI Evaluation / Observability / Cost
 
-最终项目不要求“功能最多”，而要求在真实复杂约束下可解释、可运行、可验证、可迁移、可治理。
+Task Success、Groundedness、Tool Success、Approval Rate、Latency/First Token、Cost、Abandonment、Safety Incident、Eval Dataset/Regression。
 
-毕业项目至少要求综合：
+### 阶段综合项目：Agent Workbench
 
-- 一个真实业务问题和成功指标；
-- React 或 Vue 主应用，以及另一框架的互操作/迁移能力；
-- SSR/BFF/缓存/Edge 中的合理组合；
-- 复杂权限、多租户、实时/离线/上传/搜索/协作中的至少三项；
-- Design System / Package / CLI / Platform 能力中的至少两项；
-- Performance、Security、A11Y、i18n、Reliability、Cost 的明确目标与证据；
-- CI/CD、Preview、Canary、Feature Flag、Observability、SLO、Alert、Rollback；
-- 至少 10 份 ADR、2 份完整 RFC、Threat Model、Capacity Model、Failure Model、Migration/Exit Plan；
-- 至少三次故障演练；
-- AI 辅助研发或 AI Native 用户能力，并有 Eval/Security/Cost。
+基于 React/Full-stack/Observability/Security 能力构建带 Tool、Approval、Resume、Artifact、Citation、Evals、Audit 和 Cost Control 的 AI Agent 工作台。
 
-### 最终毕业答辩
+---
+
+# Stage 30：Principal 级综合毕业项目与正式架构答辩
+
+## Module 30.01：Graduation Requirement & Architecture Scope
+
+选择真实业务问题，定义 User/Value/Non-goal/Constraint/Success Metric、Architecture Driver、Quality Attribute。
+
+## Module 30.02：System Design
+
+Context/Container/Component/Sequence/Data Flow/Deployment、State/Data Contract、Cache、Auth、Failure、Capacity、Cost。
+
+## Module 30.03：Implementation & Delivery
+
+使用已学知识完成可运行系统；不得为了“显得高级”强行堆所有技术。
+
+## Module 30.04：Quality Evidence
+
+Performance、Security、A11Y、i18n、Reliability、Testing、Observability、SLO、Release/Canary/Rollback。
+
+## Module 30.05：Evolution / Migration / Exit
+
+至少 10 ADR、2 RFC、Build/Buy、Migration/Exit Plan、Compatibility、Cost、Three-year Replaceability。
+
+## Module 30.06：Failure Drill
+
+至少进行三类真实故障演练，例如依赖故障、错误发布、Cache、Network、Region、Security、Data Consistency。
+
+## Module 30.07：Platform / Organization Impact
+
+Owner、Contribution、Support、Upgrade/Deprecation、Adoption、Budget、Roadmap、Governance。
+
+## Module 30.08：AI Requirement
+
+AI-assisted Development 或 AI Native Feature 至少一种，必须包含 Eval、Permission、Security、Audit、Cost。
+
+### Principal Capstone
+
+毕业项目不是功能数量竞赛，而是证明在复杂约束下仍然能够做出可解释、可验证、可运行、可迁移、可治理的架构。
+
+最终至少提交：
+
+- 可运行源码和自动化测试；
+- Context/Container/Component/Sequence/Data Flow/Deployment 图；
+- Performance Baseline / RUM / Capacity Model；
+- Threat Model / Privacy / Supply-chain Evidence；
+- SLO / Alert / Runbook / Failure Drill / Postmortem；
+- ADR / RFC / Build-Buy / Migration / Exit Plan；
+- Cost Model；
+- AI Eval / Security / Tool Audit（适用）；
+- 正式架构答辩记录。
+
+### 最终架构答辩
 
 必须能够回答：
 
@@ -1767,21 +1887,13 @@ Prompt/Tool Injection、Data Exfiltration、Model Output XSS、Untrusted Attachm
 
 ---
 
-# 6. Stage / Module / Lesson 的后续拆分方式
+# 6. 后续 Stage → Module → Lesson 拆分方式
 
-这份 README 是**唯一总纲**。
+这份 README 是整个 `learn-frontend-web-course` 的**唯一总纲**。
 
-后续正式建设课程时，不再回到“每个技术单独创建一份平铺大纲”的方式。
+后续不再为 React、Vue、Browser、Performance、Project 等建立平行专项大纲。
 
-总纲先确定：
-
-```text
-Stage
-→ Module
-→ 在合适学习位置出现的综合实践 / Lab / 项目
-```
-
-再在正式课程目录中拆 Lesson：
+正式课程目录直接按照总纲落地：
 
 ```text
 courses/frontend-architect/
@@ -1791,31 +1903,32 @@ courses/frontend-architect/
     │   ├── README.md
     │   ├── kp001-xxx/
     │   ├── kp002-xxx/
-    │   ├── failure-xxx/        # 在学习顺序中需要时出现
-    │   ├── source-xxx/         # 在学习顺序中需要时出现
-    │   └── project-xxx/        # 在知识足够组合时自然出现
-    └── project-xxx/            # Stage 综合项目需要时出现
+    │   ├── failure-xxx/   # 当学习顺序需要时自然出现
+    │   ├── source-xxx/    # 当学习顺序需要时自然出现
+    │   └── project-xxx/   # 当知识已经足够组合时自然出现
+    └── project-xxx/       # Stage 综合项目需要时自然出现
 ```
 
-目录只是为了组织文件；**学习顺序必须是一条自然路径**，不能让学生自己在 lessons/labs/projects 三套平行目录里来回猜。
+目录只是组织文件；学习顺序必须始终是一条自然路径。
 
 ---
 
 # 7. 总纲评审标准
 
-后续继续调整总纲时，每个 Stage / Module 必须回答：
+每个 Stage / Module 都必须回答：
 
 1. 为什么它应该出现在这里？
-2. 前置知识是什么？
-3. 是否和前面 Module 重复教学？
-4. 是否真正从使用深入到原理、故障、源码和生产边界？
-5. 是否有可以运行/测量/Debug 的真实证据？
-6. 学到什么位置时知识已经足够自然形成综合项目？
-7. 项目是否只使用截至当前已经学过的知识？
-8. 当前项目是否确实提高了理解，而不是为了“有项目”增加业务噪音？
-9. 这个能力在真实前端工程/架构岗位中解决什么问题？
-10. 如果不学习它，会在哪种交付、故障、性能、安全或架构场景中遇到能力断层？
+2. 它是一个真正独立的领域/主题，还是把同一技术人为拆成基础/高级/源码？
+3. 前置知识是什么？
+4. 是否和前面 Module 重复教学？
+5. 是否从使用深入到原理、故障、源码和生产边界？
+6. 是否有可以运行、测量、Debug 的真实证据？
+7. 学到什么位置时知识已经足够自然形成综合实践？
+8. 项目是否只使用截至当前位置已经学过的知识？
+9. 当前项目是否真正提高理解，而不是为了“有项目”增加业务噪音？
+10. 该能力在真实前端工程/架构岗位中解决什么问题？
+11. 如果不学习，会在哪类交付、故障、性能、安全或架构场景中出现能力断层？
 
-总纲追求的不是阶段数量最多、技术名词最多，而是：
+总纲最终追求：
 
-> **广度足够覆盖现代前端与架构师真实工作边界；深度足够从零使用一路进入原理、源码、故障、性能和架构；学习顺序自然；项目随着知识成长自然出现；每一课最终都能被学生完整复刻。**
+> **广度覆盖现代前端与前端架构师真实工作边界；深度从零使用一直进入原理、源码、故障、性能和架构；Stage 不按“基础/高级/源码”人为拆技术；项目随着知识自然出现；每一课都能够被学生完整复刻。**
