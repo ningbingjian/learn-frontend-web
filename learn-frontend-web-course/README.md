@@ -8,6 +8,65 @@
 
 ---
 
+<!-- NAVIGATION:START -->
+## 导航目录
+
+> 总纲目录只导航到 Section / Stage；具体 Stage 内部再导航到 Module，避免目录本身变成另一份超长正文。
+
+### 文档入口
+
+- [统一教学与课程编写规范](./FRONTEND_TEACHING_GUIDE.md)
+- [React Stage 11 详细大纲](./stage11-react/README.md)
+
+### 总纲章节
+
+- [1. 课程目标](#section-1)
+- [2. Stage 与 Module 的边界](#section-2)
+- [3. 项目与实验如何进入正常学习路径](#section-3)
+- [4. 每一课都必须可复刻](#section-4)
+- [5. 总体学习路线](#section-5)
+- [6. 后续 Stage → Module → Lesson 拆分方式](#section-6)
+- [7. 总纲评审标准](#section-7)
+
+### Stage 导航
+
+- [Stage 00：开发环境、命令行、Git 与工程师基本功](#stage-00)
+- [Stage 01：计算机组成、操作系统、Linux 与网络底层基础](#stage-01)
+- [Stage 02：Internet、URL、DNS、TCP/TLS、HTTP 与 Web 系统模型](#stage-02)
+- [Stage 03：HTML、语义、表单、媒体、SEO 与可访问性](#stage-03)
+- [Stage 04：CSS、布局、响应式、现代 CSS、动画、Token 与样式架构](#stage-04)
+- [Stage 05：JavaScript 语言、对象体系、集合、模块、元编程与设计抽象](#stage-05)
+- [Stage 06：JavaScript Async、Runtime、Event Loop、Memory、Engine 与算法](#stage-06)
+- [Stage 07：DOM、Event、Form、History 与原生浏览器应用](#stage-07)
+- [Stage 08：TypeScript 从基础到高级类型、Schema、SDK 与类型架构](#stage-08)
+- [Stage 09：浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform](#stage-09)
+- [Stage 10：HTTP/2/3、缓存、API、实时通信、流式、数据一致性与离线韧性](#stage-10)
+- [Stage 11：React 完整体系](#stage-11)
+  - [React Stage 11：Module / Lesson 详细大纲](./stage11-react/README.md)
+- [Stage 12：Vue 完整体系](#stage-12)
+- [Stage 13：多框架范式、Angular 企业认知、Web Components 与历史系统迁移](#stage-13)
+- [Stage 14：UI Engineering、复杂组件、Design System、A11Y、国际化与样式平台](#stage-14)
+- [Stage 15：Node.js Runtime、CLI、Stream、Process 与前端服务工具](#stage-15)
+- [Stage 16：Compiler、AST、Bundler、Package、Monorepo 与 Developer Experience](#stage-16)
+- [Stage 17：静态分析、Unit、Component、Integration、E2E、Visual 与质量工程](#stage-17)
+- [Stage 18：BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端](#stage-18)
+- [Stage 19：数据与平台集成：数据库认知、CMS、Search、Object Storage、Payment、Analytics](#stage-19)
+- [Stage 20：PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程](#stage-20)
+- [Stage 21：Realtime Collaboration、Local-first、离线同步、OT/CRDT 与多人系统](#stage-21)
+- [Stage 22：SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化](#stage-22)
+- [Stage 23：Schema-driven UI、动态表单、低代码、Visual Editor 与插件式业务平台](#stage-23)
+- [Stage 24：前端性能工程、RUM、Core Web Vitals、Memory、Capacity 与规模治理](#stage-24)
+- [Stage 25：Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理](#stage-25)
+- [Stage 26：Observability、SLO、故障治理、CI/CD、Container、Kubernetes、GitOps 与云交付](#stage-26)
+- [Stage 27：DDD、模块化、Microfrontend、Plugin、Multitenancy 与大型前端架构](#stage-27)
+- [Stage 28：Frontend Platform、迁移、技术债、Governance、成本、产品与 Staff/Principal 影响力](#stage-28)
+- [Stage 29：AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全与评估](#stage-29)
+- [Stage 30：Principal 级综合毕业项目与正式架构答辩](#stage-30)
+<!-- NAVIGATION:END -->
+
+---
+
+<a id="section-1"></a>
 # 1. 课程目标
 
 这不是 HTML/CSS/JavaScript API 大全，不是 React/Vue 快速入门，也不是面试八股合集。
@@ -69,6 +128,7 @@ Staff / Principal / 极其资深前端架构师
 
 ---
 
+<a id="section-2"></a>
 # 2. Stage 与 Module 的边界
 
 本课程参考 `learn-java-course` 的课程组织思想：
@@ -104,6 +164,7 @@ React 只学习一次，但这一次从零一路学到源码、性能、服务�
 
 Vue 同理。
 
+<a id="section-2-1"></a>
 ## 2.1 一个 Module，一次学透
 
 同一个知识主题只能有一个 Owner Module。
@@ -143,6 +204,7 @@ XXX 源码篇
 
 ---
 
+<a id="section-3"></a>
 # 3. 项目与实验如何进入正常学习路径
 
 项目、Failure Lab、Performance Lab、Source Lab 不是另一条学习支线。
@@ -171,6 +233,7 @@ Failure / Performance / Source 实验
 
 项目规模随着学习内容自然增长，不机械规定每个 Module 都必须有 Small / Medium / Large 三类项目。
 
+<a id="section-3-1"></a>
 ## 3.1 Knowledge Ceiling
 
 任何综合实践使用的核心技术必须满足：
@@ -190,6 +253,7 @@ Failure / Performance / Source 实验
 
 ---
 
+<a id="section-4"></a>
 # 4. 每一课都必须可复刻
 
 需要代码、命令或实验的 Lesson 只有两种合法起点。
@@ -246,6 +310,7 @@ Step 0：准备本课起始项目
 
 ---
 
+<a id="section-5"></a>
 # 5. 总体学习路线
 
 ```text
@@ -284,6 +349,7 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 
 ---
 
+<a id="stage-00"></a>
 # Stage 00：开发环境、命令行、Git 与工程师基本功
 
 ## 阶段目标
@@ -316,6 +382,7 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 
 ---
 
+<a id="stage-01"></a>
 # Stage 01：计算机组成、操作系统、Linux 与网络底层基础
 
 ## Module 01.01：CPU、Memory Hierarchy 与前端性能直觉
@@ -344,6 +411,7 @@ MAC、ARP、IPv4/IPv6、CIDR、Subnet、Gateway、Routing、ICMP、NAT、UDP。
 
 ---
 
+<a id="stage-02"></a>
 # Stage 02：Internet、URL、DNS、TCP/TLS、HTTP 与 Web 系统模型
 
 ## Module 02.01：Internet 与 URL
@@ -376,6 +444,7 @@ Static Site、MPA、SPA、SSR、SSG、BFF、API、DB、Object Storage、CDN 的�
 
 ---
 
+<a id="stage-03"></a>
 # Stage 03：HTML、语义、表单、媒体、SEO 与可访问性
 
 ## Module 03.01：HTML Document 与 Parsing
@@ -416,6 +485,7 @@ Title/Meta、Canonical、Robots、Sitemap、Structured Data 基础、无 JavaScr
 
 ---
 
+<a id="stage-04"></a>
 # Stage 04：CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
 
 ## Module 04.01：CSS Syntax、Selector 与 Cascade
@@ -468,6 +538,7 @@ BEM/OOCSS/ITCSS/Utility/CSS Modules/CSS-in-JS 比较、Token、Theme、Layer、S
 
 ---
 
+<a id="stage-05"></a>
 # Stage 05：JavaScript 语言、对象体系、集合、模块、元编程与设计抽象
 
 ## Module 05.01：Value、Type、Expression 与 Conversion
@@ -520,6 +591,7 @@ Functional/OOP、Composition、Observer、Command、Strategy、Adapter、Facade�
 
 ---
 
+<a id="stage-06"></a>
 # Stage 06：JavaScript Async、Runtime、Event Loop、Memory、Engine 与算法
 
 ## Module 06.01：Promise 一次学透
@@ -564,6 +636,7 @@ Stack、Queue、Hash、Tree、Trie、Graph、Heap、LRU、Complexity、前端树
 
 ---
 
+<a id="stage-07"></a>
 # Stage 07：DOM、Event、Form、History 与原生浏览器应用
 
 ## Module 07.01：DOM Tree 与 Node API
@@ -604,6 +677,7 @@ View/State/Service/Repository/Router/Infrastructure、Client/Server/URL/Persiste
 
 ---
 
+<a id="stage-08"></a>
 # Stage 08：TypeScript 从基础到高级类型、Schema、SDK 与类型架构
 
 ## Module 08.01：TypeScript Compile Model 与 Strict Basics
@@ -652,6 +726,7 @@ Project Reference、Incremental、Monorepo、Public API、SemVer、Type Test、C
 
 ---
 
+<a id="stage-09"></a>
 # Stage 09：浏览器渲染、多进程、生命周期、存储、Worker 与 Web Platform
 
 ## Module 09.01：Browser Multi-process Architecture
@@ -696,6 +771,7 @@ Clipboard、File System Access、Notification、Geolocation、Share、Permission
 
 ---
 
+<a id="stage-10"></a>
 # Stage 10：HTTP/2/3、缓存、API、实时通信、流式、数据一致性与离线韧性
 
 ## Module 10.01：HTTP/1.1 Deep Dive、HTTP/2、HTTP/3
@@ -740,6 +816,7 @@ Pending Queue、Operation Log、Retry、Conflict、LWW、Manual Merge、OT/CRDT 
 
 ---
 
+<a id="stage-11"></a>
 # Stage 11：React 完整体系
 
 > React 只设置这一个 Stage。所有 React Owner Module 从零开始一路进入企业开发、并发、SSR/RSC、源码、性能、Library、迁移和架构，不再拆“React 基础 / 高级 / 源码 Stage”。
@@ -998,6 +1075,7 @@ Stable/Canary/Experimental、Security Advisory、Compatibility Matrix、Pilot、
 
 ---
 
+<a id="stage-12"></a>
 # Stage 12：Vue 完整体系
 
 > Vue 同样只设置一个完整 Stage，不再拆“基础 Vue”和“Vue 源码 Stage”。
@@ -1092,6 +1170,7 @@ Feature/Domain Boundary、Vue 2→3、Options→Composition、Vuex→Pinia、Bui
 
 ---
 
+<a id="stage-13"></a>
 # Stage 13：多框架范式、Angular 企业认知、Web Components 与历史系统迁移
 
 ## Module 13.01：Framework Paradigm
@@ -1128,6 +1207,7 @@ Strangler、Route-by-route、Island、Adapter、Dual Run、Feature Flag、Codemo
 
 ---
 
+<a id="stage-14"></a>
 # Stage 14：UI Engineering、复杂组件、Design System、A11Y、国际化与样式平台
 
 ## Module 14.01：Interaction State 与 UX State Model
@@ -1172,6 +1252,7 @@ CSS Module/Utility/CSS-in-JS/Zero-runtime、Theme、Brand/Tenant、Critical CSS�
 
 ---
 
+<a id="stage-15"></a>
 # Stage 15：Node.js Runtime、CLI、Stream、Process 与前端服务工具
 
 ## Module 15.01：Node Runtime 与 Browser 差异
@@ -1204,6 +1285,7 @@ Inspector、CPU Profile、Heap、Async Stack、Trace、Unhandled Error。
 
 ---
 
+<a id="stage-16"></a>
 # Stage 16：Compiler、AST、Bundler、Package、Monorepo 与 Developer Experience
 
 ## Module 16.01：ESM/CJS 与 Package Resolution
@@ -1252,6 +1334,7 @@ Scaffold、Shared Config、Local Environment、Dev Container、Mock、Dependency
 
 ---
 
+<a id="stage-17"></a>
 # Stage 17：静态分析、Unit、Component、Integration、E2E、Visual 与质量工程
 
 ## Module 17.01：Static Analysis
@@ -1296,6 +1379,7 @@ Quarantine、Owner、Retry Policy、Factory/Seed、PR/Nightly Matrix、Risk-base
 
 ---
 
+<a id="stage-18"></a>
 # Stage 18：BFF、Next.js、Nuxt、SSR/SSG、Edge、CDN 与全栈前端
 
 ## Module 18.01：BFF Architecture
@@ -1340,6 +1424,7 @@ Request、Bandwidth、Function Time、Image、Log、Cache Hit、Third-party Cost
 
 ---
 
+<a id="stage-19"></a>
 # Stage 19：数据与平台集成：数据库认知、CMS、Search、Object Storage、Payment、Analytics
 
 ## Module 19.01：Frontend-facing Database & Transaction Mental Model
@@ -1380,6 +1465,7 @@ SDK Isolation、CSP/Sandbox、Quota、SLA、Cost、Fallback、Vendor Switch。
 
 ---
 
+<a id="stage-20"></a>
 # Stage 20：PWA、Desktop、Mobile、小程序、TV/OTT 与跨端工程
 
 ## Module 20.01：Cross-platform Runtime Model
@@ -1420,6 +1506,7 @@ Store Review、Code Push Boundary、Desktop Update、Crash、Version Compatibili
 
 ---
 
+<a id="stage-21"></a>
 # Stage 21：Realtime Collaboration、Local-first、离线同步、OT/CRDT 与多人系统
 
 ## Module 21.01：Collaboration State
@@ -1452,6 +1539,7 @@ Offline/Pending/Conflict/History/Undo、Room Auth、Replay、Spam、Audit。
 
 ---
 
+<a id="stage-22"></a>
 # Stage 22：SVG、Canvas、WebGL/WebGPU、音视频、WASM、WebXR 与高性能可视化
 
 ## Module 22.01：SVG
@@ -1492,6 +1580,7 @@ XR、Bluetooth/USB/Serial/HID 等 Capability、Permission、Secure Context、Res
 
 ---
 
+<a id="stage-23"></a>
 # Stage 23：Schema-driven UI、动态表单、低代码、Visual Editor 与插件式业务平台
 
 ## Module 23.01：Schema-driven UI
@@ -1528,6 +1617,7 @@ Draft、Preview、Publish、Multi-user Edit、Conflict、Environment、Rollout�
 
 ---
 
+<a id="stage-24"></a>
 # Stage 24：前端性能工程、RUM、Core Web Vitals、Memory、Capacity 与规模治理
 
 ## Module 24.01：Performance Metric & Experiment
@@ -1572,6 +1662,7 @@ Budget、CI Gate、RUM Regression、Owner/SLA、Release Annotation、Bisect/Roll
 
 ---
 
+<a id="stage-25"></a>
 # Stage 25：Web 安全、企业认证、隐私、供应链、Threat Modeling 与安全治理
 
 ## Module 25.01：Browser Security Model / Trust Boundary
@@ -1624,6 +1715,7 @@ STRIDE、Attack Tree、Abuse Case、SAST/SCA/DAST/Secret/Header/Pentest、Severi
 
 ---
 
+<a id="stage-26"></a>
 # Stage 26：Observability、SLO、故障治理、CI/CD、Container、Kubernetes、GitOps 与云交付
 
 ## Module 26.01：Frontend Observability
@@ -1672,6 +1764,7 @@ DNS/CDN/Certificate/Artifact/Config Backup、Region Failure、Recovery Drill。
 
 ---
 
+<a id="stage-27"></a>
 # Stage 27：DDD、模块化、Microfrontend、Plugin、Multitenancy 与大型前端架构
 
 ## Module 27.01：Architecture Driver / Quality Attribute
@@ -1720,6 +1813,7 @@ Problem/Constraint/Option/Trade-off/Decision/Consequence、C4/Sequence/Data Flow
 
 ---
 
+<a id="stage-28"></a>
 # Stage 28：Frontend Platform、迁移、技术债、Governance、成本、产品与 Staff/Principal 影响力
 
 ## Module 28.01：Internal Frontend Platform
@@ -1772,6 +1866,7 @@ Career Ladder、Hiring/Rubric、Knowledge System、Bus Factor、On-call、Sustai
 
 ---
 
+<a id="stage-29"></a>
 # Stage 29：AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全与评估
 
 ## Module 29.01：AI-assisted Frontend Development
@@ -1820,6 +1915,7 @@ Task Success、Groundedness、Tool Success、Approval Rate、Latency/First Token
 
 ---
 
+<a id="stage-30"></a>
 # Stage 30：Principal 级综合毕业项目与正式架构答辩
 
 ## Module 30.01：Graduation Requirement & Architecture Scope
@@ -1887,6 +1983,7 @@ AI-assisted Development 或 AI Native Feature 至少一种，必须包含 Eval�
 
 ---
 
+<a id="section-6"></a>
 # 6. 后续 Stage → Module → Lesson 拆分方式
 
 这份 README 是整个 `learn-frontend-web-course` 的**唯一总纲**。
@@ -1913,6 +2010,7 @@ courses/frontend-architect/
 
 ---
 
+<a id="section-7"></a>
 # 7. 总纲评审标准
 
 每个 Stage / Module 都必须回答：
