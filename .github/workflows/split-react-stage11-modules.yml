@@ -1,0 +1,190 @@
+name: Split React Stage 11 by Module
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/split-react-stage11-modules.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Split Stage 11 README into module READMEs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('learn-frontend-web-course/stage11-react')
+          stage_path = root / 'README.md'
+          text = stage_path.read_text(encoding='utf-8')
+
+          module_pattern = re.compile(r'(?m)^<a id="module-11-(\d{2})"></a>\n# Module 11\.\1：([^\n]+)\n')
+          matches = list(module_pattern.finditer(text))
+          if len(matches) != 35:
+              raise SystemExit(f'expected 35 module headings, got {len(matches)}')
+
+          section4_marker = '<a id="section-4"></a>\n# 4. Stage 11 阶段验收'
+          section4_pos = text.find(section4_marker)
+          if section4_pos < 0:
+              raise SystemExit('section 4 marker not found')
+
+          slugs = {
+            '01':'react-foundation',
+            '02':'jsx-object-model',
+            '03':'component-props-composition',
+            '04':'conditional-list-key-identity',
+            '05':'event-system',
+            '06':'state-snapshot-queue-batching',
+            '07':'immutable-state-identity',
+            '08':'state-modeling-ownership',
+            '09':'form',
+            '10':'reducer-context-state-architecture',
+            '11':'ref-imperative',
+            '12':'effect-external-sync',
+            '13':'custom-hook-external-store',
+            '14':'router-route-data',
+            '15':'server-state-query-api',
+            '16':'actions-optimistic',
+            '17':'concurrent-suspense-activity',
+            '18':'performance-compiler',
+            '19':'react-dom-portal',
+            '20':'resource-metadata',
+            '21':'error-model',
+            '22':'a11y-security-debugging',
+            '23':'testing',
+            '24':'ssr-hydration-streaming',
+            '25':'rsc-server-functions-data',
+            '26':'source-fiber',
+            '27':'reconciler-render-commit',
+            '28':'hooks-update-queue-internals',
+            '29':'lane-scheduler-suspense-internals',
+            '30':'server-renderer-hydration-rsc-internals',
+            '31':'library-headless',
+            '32':'large-scale-microfrontend',
+            '33':'legacy-migration',
+            '34':'upgrade-governance',
+            '35':'architecture-final',
+          }
+
+          modules = []
+          for i, m in enumerate(matches):
+              num, title = m.group(1), m.group(2).strip()
+              start = m.start()
+              end = matches[i+1].start() if i + 1 < len(matches) else section4_pos
+              block = text[start:end].rstrip()
+              lesson_count = len(re.findall(r'(?m)^### Lesson ', block))
+              module_dir = root / f'module11-{num}-{slugs[num]}'
+              module_dir.mkdir(parents=True, exist_ok=True)
+
+              # Remove stage-level anchor but preserve all module/lesson curriculum text.
+              block_body = re.sub(r'^<a id="module-11-\d{2}"></a>\n', '', block, count=1)
+              prev_link = None
+              next_link = None
+              if i > 0:
+                  pnum = matches[i-1].group(1)
+                  prev_link = f'../module11-{pnum}-{slugs[pnum]}/README.md'
+              if i + 1 < len(matches):
+                  nnum = matches[i+1].group(1)
+                  next_link = f'../module11-{nnum}-{slugs[nnum]}/README.md'
+
+              nav = ['> [返回 Stage 11 总纲](../README.md)']
+              if prev_link:
+                  nav.append(f'> · [上一个 Module]({prev_link})')
+              if next_link:
+                  nav.append(f'> · [下一个 Module]({next_link})')
+              nav_text = '  '.join(nav)
+              module_content = f'{block_body.splitlines()[0]}\n\n{nav_text}\n\n' + '\n'.join(block_body.splitlines()[1:]).lstrip() + '\n'
+              (module_dir / 'README.md').write_text(module_content, encoding='utf-8')
+              modules.append((num, title, lesson_count, module_dir.name))
+
+          # Preserve stage intro sections before Module sequence, but replace old navigation and module bodies.
+          stage_title_end = text.find('<!-- NAVIGATION:START -->')
+          if stage_title_end < 0:
+              raise SystemExit('navigation start not found')
+          nav_end = text.find('<!-- NAVIGATION:END -->')
+          if nav_end < 0:
+              raise SystemExit('navigation end not found')
+          nav_end += len('<!-- NAVIGATION:END -->')
+
+          section1_pos = text.find('<a id="section-1"></a>')
+          section3_pos = text.find('<a id="section-3"></a>')
+          if section1_pos < 0 or section3_pos < 0:
+              raise SystemExit('section markers missing')
+
+          header = text[:stage_title_end].rstrip()
+          header = header.replace('> 版本：v2.1-draft', '> 版本：v2.2-draft', 1)
+          intro = text[section1_pos:section3_pos].rstrip()
+          tail = text[section4_pos:].rstrip()
+
+          toc = [
+              '<!-- NAVIGATION:START -->',
+              '## 导航目录',
+              '',
+              '- [返回前端课程总纲](../README.md)',
+              '- [统一教学与课程编写规范](../FRONTEND_TEACHING_GUIDE.md)',
+              '- [1. 阶段定位](#section-1)',
+              '- [2. Stage 11 固定结构](#section-2)',
+              '- [3. Module 总纲](#section-3)',
+          ]
+          for num, title, _, dirname in modules:
+              toc.append(f'  - [Module 11.{num}：{title}](./{dirname}/README.md)')
+          toc += [
+              '- [4. Stage 11 阶段验收](#section-4)',
+              '- [5. 文件拆分状态](#section-5)',
+              '<!-- NAVIGATION:END -->',
+          ]
+
+          overview = [
+              '<a id="section-3"></a>',
+              '# 3. Module 总纲',
+              '',
+              '> Stage 11 的详细 Lesson 已按 Module 拆分到独立目录。这里仅保留学习总览；点击 Module 名称进入该 Module 的完整 Lesson 大纲。',
+              '',
+              '| Module | 主题 | Lesson 数 |',
+              '| --- | --- | ---: |',
+          ]
+          for num, title, count, dirname in modules:
+              overview.append(f'| [11.{num}](./{dirname}/README.md) | [{title}](./{dirname}/README.md) | {count} |')
+
+          # Replace old completion status wording in the preserved tail.
+          tail = re.sub(
+              r'<a id="section-5"></a>\n# 5\. Lesson 拆分完成状态[\s\S]*$',
+              '''<a id="section-5"></a>\n# 5. 文件拆分状态\n\nStage 11 当前保持三层课程语义：\n\n```text\nStage 11\n└── Module 11.01 ～ 11.35\n    └── Lesson\n```\n\n文件组织调整为：\n\n```text\nstage11-react/\n├── README.md                       # Stage 总纲 / Module 导航 / 阶段验收\n├── module11-01-*/README.md         # Module 11.01 的全部 Lesson\n├── module11-02-*/README.md\n├── ...\n└── module11-35-*/README.md         # Module 11.35 的全部 Lesson\n```\n\n这只是文件级拆分，不增加新的课程层级；原有 Lesson、综合项目、源码、性能、故障、迁移与治理内容全部保留。''',
+              tail,
+              count=1,
+          )
+
+          new_stage = header + '\n\n---\n\n' + '\n'.join(toc) + '\n\n---\n\n' + intro + '\n\n---\n\n' + '\n'.join(overview) + '\n\n---\n\n' + tail + '\n'
+          stage_path.write_text(new_stage, encoding='utf-8')
+
+          # Verification
+          stage_after = stage_path.read_text(encoding='utf-8')
+          if re.search(r'(?m)^### Lesson ', stage_after):
+              raise SystemExit('stage README still contains Lesson bodies')
+          module_files = sorted(root.glob('module11-*/README.md'))
+          if len(module_files) != 35:
+              raise SystemExit(f'expected 35 module README files, got {len(module_files)}')
+          total_lessons = sum(len(re.findall(r'(?m)^### Lesson ', p.read_text(encoding="utf-8"))) for p in module_files)
+          original_lessons = len(re.findall(r'(?m)^### Lesson ', text))
+          print('modules=', len(module_files), 'original lessons=', original_lessons, 'split lessons=', total_lessons)
+          if total_lessons != original_lessons:
+              raise SystemExit(f'lesson preservation failed: {original_lessons} -> {total_lessons}')
+          PY
+
+      - name: Commit split layout and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/split-react-stage11-modules.yml
+          git add learn-frontend-web-course/stage11-react
+          git commit -m 'split React Stage 11 outline into module directories'
+          git push origin HEAD:main
