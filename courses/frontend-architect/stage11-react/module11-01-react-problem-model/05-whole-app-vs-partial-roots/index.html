@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="在遗留宿主页中挂载多个独立 React Root，理解整体应用与局部渐进接入边界。"
+    />
+    <title>RE-1101-005 · 整体应用与局部接入边界</title>
+  </head>
+  <body>
+    <header class="legacy-header">
+      <div>
+        <p class="legacy-label">Legacy Host Document</p>
+        <h1>运营发布门户</h1>
+      </div>
+      <button id="legacy-counter" type="button">宿主点击次数：0</button>
+    </header>
+
+    <main class="host-layout">
+      <nav class="legacy-nav" aria-label="遗留导航">
+        <strong>遗留导航</strong>
+        <a href="#release-widget-root">发布窗口</a>
+        <a href="#health-widget-root">健康检查</a>
+        <p id="host-log">宿主区域尚未操作。</p>
+      </nav>
+
+      <section class="content-stack">
+        <article class="legacy-card">
+          <p class="legacy-label">Host-owned DOM</p>
+          <h2>这部分仍由原有系统管理</h2>
+          <p>
+            React 不会自动接管整个 document。只有传给 createRoot 的容器内部属于对应 React Root。
+          </p>
+        </article>
+
+        <section
+          id="release-widget-root"
+          class="mount-point"
+          data-environment="staging"
+          aria-label="发布组件挂载点"
+        ></section>
+
+        <section class="health-shell">
+          <div class="health-shell__heading">
+            <div>
+              <p class="legacy-label">Independent React Root</p>
+              <h2>健康检查组件</h2>
+            </div>
+            <button id="remove-health-widget" type="button">卸载健康组件</button>
+          </div>
+          <div id="health-widget-root" class="mount-point"></div>
+          <p id="health-root-status">Health Root 已挂载。</p>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
