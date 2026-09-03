@@ -33,10 +33,10 @@
 - `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
 - 统一教学与课程编写规范；
 - Stage 04 CSS 的 14 个 Owner Module、120 课详细规划；
-- CSS Module 04.01 的 9 课闭环规划与第一批 3 节正式课程；
+- CSS Module 04.01 的 9 课闭环规划，KP001～KP006 共 6 节正式课程已完成；
 - Stage 11 React 的 26 个 Owner Module 轻规划；
 - React Module 11.01 的 8 课闭环规划与第一批 3 节正式课程；
-- CSS 与 React 首批课程的独立可运行源码、实验和验证方式。
+- 已完成课程均提供独立可运行源码、Failure Lab、DevTools 证据与自动验证方式。
 
 ---
 
@@ -54,6 +54,9 @@
 - [KP001：CSS 是什么](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp001-what-is-css/README.md)
 - [KP002：CSS 怎样进入页面](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp002-attach-stylesheet/README.md)
 - [KP003：Rule、Selector、Declaration、Property 与 Value](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp003-rules-declarations-properties-values/README.md)
+- [KP004：Shorthand、Longhand、注释、At-rule 与语法边界](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp004-shorthand-longhand-at-rules/README.md)
+- [KP005：Origin、Importance、Context 与 Source Order](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp005-origin-importance-context-source-order/README.md)
+- [KP006：Specificity、Inheritance 与 CSS-wide Keyword](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp006-specificity-inheritance-css-wide-keywords/README.md)
 
 ### Stage 11：React
 
@@ -112,7 +115,8 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 
 ```text
 CSS 语言与样式表接入
-→ Cascade / Origin / Specificity / Inheritance / Layer
+→ Shorthand / Longhand / At-rule
+→ Cascade / Origin / Importance / Context / Specificity / Inheritance / Layer
 → Selector / Pseudo / Nesting / Scope
 → Box Model / Sizing / Overflow
 → Normal Flow / Formatting Context / Position / Stacking
@@ -137,6 +141,15 @@ CSS 只设置一个完整 Stage，不再拆成基础篇、高级篇、布局篇�
 → 完成 Module Project 和复审
 → 再进入下一批
 ```
+
+当前 Module 04.01 已完成：
+
+```text
+KP001～KP006 / 9
+= 66.7%
+```
+
+下一批将完成 KP007～KP009，并收束 Module 04.01。
 
 ---
 
@@ -233,7 +246,10 @@ learn-frontend-web/
 │   │       ├── README.md
 │   │       ├── kp001-what-is-css/
 │   │       ├── kp002-attach-stylesheet/
-│   │       └── kp003-rules-declarations-properties-values/
+│   │       ├── kp003-rules-declarations-properties-values/
+│   │       ├── kp004-shorthand-longhand-at-rules/
+│   │       ├── kp005-origin-importance-context-source-order/
+│   │       └── kp006-specificity-inheritance-css-wide-keywords/
 │   └── stage11-react/
 │       ├── README.md
 │       └── module11-01-react-problem-model/

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP005 · Origin / Importance / Context / Source Order</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP005</p>
+      <h1>Origin / Importance / Context / Source Order Laboratory</h1>
+      <p>先判断声明属于哪个来源和重要性桶，再考虑上下文、元素附着样式与源顺序。不要一看到冲突就先算 Specificity。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="source-order-title">
+      <h2 id="source-order-title">实验 A：同来源、同重要性、同选择器时，后出现者获胜</h2>
+      <p class="source-order-demo">这段文字应该呈现第二条同名规则设置的颜色。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="importance-title">
+      <h2 id="importance-title">实验 B：!important 先改变重要性桶</h2>
+      <p class="importance-demo">前面的 important 声明会压过后面的 normal 声明。</p>
+      <p class="important-vs-inline" style="color: #7c3aed;">这段有 inline normal，但外部 author important 仍然获胜。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="origin-title">
+      <h2 id="origin-title">实验 C：观察 User-Agent 与 Author Origin</h2>
+      <div class="button-row">
+        <button type="button">仅使用浏览器默认样式</button>
+        <button class="author-button" type="button">被 Author 样式覆盖</button>
+      </div>
+      <p class="hint">在 DevTools → Styles 中选择第一个按钮，寻找 <strong>user agent stylesheet</strong>；再选择第二个按钮观察 Author 声明如何覆盖它。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="inline-title">
+      <h2 id="inline-title">实验 D：Inline normal 属于 Author Origin，但作为 element-attached style 更靠后</h2>
+      <p class="inline-vs-external" style="color: #7c3aed;">外部 normal 想改成绿色，但 inline normal 最终应保持紫色。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="context-title">
+      <h2 id="context-title">实验 E：Encapsulation Context 的 normal / important 顺序相反</h2>
+      <div class="context-grid">
+        <div class="context-host context-normal">
+          <template shadowrootmode="open">
+            <style>
+              :host {
+                display: block;
+                color: #b45309;
+                border: 2px solid currentColor;
+                border-radius: 12px;
+                padding: 16px;
+              }
+            </style>
+            <p>Normal：外层文档的 Author normal 应覆盖 Shadow Context 内的 normal color。</p>
+          </template>
+        </div>
+
+        <div class="context-host context-important">
+          <template shadowrootmode="open">
+            <style>
+              :host {
+                display: block;
+                color: #166534 !important;
+                border: 2px solid currentColor;
+                border-radius: 12px;
+                padding: 16px;
+              }
+            </style>
+            <p>Important：Shadow Context 内 important 应压过外层文档 important。</p>
+          </template>
+        </div>
+      </div>
+      <p class="hint">这是 Expert 预览：这里只观察 cascade context，不展开 Web Components API；完整组件封装在后续 Stage 学习。</p>
+    </section>
+  </main>
+</body>
+</html>
