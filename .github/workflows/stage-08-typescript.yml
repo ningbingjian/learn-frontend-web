@@ -13,71 +13,9 @@ name: Stage 08 TypeScript
       - ".github/workflows/stage-08-typescript.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  rewrite-course-structure:
-    if: github.head_ref == 'refactor/unify-course-root'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout migration branch
-        uses: actions/checkout@v7
-        with:
-          ref: refactor/unify-course-root
-          fetch-depth: 0
-
-      - name: Update only the directory convention in the full curriculum
-        shell: bash
-        run: |
-          python <<'PY'
-          from pathlib import Path
-          import re
-
-          path = Path('learn-frontend-web-course/README.md')
-          text = path.read_text(encoding='utf-8')
-          replacement = '''# 12. 目录约定
-
-整个前端课程只使用一个课程根目录：
-
-```text
-learn-frontend-web-course/
-├── README.md                       # 唯一总纲
-├── FRONTEND_TEACHING_GUIDE.md      # 统一教学规范
-└── stageXX-topic/
-    ├── README.md                   # Stage 目标、Module 索引、项目与进度
-    └── moduleXX-YY-topic/
-        ├── README.md               # Module 边界、Lesson 索引与验收
-        └── lesson-name/
-            ├── README.md           # 具体知识点详细课程
-            ├── src/ 或最小源码文件
-            ├── tests/              # 需要时提供
-            └── 运行所需配置
-```
-
-不再维护独立的 `courses/frontend-architect/` 正式课程根目录。
-
-Stage、Module、Lesson、教学 README、完整源码、实验与项目统一在 `learn-frontend-web-course/` 中按层级组织。这样课程设计和实际学习内容使用同一棵树，不存在两套入口或路径映射。
-
-`learn-frontend-web-course/README.md` 是唯一总纲。Stage 和 Module 文档只能细化总纲，不能创建平行路线或擅自改变 Owner 边界。
-'''
-          pattern = r'# 12\. 目录约定\n.*?(?=\n---\n\n# 13\. 最终能力模型)'
-          updated, count = re.subn(pattern, replacement.rstrip(), text, flags=re.S)
-          if count != 1:
-              raise SystemExit(f'expected one directory convention block, replaced {count}')
-          path.write_text(updated, encoding='utf-8')
-          PY
-
-      - name: Restore workflow and commit curriculum-only change
-        shell: bash
-        run: |
-          git fetch origin main
-          git checkout origin/main -- .github/workflows/stage-08-typescript.yml
-          git config user.name "ningbingjian"
-          git config user.email "ningbingjian@126.com"
-          git add learn-frontend-web-course/README.md .github/workflows/stage-08-typescript.yml
-          git commit -m "docs(course): enforce single course root convention [skip ci]"
-          git push origin HEAD:refactor/unify-course-root
-
   verify-lessons:
     name: Verify ${{ matrix.lesson-name }}
     runs-on: ubuntu-latest
