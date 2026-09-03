@@ -29,6 +29,12 @@ jobs:
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/02-react-element-description
           - lesson-name: RE-1102-003
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/03-component-call-render-output
+          - lesson-name: RE-1102-004
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/04-jsx-expression-fragment-empty-node
+          - lesson-name: RE-1102-005
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/05-pure-render-idempotency-mutation
+          - lesson-name: RE-1102-006
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/06-render-vs-commit-host-dom
 
     defaults:
       run:

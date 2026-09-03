@@ -36,7 +36,7 @@
 - Stage 08 TypeScript 完整规划及首批具体课程。
 - Stage 11 React 26 个 Owner Module 轻规划。
 - React Module 11.01：**8 / 8** 完成，含 Failure Lab、Strict Mode Debug、渐进迁移 Module Project 与 Review。
-- React Module 11.02：**首批 3 / 8** 已完成，开始深入 JSX、React Element、Component Invocation 与 Render Output。
+- React Module 11.02：**6 / 8** 已完成，覆盖 JSX Transform、React Element、Component Invocation、Fragment / Empty Node、Pure Render 与 Render / Commit。
 
 ---
 
@@ -110,12 +110,15 @@ learn-frontend-web-course/
 - [RE-1101-007：Failure Lab——重复状态与 DOM 逃生](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape/README.md)
 - [RE-1101-008：Release Console Migration](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration/README.md)
 
-#### Module 11.02：JSX、Element、Component 与 Render Output 🚧 3 / 8
+#### Module 11.02：JSX、Element、Component 与 Render Output 🚧 6 / 8
 
 - [Module 入口](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/README.md)
 - [RE-1102-001：JSX 不是 HTML——从源码看到转换结果](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/01-jsx-source-to-transform/README.md)
 - [RE-1102-002：React Element——UI 描述对象不是 DOM](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/02-react-element-description/README.md)
 - [RE-1102-003：Component 何时调用，Render Output 到底是什么](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/03-component-call-render-output/README.md)
+- [RE-1102-004：JSX Expression、Fragment、Conditional 与 Empty Node](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/04-jsx-expression-fragment-empty-node/README.md)
+- [RE-1102-005：Pure Render、Idempotency 与 Render-time Mutation](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/05-pure-render-idempotency-mutation/README.md)
+- [RE-1102-006：Render vs Commit——从描述到 Host DOM](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/06-render-vs-commit-host-dom/README.md)
 
 ---
 
@@ -171,14 +174,17 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 → JSX Source / Transform
 → React Element Description
 → Component Invocation / Render Output
+→ JSX Expression / Fragment / Empty Node
+→ Pure Render / Idempotency
+→ Render Calculation / Host Commit
 ```
 
-下一批 React 将继续：
+下一批 React 将收束 Module 11.02：
 
 ```text
-JSX Expression / Fragment / Empty Node
-→ Pure Render / Idempotency
-→ Render vs Commit
+综合 Failure Lab
+→ Render Model Inspector Module Project
+→ Module Review
 ```
 
 ---
