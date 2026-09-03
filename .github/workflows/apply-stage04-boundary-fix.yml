@@ -1,4 +1,4 @@
-name: Export Latest Stage 04
+name: Export Generated Stage 04 Boundary Fix
 
 on:
   push:
@@ -14,24 +14,24 @@ jobs:
   export:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout latest main
+      - name: Checkout fix branch
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: fix/stage-04-boundary-cleanup
 
-      - name: Build Stage 04 source archive
+      - name: Rebuild generated fix archive
         shell: bash
         run: |
           set -euo pipefail
-          tar -czf stage04-latest-main.tar.gz \
-            learn-frontend-web-course/stage-04-css \
-            .github/workflows/stage-04-css.yml
-          sha256sum stage04-latest-main.tar.gz
+          cat .stage04-boundary-fix/part-* > stage04-boundary-fix.tar.gz.b64
+          base64 --decode stage04-boundary-fix.tar.gz.b64 > stage04-boundary-fix.tar.gz
+          gzip -t stage04-boundary-fix.tar.gz
+          sha256sum stage04-boundary-fix.tar.gz
 
-      - name: Upload Stage 04 source archive
+      - name: Upload generated fix archive
         uses: actions/upload-artifact@v4
         with:
-          name: stage04-latest-main
-          path: stage04-latest-main.tar.gz
+          name: stage04-generated-boundary-fix
+          path: stage04-boundary-fix.tar.gz
           if-no-files-found: error
           retention-days: 1
