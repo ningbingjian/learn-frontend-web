@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RE-INTRO-001 - UI 同步复杂度</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">RE-INTRO-001</p>
+        <h1>商品目录：原生 DOM 同步实验</h1>
+        <p>
+          这不是 React 页面。我们先观察功能增加后，状态和多个 UI 区域之间的同步关系为什么会快速增多。
+        </p>
+      </header>
+
+      <section class="toolbar" aria-label="商品筛选">
+        <label class="field">
+          <span>搜索商品</span>
+          <input id="search-input" type="search" placeholder="例如：键盘" autocomplete="off" />
+        </label>
+
+        <label class="checkbox-field">
+          <input id="stock-only-input" type="checkbox" />
+          <span>只看有货</span>
+        </label>
+
+        <button id="reset-button" type="button" disabled>重置筛选</button>
+      </section>
+
+      <section class="summary" aria-live="polite">
+        <p id="filter-summary">当前：全部商品</p>
+        <p>
+          可见商品：<strong id="visible-count">0</strong>
+          · 购物车：<strong id="cart-count">0</strong>
+        </p>
+      </section>
+
+      <section>
+        <h2>商品列表</h2>
+        <div id="product-list" class="product-grid"></div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
