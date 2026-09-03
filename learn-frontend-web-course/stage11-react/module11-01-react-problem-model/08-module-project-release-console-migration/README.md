@@ -71,7 +71,7 @@
 进入：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration
 ```
 
 先运行不依赖 npm 安装的项目结构检查：
