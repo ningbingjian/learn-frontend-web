@@ -3,20 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KP008 CSS Error Recovery / CSSOM / Value Pipeline</title>
+  <title>KP008 · CSS Error Recovery and Value Pipeline</title>
   <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.js"></script>
 </head>
 <body>
   <main class="page-shell">
-    <header class="hero"><p class="eyebrow">Stage 04 · Module 04.01 · KP008</p><h1>CSS Error Recovery / CSSOM / Value Pipeline</h1><p>同样是“样式没按预期出现”，错误可能发生在完全不同阶段。</p></header>
-    <section class="lab-section"><h2>实验 A：无效 Property Value</h2><p class="invalid-value-demo">第一条 color 合法，第二条 color value 故意无效。</p></section>
-    <section class="lab-section"><h2>实验 B：未知 Property</h2><p class="unknown-property-demo">规则仍存在，但未知 property 不会进入有效声明结果。</p></section>
-    <section class="lab-section"><h2>实验 C：Invalid Selector Rule</h2><p>styles.css 中存在故意无效 pseudo-element selector；检查 CSSOM 是否保留。</p></section>
-    <section class="lab-section computed-parent"><h2>实验 D：Invalid at Computed-value Time</h2><p class="computed-child">父元素 font-size 为 30px；本元素通过 var() 得到不能用于 font-size 的值。</p></section>
-    <section class="lab-section"><h2>实验 E：Declared Value 与 Resolved Value</h2><div class="width-container"><div class="width-target">width: 50%</div></div><p class="hint">样式表声明仍是 50%，但 getComputedStyle() 对 width 通常返回布局后的像素 resolved value。</p></section>
-    <section class="lab-section"><h2>CSSOM 证据面板</h2><pre id="cssom-output">正在读取 CSSOM…</pre></section>
-    <section class="lab-section"><h2>Value Processing Pipeline</h2><ol class="pipeline"><li>Declared Values</li><li>Cascaded Value</li><li>Specified Value</li><li>Computed Value</li><li>Used Value</li><li>Actual Value</li></ol><p><code>getComputedStyle()</code> 返回 resolved value；不保证对所有属性都等同于纯 computed value。</p></section>
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP008</p>
+      <h1>CSS Error Recovery & Value Pipeline Laboratory</h1>
+      <p>使用静态 HTML、CSS 与 DevTools，区分解析失败、无效声明和计算值阶段失败。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="declaration-title">
+      <h2 id="declaration-title">实验 A：同一规则中的无效声明不会破坏其他有效声明</h2>
+      <p class="invalid-value-demo">本段的非法 color 被忽略，但背景和边框仍然存在。</p>
+      <p class="unknown-property-demo">浏览器不认识的 Property 被忽略，合法 color 继续生效。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="selector-title">
+      <h2 id="selector-title">实验 B：非法 Selector 与 Declaration Error 的作用范围不同</h2>
+      <p class="invalid-selector-target">含非法 Selector 的整条规则不会匹配本段；后面的恢复规则仍可工作。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="pipeline-title">
+      <h2 id="pipeline-title">实验 C：Declared → Cascaded → Specified → Computed → Used → Actual</h2>
+      <div class="pipeline-parent">
+        <p class="pipeline-child">本段继承父元素颜色，并把百分比宽度解析为当前包含块中的使用值。</p>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="computed-title">
+      <h2 id="computed-title">实验 D：Invalid at Computed-value Time</h2>
+      <p class="computed-valid">有效自定义属性可以参与 color。</p>
+      <p class="computed-invalid">自定义属性存在，但其 token 对 color 无效；观察 Computed 中最终颜色，而不要期待回退到前一条声明。</p>
+      <p class="computed-fallback">变量缺失时，显式 var() fallback 生效。</p>
+    </section>
+
+    <aside class="future-boundary" aria-labelledby="future-title">
+      <h2 id="future-title">未来边界：CSSOM 编程接口</h2>
+      <p>浏览器内部会把 CSS 组织成可计算的对象模型，但本课不调用 JavaScript API。Stylesheet 对象、Rule 集合与通过脚本读取 Computed Style 延后到 Stage 09。</p>
+    </aside>
   </main>
 </body>
 </html>
