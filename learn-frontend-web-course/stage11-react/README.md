@@ -273,7 +273,15 @@ Stage 11 贯穿实践对象是 `Architect Workbench` 的 **React Enterprise Cons
 - [RE-1102-008 Render Model Inspector](./module11-02-jsx-element-component-render-output/08-module-project-render-model-inspector/README.md)。
 - Project Report / Automated Verify / Module Review。
 
-当前已经完成两条完整学习链：
+### Module 11.03：🚧 3 / 8
+
+- [Module 11.03：Props、Children、Composition 与 API Design](./module11-03-props-children-composition-api-design/README.md)
+- [RE-1103-001 Props 是只读输入契约](./module11-03-props-children-composition-api-design/01-props-readonly-input-contract/README.md)。
+- [RE-1103-002 children 是组合槽，不是特殊数组](./module11-03-props-children-composition-api-design/02-children-composition-slot/README.md)。
+- [RE-1103-003 Explicit Slots 与稳定布局 API](./module11-03-props-children-composition-api-design/03-explicit-slots-stable-api/README.md)。
+- Readonly Props / ReactNode children / Named Slots / Boolean Explosion Preview。
+
+当前已经完成两条完整学习链，并进入第三条：
 
 ```text
 Module 11.01
@@ -281,23 +289,17 @@ Module 11.01
         ↓
 Module 11.02
 JSX / Element / Component / Render Output / Pure Render / Commit Evidence
+        ↓
+Module 11.03（当前 3 / 8）
+Readonly Props / children Composition / Explicit Slots
 ```
 
-### 下一步
+### 下一批
 
-进入：
-
-```text
-Module 11.03
-Props、Children、Composition 与 API Design
-```
-
-继续采用：
+继续 Module 11.03：
 
 ```text
-轻规划
-→ 具体 Lesson
-→ Failure / Debug
-→ Module Project
-→ Review
+RE-1103-004 Callback Props 与 Intent-driven API
+→ RE-1103-005 Variant Props 与 Discriminated Union
+→ RE-1103-006 API Evolution 与 Prop Forwarding
 ```

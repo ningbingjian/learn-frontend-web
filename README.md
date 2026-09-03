@@ -37,6 +37,7 @@
 - Stage 11 React 26 个 Owner Module 轻规划。
 - React Module 11.01：**8 / 8** 完成，含 Failure Lab、Strict Mode Debug、渐进迁移 Module Project 与 Review。
 - React Module 11.02：**8 / 8** 完成，覆盖 JSX Transform、React Element、Component Invocation、Fragment / Empty Node、Pure Render、Render / Commit、综合 Failure Lab 与 Render Model Inspector。
+- React Module 11.03：**首批 3 / 8** 已完成，开始建立 Props 只读输入、children 组合槽与 Explicit Slots 公共 API。
 
 ---
 
@@ -122,6 +123,13 @@ learn-frontend-web-course/
 - [RE-1102-007：Failure Lab——错误标签、Element Mutation 与手工调用组件](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/07-failure-lab-tag-element-mutation-manual-call/README.md)
 - [RE-1102-008：Module Project——Render Model Inspector](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/08-module-project-render-model-inspector/README.md)
 
+#### Module 11.03：Props、Children、Composition 与 API Design 🚧 3 / 8
+
+- [Module 入口](./learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/README.md)
+- [RE-1103-001：Props 是只读输入契约](./learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/01-props-readonly-input-contract/README.md)
+- [RE-1103-002：children 是组合槽，不是特殊数组](./learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/02-children-composition-slot/README.md)
+- [RE-1103-003：Explicit Slots 与稳定布局 API](./learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/03-explicit-slots-stable-api/README.md)
+
 ---
 
 ## 完整路线
@@ -181,13 +189,17 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 → Render Calculation / Host Commit
 → Wrong Tag / Element Mutation / Manual Component Call
 → Render Model Inspector / Module Review
+→ Props Readonly Input Contract
+→ children Composition Slot
+→ Explicit Named Slots
 ```
 
-下一步 React：
+下一批 React：
 
 ```text
-Module 11.03
-Props、Children、Composition 与 API Design
+Callback Props / Intent-driven API
+→ Variant Props / Discriminated Union
+→ API Evolution / Prop Forwarding
 ```
 
 ---
