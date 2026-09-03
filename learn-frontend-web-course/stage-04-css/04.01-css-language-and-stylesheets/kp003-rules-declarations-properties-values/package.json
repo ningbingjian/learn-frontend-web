@@ -1,0 +1,9 @@
+{
+  "name": "stage-04-kp003-css-anatomy",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}

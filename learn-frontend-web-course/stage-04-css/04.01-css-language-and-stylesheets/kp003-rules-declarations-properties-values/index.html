@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stage 04 KP003：通过可观察实验理解 CSS Rule、Selector、Declaration、Property 与 Value。"
+    />
+    <title>KP003｜CSS 规则的组成</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="lesson-shell">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP003</p>
+      <h1>拆开一条 CSS 规则</h1>
+      <p class="intro">
+        下面的组件分别用于观察选择器、声明块、多条声明、选择器列表和无效值恢复。
+      </p>
+
+      <section class="anatomy-grid" aria-label="CSS 规则结构实验">
+        <article class="anatomy-card">
+          <p class="anatomy-card__label">Ruleset</p>
+          <h2 class="anatomy-card__title">.anatomy-card { ... }</h2>
+          <p class="anatomy-card__note">
+            选择器决定匹配对象；花括号中的声明块决定要修改哪些 CSS 属性。
+          </p>
+        </article>
+
+        <article class="anatomy-card" data-state="warning">
+          <p class="anatomy-card__label">Attribute selector</p>
+          <h2 class="anatomy-card__title">[data-state="warning"]</h2>
+          <p class="anatomy-card__note">同一个 HTML 结构可以因状态属性匹配到另一条规则。</p>
+        </article>
+
+        <article class="invalid-value-demo">
+          <p class="anatomy-card__label">Invalid value recovery</p>
+          <h2>浏览器保留前一个有效颜色</h2>
+          <p>
+            CSS 中先声明有效的 <code>color</code>，再故意声明无效值；无效声明被忽略。
+          </p>
+        </article>
+      </section>
+
+      <section class="terminology" aria-labelledby="terminology-title">
+        <h2 id="terminology-title">语言单位</h2>
+        <dl>
+          <div>
+            <dt>Selector</dt>
+            <dd><code>.anatomy-card</code></dd>
+          </div>
+          <div>
+            <dt>Property</dt>
+            <dd><code>padding</code></dd>
+          </div>
+          <div>
+            <dt>Value</dt>
+            <dd><code>1.5rem</code></dd>
+          </div>
+          <div>
+            <dt>Declaration</dt>
+            <dd><code>padding: 1.5rem;</code></dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+  </body>
+</html>

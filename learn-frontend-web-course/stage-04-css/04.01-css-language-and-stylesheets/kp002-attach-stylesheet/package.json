@@ -1,0 +1,9 @@
+{
+  "name": "stage-04-kp002-attach-stylesheet",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}

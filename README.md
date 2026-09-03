@@ -24,7 +24,7 @@
 ## 当前状态
 
 > ✅ 前端架构师课程唯一总纲已经完成。  
-> 🚧 **Stage 11：React 完整体系已经开始正式制作。**
+> 🚧 **Stage 04 CSS 与 Stage 11 React 已经开始正式制作。**
 
 当前已经完成：
 
@@ -32,9 +32,11 @@
 - 各 Stage 的阶段目标、Owner Module、综合项目和验收标准；
 - `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
 - 统一教学与课程编写规范；
+- Stage 04 CSS 的 14 个 Owner Module、120 课详细规划；
+- CSS Module 04.01 的 9 课闭环规划与第一批 3 节正式课程；
 - Stage 11 React 的 26 个 Owner Module 轻规划；
-- Module 11.01 的 8 课闭环规划；
-- 第一批 3 节正式课程及独立可运行源码。
+- React Module 11.01 的 8 课闭环规划与第一批 3 节正式课程；
+- CSS 与 React 首批课程的独立可运行源码、实验和验证方式。
 
 ---
 
@@ -45,17 +47,22 @@
 - [前端架构师课程唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
+### Stage 04：CSS
+
+- [CSS Stage 详细设计与课程入口](./learn-frontend-web-course/stage-04-css/README.md)
+- [Module 04.01：CSS 语言、样式表与级联体系](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/README.md)
+- [KP001：CSS 是什么](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp001-what-is-css/README.md)
+- [KP002：CSS 怎样进入页面](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp002-attach-stylesheet/README.md)
+- [KP003：Rule、Selector、Declaration、Property 与 Value](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp003-rules-declarations-properties-values/README.md)
+
 ### Stage 11：React
 
 - [React Stage 详细设计](./learn-frontend-web-course/stage11-react/README.md)
 - [React 正式课程入口](./courses/frontend-architect/stage11-react/README.md)
 - [Module 11.01：React 的问题模型与声明式 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/README.md)
-
-### 第一批正式课程
-
-1. [RE-1101-001：手工 DOM 同步为什么会失控](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
-2. [RE-1101-002：创建第一个 React 应用](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
-3. [RE-1101-003：让状态声明 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
+- [RE-1101-001：手工 DOM 同步为什么会失控](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
+- [RE-1101-002：创建第一个 React 应用](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
+- [RE-1101-003：让状态声明 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
 
 `learn-frontend-web-course/README.md` 是课程唯一总纲。Stage 和 Module 设计只能细化总纲，不能创建平行路线。
 
@@ -98,6 +105,38 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
 每个核心主题只设置一个 Owner Module，从基础使用一直学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
+
+---
+
+## Stage 04 CSS 路线
+
+```text
+CSS 语言与样式表接入
+→ Cascade / Origin / Specificity / Inheritance / Layer
+→ Selector / Pseudo / Nesting / Scope
+→ Box Model / Sizing / Overflow
+→ Normal Flow / Formatting Context / Position / Stacking
+→ Flexbox / Grid / Subgrid
+→ Responsive / Media Query / Container Query
+→ Unit / Function / Logical Property
+→ Typography / Color / Visual Effect
+→ Transform / Transition / Animation
+→ Custom Property / Token / Theme
+→ CSS Architecture / Debug / Compatibility / Performance / A11Y / Governance
+```
+
+CSS 只设置一个完整 Stage，不再拆成基础篇、高级篇、布局篇、原理篇和架构篇。
+
+### 当前建设方式
+
+```text
+先固定 14 个 Owner Module 与 120 课边界
+→ 细化当前 Module Teaching Contract
+→ 每批完成 3 节详细教程与独立源码
+→ 执行 Failure Lab、DevTools 与自动检查
+→ 完成 Module Project 和复审
+→ 再进入下一批
+```
 
 ---
 
@@ -149,9 +188,10 @@ Architect Workbench 贯穿式项目
 Principal 级毕业项目与架构答辩
 ```
 
-Stage 11 的综合项目是：
+当前已经确定的 Stage 综合项目：
 
-> **React Enterprise Console**：包含路由、复杂表单、Server State、实时数据、Design System、Suspense、SSR/Streaming 实验、测试、性能预算和生产诊断的多角色企业控制台。
+- **Stage 04 — Responsive UI System / Architect Workbench UI Foundation v1**：覆盖响应式营销页、内容页、Dashboard、复杂表单、Component Gallery、主题、RTL、打印、A11Y、兼容与 CSS 架构审查。
+- **Stage 11 — React Enterprise Console**：覆盖路由、复杂表单、Server State、实时数据、Design System、Suspense、SSR/Streaming 实验、测试、性能预算和生产诊断。
 
 ---
 
@@ -187,6 +227,13 @@ learn-frontend-web/
 ├── learn-frontend-web-course/
 │   ├── README.md
 │   ├── FRONTEND_TEACHING_GUIDE.md
+│   ├── stage-04-css/
+│   │   ├── README.md
+│   │   └── 04.01-css-language-and-stylesheets/
+│   │       ├── README.md
+│   │       ├── kp001-what-is-css/
+│   │       ├── kp002-attach-stylesheet/
+│   │       └── kp003-rules-declarations-properties-values/
 │   └── stage11-react/
 │       ├── README.md
 │       └── module11-01-react-problem-model/
