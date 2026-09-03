@@ -23,27 +23,41 @@
 
 ## 当前状态
 
-> ✅ **前端架构师课程唯一总纲已经完成。**  
-> 🚧 正式 Stage、Module、Lesson 和配套源码将按照总纲逐步建设。
+> ✅ 前端架构师课程唯一总纲已经完成。  
+> 🚧 **Stage 11：React 完整体系已经开始正式制作。**
 
 当前已经完成：
 
-- Stage 00～Stage 30 的完整学习路线。
-- 各 Stage 的阶段目标、Owner Module、综合项目和验收标准。
-- React、Vue、浏览器、工程化、全栈前端、跨端、性能、安全、云交付、架构治理和 AI Native Frontend 的完整覆盖。
-- `Architect Workbench` 贯穿式项目 V0～V15 演进路线。
-- Must / Should / Expert 深度标准。
-- Lesson、Module、Stage 与毕业项目的统一完成标准。
-- 统一教学与课程编写规范。
+- Stage 00～Stage 30 的完整学习路线；
+- 各 Stage 的阶段目标、Owner Module、综合项目和验收标准；
+- `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
+- 统一教学与课程编写规范；
+- Stage 11 React 的 26 个 Owner Module 详细规划；
+- Module 11.01 的完整模块设计；
+- 第一批三节 React 正式课程及独立可运行源码。
 
 ---
 
 ## 核心入口
 
+### 总体设计
+
 - [前端架构师课程唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
 
-`learn-frontend-web-course/README.md` 是课程唯一总纲。后续 Stage 和 Module 文档只能细化它，不能再创建平行课程体系。
+### Stage 11：React
+
+- [React Stage 详细设计](./learn-frontend-web-course/stage11-react/README.md)
+- [React 正式课程入口](./courses/frontend-architect/stage11-react/README.md)
+- [Module 11.01：React 的问题模型与声明式 UI](./courses/frontend-architect/stage11-react/module11-01-react-foundation/README.md)
+
+### 第一批课程
+
+1. [RE-1101-001：交互页面为什么会出现同步遗漏](./courses/frontend-architect/stage11-react/module11-01-react-foundation/01-why-ui-sync-becomes-hard/README.md)
+2. [RE-1101-002：`createRoot` 如何建立 React 管理边界](./courses/frontend-architect/stage11-react/module11-01-react-foundation/02-first-react-root/README.md)
+3. [RE-1101-003：UI 如何成为状态的渲染快照](./courses/frontend-architect/stage11-react/module11-01-react-foundation/03-ui-as-state-snapshot/README.md)
+
+`learn-frontend-web-course/README.md` 是课程唯一总纲。Stage 和 Module 设计只能细化总纲，不能创建平行路线。
 
 ---
 
@@ -83,7 +97,25 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-每个核心主题只设置一个 Owner Module，从基础使用一直学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
+---
+
+## Stage 11 React 路线
+
+```text
+声明式 UI
+→ JSX / Element / Component
+→ Props / Composition
+→ State / Queue / Batching
+→ Event / Form / List / Key
+→ Effect / Ref / Reducer / Context / Custom Hook
+→ Router / Server State / Suspense / Activity / Concurrency / Action
+→ Styling / A11Y / Testing / Performance / React Compiler
+→ SSR / Streaming / Hydration / Server Boundary
+→ Fiber / Reconciler / Scheduler / Hook / DOM Renderer 源码
+→ Library / 大型架构 / 迁移 / 生产治理
+```
+
+React 只设置一个完整 Stage，不再拆成基础篇、高级篇、性能篇和源码篇。
 
 ---
 
@@ -103,23 +135,9 @@ Architect Workbench 贯穿式项目
 Principal 级毕业项目与架构答辩
 ```
 
-贯穿项目会依次经历：
+Stage 11 的综合项目是：
 
-```text
-静态网站
-→ 原生 JavaScript / TypeScript 应用
-→ React 企业控制台
-→ Vue 业务域与迁移实验
-→ Design System
-→ Monorepo 与研发平台
-→ BFF / SSR / Streaming / Edge
-→ PWA / Desktop / Mobile / TV
-→ Realtime / Local-first
-→ Visual Editor / Low-code / Plugin
-→ 性能、安全、可观测与云交付
-→ 多租户与多团队架构
-→ AI Native Workbench
-```
+> **React Enterprise Console**：包含路由、复杂表单、Server State、实时数据、Design System、Suspense、SSR/Streaming 实验、测试、性能预算和生产诊断的多角色企业控制台。
 
 ---
 
@@ -127,46 +145,49 @@ Principal 级毕业项目与架构答辩
 
 ### 一个主题，一次学透
 
-不把同一个知识点人为拆成基础篇、高级篇、原理篇和源码篇。唯一 Owner Module 必须形成完整闭环。
+同一主题不重复建立基础篇、高级篇、原理篇和源码篇。唯一 Owner Module 必须形成完整闭环。
 
-### 每一课都必须能够完整复刻
+### 每一课都能完整复刻
 
-所有代码、命令、文件、运行时机、观察结果和原因都要写清楚，不能只写“在上一课基础上继续”。
+所有代码、命令、文件、运行时机、观察结果和原因都要写清楚。
 
-### 每一课最终源码必须独立运行
+### 每一课最终源码独立运行
 
-学习者进入任意 Lesson，都能按照 README 独立安装、启动、构建、测试和验证。
+进入任意 Lesson 后，都能独立安装、启动、构建和验证，不依赖上一课服务器或目录。
 
-### 不允许默认学习者已经懂了
+### 不默认学习者已经懂了
 
-不能因为内容基础、以前讲过或 IDE 会提示，就省略当前课程真正需要的上下文和操作。
+不能因为内容基础、以前讲过或 IDE 会提示，就省略当前课程需要的上下文和操作。
 
 ### 范围做减法，解释做加法
 
-使用能够证明知识点的最小项目，但必须把现象、原因、边界、错误、Debug 和生产意义解释完整。
+项目保持最小，但现象、原因、边界、错误、Debug 和生产意义必须解释完整。
 
 ---
 
-## 后续目录结构
+## 当前目录
 
 ```text
 learn-frontend-web/
 ├── README.md
 ├── learn-frontend-web-course/
-│   ├── README.md                       # 唯一总纲
-│   ├── FRONTEND_TEACHING_GUIDE.md      # 教学规范
-│   └── stageXX-topic/                  # 后续 Stage 详细设计
-│       └── moduleXX-YY-topic/
+│   ├── README.md
+│   ├── FRONTEND_TEACHING_GUIDE.md
+│   └── stage11-react/
+│       ├── README.md
+│       └── module11-01-react-foundation/
+│           └── README.md
 └── courses/
-    └── frontend-architect/             # 后续正式课程与源码
-        └── stageXX-topic/
-            └── moduleXX-YY-topic/
-                └── lesson-name/
+    └── frontend-architect/
+        ├── README.md
+        └── stage11-react/
+            ├── README.md
+            └── module11-01-react-foundation/
+                ├── README.md
+                ├── 01-why-ui-sync-becomes-hard/
+                ├── 02-first-react-root/
+                └── 03-ui-as-state-snapshot/
 ```
-
-正式课程建设顺序、课程边界、贯穿项目版本和每个 Stage 的详细内容，请查看：
-
-- [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
 
 ---
 
@@ -178,4 +199,4 @@ learn-frontend-web/
 
 而是能够做到：
 
-> 理解一个复杂 Web 系统为什么这样设计；能够通过浏览器、网络、源码、指标和实验验证判断；知道它会在哪里失败，如何保证性能、安全、可访问、可靠和可演进；也知道什么时候应该主动拒绝或删除不必要的技术复杂度。
+> 理解复杂 Web 系统为什么这样设计；能够通过浏览器、网络、源码、指标和实验验证判断；知道系统会在哪里失败，如何保证性能、安全、可访问、可靠和可演进；也知道什么时候应该主动拒绝或删除不必要的复杂度。
