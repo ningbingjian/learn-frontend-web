@@ -17,60 +17,38 @@
 + 架构设计、平台建设与技术治理
 ```
 
-建立前端工程师从实现、原理、工程、生产到架构治理的完整能力链。
+建立从实现、原理、工程、生产到架构治理的完整前端能力链。
 
 ---
 
 ## 当前状态
 
 > ✅ 前端架构师课程唯一总纲已经完成。  
-> 🚧 Stage 04 CSS、Stage 08 TypeScript 与 Stage 11 React 已进入正式课程建设。
+> 🚧 Stage 04 CSS、Stage 08 TypeScript 与 Stage 11 React 已进入具体课程建设。
 
 当前已经完成：
 
-- Stage 00～Stage 30 的完整学习路线；
-- 各 Stage 的阶段目标、Owner Module、综合项目和验收标准；
-- `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
-- 统一教学与课程编写规范；
-- Stage 04 CSS 的完整 Stage / Module 规划及已落地课程；
-- Stage 08 TypeScript 的完整 Stage 规划及首批具体课程；
-- Stage 11 React 的 26 个 Owner Module 轻规划；
-- React Module 11.01 的 **RE-1101-001 ～ RE-1101-008 共 8 / 8 节具体课程**；
-- React Module 11.01 的 Failure Lab、Strict Mode Debug、局部 Root 实验、Module Project、迁移报告和自动验证脚本；
-- 已完成 Lesson 均直接保存详细 README 与完整可运行源码。
+- Stage 00～Stage 30 完整学习路线。
+- 各 Stage 的 Owner Module、综合项目和验收标准。
+- `Architect Workbench` V0～V15 贯穿式项目路线。
+- 统一教学与课程编写规范。
+- Stage 04 CSS 完整规划及已落地课程。
+- Stage 08 TypeScript 完整规划及首批具体课程。
+- Stage 11 React 26 个 Owner Module 轻规划。
+- React Module 11.01：**8 / 8** 完成，含 Failure Lab、Strict Mode Debug、渐进迁移 Module Project 与 Review。
+- React Module 11.02：**首批 3 / 8** 已完成，开始深入 JSX、React Element、Component Invocation 与 Render Output。
 
 ---
 
 ## 唯一课程根目录
 
-仓库现在统一采用一个课程根目录：
+所有规划、Module、Lesson、README、源码、实验和项目统一放在：
 
 ```text
 learn-frontend-web-course/
 ```
 
-不再区分“课程设计目录”和“正式课程目录”。
-
-统一结构：
-
-```text
-learn-frontend-web-course/
-├── README.md                       # 全课程唯一总纲
-├── FRONTEND_TEACHING_GUIDE.md      # 统一教学规范
-└── stageXX-topic/
-    ├── README.md                   # Stage 目标、Module 地图、进度、项目
-    └── moduleXX-YY-topic/
-        ├── README.md               # Module 边界、Lesson 索引、验收
-        └── lesson-name/
-            ├── README.md           # 具体知识点详细课程
-            ├── package.json        # 需要时提供
-            ├── index.html          # 需要时提供
-            ├── src/                # 完整源码
-            ├── tests/              # 需要时提供
-            └── 运行所需配置
-```
-
-也就是：
+统一层级：
 
 ```text
 总纲
@@ -78,6 +56,25 @@ learn-frontend-web-course/
 → Module
 → Lesson
 → README + 完整源码 + 实验 + 验收
+```
+
+目录形态：
+
+```text
+learn-frontend-web-course/
+├── README.md                       # 全课程唯一总纲
+├── FRONTEND_TEACHING_GUIDE.md      # 统一教学规范
+└── stageXX-topic/
+    ├── README.md                   # Stage 路线与进度
+    └── moduleXX-YY-topic/
+        ├── README.md               # Module 边界与 Lesson 索引
+        └── lesson-name/
+            ├── README.md           # 具体知识点详细课程
+            ├── package.json        # 需要时
+            ├── index.html          # 需要时
+            ├── src/                # 完整源码
+            ├── tests/              # 需要时
+            └── 运行所需配置
 ```
 
 ---
@@ -91,8 +88,7 @@ learn-frontend-web-course/
 
 ### Stage 04：CSS
 
-- [CSS Stage 详细设计与课程入口](./learn-frontend-web-course/stage-04-css/README.md)
-- [Module 04.01：CSS 语言、样式表与级联体系](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/README.md)
+- [CSS Stage 课程入口](./learn-frontend-web-course/stage-04-css/README.md)
 
 ### Stage 08：TypeScript
 
@@ -101,7 +97,10 @@ learn-frontend-web-course/
 ### Stage 11：React
 
 - [React Stage 详细设计与课程入口](./learn-frontend-web-course/stage11-react/README.md)
-- [Module 11.01：React 的问题模型与声明式 UI](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/README.md)
+
+#### Module 11.01：React 的问题模型与声明式 UI ✅ 8 / 8
+
+- [Module 入口](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/README.md)
 - [RE-1101-001：手工 DOM 同步为什么会失控](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
 - [RE-1101-002：创建第一个 React 应用](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
 - [RE-1101-003：让状态声明 UI](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
@@ -109,9 +108,14 @@ learn-frontend-web-course/
 - [RE-1101-005：整体应用与局部接入边界](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/05-whole-app-vs-partial-roots/README.md)
 - [RE-1101-006：Strict Mode 与第一套 Debug 基线](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/06-strict-mode-debug-baseline/README.md)
 - [RE-1101-007：Failure Lab——重复状态与 DOM 逃生](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape/README.md)
-- [RE-1101-008：Module Project——Release Console Migration](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration/README.md)
+- [RE-1101-008：Release Console Migration](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration/README.md)
 
-`learn-frontend-web-course/README.md` 是课程唯一总纲。Stage、Module 和 Lesson 只能在这棵课程树中继续细化，不再建立平行课程根目录。
+#### Module 11.02：JSX、Element、Component 与 Render Output 🚧 3 / 8
+
+- [Module 入口](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/README.md)
+- [RE-1102-001：JSX 不是 HTML——从源码看到转换结果](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/01-jsx-source-to-transform/README.md)
+- [RE-1102-002：React Element——UI 描述对象不是 DOM](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/02-react-element-description/README.md)
+- [RE-1102-003：Component 何时调用，Render Output 到底是什么](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/03-component-call-render-output/README.md)
 
 ---
 
@@ -151,44 +155,30 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-每个核心主题只设置一个 Owner Module，从基础使用一路学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
-
 ---
 
-## Stage 11 React 当前路线
-
-```text
-声明式 UI
-→ JSX / Element / Component
-→ Props / Composition
-→ State / Update Queue / Batching
-→ Event / Form / List / Key
-→ Effect / Ref / Reducer / Context / Custom Hook
-→ Router / Server State / Suspense / Concurrency / Action
-→ Styling / A11Y / Testing / Performance
-→ SSR / Streaming / Hydration / Server Boundary
-→ Fiber / Reconciler / Scheduler / Hook / DOM Renderer 源码
-→ Library / 大型架构 / 迁移 / 生产治理
-```
-
-当前已经完整完成第一条学习链：
+## React 当前学习链
 
 ```text
 手工 DOM 同步问题
 → React Root
 → State 声明 UI
-→ Component Tree 与 State Owner
-→ 整体 / 局部 Root 边界
+→ Component Tree / State Owner
+→ Root 接入边界
 → Strict Mode Debug
-→ 重复 State / DOM Ownership Failure Lab
+→ State / DOM Ownership Failure Lab
 → Release Console Migration
+→ JSX Source / Transform
+→ React Element Description
+→ Component Invocation / Render Output
 ```
 
-下一步进入：
+下一批 React 将继续：
 
 ```text
-Module 11.02
-JSX、Element、Component 与 Render Output
+JSX Expression / Fragment / Empty Node
+→ Pure Render / Idempotency
+→ Render vs Commit
 ```
 
 ---
@@ -209,63 +199,15 @@ Architect Workbench 贯穿式项目
 Principal 级毕业项目与架构答辩
 ```
 
-当前已经确定的 Stage 综合项目包括：
-
-- **Stage 04 — Responsive UI System / Architect Workbench UI Foundation v1**。
-- **Stage 11 — React Enterprise Console**。
-
 ---
 
 ## 最重要的课程原则
 
-### 一个主题，一次学透
-
-同一主题不重复建立基础篇、高级篇、原理篇和源码篇。唯一 Owner Module 必须形成完整闭环。
-
-### 每一课都能完整复刻
-
-所有代码、命令、文件、运行时机、观察结果和原因都要写清楚。
-
-### 每一课最终源码独立运行
-
-进入任意 Lesson 后，都能独立安装、启动、构建和验证，不依赖上一课服务器或目录。
-
-### 不默认学习者已经懂了
-
-不能因为内容基础、以前讲过或 IDE 会提示，就省略当前课程需要的上下文和操作。
-
-### 范围做减法，解释做加法
-
-项目保持最小，但现象、原因、边界、错误、Debug 和生产意义必须解释完整。
-
----
-
-## 当前目录
-
-```text
-learn-frontend-web/
-├── README.md
-├── .github/
-└── learn-frontend-web-course/
-    ├── README.md
-    ├── FRONTEND_TEACHING_GUIDE.md
-    ├── stage-04-css/
-    ├── stage-08-typescript/
-    └── stage11-react/
-        ├── README.md
-        └── module11-01-react-problem-model/
-            ├── README.md
-            ├── 01-manual-dom-sync-problem/
-            ├── 02-first-react-application/
-            ├── 03-state-declares-ui/
-            ├── 04-component-tree-one-way-flow/
-            ├── 05-whole-app-vs-partial-roots/
-            ├── 06-strict-mode-debug-baseline/
-            ├── 07-failure-lab-duplicate-state-dom-escape/
-            └── 08-module-project-release-console-migration/
-```
-
-现在只有一个课程根目录：`learn-frontend-web-course/`。Stage、Module、Lesson、README、源码和项目全部在这棵树中维护。
+- **一个主题，一次学透**：同一主题不另建基础篇、高级篇、原理篇和源码篇。
+- **每课可完整复刻**：命令、路径、文件、现象和原因必须写清楚。
+- **每课最终源码独立运行**：不依赖上一课服务器或源码路径。
+- **不默认学习者懂了**：当前课需要的实际操作不能省略。
+- **范围做减法，解释做加法**：项目保持最小，因果关系、故障、Debug 和边界解释完整。
 
 ---
 
@@ -275,6 +217,4 @@ learn-frontend-web/
 
 > “我会 HTML、CSS、JavaScript、React、Vue、Next.js。”
 
-而是能够做到：
-
-> 理解复杂 Web 系统为什么这样设计；能够通过浏览器、网络、源码、指标和实验验证判断；知道系统会在哪里失败，如何保证性能、安全、可访问、可靠和可演进；也知道什么时候应该主动拒绝或删除不必要的复杂度。
+而是能够解释复杂 Web 系统为什么这样设计，能用浏览器、网络、源码、指标和实验验证判断，知道系统会在哪里失败，如何保证性能、安全、可访问、可靠和可演进，也知道什么时候应该主动拒绝不必要的复杂度。

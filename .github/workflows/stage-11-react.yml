@@ -1,0 +1,57 @@
+name: Stage 11 React
+
+"on":
+  pull_request:
+    paths:
+      - "learn-frontend-web-course/stage11-react/**"
+      - ".github/workflows/stage-11-react.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "learn-frontend-web-course/stage11-react/**"
+      - ".github/workflows/stage-11-react.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-lessons:
+    name: Verify ${{ matrix.lesson-name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lesson-name: RE-1102-001
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/01-jsx-source-to-transform
+          - lesson-name: RE-1102-002
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/02-react-element-description
+          - lesson-name: RE-1102-003
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/03-component-call-render-output
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.working-directory }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Inspect JSX transform when available
+        run: npm run inspect:jsx --if-present
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
