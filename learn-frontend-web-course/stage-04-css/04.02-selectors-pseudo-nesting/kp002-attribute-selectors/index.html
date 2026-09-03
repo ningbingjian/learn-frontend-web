@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP002 Attribute Selector Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP002</p>
+      <h1>Attribute Selector Laboratory</h1>
+      <p>用 attribute 的存在、值、token、前后缀与大小写条件控制匹配集合。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="state-title">
+      <h2 id="state-title">实验 A：状态属性</h2>
+      <div class="card-grid">
+        <article class="env-card" data-state="active" data-env="PROD" data-tags="urgent finance">
+          <h3>Production / Active</h3>
+          <p>data-state=active，data-env=PROD，data-tags 包含 urgent。</p>
+        </article>
+        <article class="env-card" data-state="idle" data-env="staging" data-tags="finance">
+          <h3>Staging / Idle</h3>
+          <p>data-state=idle，data-tags 不含 urgent。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="string-title">
+      <h2 id="string-title">实验 B：字符串匹配边界</h2>
+      <ul class="user-list">
+        <li data-user="admin">admin</li>
+        <li data-user="administrator">administrator</li>
+        <li data-user="not-admin">not-admin</li>
+      </ul>
+      <p class="warning">故意使用 substring selector 后，三个值都可能进入匹配集合。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="lang-title">
+      <h2 id="lang-title">实验 C：Hyphen 与 ASCII Case-insensitive</h2>
+      <p lang="zh-CN">lang="zh-CN"</p>
+      <p data-mode="DARK">data-mode="DARK"</p>
+    </section>
+
+    <section class="lab-section evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Console Evidence</h2>
+      <pre><code>document.querySelectorAll("[data-state]")
+document.querySelectorAll('[data-state="active"]')
+document.querySelectorAll('[data-tags~="urgent"]')
+document.querySelectorAll('[data-user*="admin"]')
+document.querySelectorAll('[lang|="zh"]')
+document.querySelectorAll('[data-mode="dark" i]')</code></pre>
+    </section>
+  </main>
+</body>
+</html>

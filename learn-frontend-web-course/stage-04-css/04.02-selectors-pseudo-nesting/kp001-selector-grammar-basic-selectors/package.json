@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp001-selector-grammar",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}
