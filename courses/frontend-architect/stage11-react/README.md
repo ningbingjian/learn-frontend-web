@@ -28,8 +28,8 @@
 
 | Module | 状态 | 正式课程 |
 |---|---|---|
-| 11.01 React 的问题模型与声明式 UI | 🚧 建设中，前三课已完成 | [进入](./module11-01-react-problem-model/README.md) |
-| 11.02 JSX、Element、Component 与 Render Output | 待 11.01 完成后细化 | — |
+| 11.01 React 的问题模型与声明式 UI | ✅ 8 / 8 完成，Module Project 与 Review 已交付 | [进入](./module11-01-react-problem-model/README.md) |
+| 11.02 JSX、Element、Component 与 Render Output | 下一批：轻规划并开始制作 | — |
 | 11.03 Props、Children、Composition 与 API Design | 待建设 | — |
 | 11.04 State、Update Queue、Batching 与快照 | 待建设 | — |
 | 11.05 Event、Form 与用户输入 | 待建设 | — |
@@ -37,6 +37,23 @@
 | 11.07～11.26 | 边界已在 Stage 总纲确定，暂不创建空目录 | — |
 
 完整 26 个 Module 请查看 [Stage 11 详细设计](../../../learn-frontend-web-course/stage11-react/README.md)。
+
+---
+
+## 已完成的第一条学习链
+
+```text
+手工 DOM 同步问题
+→ React Root
+→ State 声明 UI
+→ Component Tree 与 State Owner
+→ 整体 / 局部 Root 边界
+→ Strict Mode Debug
+→ 重复 State / DOM Ownership Failure Lab
+→ Release Console Migration
+```
+
+Module 11.01 最终项目同时保留 Legacy 与 React 版本，用可复现故障、状态所有权、组件树、更新时序和自动检查证明迁移结果。
 
 ---
 
@@ -61,7 +78,14 @@ React Lesson 通常使用：
 ```bash
 npm install
 npm run dev
+npm run typecheck
 npm run build
+```
+
+Module Project 还提供：
+
+```bash
+npm run verify
 ```
 
 命令必须在当前 Lesson 目录执行。不要在 Stage 或 Module 根目录安装依赖。
@@ -70,6 +94,8 @@ npm run build
 
 ## 当前学习入口
 
-从这里开始：
+从这里开始并按顺序完成八课：
 
 - [Module 11.01：React 的问题模型与声明式 UI](./module11-01-react-problem-model/README.md)
+
+完成 Module 11.01 后，下一步进入 Module 11.02 的轻规划与首批正式课程。
