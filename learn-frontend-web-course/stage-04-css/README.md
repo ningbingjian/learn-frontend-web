@@ -1,7 +1,7 @@
 # Stage 04：CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
 
 > 课程状态：建设中  
-> 当前批次：04.01 的 KP001～KP003 已完成  
+> 当前批次：04.01 的 KP001～KP006 已完成  
 > 课程总纲：[../README.md](../README.md)  
 > 教学规范：[../FRONTEND_TEACHING_GUIDE.md](../FRONTEND_TEACHING_GUIDE.md)
 
@@ -118,7 +118,7 @@ Stage 04 是整套前端架构师课程中 **CSS 的唯一完整 Owner Stage**�
 
 | Module | 状态 | 已完成 |
 | --- | --- | --- |
-| [04.01 CSS 语言与级联体系](./04.01-css-language-and-stylesheets/) | 🚧 建设中 | KP001～KP003 |
+| [04.01 CSS 语言与级联体系](./04.01-css-language-and-stylesheets/) | 🚧 建设中 | KP001～KP006 / 9 |
 | 04.02～04.14 | ⏳ 待建设 | 0 |
 | Stage Project：Responsive UI System | ⏳ 待建设 | 0 |
 
@@ -127,6 +127,17 @@ Stage 04 是整套前端架构师课程中 **CSS 的唯一完整 Owner Stage**�
 1. [KP001：CSS 是什么](./04.01-css-language-and-stylesheets/kp001-what-is-css/)
 2. [KP002：CSS 怎样进入页面](./04.01-css-language-and-stylesheets/kp002-attach-stylesheet/)
 3. [KP003：Rule、Declaration、Property 与 Value](./04.01-css-language-and-stylesheets/kp003-rules-declarations-properties-values/)
+4. [KP004：Shorthand、Longhand、注释、At-rule 与语法边界](./04.01-css-language-and-stylesheets/kp004-shorthand-longhand-at-rules/)
+5. [KP005：Origin、Importance、Context 与 Source Order](./04.01-css-language-and-stylesheets/kp005-origin-importance-context-source-order/)
+6. [KP006：Specificity、Inheritance 与 CSS-wide Keyword](./04.01-css-language-and-stylesheets/kp006-specificity-inheritance-css-wide-keywords/)
+
+下一批将完成 Module 04.01 最后三课：
+
+```text
+KP007  Cascade Layer、@scope、Scoping Proximity、revert-layer
+KP008  CSS 错误恢复、Styles、Computed、CSSOM 与 Value Processing
+KP009  First Stylesheet Diagnostic Lab
+```
 
 ---
 
@@ -142,6 +153,7 @@ Box Model
 Layout Overlay
 Network Request
 CSSOM
+ShadowRoot / :host
 Rendering / Performance Trace
 视觉对照
 自动检查脚本
@@ -209,6 +221,7 @@ Architect Workbench UI Foundation v1
 ```text
 !important 战争
 Specificity 失控
+Shorthand 重置 Longhand
 Flex min-size 导致溢出
 Grid 轨道撑破容器
 Sticky 因祖先 overflow 失效
@@ -245,7 +258,10 @@ stage-04-css/
 │   ├── README.md
 │   ├── kp001-what-is-css/
 │   ├── kp002-attach-stylesheet/
-│   └── kp003-rules-declarations-properties-values/
+│   ├── kp003-rules-declarations-properties-values/
+│   ├── kp004-shorthand-longhand-at-rules/
+│   ├── kp005-origin-importance-context-source-order/
+│   └── kp006-specificity-inheritance-css-wide-keywords/
 ├── 04.02-selectors-nesting-and-scope/
 ├── ...
 └── project-responsive-ui-system/
