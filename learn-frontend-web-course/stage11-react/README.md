@@ -262,12 +262,15 @@ Stage 11 贯穿实践对象是 `Architect Workbench` 的 **React Enterprise Cons
 - 重复 State / DOM Ownership Failure Lab。
 - Release Console Migration Module Project 与 Review。
 
-### Module 11.02：建设中，已完成 3 / 8
+### Module 11.02：建设中，已完成 6 / 8
 
 - [Module 11.02：JSX、Element、Component 与 Render Output](./module11-02-jsx-element-component-render-output/README.md)
 - [RE-1102-001：JSX 不是 HTML——从源码看到转换结果](./module11-02-jsx-element-component-render-output/01-jsx-source-to-transform/README.md)
 - [RE-1102-002：React Element——UI 描述对象不是 DOM](./module11-02-jsx-element-component-render-output/02-react-element-description/README.md)
 - [RE-1102-003：Component 何时调用，Render Output 到底是什么](./module11-02-jsx-element-component-render-output/03-component-call-render-output/README.md)
+- [RE-1102-004：JSX Expression、Fragment、Conditional 与 Empty Node](./module11-02-jsx-element-component-render-output/04-jsx-expression-fragment-empty-node/README.md)
+- [RE-1102-005：Pure Render、Idempotency 与 Render-time Mutation](./module11-02-jsx-element-component-render-output/05-pure-render-idempotency-mutation/README.md)
+- [RE-1102-006：Render vs Commit——从描述到 Host DOM](./module11-02-jsx-element-component-render-output/06-render-vs-commit-host-dom/README.md)
 
 当前学习链：
 
@@ -275,22 +278,27 @@ Stage 11 贯穿实践对象是 `Architect Workbench` 的 **React Enterprise Cons
 Module 11.01
 声明式 UI / Root / State Owner
         ↓
-RE-1102-001
-JSX Source → Transform
+JSX Source / Transform
         ↓
-RE-1102-002
 React Element Description
         ↓
-RE-1102-003
-Component Invocation → Render Output
+Component Invocation / Render Output
+        ↓
+Expression / Fragment / Empty Node
+        ↓
+Pure Render / Idempotency
+        ↓
+Render Calculation / Host Commit Evidence
 ```
 
 ### 下一批
 
-继续 RE-1102-004 ～ RE-1102-006：
+Module 11.02 只剩 2 课：
 
 ```text
-JSX Expression / Fragment / Empty Node
-→ Pure Render / Idempotency
-→ Render vs Commit
+RE-1102-007
+综合 Failure Lab
+→
+RE-1102-008
+Render Model Inspector Module Project + Review
 ```
