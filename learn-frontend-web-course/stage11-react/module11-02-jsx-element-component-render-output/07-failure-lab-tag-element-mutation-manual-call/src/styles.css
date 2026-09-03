@@ -1,0 +1,266 @@
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #1f2937;
+  background: #f4f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  border: 0;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  color: #ffffff;
+  background: #1d4ed8;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(0.96);
+}
+
+button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+code {
+  display: block;
+  overflow-wrap: anywhere;
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  color: #e2e8f0;
+  background: #172033;
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  color: #eff6ff;
+  background: linear-gradient(135deg, #172554, #1e3a8a 55%, #1d4ed8);
+  box-shadow: 0 24px 60px rgb(30 64 175 / 18%);
+}
+
+.eyebrow,
+.panel-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.lab-card h2,
+.diagnostic-card h2 {
+  margin: 0;
+}
+
+.hero h1 {
+  max-width: 18ch;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.04;
+}
+
+.hero-copy {
+  max-width: 65ch;
+  margin: 1rem 0 0;
+  color: #dbeafe;
+  line-height: 1.75;
+}
+
+.secondary-button {
+  flex: 0 0 auto;
+  color: #1e3a8a;
+  background: #ffffff;
+}
+
+.lab-card,
+.diagnostic-card {
+  margin-top: 1rem;
+  border: 1px solid #dbe4f0;
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: #ffffff;
+  box-shadow: 0 12px 36px rgb(15 23 42 / 6%);
+}
+
+.lab-heading {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.lab-heading p,
+.diagnostic-card li,
+.result p,
+.evidence-note {
+  line-height: 1.65;
+}
+
+.lab-heading p {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+}
+
+.step {
+  display: grid;
+  flex: 0 0 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.comparison-grid,
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.comparison-panel {
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.comparison-panel--danger {
+  border-color: #fecaca;
+  background: #fff7f7;
+}
+
+.comparison-panel--success {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.panel-label {
+  color: #475569;
+}
+
+.preview-box {
+  min-height: 5.5rem;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.75rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.unknown-host-tag,
+.release-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.55rem 0.8rem;
+  font-weight: 800;
+}
+
+.unknown-host-tag {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.release-badge {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.release-badge--hooked {
+  color: #5b21b6;
+  background: #ede9fe;
+}
+
+.evidence-note {
+  margin: 1rem 0 0;
+  border-left: 4px solid #60a5fa;
+  padding-left: 1rem;
+  color: #475569;
+}
+
+.action-grid > div {
+  min-width: 0;
+}
+
+.result {
+  min-height: 7.5rem;
+  margin-top: 0.85rem;
+  border: 1px solid #dbe4f0;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.result strong {
+  display: block;
+}
+
+.result p {
+  margin: 0.45rem 0 0;
+  color: #475569;
+  overflow-wrap: anywhere;
+}
+
+.result--warning {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.result--success {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.result--danger {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.diagnostic-card ol {
+  margin-bottom: 0;
+  padding-left: 1.3rem;
+}
+
+@media (max-width: 780px) {
+  .hero {
+    display: block;
+  }
+
+  .secondary-button {
+    margin-top: 1.25rem;
+  }
+
+  .comparison-grid,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+}
