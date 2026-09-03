@@ -1,0 +1,57 @@
+name: Stage 08 TypeScript
+
+"on":
+  pull_request:
+    paths:
+      - "learn-frontend-web-course/stage-08-typescript/**"
+      - ".github/workflows/stage-08-typescript.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "learn-frontend-web-course/stage-08-typescript/**"
+      - ".github/workflows/stage-08-typescript.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-lessons:
+    name: Verify ${{ matrix.lesson-name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lesson-name: KP001
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp001-why-typescript
+          - lesson-name: KP002
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp002-first-strict-project
+          - lesson-name: KP003
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp003-compiler-pipeline
+          - lesson-name: KP004
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp004-compile-time-vs-runtime
+          - lesson-name: KP005
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp005-annotations-vs-inference
+          - lesson-name: KP006
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp006-literal-widening
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.working-directory }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install pinned dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify lesson
+        run: npm run verify
