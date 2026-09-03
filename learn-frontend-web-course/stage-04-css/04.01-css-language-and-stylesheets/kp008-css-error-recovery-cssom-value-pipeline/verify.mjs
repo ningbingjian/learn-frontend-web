@@ -1,15 +1,18 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-const html=await readFile(new URL("index.html",import.meta.url),"utf8");
-const css=await readFile(new URL("styles.css",import.meta.url),"utf8");
-const app=await readFile(new URL("app.js",import.meta.url),"utf8");
-assert.match(html,/CSS Error Recovery \/ CSSOM \/ Value Pipeline/);
-assert.match(html,/id="cssom-output"/);
-assert.match(css,/color:\s*#0f766e;\s*color:\s*definitely-not-a-color/);
-assert.match(css,/definitely-not-a-property:\s*42/);
-assert.match(css,/\.invalid-selector::definitely-not-a-pseudo/);
-assert.match(css,/--lesson-size:\s*tomato;\s*font-size:\s*var\(--lesson-size\)/);
-assert.match(css,/\.width-target\s*\{[^}]*width:\s*50%/s);
-assert.match(app,/document\.styleSheets/); assert.match(app,/getComputedStyle/); assert.match(app,/cssRules/);
-assert.equal((css.match(/\{/g)??[]).length,(css.match(/\}/g)??[]).length);
-console.log("✓ KP008 parse recovery, CSSOM, computed-time invalidation, and value-pipeline evidence are complete.");
+
+const html = await readFile(new URL("index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
+
+assert.match(html, /CSS Error Recovery & Value Pipeline Laboratory/);
+assert.doesNotMatch(html, /<script/i);
+assert.match(css, /color:\s*definitely-not-a-color/);
+assert.match(css, /definitely-not-a-property/);
+assert.match(css, /:totally-invalid-pseudo/);
+assert.match(css, /--accent:\s*20px/);
+assert.match(css, /color:\s*var\(--accent\)/);
+assert.match(css, /var\(--missing-accent,\s*#0369a1\)/);
+assert.doesNotMatch(html + css, /document\.styleSheets|getComputedStyle|CSSStyleRule/);
+assert.equal((css.match(/\{/g) ?? []).length, (css.match(/\}/g) ?? []).length);
+
+console.log("✓ KP008 uses static DevTools evidence and defers CSSOM programming APIs to Stage 09.");
