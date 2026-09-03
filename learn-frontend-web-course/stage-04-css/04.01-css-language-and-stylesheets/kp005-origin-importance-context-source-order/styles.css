@@ -1,0 +1,112 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f4f7fb;
+}
+
+.page-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.hero,
+.lab-section {
+  background: #ffffff;
+  border: 1px solid #d9e1ec;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgb(27 39 61 / 8%);
+}
+
+.hero,
+.lab-section {
+  padding: 28px;
+}
+
+.lab-section {
+  margin-top: 24px;
+}
+
+.hero h1,
+.lab-section h2 {
+  margin-top: 0;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: #3156a6;
+}
+
+/* Source Order：两个竞争声明的 selector 完全相同。 */
+.source-order-demo {
+  color: #1d4ed8;
+}
+
+.source-order-demo {
+  color: #b45309;
+}
+
+/* Importance：important 先进入更高的 author-important 桶。 */
+.importance-demo {
+  color: #166534 !important;
+}
+
+.importance-demo {
+  color: #be123c;
+}
+
+.important-vs-inline {
+  color: #166534 !important;
+}
+
+.inline-vs-external {
+  color: #047857;
+}
+
+.button-row,
+.context-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.author-button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  color: #ffffff;
+  background: #3156a6;
+}
+
+.hint {
+  margin-bottom: 0;
+  color: #506078;
+}
+
+/*
+ * Encapsulation Context：
+ * normal declarations -> outer context wins.
+ * important declarations -> inner context wins.
+ */
+.context-normal {
+  color: #1d4ed8;
+}
+
+.context-important {
+  color: #1d4ed8 !important;
+}
+
+@media (min-width: 760px) {
+  .button-row,
+  .context-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
