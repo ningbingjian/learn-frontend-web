@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; color: #182033; background: #f4f7fb; }
+.page-shell { width: min(960px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+.hero, .lab-section { padding: 28px; border: 1px solid #d9e1ec; border-radius: 18px; background: #fff; box-shadow: 0 12px 30px rgb(27 39 61 / 8%); }
+.lab-section { margin-top: 24px; }
+.hero h1, .lab-section h2 { margin-top: 0; }
+.eyebrow { margin: 0 0 10px; font-weight: 750; color: #3156a6; }
+code { padding: 0.12em 0.35em; border-radius: 5px; background: #eef2ff; }
+.link-row, .check-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.demo-link, button { display: inline-flex; align-items: center; min-height: 42px; padding: 9px 14px; border: 2px solid #3156a6; border-radius: 9px; font: inherit; font-weight: 700; text-decoration: none; color: #3156a6; background: #fff; }
+.demo-link:hover, .demo-button:hover { background: #eef2ff; }
+.demo-link:active, .demo-button:active { transform: translateY(1px); }
+.demo-link:focus, button:focus, input:focus { outline: 2px solid transparent; }
+.demo-link:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+.focus-card:focus-within { border-color: #2563eb; box-shadow: 0 0 0 4px rgb(37 99 235 / 16%); }
+form { display: grid; gap: 16px; }
+.field { display: grid; gap: 7px; }
+input { min-height: 42px; padding: 9px 11px; border: 2px solid #94a3b8; border-radius: 8px; font: inherit; }
+input:required { border-left-width: 6px; }
+input:invalid:not(:placeholder-shown) { border-color: #dc2626; background: #fef2f2; }
+input:valid:not(:placeholder-shown) { border-color: #16a34a; background: #f0fdf4; }
+input:read-only { color: #475569; background: #f1f5f9; }
+input:checked + label { color: #166534; font-weight: 750; }
+button:disabled { opacity: 0.48; cursor: not-allowed; }
+.decorated-status::before { content: attr(data-decoration); margin-right: 0.55em; color: #16a34a; }
+.decorated-status::after { content: " decorative"; margin-left: 0.55em; color: #64748b; font-size: 0.85em; }
+.milestones li::marker { color: #3156a6; font-weight: 800; }
+::selection { color: #111827; background: #fde68a; }
+pre { min-height: 190px; overflow: auto; padding: 18px; border-radius: 12px; color: #e2e8f0; background: #111827; white-space: pre-wrap; }
+.hint { color: #526079; }
