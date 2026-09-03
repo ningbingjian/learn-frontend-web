@@ -3,70 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KP005 Functional and Relational Pseudo-class Laboratory</title>
+  <title>KP005 · Functional and Relational Pseudo-classes</title>
   <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.js"></script>
 </head>
 <body>
   <main class="page-shell">
     <header class="hero">
       <p class="eyebrow">Stage 04 · Module 04.02 · KP005</p>
       <h1>Functional / Relational Pseudo-class Laboratory</h1>
-      <p>验证 <code>:is()</code>、<code>:where()</code>、<code>:not()</code> 与 <code>:has()</code> 的匹配方向和 specificity 边界。</p>
+      <p>使用静态场景比较 :is()、:where()、:not() 与 :has()，不通过脚本切换状态。</p>
     </header>
 
-    <section class="lab-section" aria-labelledby="group-title">
-      <h2 id="group-title">实验一：用 <code>:is()</code> 合并重复 selector</h2>
-      <div class="message-grid">
-        <article class="message info">Info message</article>
-        <article class="message warning">Warning message</article>
-        <article class="message success">Success message</article>
-      </div>
-    </section>
-
-    <section class="lab-section" aria-labelledby="specificity-title">
-      <h2 id="specificity-title">实验二：<code>:is()</code> 与 <code>:where()</code> 的 specificity</h2>
+    <section class="lab-section message-lab" aria-labelledby="group-title">
+      <h2 id="group-title">实验 A：`:is()` 与 `:where()`</h2>
       <div class="specificity-is">
-        <p class="message override">`:is(.message, #never-used)` 会携带参数列表中的最高 specificity。</p>
+        <p class="message info">Info message</p>
       </div>
       <div class="specificity-where">
-        <p class="message override">`:where(.message, #never-used)` 的 specificity 恒为零。</p>
+        <p class="message warning">Warning message</p>
       </div>
+      <p class="message success">Success message</p>
     </section>
 
     <section class="lab-section" aria-labelledby="not-title">
-      <h2 id="not-title">实验三：<code>:not()</code> 排除归档和禁用操作</h2>
+      <h2 id="not-title">实验 B：`:not()` 排除条件</h2>
       <div class="action-row">
-        <button class="action" type="button">Deploy</button>
-        <button class="action archived" type="button">Archived</button>
-        <button class="action" aria-disabled="true" type="button">Permission denied</button>
+        <button class="action" type="button">可用操作</button>
+        <button class="action archived" type="button">已归档</button>
+        <button class="action" aria-disabled="true" type="button">语义上不可用</button>
       </div>
     </section>
 
-    <section class="lab-section" aria-labelledby="has-title">
-      <h2 id="has-title">实验四：<code>:has()</code> 从候选元素向后检查关系</h2>
-      <div class="panel-grid">
-        <article class="panel" id="health-panel">
-          <h3>Health panel</h3>
-          <p class="status-ok">All checks pass.</p>
-        </article>
-        <article class="panel">
-          <h3>Release panel</h3>
-          <p class="status-error">Build failed.</p>
-        </article>
-      </div>
+    <section class="lab-section panel-grid" aria-labelledby="has-title">
+      <h2 id="has-title">实验 C：`:has()` 根据后代状态选择父元素</h2>
+      <article class="panel status-panel">
+        <h3>健康面板</h3>
+        <p class="status-ok">All checks pass.</p>
+      </article>
+      <article class="panel status-panel">
+        <h3>异常面板</h3>
+        <p class="status-error">Health check failed.</p>
+      </article>
+    </section>
+
+    <section class="lab-section" aria-labelledby="sibling-title">
+      <h2 id="sibling-title">实验 D：相邻关系与方向</h2>
       <ol class="steps">
         <li class="step">Prepare</li>
+        <li class="step">Review</li>
         <li class="step current">Deploy</li>
-        <li class="step">Verify</li>
+        <li class="step">Observe</li>
       </ol>
-      <button id="toggle-error" type="button">切换 Health panel 的 error 子节点</button>
-      <p class="direction-note">错误方向演示：<code>.status-error:has(.panel)</code> 不会“回头选择父 panel”。</p>
+      <p class="hint">`.step:has(+ .step.current)` 选择 current 之前的相邻步骤。</p>
     </section>
 
-    <section class="lab-section" aria-labelledby="evidence-title">
-      <h2 id="evidence-title">匹配证据</h2>
-      <pre id="selector-output" aria-live="polite"></pre>
+    <section class="lab-section failure-zone" aria-labelledby="direction-title">
+      <h2 id="direction-title">Failure Lab：`:has()` 方向写反</h2>
+      <article class="panel">
+        <p class="status-error">错误在面板内部，但 `.status-error:has(.panel)` 会把错误元素当 Subject，因此不会选中父面板。</p>
+      </article>
     </section>
   </main>
 </body>
