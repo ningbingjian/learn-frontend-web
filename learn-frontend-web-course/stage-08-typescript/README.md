@@ -1,8 +1,9 @@
 # Stage 08：TypeScript 从基础到高级类型、Schema、SDK 与类型架构
 
 > 课程状态：建设中  
-> 当前进度：KP001～KP015 已完成，共 15 / 161 课  
-> 当前 Module：08.02 基础类型与数据建模，已完成 5 / 12 课  
+> 当前进度：KP001～KP018 已完成，共 18 / 161 课  
+> 当前 Module：08.02 基础类型与数据建模，已完成 8 / 12 课  
+> 下一批：KP019～KP021  
 > 技术基线：TypeScript 7.0.2、Node.js 20+、npm 10+  
 > 课程总纲：[../README.md](../README.md)  
 > 教学规范：[../FRONTEND_TEACHING_GUIDE.md](../FRONTEND_TEACHING_GUIDE.md)
@@ -17,7 +18,8 @@ Stage 08 是整套前端架构师课程中 TypeScript 的唯一完整 Owner Stag
 理解 TypeScript 编译模型
 → 建立 strict 工程
 → 掌握推断、上下文类型与可赋值性
-→ 精确建模值、缺失、可变性与业务状态
+→ 精确建模值、缺失、可变性、集合与位置协议
+→ 从 Runtime 常量派生 Static Literal Union
 → 设计 Generic 与高级类型 API
 → 诊断模块、声明和 tsconfig
 → 用 Runtime Schema 隔离不可信数据
@@ -27,7 +29,7 @@ Stage 08 是整套前端架构师课程中 TypeScript 的唯一完整 Owner Stag
 → 治理大型代码库的类型边界与编译性能
 ```
 
-完成本阶段后，学习者必须能解释：类型信息从哪里来、在哪里丢失、何时被伪造、为什么通过 Check 仍可能 Runtime 失败，以及公共类型变化如何构成 Breaking Change。
+完成本阶段后，学习者必须能解释：类型信息从哪里来、在哪里丢失、何时被扩大或伪造、为什么通过 Check 仍可能 Runtime 失败，以及公共类型变化如何构成 Breaking Change。
 
 ---
 
@@ -50,6 +52,7 @@ Stage 08 是整套前端架构师课程中 TypeScript 的唯一完整 Owner Stag
 
 - 编译模型、类型擦除、诊断、Inference、Contextual Typing 与 Assignability。
 - Primitive、Object、Array、Tuple、Literal、Optional、Readonly 与 Index Safety。
+- Shared Reference、Collection Ownership、Snapshot 与 Static / Runtime Immutability 边界。
 - Function、Overload、Generic、Constraint、Inference Control 与 Variance。
 - Union、Intersection、Control-flow Narrowing、Predicate、Assertion Function 与 Exhaustiveness。
 - Interface、Class、Structural Typing、Brand / Opaque Type 与名义化需求。
@@ -104,7 +107,7 @@ npm run verify
 | Module | 计划课数 | 核心问题 |
 | --- | ---: | --- |
 | [08.01 编译模型与类型推断](./08.01-compiler-model-and-inference/) | 10 | TypeScript 如何检查 JavaScript，并在运行前提供证据？ |
-| [08.02 基础类型与数据建模](./08.02-basic-types-and-modeling/) | 12 | 如何准确表示值、缺失、可变性、索引和配置对象？ |
+| [08.02 基础类型与数据建模](./08.02-basic-types-and-modeling/) | 12 | 如何准确表示值、缺失、可变性、集合、位置和配置对象？ |
 | [08.03 Function、Overload 与 Generic](./08.03-function-overload-and-generics/) | 13 | 如何设计可推断、可复用而不过度抽象的函数 API？ |
 | [08.04 Union、Intersection 与 Narrowing](./08.04-union-intersection-and-narrowing/) | 11 | 如何让非法业务状态无法表示？ |
 | [08.05 Interface、Class 与 Structural Typing](./08.05-interface-class-and-structural-typing/) | 12 | 结构兼容如何工作，什么时候需要名义化约束？ |
@@ -129,9 +132,15 @@ npm run verify
 | Module | 状态 | 已完成 |
 | --- | --- | ---: |
 | [08.01 编译模型与类型推断](./08.01-compiler-model-and-inference/) | ✅ 完成 | 10 / 10 |
-| [08.02 基础类型与数据建模](./08.02-basic-types-and-modeling/) | 🚧 建设中 | 5 / 12 |
+| [08.02 基础类型与数据建模](./08.02-basic-types-and-modeling/) | 🚧 建设中 | 8 / 12 |
 | 08.03～08.14 | 📋 Teaching Contract 已建立 | 0 |
 | [Stage Project：Typed API SDK](./project-typed-api-sdk/) | 📋 项目合同已建立 | 0 / 14 Milestones |
+
+当前阶段完成度：
+
+```text
+18 / 161 ≈ 11.2%
+```
 
 ### 已完成：Module 08.01
 
@@ -146,19 +155,73 @@ npm run verify
 9. [KP009：as、非空断言与双重断言如何制造假安全](./08.01-compiler-model-and-inference/kp009-unsafe-assertions/)
 10. [KP010：Module Project——Type Error Observatory](./08.01-compiler-model-and-inference/kp010-type-error-observatory/)
 
-### 已完成：Module 08.02 前五课
+### 已完成：Module 08.02 前八课
 
 11. [KP011：Primitive、Wrapper、bigint 与 unique symbol](./08.02-basic-types-and-modeling/kp011-primitives-wrappers-bigint-symbol/)
 12. [KP012：null、undefined 与 strictNullChecks](./08.02-basic-types-and-modeling/kp012-null-undefined-strict-null-checks/)
 13. [KP013：any、unknown、never 与 void](./08.02-basic-types-and-modeling/kp013-any-unknown-never-void/)
 14. [KP014：object、Object、{} 与 unknown](./08.02-basic-types-and-modeling/kp014-object-object-braces-unknown/)
 15. [KP015：Optional、Readonly 与 exactOptionalPropertyTypes](./08.02-basic-types-and-modeling/kp015-optional-readonly-exact-optional/)
+16. [KP016：Array、ReadonlyArray、共享引用与可变性风险](./08.02-basic-types-and-modeling/kp016-array-readonlyarray-shared-mutation/)
+17. [KP017：Tuple、Named Tuple、Optional 与 Rest Element](./08.02-basic-types-and-modeling/kp017-tuple-named-optional-rest/)
+18. [KP018：Literal Union、常量派生与 as const](./08.02-basic-types-and-modeling/kp018-literal-union-as-const/)
 
-下一批从 KP016 开始：Array / ReadonlyArray、Tuple、Literal Union 与 `as const`。
+下一批从 KP019 开始：enum / const enum / Object Constant 选型、Index Safety、Excess Property 与 `satisfies`。
 
 ---
 
-## 7. 统一证据模型
+## 7. 本批新增能力
+
+### KP016：Collection Mutability
+
+```text
+T[]
+→ 可变集合
+
+readonly T[]
+→ 当前访问路径不能修改容器
+
+readonly ReadonlyElement[]
+→ 容器与元素静态只读
+
+Defensive Copy
+→ 独立 Snapshot
+```
+
+课程通过 Shared Alias Mutation 证明 readonly view 不等于 snapshot，也不等于 Runtime Freeze。
+
+### KP017：Positional Contract
+
+```text
+Array
+→ 同类元素集合
+
+Tuple
+→ 长度和位置都是协议
+
+Named Tuple
+→ 改善静态可读性
+
+Optional / Rest Element
+→ 末尾可省略 / 固定前缀加可变尾部
+```
+
+课程通过 `.d.ts` 和 Runtime `Array.isArray()` 同时证明静态协议与运行本质。
+
+### KP018：Single Source of Truth
+
+```text
+Runtime Constant
+→ typeof / keyof / Indexed Access
+→ Literal Union
+→ Runtime Guard
+```
+
+课程同时证明普通对象属性会 Widen，`as const` 不会 Runtime Freeze，也不会取得共享引用的独占所有权。
+
+---
+
+## 8. 统一证据模型
 
 每课根据主问题保存最小充分证据：
 
@@ -170,6 +233,8 @@ Hover / Go to Definition
 Declaration Emit
 Source Map
 Runtime stdout / stderr
+Shared Reference Failure
+Snapshot Comparison
 Module Resolution Trace
 Benchmark
 Consumer Fixture
@@ -199,11 +264,11 @@ unknown
 → Domain Model
 ```
 
-类型断言不是 Runtime Validation。
+类型断言、Literal Union 和 `as const` 都不是 Runtime Validation。
 
 ---
 
-## 8. CI 验证
+## 9. CI 验证
 
 仓库工作流：
 
@@ -211,7 +276,7 @@ unknown
 .github/workflows/stage-08-typescript.yml
 ```
 
-当前对 KP001～KP015 建立 15 个独立 Matrix Job，在 Node.js 22 中逐课执行：
+当前对 KP001～KP018 建立 18 个独立 Matrix Job，在 Node.js 22 中逐课执行：
 
 ```bash
 npm install --no-audit --no-fund
@@ -222,7 +287,7 @@ npm run verify
 
 ---
 
-## 9. Stage 综合项目
+## 10. Stage 综合项目
 
 项目：[Typed API SDK](./project-typed-api-sdk/README.md)
 
@@ -239,15 +304,17 @@ OpenAPI / Event Contract
 → JavaScript Legacy Consumer
 ```
 
-项目必须注入缺失字段、错误字段类型、nullability 变化、旧版响应、错误 package exports、声明漂移、any 污染、断言滥用、复杂类型性能回退和跨包循环依赖。
+项目必须注入缺失字段、错误字段类型、nullability 变化、旧版响应、错误 package exports、声明漂移、any 污染、断言滥用、共享引用、复杂类型性能回退和跨包循环依赖。
 
 ---
 
-## 10. Stage Definition of Done
+## 11. Stage Definition of Done
 
 完成 Stage 08 时，学习者必须能够：
 
 - 解释类型擦除、Inference、Contextual Typing、Assignability 与 Narrowing。
+- 精确建模 Primitive、Nullability、Optional、Array、Tuple 和 Literal Union。
+- 区分 Static Readonly、Shared View、Snapshot 与 Runtime Freeze。
 - 使用 Union 与 Exhaustiveness 建模合法状态。
 - 设计可读、可推断、可维护的 Generic 和高级类型 API。
 - 诊断 ESM、CommonJS、`.d.ts`、`exports` 与 Module Resolution。
@@ -259,7 +326,7 @@ OpenAPI / Event Contract
 
 ---
 
-## 11. 当前目录
+## 12. 当前目录
 
 ```text
 stage-08-typescript/
@@ -269,7 +336,7 @@ stage-08-typescript/
 │   └── kp001 ... kp010
 ├── 08.02-basic-types-and-modeling/
 │   ├── README.md
-│   └── kp011 ... kp015
+│   └── kp011 ... kp018
 ├── 08.03 ... 08.14/
 │   └── README.md
 └── project-typed-api-sdk/

@@ -53,6 +53,12 @@ jobs:
             working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp014-object-object-braces-unknown
           - lesson-name: KP015
             working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp015-optional-readonly-exact-optional
+          - lesson-name: KP016
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp016-array-readonlyarray-shared-mutation
+          - lesson-name: KP017
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp017-tuple-named-optional-rest
+          - lesson-name: KP018
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp018-literal-union-as-const
 
     defaults:
       run:
