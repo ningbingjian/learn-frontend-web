@@ -1,0 +1,22 @@
+{
+  "name": "@learn-frontend-web/ts-kp003-compiler-pipeline",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
+    "check": "tsc --noEmit",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "verify": "npm run check && npm run build && node verify.mjs",
+    "inspect:config": "tsc --showConfig",
+    "inspect:files": "tsc --noEmit --listFiles",
+    "inspect:emit": "node inspect-emit.mjs"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}
