@@ -24,7 +24,7 @@
 ## 当前状态
 
 > ✅ **前端架构师课程唯一总纲已经完成。**  
-> 🚧 正式 Stage、Module、Lesson 和配套源码将按照总纲逐步建设。
+> 🚧 **Stage 04 CSS 正式课程正在建设，首批 KP001～KP003 已完成。**
 
 当前已经完成：
 
@@ -35,6 +35,8 @@
 - Must / Should / Expert 深度标准。
 - Lesson、Module、Stage 与毕业项目的统一完成标准。
 - 统一教学与课程编写规范。
+- Stage 04 CSS 的详细阶段规划与 04.01 Module Teaching Contract。
+- CSS KP001～KP003 的手把手课程、独立运行源码、Failure Lab 与自动检查。
 
 ---
 
@@ -42,6 +44,7 @@
 
 - [前端架构师课程唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
+- [Stage 04：CSS 完整体系](./learn-frontend-web-course/stage-04-css/README.md)
 
 `learn-frontend-web-course/README.md` 是课程唯一总纲。后续 Stage 和 Module 文档只能细化它，不能再创建平行课程体系。
 
@@ -155,18 +158,16 @@ learn-frontend-web/
 ├── learn-frontend-web-course/
 │   ├── README.md                       # 唯一总纲
 │   ├── FRONTEND_TEACHING_GUIDE.md      # 教学规范
-│   └── stageXX-topic/                  # 后续 Stage 详细设计
+│   └── stageXX-topic/                  # Stage 详细设计、课程与源码
 │       └── moduleXX-YY-topic/
-└── courses/
-    └── frontend-architect/             # 后续正式课程与源码
-        └── stageXX-topic/
-            └── moduleXX-YY-topic/
-                └── lesson-name/
+│           └── kpXXX-topic/
+└── courses/                            # 需要单独沉淀的大型综合项目或历史内容
 ```
 
 正式课程建设顺序、课程边界、贯穿项目版本和每个 Stage 的详细内容，请查看：
 
 - [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
+- [Stage 04 CSS 正式课程](./learn-frontend-web-course/stage-04-css/README.md)
 
 ---
 
