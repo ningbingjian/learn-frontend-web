@@ -5,7 +5,6 @@ name: Apply Stage 08 Batch
     branches:
       - course/typescript-kp007-kp012
     paths:
-      - tools/apply_stage08_batch.py
       - .github/workflows/apply-stage08-batch.yml
 
 permissions:
@@ -22,13 +21,42 @@ jobs:
           ref: course/typescript-kp007-kp012
           fetch-depth: 0
 
-      - name: Materialize reviewed course batch
-        run: python tools/apply_stage08_batch.py
+      - name: Materialize reviewed course files
+        run: |
+          python - <<'PY'
+          import base64
+          import hashlib
+          import io
+          import tarfile
+          from pathlib import Path
 
-      - name: Commit generated course files
+          expected = "5e51ec6f11a4ad3f9bb053ea0c8ca4723e02b9a37fcc1a62a20e7e5c0fd81aff"
+          root = Path.cwd().resolve()
+          payload = Path("tools/stage08_payload")
+          encoded = "".join(path.read_text(encoding="utf-8") for path in sorted(payload.glob("part-*.txt")))
+          raw = base64.b64decode(encoded)
+          digest = hashlib.sha256(raw).hexdigest()
+          if digest != expected:
+              raise RuntimeError(f"archive checksum mismatch: {digest}")
+
+          with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
+              selected = []
+              for member in archive.getmembers():
+                  if member.name == ".github/workflows/stage-08-typescript.yml":
+                      continue
+                  target = (root / member.name).resolve()
+                  if root not in target.parents and target != root:
+                      raise RuntimeError(f"unsafe archive member: {member.name}")
+                  selected.append(member)
+              archive.extractall(root, members=selected)
+
+          print(f"Materialized {len(selected)} reviewed course entries")
+          PY
+
+      - name: Commit course files only
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add learn-frontend-web-course/stage-08-typescript
           git commit -m "course(ts): complete KP007-KP015"
           git push origin HEAD:course/typescript-kp007-kp012
