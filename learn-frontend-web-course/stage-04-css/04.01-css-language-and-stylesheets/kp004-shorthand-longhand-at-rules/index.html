@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP004 · Shorthand / Longhand / At-rule Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP004</p>
+      <h1>Shorthand / Longhand / At-rule Laboratory</h1>
+      <p>观察简写怎样展开、后写长写怎样覆盖、简写怎样重置未显式写出的子属性，以及 At-rule 怎样包围一组条件规则。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="spacing-title">
+      <h2 id="spacing-title">实验 A：margin 简写会展开成四个方向</h2>
+      <div class="spacing-frame">
+        <div class="spacing-demo">margin: 8px 16px 24px 32px</div>
+        <div class="spacing-demo spacing-demo--override">同一简写 + margin-left: 48px</div>
+      </div>
+      <p class="hint">在 DevTools → Computed 中展开 margin，查看四个 longhand 的最终值。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="background-title">
+      <h2 id="background-title">实验 B：后写 background 简写会重置 background-image</h2>
+      <div class="background-grid">
+        <article class="background-demo background-demo--kept">
+          <h3>保留渐变</h3>
+          <p>只分别设置 background-color 与 background-image。</p>
+        </article>
+        <article class="background-demo background-demo--reset">
+          <h3>渐变被重置</h3>
+          <p>先写 background-image，随后写 background 简写。</p>
+        </article>
+      </div>
+      <p class="hint">检查第二张卡片的 Computed → background-image，最终应为 none。</p>
+    </section>
+
+    <section class="lab-section at-rule-demo" aria-labelledby="at-rule-title">
+      <h2 id="at-rule-title">实验 C：@media 与 @supports 是 At-rule</h2>
+      <div class="rule-grid">
+        <article class="rule-card">
+          <h3>@media</h3>
+          <p>视口达到 720px 后，当前卡片区域由一列变为两列。</p>
+        </article>
+        <article class="rule-card">
+          <h3>@supports</h3>
+          <p class="supports-status">浏览器会根据是否支持 <code>display: grid</code> 生成状态文字：</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-section syntax-boundary" aria-labelledby="syntax-title">
+      <h2 id="syntax-title">实验 D：注释与语法边界</h2>
+      <p>打开 <code>styles.css</code>，找到 <code>KP004_COMMENT_MARKER</code>。注释不参与样式计算，但可以记录意图。</p>
+      <p>再观察 <code>@media</code> 和 <code>@supports</code>：它们不是普通 declaration，而是以 <code>@</code> 开头的规则。</p>
+    </section>
+  </main>
+</body>
+</html>
