@@ -1,0 +1,9 @@
+{
+  "name": "css-kp005-cascade-order",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}
