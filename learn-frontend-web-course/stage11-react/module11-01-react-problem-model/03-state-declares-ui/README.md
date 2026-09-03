@@ -60,7 +60,7 @@ status label
 进入目录：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/03-state-declares-ui
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/03-state-declares-ui
 ```
 
 最终目录：
