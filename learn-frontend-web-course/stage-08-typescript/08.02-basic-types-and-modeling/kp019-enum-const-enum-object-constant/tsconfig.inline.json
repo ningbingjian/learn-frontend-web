@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false,
+    "isolatedModules": false,
+    "preserveConstEnums": false,
+    "outDir": "dist-inline"
+  },
+  "include": [
+    "src/index.ts"
+  ],
+  "exclude": [
+    "dist",
+    "dist-inline"
+  ]
+}

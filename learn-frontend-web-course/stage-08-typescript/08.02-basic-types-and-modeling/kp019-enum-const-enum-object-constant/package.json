@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const dir of ['dist','dist-inline']) rmSync(dir, { recursive: true, force: true })\"",
+    "check": "tsc --noEmit",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "verify": "npm run check && npm run build && npm run build:inline && node verify.mjs",
+    "build:inline": "tsc -p tsconfig.inline.json"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "name": "@learn-frontend-web/ts-kp019-enum-const-enum-object-constant"
+}
