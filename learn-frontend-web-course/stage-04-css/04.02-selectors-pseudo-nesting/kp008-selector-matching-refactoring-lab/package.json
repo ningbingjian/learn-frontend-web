@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp008-selector-refactoring-lab",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs && node --check app.js"
+  }
+}
