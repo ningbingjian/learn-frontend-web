@@ -125,6 +125,10 @@ a {
   grid-template-columns: minmax(0, 1fr) minmax(240px, 0.35fr);
 }
 
+.review-shell__layout--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .body-slot {
   padding: 24px;
   line-height: 1.7;
