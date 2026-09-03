@@ -68,7 +68,7 @@ Props 的完整 API 设计归 Module 11.03；State 更新队列归 Module 11.04�
 进入：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/04-component-tree-one-way-flow
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/04-component-tree-one-way-flow
 ```
 
 目录：
