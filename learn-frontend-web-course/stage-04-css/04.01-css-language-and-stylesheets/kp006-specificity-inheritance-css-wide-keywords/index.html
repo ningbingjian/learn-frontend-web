@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP006 · Specificity / Inheritance / CSS-wide Keywords</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP006</p>
+      <h1>Specificity / Inheritance / CSS-wide Keywords Laboratory</h1>
+      <p>只有当前面的 cascade 条件仍然打平时，Specificity 才开始比较；随后再观察继承与 CSS-wide keywords 怎样改变指定值。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="specificity-title">
+      <h2 id="specificity-title">实验 A：Specificity 比较，不是“选择器越长越强”</h2>
+      <p id="specificity-target" class="specificity-target">
+        这个元素同时命中 type + class、class 和 ID 三条规则，ID 规则获胜。
+      </p>
+      <p class="inline-specificity" style="color: #7c3aed;">
+        这段使用 inline normal；在同为 Author normal 的前提下，它高于普通 selector rule。
+      </p>
+    </section>
+
+    <section class="lab-section inheritance-parent" aria-labelledby="inheritance-title">
+      <h2 id="inheritance-title">实验 B：color 会继承，border 默认不会</h2>
+      <div class="inheritance-child">
+        子元素没有声明 color，也没有声明 border。它会继承父级文字颜色，但不会复制父级边框。
+      </div>
+    </section>
+
+    <section class="lab-section keyword-parent" aria-labelledby="keyword-title">
+      <h2 id="keyword-title">实验 C：inherit / initial / unset / revert</h2>
+      <div class="keyword-grid">
+        <p class="keyword-card keyword-inherit"><strong>inherit</strong>：明确取父元素的 color。</p>
+        <p class="keyword-card keyword-initial"><strong>initial</strong>：回到 color 的规范初始值，而不是“浏览器看起来默认的所有样式”。</p>
+        <p class="keyword-card keyword-unset"><strong>unset</strong>：color 是继承属性，因此这里表现得像 inherit。</p>
+        <p class="keyword-card keyword-border-unset"><strong>unset on border</strong>：border 非继承，unset 表现得像 initial，边框被清掉。</p>
+      </div>
+      <p><a class="revert-link" href="#revert-reference">revert link：撤销 Author Origin 对 color 的修改，回退到 User / User-Agent 结果。</a></p>
+    </section>
+
+    <section id="legacy-panel" class="lab-section" aria-labelledby="failure-title">
+      <h2 id="failure-title">Failure Lab：Specificity Debt</h2>
+      <button class="component-button action" type="button">后写的 .component-button.action 仍然覆盖不了前面的 #legacy-panel .component-button</button>
+      <p class="hint">不要用 <code>!important</code> 继续升级战争。观察根因后，再看下面的低 Specificity 组件 API。</p>
+    </section>
+
+    <section id="fixed-panel" class="lab-section" aria-labelledby="fixed-title">
+      <h2 id="fixed-title">修复模型：组件基础规则保持低 Specificity</h2>
+      <button class="fixed-button action" type="button">基础规则 .fixed-button，状态规则 .fixed-button.action 可以自然覆盖</button>
+    </section>
+
+    <footer id="revert-reference" class="reference-note">
+      下一课 KP007 会继续学习 Cascade Layer、@scope、revert-layer 与 Scoping Proximity；本课先把“同一个 cascade bucket 内的 Specificity + Inheritance”掌握牢。
+    </footer>
+  </main>
+</body>
+</html>
