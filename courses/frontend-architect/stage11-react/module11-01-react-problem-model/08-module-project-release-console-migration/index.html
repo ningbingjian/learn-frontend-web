@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="对照命令式遗留发布控制台与 React 声明式迁移版本。"
+    />
+    <title>RE-1101-008 · Release Console Migration</title>
+  </head>
+  <body>
+    <header class="project-header">
+      <div>
+        <p class="eyebrow">Module 11.01 Project</p>
+        <h1>Release Console Migration</h1>
+        <p>
+          左侧保留迁移前同步漏洞，右侧使用 React Component Tree、最小源 State
+          和 Render 派生值。
+        </p>
+      </div>
+      <a href="./MIGRATION_REPORT.md">查看迁移报告</a>
+    </header>
+
+    <main class="comparison-shell">
+      <section class="comparison-column" aria-labelledby="legacy-title">
+        <div class="column-heading">
+          <p class="column-label">Before · Imperative DOM</p>
+          <h2 id="legacy-title">遗留控制台</h2>
+        </div>
+        <div id="legacy-console"></div>
+      </section>
+
+      <section class="comparison-column" aria-labelledby="react-title">
+        <div class="column-heading">
+          <p class="column-label">After · React</p>
+          <h2 id="react-title">迁移后控制台</h2>
+        </div>
+        <div id="root"></div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
