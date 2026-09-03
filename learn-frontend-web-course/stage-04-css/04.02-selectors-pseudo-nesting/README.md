@@ -1,9 +1,10 @@
 # Module 04.02：Selector、关系匹配、Pseudo、Nesting 与 `:scope`
 
 > Stage：[Stage 04 CSS 完整体系](../README.md)  
-> 状态：🚧 建设中  
-> 当前完成：KP001～KP006 / 8 课  
-> 前置 Module：[04.01 CSS 语言、样式表与级联体系](../04.01-css-language-and-stylesheets/)
+> 状态：✅ 已完成  
+> 当前完成：KP001～KP008 / 8 课  
+> 前置 Module：[04.01 CSS 语言、样式表与级联体系](../04.01-css-language-and-stylesheets/)  
+> Module Review：[MODULE_REVIEW.md](./MODULE_REVIEW.md)
 
 ---
 
@@ -13,14 +14,14 @@
 
 本 Module 只解决一个问题：
 
-> 浏览器面对一条 Selector 时，怎样根据 DOM 的元素类型、属性、状态、结构和关系确定“哪些元素被匹配”，以及复杂 selector 怎样保持可解释、可测试和可治理？
+> 浏览器面对一条 Selector 时，怎样根据 DOM 的元素类型、属性、结构、关系与状态确定 Match Set，并让复杂 Selector 保持可解释、可测试、可访问和可治理？
 
 完整学习链：
 
 ```text
 Selector Source
 → Parse Selector
-→ Selector List
+→ Ordinary / Forgiving / Relative Selector List
 → Simple Selector
 → Compound Selector
 → Complex Selector
@@ -30,108 +31,176 @@ Selector Source
 → Functional / Relational Match
 → UI / Form / Focus State
 → Pseudo-element Target
-→ Nesting / :scope Context
-→ Match Result
-→ 交给 Cascade 决定最终声明
+→ Native Nesting / & Context
+→ :scope Reference Root
+→ Match Set
+→ 交给 Module 04.01 的 Cascade 决定 Winner
 ```
 
-边界：
+关键边界：
 
 ```text
 Selector
-→ 决定谁进入竞争
+→ 决定“谁进入竞争”
 
 Cascade
-→ 决定匹配声明中谁获胜
+→ 决定“匹配声明中谁获胜”
 ```
 
-Module 04.01 已完整拥有 Cascade、Specificity、Layer、`@scope` 与 Value Pipeline。04.02 只在分析 selector 参数 specificity 时引用 04.01，不创建平行级联课程。
+Module 04.01 已完整拥有：
 
-### 1.2 为什么现在学习
+- Origin。
+- Importance。
+- Encapsulation Context。
+- Cascade Layer。
+- Specificity。
+- Scoping Proximity。
+- Source Order。
+- Inheritance。
+- Value Processing。
 
-如果没有 Selector 心智模型，样式代码很容易演化为：
+Module 04.02 不创建平行的 Cascade 课程，只在解释 `:is()`、`:where()`、`:not()`、`:has()` 和 `&` 时引用 Specificity 规则。
+
+### 1.2 为什么必须在 Box Model 前完成
+
+如果不能准确判断 Selector Match Set，后续进入 Box Model、Flex、Grid 时会把两类完全不同的问题混在一起：
 
 ```text
-类名越写越长
-DOM 路径越绑越死
-状态样式误伤其他组件
-结构一改样式就失效
-!important 持续升级
-无法解释一条 selector 到底匹配谁
+规则根本没有匹配
+vs
+规则匹配了，但布局算法得到另一个结果
 ```
 
-本 Module 的目标不是背 API，而是建立：
+完成本 Module 后，学习者必须先回答：
 
 ```text
-DOM / State
-→ Selector Structure
-→ Predicted Match Set
-→ DevTools / querySelectorAll() Evidence
-→ Refactoring Decision
+DOM 目标存在吗？
+Selector 能解析吗？
+Candidate / Subject 是谁？
+每个 Simple Selector 限制什么？
+Combinator 表达什么关系？
+Pseudo-class 检查什么状态？
+实际 Match Set 是什么？
 ```
 
-### 1.3 本 Module 完整拥有
-
-- Selector grammar 与 selector list。
-- Type / Universal / Class / ID selector。
-- Compound / Complex Selector。
-- Attribute Selector 全部常见匹配方式。
-- Descendant / Child / Adjacent / Subsequent Sibling Combinator。
-- Structural Pseudo-class 与 `An+B`。
-- `:nth-child(An+B of S)`。
-- `:is()` / `:where()` / `:not()` / `:has()`。
-- Relative Selector 与 anchor element。
-- UI state、form state、focus pseudo-class。
-- Pseudo-element 与 generated content 边界。
-- Native CSS Nesting、`&` 与 `:scope`。
-- Ordinary / Forgiving Selector List 边界。
-- Selector Invalidity、DOM Coupling、Specificity Debt 与 Failure Lab。
-- DevTools、`querySelectorAll()`、`matches()`、`CSS.supports()` 证据。
-
-### 1.4 不属于本 Module
-
-- Cascade 排序、Cascade Layer、`@scope` at-rule、Scoping Proximity：04.01。
-- Box Model / Sizing：04.03。
-- CSS Architecture 方案选型：04.13。
-- Selector Engine 内部数据结构、Style Invalidation 深入：Stage 09 / Stage 24。
-- 完整 Form API：Stage 07。
-- 完整 A11Y 工程：Stage 14。
+只有 Match Set 正确，才进入 Cascade 与 Layout 分析。
 
 ---
 
-## 2. Must / Should / Expert
+## 2. Scope
+
+### 2.1 本 Module 完整拥有
+
+- Selector grammar。
+- Type / Universal / Class / ID Selector。
+- Simple / Compound / Complex Selector。
+- Selector List 与 Invalidity。
+- Attribute Selector：
+  - presence；
+  - exact；
+  - token；
+  - hyphen；
+  - prefix；
+  - suffix；
+  - substring；
+  - ASCII case modifier。
+- Combinator：
+  - descendant；
+  - child；
+  - adjacent sibling；
+  - subsequent sibling。
+- Structural Pseudo-class：
+  - `:first-child`；
+  - `:last-child`；
+  - `:only-child`；
+  - `:nth-child()`；
+  - `:nth-of-type()`；
+  - `:nth-child(... of S)`。
+- Functional / Relational Pseudo-class：
+  - `:is()`；
+  - `:where()`；
+  - `:not()`；
+  - `:has()`。
+- Relative Selector 与 Anchor / Subject。
+- UI / Link / Form / Focus State。
+- Pseudo-element：
+  - `::before`；
+  - `::after`；
+  - `::marker`；
+  - `::selection`。
+- Native CSS Nesting。
+- Nesting Selector `&`。
+- Nesting 与 Parent Selector List Specificity。
+- `:scope` Pseudo-class 与 DOM Scoped Query。
+- Selector Evidence：
+  - DevTools Matched Rules；
+  - `querySelectorAll()`；
+  - `matches()`；
+  - `CSS.supports()`；
+  - `getComputedStyle(..., "::pseudo")`。
+- Selector Architecture：
+  - DOM Coupling；
+  - Depth Budget；
+  - Specificity Budget；
+  - State Modeling；
+  - A11Y Boundary。
+
+### 2.2 不属于本 Module
+
+- `@scope` At-rule 与 Scoping Proximity：Module 04.01。
+- Box Model、Sizing、Intrinsic Size、Overflow：Module 04.03。
+- CSS Modules、Utility CSS、CSS-in-JS 选型：Module 04.13。
+- Selector Engine 内部索引、Bloom Filter、Style Invalidation 深入：Stage 09 / Stage 24。
+- 完整 Form API 与 Constraint Validation API：Stage 07。
+- 完整 Design System A11Y：Stage 14。
+
+---
+
+## 3. Must / Should / Expert
 
 ### Must
 
-- 识别 Type、Class、ID、Universal、Attribute Selector。
+- 识别常见 Basic Selector。
 - 区分 Simple / Compound / Complex Selector。
-- 正确使用四类 Combinator。
-- 正确使用 `:first-child`、`:nth-child()`、`:nth-of-type()`。
-- 理解常见 UI、Form、Focus Pseudo-class。
+- 准确读取四类 Combinator。
+- 使用 Attribute Selector 表达离散状态。
+- 区分 Child Index 与 Type Index。
+- 使用常见 UI / Form / Focus Pseudo-class。
 - 区分 Pseudo-class 与 Pseudo-element。
-- 使用 DevTools、`querySelectorAll()` 和 `matches()` 验证匹配。
+- 用 DevTools / `querySelectorAll()` / `matches()` 验证 Match Set。
 
 ### Should
 
-- 解释 ordinary selector list 的 invalidation。
+- 解释 Ordinary Selector List Invalidity。
 - 使用 `:nth-child(... of S)`。
-- 使用 `:is()` / `:where()` / `:not()` 控制重复和 specificity。
-- 使用 `:has()` 表达真实关系并判断方向。
-- 识别 Hover-only、Focus Removal 与 Generated-content A11Y 故障。
+- 使用 `:is()` / `:where()` / `:not()` 控制重复与 Specificity。
+- 使用 `:has()` 表达真实关系，并判断方向。
+- 识别 Attribute Substring Over-match。
+- 识别 Structural Position 承担业务身份的问题。
+- 识别 Hover-only、Focus Removal、Generated-content-only Label。
 - 使用 Native CSS Nesting。
-- 降低 DOM Coupling 和 Selector Fragility。
+- 把 Nested Source 还原为组合后的 Selector。
+- 降低 DOM Coupling 与 Selector Fragility。
 
 ### Expert
 
-- 解释 Relative Selector 与 anchor element。
-- 解释 Forgiving Selector List 边界。
-- 解释 `:scope` 在 scoped DOM query 与 Nesting Context 中的语义。
-- 为大型系统制定 Selector Contract、Depth Budget、Specificity Budget 与 State Modeling Rule。
-- 判断问题应由 Selector、HTML 语义、状态属性、组件边界还是 JavaScript 状态机解决。
+- 解释 Relative Selector 与 Anchor Element。
+- 解释 `:is()` / `:where()` / `&` 的 Specificity 边界。
+- 解释 `:scope` 在 Element / DocumentFragment Query 中的 Reference Root。
+- 区分 `:scope` Pseudo-class 与 `@scope` At-rule。
+- 解释 Native Nesting 为什么不是字符串预处理。
+- 识别 Sass `&__element` 迁移风险。
+- 为大型系统制定：
+  - Selector Depth Budget；
+  - Specificity Budget；
+  - State Modeling Rule；
+  - Nesting Contract；
+  - Evidence Requirement；
+  - A11Y Review Checklist。
 
 ---
 
-## 3. Lesson 路线
+## 4. Lesson 路线
 
 | 编号 | Lesson | 深度 | Pattern | 状态 |
 | --- | --- | --- | --- | --- |
@@ -141,206 +210,371 @@ DOM / State
 | KP004 | [Structural Pseudo-class：`:nth-child()`、`:nth-of-type()` 与 `of S`](./kp004-structural-pseudo-classes/) | Must / Should | BROWSER-MECHANISM + FAILURE-LAB | ✅ |
 | KP005 | [`:is()`、`:where()`、`:not()` 与 `:has()`](./kp005-functional-relational-pseudo-classes/) | Should / Expert | BROWSER-MECHANISM + FAILURE-LAB | ✅ |
 | KP006 | [UI State、Form、Focus Pseudo-class 与 Pseudo-element](./kp006-ui-form-focus-pseudo-elements/) | Must / Should | A11Y + FAILURE-LAB | ✅ |
-| KP007 | Native CSS Nesting、`&`、`:scope` 与 Selector Context | Should / Expert | BUILD + ARCHITECTURE-LAB | ⏳ |
-| KP008 | Module Project：Selector Matching & Refactoring Lab | 全层级 | PROJECT + FAILURE-LAB | ⏳ |
+| KP007 | [Native CSS Nesting、`&`、`:scope` 与 Selector Context](./kp007-native-css-nesting-scope/) | Should / Expert | BUILD + ARCHITECTURE + FAILURE-LAB | ✅ |
+| KP008 | [Module Project：Selector Matching & Refactoring Lab](./kp008-selector-matching-refactoring-lab/) | 全层级 | PROJECT + DEBUG + A11Y + FAILURE-LAB | ✅ |
 
-当前完成度：
+完成度：
 
 ```text
-6 / 8
-= 75%
+8 / 8
+100%
+COMPLETE
 ```
 
 ---
 
-## 4. 已完成能力链
+## 5. 八课因果链
 
 ```text
 KP001
-Selector 自己由什么组成？
+Selector Source 自己由什么组成？
 ↓
 KP002
-怎样基于 Attribute / State Value 匹配？
+怎样基于 Attribute 与 State Value 匹配？
 ↓
 KP003
-怎样基于祖先、父子和兄弟关系匹配？
+怎样基于 Ancestor / Parent / Sibling 关系匹配？
 ↓
 KP004
-怎样基于当前元素兄弟顺序和过滤集合匹配？
+怎样基于 Sibling Set、Type Set 与 Filtered Set 计算位置？
 ↓
 KP005
-怎样组合、排除和检查关系？
+怎样组合、排除并检查 Relational Condition？
 ↓
 KP006
-怎样匹配平台交互 / 表单 / 焦点状态，以及样式化抽象渲染目标？
-```
-
-完成前六课后，学习者必须能够回答：
-
-```text
-selector 的 subject / candidate 是谁？
-每个 simple selector 限制了什么？
-combinator 表示什么树关系？
-structural index 基于哪个 sibling set？
-functional pseudo 的参数怎样影响匹配和 specificity？
-:has() 的 anchor 是谁？
-pseudo-class 匹配真实元素的什么状态？
-pseudo-element 是否是真实 DOM Element？
+怎样匹配 UI / Form / Focus State，并理解 Pseudo-element Target？
+↓
+KP007
+怎样用 Native Nesting 组织 Selector Context，并用 :scope 明确 Query Root？
+↓
+KP008
+面对多类 Selector 故障，能否预测、验证、重构和建立治理约定？
 ```
 
 ---
 
-## 5. 起始状态策略
+## 6. 每课能力与证据
 
-KP001～KP006 都采用独立最小项目。
+### KP001：Selector Grammar
+
+核心能力：
 
 ```text
-KP001 → Grammar
-KP002 → Attribute
-KP003 → Tree Relationship
-KP004 → Sibling Index
-KP005 → Functional / Relational
-KP006 → UI / Form / Focus / Pseudo-element
+Type
+Class
+ID
+Universal
+Selector List
+Compound vs Descendant
 ```
 
-这样可以保持单变量实验，不让一个复杂页面同时引入太多 selector 机制。
+主要 Evidence：
 
-KP007 和 KP008 仍必须在 README 中明确：
+```js
+document.querySelectorAll(".selector-card.featured")
+element.matches(".selector-card.featured")
+```
 
-- 零状态或复制来源。
-- 完整路径。
-- 基线验证。
-- 新增、修改和删除文件。
-- 第一次可运行时机。
+Failure：
+
+```text
+Ordinary Selector List 中一个 invalid item
+→ 整条 Style Rule 无效
+```
+
+### KP002：Attribute Selector
+
+核心能力：
+
+```text
+[attr]
+[attr="value"]
+[attr~="token"]
+[attr|="prefix"]
+[attr^="prefix"]
+[attr$="suffix"]
+[attr*="substring"]
+[attr="value" i]
+```
+
+Failure：
+
+```text
+substring over-match
+case assumption
+state value contract 不清晰
+```
+
+### KP003：Combinator
+
+核心能力：
+
+```text
+A B
+A > B
+A + B
+A ~ B
+```
+
+Failure：
+
+```text
+Descendant Leakage
+Sibling Direction
+Deep DOM Coupling
+```
+
+### KP004：Structural Pseudo-class
+
+核心能力：
+
+```text
+:first-child
+:last-child
+:only-child
+:nth-child(An+B)
+:nth-of-type(An+B)
+:nth-child(An+B of S)
+```
+
+Failure：
+
+```text
+Child Set / Type Set / Filtered Set 混淆
+DOM 插入导致业务状态漂移
+```
+
+### KP005：Functional / Relational Pseudo
+
+核心能力：
+
+```text
+:is()
+:where()
+:not()
+:has()
+```
+
+Failure：
+
+```text
+:is() 参数中的 ID Specificity
+:where() 权重误判
+:has() Subject / Direction 错误
+```
+
+### KP006：UI / Form / Focus / Pseudo-element
+
+核心能力：
+
+```text
+:hover
+:active
+:focus
+:focus-visible
+:focus-within
+:required
+:valid
+:invalid
+:checked
+:disabled
+:read-only
+::before
+::after
+::marker
+::selection
+```
+
+Failure：
+
+```text
+Hover-only
+Focus Removal
+Fake Disabled
+Generated-content-only Label
+Color-only Invalid State
+```
+
+### KP007：Native Nesting / `&` / `:scope`
+
+核心能力：
+
+```text
+implicit descendant nesting
+&:state
+&[attribute]
+& > child
+ancestor &
+parent selector list specificity
+:scope > child
+```
+
+Failure：
+
+```text
+Nesting 被误当 Scope
+&__element 被误当字符串拼接
+深层缩进隐藏 DOM Coupling
+父 Selector List 隐藏 ID Specificity
+:scope 与 @scope 混淆
+```
+
+### KP008：Module Project
+
+项目组合 11 类故障：
+
+```text
+S01 Invalid Selector List
+S02 Attribute Substring Over-match
+S03 Broad Descendant Coupling
+S04 Structural Position as Business Identity
+S05 :is() Specificity Trap
+S06 :has() Direction Error
+S07 Hover-only Interaction
+S08 Focus Removal
+S09 Generated-content-only Label
+S10 Sass Concatenation Mental Model
+S11 Scoped Query Boundary
+```
+
+产物：
+
+- Broken Baseline。
+- Solution。
+- Dynamic Evidence App。
+- Diagnostic Report Template。
+- Reference Solution。
+- Selector Contract。
+- Regression Matrix。
 
 ---
 
-## 6. 统一运行方式
-
-每个 Lesson：
-
-```bash
-npm run check
-npm run dev
-```
-
-默认地址：
+## 7. Selector Matching 诊断树
 
 ```text
-http://localhost:4173
+目标样式异常
+↓
+DOM 中目标 Element 是否存在？
+↓
+Selector Source 是否能被 Parser 接受？
+↓
+当前是 Ordinary / Forgiving / Relative Selector List？
+↓
+Subject / Candidate 是谁？
+↓
+每个 Simple Selector 是否满足？
+↓
+Compound Selector 是否要求同一 Element 同时满足？
+↓
+Combinator Relation 是否成立？
+↓
+Attribute Operator 是否符合数据契约？
+↓
+Structural Sibling Set 是否正确？
+↓
+Functional Pseudo 参数是否正确？
+↓
+:has() Anchor / Direction 是否正确？
+↓
+UI / Form / Focus State 是否真实存在？
+↓
+Pseudo-element 是否生成？
+↓
+Nesting Context 是否正确？
+↓
+:scope Query Root 是否正确？
+↓
+得到 Actual Match Set
+↓
+进入 Module 04.01 Cascade Winner 分析
 ```
 
-已完成 Lesson 至少包含：
+### Parser 与 Match 的区别
 
 ```text
-README.md
-index.html
-styles.css
-app.js（需要动态证据时）
-package.json
-server.mjs
-verify.mjs
+Parser 失败
+→ Rule 可能根本不进入 CSSOM
+
+Match 失败
+→ Rule 存在，但当前 Element 不满足 Selector
+
+Cascade 失败
+→ Rule 匹配，但 Declaration 没获胜
+
+Used Value / Layout 问题
+→ Declaration 获胜，但最终几何或渲染结果不同
 ```
 
 ---
 
-## 7. Evidence Contract
+## 8. Evidence Contract
 
-Selector 结论必须优先通过：
+Selector 结论必须优先使用：
 
 ```text
 Elements DOM Tree
-→ DevTools Styles Matched Rules
-→ document.querySelectorAll()
-→ element.matches()
-→ CSS.supports("selector(...)")
-→ getComputedStyle(element, "::pseudo")
+DevTools Styles Matched Rules
+Computed
+querySelectorAll()
+matches()
+CSS.supports("selector(...)")
+getComputedStyle(element, "::pseudo")
+CSSOM（需要区分 Parser 时）
+Keyboard / Pointer 操作记录
 ```
 
-### 各课核心证据
+### 常用命令
 
-| Lesson | 主要证据 |
-| --- | --- |
-| KP001 | Selector List 是否保留、Compound vs Descendant Match Set |
-| KP002 | Attribute Value / Token / Case / Substring Match Set |
-| KP003 | Parent / Ancestor / Sibling Tree Relationship |
-| KP004 | Sibling Index、Type Index、`of S` 过滤后编号 |
-| KP005 | `:is/:where/:not/:has` Match Set 与 Specificity 对照 |
-| KP006 | Active Element、Focus State、Validity、Pseudo-element Computed Style |
+```js
+document.querySelectorAll(".card.featured")
 
-### 不允许只凭视觉下结论
+document.querySelector('[data-state="active"]')
+  .matches('[data-state="active"]')
 
-以下情况都可能“看起来一样”：
+document.querySelectorAll(".toolbar > .icon")
 
-```text
-selector 没匹配
-其他 rule 补了同样视觉
-匹配后被 Cascade 覆盖
-属性通过继承得到
-UA 样式碰巧相同
-pseudo-element 没有生成 box
+document.querySelectorAll(":nth-child(2 of .eligible)")
+
+document.querySelectorAll(".panel:has(.status-error)")
+
+root.querySelectorAll(":scope > .item")
+
+CSS.supports("selector(:has(*))")
+
+CSS.supports("selector(&)")
+
+getComputedStyle(element, "::before").content
 ```
 
-因此每课必须留下 Match Evidence。
+### 不允许只看页面颜色
 
----
+同样视觉可能来自：
 
-## 8. Failure Lab 分布
+- 目标 Rule。
+- 另一个 Rule。
+- Inheritance。
+- UA Stylesheet。
+- Cascade Override。
+- Pseudo-element。
+- 默认值。
+- 上一轮未清理状态。
 
-### KP001～KP003
-
-- 普通 selector list 中一个 invalid selector 使整条 rule 无效。
-- Compound Selector 被误写成 Descendant Selector。
-- Substring Attribute Selector 过度匹配。
-- 属性值大小写假设错误。
-- Descendant Selector 误伤深层后代。
-- `+` 与 `~` 关系混淆。
-- 深层 DOM Path 形成结构耦合。
-
-### KP004
-
-- `:nth-child()` 与 `:nth-of-type()` 索引集合混淆。
-- `.eligible:nth-child(2)` 与 `:nth-child(2 of .eligible)` 混淆。
-- 使用位置表达业务身份。
-- DOM 插入后结构匹配漂移。
-
-### KP005
-
-- `:is()` 参数中的 ID 产生意外高 specificity。
-- 把 `:where()` 当成 `:is()`。
-- `:has()` 关系方向写反。
-- 为所有父子需求滥用 `:has()`。
-- 把 functional pseudo 当成无成本语法糖。
-
-### KP006
-
-- Hover 作为唯一交互反馈。
-- 无替代地移除 Focus Outline。
-- 用 CSS 模拟 disabled，却不提供 HTML 语义。
-- 用 Generated Content 承载关键业务信息。
-- 只用颜色表达 invalid。
-
-### 待完成
-
-- Native Nesting 与 Sass 字符串拼接心智模型混用。
-- `&` 的 selector context 误判。
-- `:scope` 与 `@scope` 混淆。
-- 多故障 Selector Refactoring Project。
+必须记录 Match Evidence。
 
 ---
 
 ## 9. Production Selector Contract
 
-### 默认优先顺序
+### 9.1 默认表达顺序
 
 ```text
 语义 HTML
 ↓
 稳定 Component Class
 ↓
-语义 Attribute / State Attribute
+平台语义 Attribute / State Attribute
 ↓
-短而可解释的 Combinator
+短而明确的 Relation Selector
 ↓
 Structural Pseudo-class
 ↓
@@ -349,115 +583,239 @@ Functional / Relational Pseudo-class
 深层 DOM-coupled Selector
 ```
 
-### 治理规则
+越靠后，Review 证明责任越高。
 
-1. 不默认使用 ID Selector 构建组件样式。
-2. 不依赖四层以上 DOM 路径表达组件身份。
-3. Structural Selector 只表达结构，不表达业务身份。
-4. `:has()` 只在需求确实是关系时使用。
-5. `:where()` 用于低权重基线时必须写清覆盖意图。
-6. `:is()` 参数中混入 ID 前必须评估 Specificity Debt。
-7. Hover 不得成为唯一状态。
-8. Focus Indicator 不得无替代移除。
-9. Generated Content 不承担必要业务语义。
-10. 复杂 Selector 必须有 `querySelectorAll()` / `matches()` 测试样本。
+### 9.2 Selector Depth Budget
 
----
-
-## 10. Module Project
-
-项目：
+默认：
 
 ```text
-Selector Matching & Refactoring Lab
+Complex Selector 不超过 3 个 Compound
+Native Nesting 不超过 3 层
 ```
 
-Broken Baseline 包含：
+超过必须说明：
 
-- Invalid Selector List。
-- Attribute Substring Over-match。
-- Deep Descendant Selector。
-- `:nth-child()` 误判。
-- `:is()` Specificity Trap。
-- `:has()` Direction Error。
-- Hover-only Interaction。
-- Focus Indicator Missing。
-- Generated-content-only Label。
-- Native Nesting / `:scope` 误用。
+- 为什么不能使用稳定类名。
+- 是否跨越组件边界。
+- 哪些 DOM 改动会破坏它。
+- 是否有 Match Set Test。
 
-学习者必须提交：
+### 9.3 Specificity Budget
 
-1. 每条 Selector 的语法拆解。
-2. 预测 Match Set。
-3. `querySelectorAll()` / `matches()` Evidence。
-4. DevTools Matched / Unmatched Evidence。
-5. Root Cause 分类。
-6. 最小 Selector Refactor。
-7. A11Y 回归。
-8. Selector Contract。
-9. 重构前后 Match Set 对比。
+普通组件规则：
+
+```text
+0 ID
+0～2 Class / Attribute / Pseudo-class
+必要 Type Selector
+```
+
+特别检查：
+
+```text
+:is()
+:not()
+:has()
+&
+Parent Selector List
+```
+
+因为最大参数或父列表可能引入隐藏权重。
+
+### 9.4 State Modeling
+
+业务状态优先：
+
+```html
+data-state="loading"
+aria-expanded="true"
+aria-current="step"
+disabled
+checked
+required
+```
+
+禁止：
+
+```text
+用 :nth-child() 表达“当前订单”
+用颜色单独表达“错误”
+用纯 CSS class 假装 disabled 语义
+```
+
+### 9.5 Native Nesting
+
+允许：
+
+```css
+.component {
+  &:hover { ... }
+  &[data-state="active"] { ... }
+  & > .component__title { ... }
+  .theme-dark & { ... }
+}
+```
+
+迁移审计：
+
+```text
+&__
+&--
+&-
+```
+
+原生 CSS 不提供 Sass 字符串拼接。
+
+### 9.6 A11Y
+
+- Hover 不能是唯一状态。
+- Focus Indicator 不得无替代移除。
+- 必要业务文字必须存在于真实 DOM。
+- Pseudo-element 只承担装饰。
+- Form State 优先使用平台语义。
 
 ---
 
-## 11. Module Definition of Done
+## 10. Failure Lab 总表
 
-完成 04.02 后必须能够：
+| 类别 | Failure | 对应 Lesson |
+| --- | --- | --- |
+| Parser | Invalid Selector List | KP001 / KP008 |
+| Grammar | Compound 被误写为 Descendant | KP001 |
+| Attribute | Substring Over-match | KP002 / KP008 |
+| Relation | Descendant Leakage | KP003 / KP008 |
+| Relation | `+` / `~` 混淆 | KP003 |
+| Structural | `nth-child` / `nth-of-type` 混淆 | KP004 |
+| Structural | Position 承担业务身份 | KP004 / KP008 |
+| Specificity | `:is()` ID Trap | KP005 / KP008 |
+| Relation | `:has()` Direction Error | KP005 / KP008 |
+| Input | Hover-only | KP006 / KP008 |
+| A11Y | Focus Removal | KP006 / KP008 |
+| A11Y | Generated-content-only Label | KP006 / KP008 |
+| Nesting | Nesting 被误当隔离 | KP007 |
+| Nesting | Sass `&__element` 迁移 | KP007 / KP008 |
+| Query | `:scope` Root 错误 | KP007 / KP008 |
 
-- 从语法结构拆解常见 Selector。
-- 根据 DOM 准确预测 Match Set。
-- 使用 Attribute Selector 表达状态而不过度匹配。
+---
+
+## 11. Reproducibility
+
+每个 Lesson 都可以独立：
+
+```bash
+npm run check
+npm run dev
+```
+
+默认访问：
+
+```text
+http://127.0.0.1:4173
+```
+
+Lesson 不依赖上一课服务器、运行目录或第三方 npm 包。
+
+动态实验使用原生 JavaScript，仅负责：
+
+- 改变 DOM / State。
+- 输出 Match Evidence。
+- 触发回归场景。
+
+JavaScript 不是 Selector 课程的替代实现。
+
+---
+
+## 12. Module Project Definition of Done
+
+完成 KP008 时必须提交：
+
+- 11 个 Case 的预测。
+- 11 个 Case 的实际 Match Evidence。
+- 自己的 `MY_DIAGNOSTIC_REPORT.md`。
+- 自己的 `my-solution.html / css`。
+- Dynamic DOM 回归。
+- Error State 回归。
+- Keyboard 回归。
+- CSS Disabled 回归。
+- Selector Contract。
+- 与 Reference Solution 的差异复盘。
+
+项目不能只提交最终正常页面。
+
+---
+
+## 13. Module Definition of Done
+
+学习者必须能够：
+
+- 从源码拆解常见 Selector。
+- 根据 DOM 预测 Match Set。
+- 区分 Parser / Match / Cascade / Layout 问题。
+- 正确使用 Attribute Operators。
 - 正确选择 Combinator。
-- 区分 Child Index、Type Index 与 Filtered Index。
+- 区分 Child / Type / Filtered Index。
 - 正确使用 `:is()`、`:where()`、`:not()`、`:has()`。
-- 解释 UI / Form / Focus State。
+- 解释 Relative Selector、Subject 与 Anchor。
+- 验证 UI / Form / Focus State。
 - 区分 Pseudo-class 与 Pseudo-element。
-- 使用 Native CSS Nesting 与 `:scope`。
-- 建立 Selector Evidence。
-- 识别 DOM Coupling、Specificity Debt 和 A11Y 风险。
-- 完成 Module Project 的重构和回归。
+- 使用 Native CSS Nesting。
+- 解释 `&` 与父 Selector Context。
+- 解释 Sass Concatenation 为什么不能直接迁移。
+- 使用 `:scope` 构造 Scoped Query。
+- 区分 `:scope` 与 `@scope`。
+- 建立 Selector Depth / Specificity / State / A11Y Contract。
+- 完成多故障项目的证据驱动重构。
 
 ---
 
-## 12. 下一批：收尾 04.02
+## 14. Module Review 结论
+
+复审文件：
+
+- [MODULE_REVIEW.md](./MODULE_REVIEW.md)
+
+结论：
 
 ```text
-KP007
-Native CSS Nesting、&、:scope 与 Selector Context
-
-KP008
-Module Project：Selector Matching & Refactoring Lab
+Scope        PASS
+Depth        PASS
+Evidence     PASS
+Failure Lab  PASS
+Project      PASS
+Reproducible PASS
+Boundary     PASS
 ```
 
-下一批不是机械凑够三课，而是用两课完整收束 Module：
+已知保留边界：
+
+- 浏览器 Selector Engine 内部实现留给 Stage 09。
+- Style Invalidation 性能留给 Stage 24。
+- 完整 CSS Architecture 方案选型留给 Module 04.13。
+- 完整 A11Y 组件工程留给 Stage 14。
+
+因此 Module 04.02 正式关闭，不再创建：
 
 ```text
-Nesting / :scope
-→ 多故障综合重构
-→ Scope / Depth / Evidence Review
-→ Module 04.02 COMPLETE
+Selector 高级篇
+Pseudo-class 补充篇
+Nesting 原理篇
+Selector Debug 补课
 ```
 
-完成后进入：
+---
+
+## 15. 下一 Module
+
+进入：
 
 ```text
 Module 04.03
 Box Model、Sizing、Intrinsic Size、Replaced Element 与 Overflow
 ```
 
----
+核心问题：
 
-## 13. 标准基线
+> 当 Selector 与 Cascade 已经确定最终声明后，一个 Element 的 Content Box、Padding、Border、Margin、Min/Max Constraint、Intrinsic Contribution 与 Overflow 怎样共同决定最终几何尺寸？
 
-- W3C Selectors Level 4。
-- W3C CSS Pseudo-Elements Level 4。
-- HTML 表单与焦点语义。
-- Web Platform Tests 可观察行为。
-
-规范仍处于演进中的部分，课程必须：
-
-```text
-说明状态
-→ 用 CSS.supports / Browser Evidence 验证
-→ 提供可接受降级
-→ 不把实验能力误写成无条件生产基线
-```
+开始 04.03 前，先创建 Module Teaching Contract，再按每批三课推进。

@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp007-native-nesting-scope",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs && node --check app.js"
+  }
+}

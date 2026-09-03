@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP008 Selector Matching & Refactoring Lab — Solution</title>
+  <link rel="stylesheet" href="./solution.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body data-mode="solution">
+  <main class="project-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP008</p>
+      <h1>Selector Matching & Refactoring Lab</h1>
+      <p><strong>Reference Solution：</strong>每项修复都使用更明确的 Match Contract，并保留键盘和语义回归。</p>
+      <a href="./index.html">返回 Broken Baseline</a>
+    </header>
+
+    <section class="case" id="case-selector-list">
+      <h2>S01 · Invalid Selector List</h2>
+      <article class="selector-list-target">无效列表项已拆除，目标卡片获得稳定边框。</article>
+    </section>
+
+    <section class="case" id="case-attribute">
+      <h2>S02 · Attribute Exact Match</h2>
+      <div class="role-grid">
+        <p class="role-card" data-role="admin">admin</p>
+        <p class="role-card" data-role="superadmin">superadmin</p>
+        <p class="role-card" data-role="editor">editor</p>
+      </div>
+    </section>
+
+    <section class="case dashboard" id="case-dom-coupling">
+      <h2 class="title dashboard__title">S03 · Stable Component Boundary</h2>
+      <article class="panel">
+        <div class="panel__body">
+          <h3 class="title panel__title">主 Panel 标题</h3>
+          <aside class="embedded-widget">
+            <h4 class="title embedded-widget__title">嵌套 Widget 保持自己的样式所有权</h4>
+          </aside>
+        </div>
+      </article>
+    </section>
+
+    <section class="case" id="case-structural">
+      <h2>S04 · Semantic State Identity</h2>
+      <ol class="release-list">
+        <li class="release-row" data-release="2026.09.01">2026.09.01</li>
+        <li class="release-note">临时维护提示</li>
+        <li class="release-row" data-release="2026.09.02" data-state="current" aria-current="step">2026.09.02 · 当前版本</li>
+        <li class="release-row" data-release="2026.09.03">2026.09.03</li>
+      </ol>
+      <button type="button" id="insert-release-note">在列表前部插入一条提示</button>
+    </section>
+
+    <section class="case" id="case-is-specificity">
+      <h2>S05 · Low-specificity Baseline</h2>
+      <a class="action is-safe" href="#case-has">状态类可以自然覆盖低权重基线</a>
+    </section>
+
+    <section class="case" id="case-has">
+      <h2>S06 · Correct <code>:has()</code> Subject and Direction</h2>
+      <article class="status-panel panel">
+        <span class="status-error">服务异常</span>
+        <p>Panel 根据其后代状态决定告警边框。</p>
+      </article>
+      <button type="button" id="toggle-error">切换错误状态</button>
+    </section>
+
+    <section class="case" id="case-interaction">
+      <h2>S07 / S08 · Pointer + Keyboard State</h2>
+      <a class="interactive-target" href="#case-generated">Hover 与 Focus-visible 都有可见反馈</a>
+    </section>
+
+    <section class="case" id="case-generated">
+      <h2>S09 · Real DOM Label</h2>
+      <button class="danger-action" type="button"><span>删除项目</span></button>
+      <p>必要业务文字存在于真实 DOM，Pseudo-element 只负责装饰。</p>
+    </section>
+
+    <section class="case" id="case-nesting">
+      <h2>S10 · Explicit Native Nesting</h2>
+      <div class="notice">
+        <span class="notice__label">原生 Nested Rule 中显式写完整类名。</span>
+      </div>
+    </section>
+
+    <section class="case" id="case-scope">
+      <h2>S11 · Scoped Direct-child Query</h2>
+      <div class="scope-zone" id="scope-zone">
+        <div class="scope-row">直接 Row A</div>
+        <div class="scope-row">
+          直接 Row B
+          <div class="scope-row nested-row">嵌套 Row B-1</div>
+        </div>
+        <div class="scope-row">直接 Row C</div>
+      </div>
+    </section>
+
+    <section class="case evidence">
+      <h2>自动证据</h2>
+      <button type="button" id="refresh-evidence">重新收集</button>
+      <pre id="project-evidence" tabindex="0" aria-label="Project selector evidence"></pre>
+    </section>
+  </main>
+</body>
+</html>

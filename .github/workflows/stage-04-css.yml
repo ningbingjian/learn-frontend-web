@@ -42,6 +42,9 @@ jobs:
           - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp004-structural-pseudo-classes
           - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp005-functional-relational-pseudo-classes
           - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp006-ui-form-focus-pseudo-elements
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp007-native-css-nesting-scope
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp008-selector-matching-refactoring-lab
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

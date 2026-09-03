@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP007 Native CSS Nesting and :scope Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP007</p>
+      <h1>Native CSS Nesting / <code>&amp;</code> / <code>:scope</code> Laboratory</h1>
+      <p>把“缩进后的 CSS”还原成真实 Selector，并用 DOM 查询证明 Selector Context。</p>
+    </header>
+
+    <section class="lab-section">
+      <h2>实验一：隐式后代、显式 <code>&amp;</code> 与关系选择器</h2>
+      <div class="theme-dark">
+        <article class="component-card" data-state="active">
+          <h3 class="component-card__title">Release Console</h3>
+          <p class="component-card__meta">直接子元素标题与普通后代说明。</p>
+          <div class="component-card__body">
+            <p class="component-card__meta">这是更深层的 meta，隐式后代规则仍会匹配。</p>
+          </div>
+          <a class="component-card__action" href="#scope-lab">跳到 :scope 实验</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-section">
+      <h2>实验二：Nesting 不等于组件隔离</h2>
+      <article class="leaky-card">
+        <h3 class="title">外层组件标题</h3>
+        <div class="embedded-widget">
+          <h4 class="title">嵌套组件标题，也会被后代 Selector 命中</h4>
+        </div>
+      </article>
+      <article class="bounded-card">
+        <h3 class="bounded-card__title">直接子元素边界</h3>
+        <div class="embedded-widget">
+          <h4 class="bounded-card__title">嵌套同名类，不应套用外层直接子元素规则</h4>
+        </div>
+      </article>
+    </section>
+
+    <section class="lab-section">
+      <h2>实验三：父 Selector List 会影响嵌套规则 Specificity</h2>
+      <article class="specificity-parent">
+        <p class="specificity-child">虽然真正匹配父元素的是 class，但父列表中的 ID 会提高 <code>&amp;</code> 的 specificity。</p>
+      </article>
+    </section>
+
+    <section class="lab-section">
+      <h2>Failure Lab：不能把 Sass 字符串拼接原样搬进原生 CSS</h2>
+      <div class="bem-failure">
+        <span class="bem-failure__label">错误写法 <code>&amp;__label</code> 不会生成这个类名。</span>
+      </div>
+      <div class="bem-fix">
+        <span class="bem-fix__label">修复：在原生 CSS 中显式写完整类名。</span>
+      </div>
+    </section>
+
+    <section class="lab-section" id="scope-lab">
+      <h2>实验四：DOM Query 中的 <code>:scope</code></h2>
+      <div class="scope-root" id="scope-root">
+        <div class="scope-item">直接子项 A</div>
+        <div class="scope-item">
+          直接子项 B
+          <div class="scope-item nested-scope-item">更深层子项 B-1</div>
+        </div>
+        <div class="scope-item">直接子项 C</div>
+      </div>
+      <div class="button-row">
+        <button type="button" id="toggle-state">切换组件 active 状态</button>
+        <button type="button" id="refresh-evidence">重新收集证据</button>
+      </div>
+      <pre id="evidence-output" tabindex="0" aria-label="Selector evidence output"></pre>
+    </section>
+  </main>
+</body>
+</html>

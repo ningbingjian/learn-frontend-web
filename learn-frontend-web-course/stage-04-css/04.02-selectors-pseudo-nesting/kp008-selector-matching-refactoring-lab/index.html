@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP008 Selector Matching & Refactoring Lab — Broken</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body data-mode="broken">
+  <main class="project-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP008</p>
+      <h1>Selector Matching & Refactoring Lab</h1>
+      <p><strong>Broken Baseline：</strong>先预测 Match Set，再打开 DevTools；不要直接看参考答案。</p>
+      <a href="./solution.html">打开 Reference Solution 页面</a>
+    </header>
+
+    <section class="case" id="case-selector-list">
+      <h2>S01 · Invalid Selector List</h2>
+      <article class="selector-list-target">这张卡片应有明显边框，但同组中的无效 Selector 会使整条 Rule 失效。</article>
+    </section>
+
+    <section class="case" id="case-attribute">
+      <h2>S02 · Attribute Substring Over-match</h2>
+      <div class="role-grid">
+        <p class="role-card" data-role="admin">admin</p>
+        <p class="role-card" data-role="superadmin">superadmin</p>
+        <p class="role-card" data-role="editor">editor</p>
+      </div>
+    </section>
+
+    <section class="case dashboard" id="case-dom-coupling">
+      <h2 class="title dashboard__title">S03 · Deep / Broad Descendant Coupling</h2>
+      <article class="panel">
+        <div class="panel__body">
+          <h3 class="title panel__title">主 Panel 标题</h3>
+          <aside class="embedded-widget">
+            <h4 class="title embedded-widget__title">嵌套 Widget 标题被广泛 Selector 误伤</h4>
+          </aside>
+        </div>
+      </article>
+    </section>
+
+    <section class="case" id="case-structural">
+      <h2>S04 · Structural Position as Business Identity</h2>
+      <ol class="release-list">
+        <li class="release-row" data-release="2026.09.01">2026.09.01</li>
+        <li class="release-note">临时维护提示</li>
+        <li class="release-row" data-release="2026.09.02" data-state="current" aria-current="step">2026.09.02 · 当前版本</li>
+        <li class="release-row" data-release="2026.09.03">2026.09.03</li>
+      </ol>
+      <button type="button" id="insert-release-note">在列表前部插入一条提示</button>
+    </section>
+
+    <section class="case" id="case-is-specificity">
+      <h2>S05 · <code>:is()</code> Specificity Trap</h2>
+      <a class="action is-safe" href="#case-has">本应使用安全状态颜色，却被父规则中的虚构 ID 权重压制</a>
+    </section>
+
+    <section class="case" id="case-has">
+      <h2>S06 · <code>:has()</code> Direction Error</h2>
+      <article class="status-panel panel">
+        <span class="status-error">服务异常</span>
+        <p>Panel 应因包含错误状态而获得告警边框。</p>
+      </article>
+      <button type="button" id="toggle-error">切换错误状态</button>
+    </section>
+
+    <section class="case" id="case-interaction">
+      <h2>S07 / S08 · Hover-only 与 Focus Removal</h2>
+      <a class="interactive-target" href="#case-generated">把鼠标移上去，再使用 Tab 键聚焦</a>
+    </section>
+
+    <section class="case" id="case-generated">
+      <h2>S09 · Generated-content-only Label</h2>
+      <button class="danger-action" type="button"></button>
+      <p>按钮的必要文字只来自 <code>::before</code>，真实 DOM 中没有可见文本。</p>
+    </section>
+
+    <section class="case" id="case-nesting">
+      <h2>S10 · Sass Concatenation Mental Model</h2>
+      <div class="notice">
+        <span class="notice__label">期待由 <code>&amp;__label</code> 生成样式，但原生 CSS 不做字符串拼接。</span>
+      </div>
+    </section>
+
+    <section class="case" id="case-scope">
+      <h2>S11 · Scoped Query Boundary</h2>
+      <div class="scope-zone" id="scope-zone">
+        <div class="scope-row">直接 Row A</div>
+        <div class="scope-row">
+          直接 Row B
+          <div class="scope-row nested-row">嵌套 Row B-1</div>
+        </div>
+        <div class="scope-row">直接 Row C</div>
+      </div>
+    </section>
+
+    <section class="case evidence">
+      <h2>自动证据</h2>
+      <button type="button" id="refresh-evidence">重新收集</button>
+      <pre id="project-evidence" tabindex="0" aria-label="Project selector evidence"></pre>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,193 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f4f7fb;
+}
+
+.page-shell {
+  width: min(1040px, calc(100% - 32px));
+  margin-inline: auto;
+  padding-block: 48px 72px;
+}
+
+.hero,
+.lab-section {
+  padding: 28px;
+  border: 1px solid #d9e1ec;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgb(27 39 61 / 8%);
+}
+
+.lab-section {
+  margin-block-start: 24px;
+}
+
+.hero h1,
+.lab-section h2 {
+  margin-block-start: 0;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-weight: 800;
+  color: #3156a6;
+}
+
+/*
+ * 1. 原生 Nesting。
+ * 未显式写 & 的 .component-card__meta 默认与父选择器建立后代关系。
+ */
+.component-card {
+  padding: 22px;
+  border: 2px solid #c8d6ef;
+  border-radius: 16px;
+  background: #f8fbff;
+
+  .component-card__meta {
+    color: #52627a;
+  }
+
+  & > .component-card__title {
+    margin-block-start: 0;
+    color: #1e3a8a;
+  }
+
+  &[data-state="active"] {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgb(37 99 235 / 12%);
+  }
+
+  &:hover {
+    background: #eef5ff;
+  }
+
+  & .component-card__action {
+    font-weight: 750;
+  }
+
+  .theme-dark & {
+    color: #e6edf8;
+    background: #172033;
+  }
+}
+
+/*
+ * 2. Nesting 只是 selector authoring，不能自动隔离后代。
+ */
+.leaky-card {
+  margin-block: 18px;
+  padding: 18px;
+  border: 1px solid #d9e1ec;
+
+  .title {
+    color: #b42318;
+  }
+}
+
+.bounded-card {
+  margin-block: 18px;
+  padding: 18px;
+  border: 1px solid #d9e1ec;
+
+  & > .bounded-card__title {
+    color: #166534;
+  }
+}
+
+/*
+ * 3. & 的 specificity 使用父 selector list 中最大的 specificity。
+ * 真正命中的是 .specificity-parent，但 #never-used 仍会提高嵌套规则权重。
+ */
+#never-used,
+.specificity-parent {
+  & .specificity-child {
+    color: #b42318;
+  }
+}
+
+.specificity-parent .specificity-child {
+  color: #166534;
+}
+
+/*
+ * 4. Sass 可以把 & 当字符串前缀拼接；原生 CSS 不做字符串转换。
+ * 这个 nested selector 无效，父 rule 仍然可以继续被解析。
+ */
+.bem-failure {
+  padding: 16px;
+  border: 1px dashed #d97706;
+
+  &__label {
+    color: #b42318;
+    font-weight: 800;
+  }
+}
+
+.bem-fix {
+  margin-block-start: 12px;
+  padding: 16px;
+  border: 1px solid #86b99a;
+
+  .bem-fix__label {
+    color: #166534;
+    font-weight: 800;
+  }
+}
+
+.scope-root {
+  padding: 16px;
+  border: 2px solid #8ca5cf;
+  border-radius: 12px;
+}
+
+.scope-item {
+  margin-block: 8px;
+  padding: 10px;
+  border: 1px solid #c7d2e5;
+  background: #f7f9fd;
+}
+
+.nested-scope-item {
+  background: #fff8e8;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block: 18px;
+}
+
+button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 750;
+  color: #ffffff;
+  background: #3156a6;
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+pre:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+pre {
+  min-height: 170px;
+  overflow: auto;
+  padding: 16px;
+  border-radius: 12px;
+  color: #dbeafe;
+  background: #111827;
+}
