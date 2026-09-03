@@ -1,0 +1,135 @@
+/* KP004_COMMENT_MARKER: 注释用于记录意图，不会成为声明。 */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f4f7fb;
+}
+
+.page-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+}
+
+.hero,
+.lab-section {
+  background: #ffffff;
+  border: 1px solid #d9e1ec;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgb(27 39 61 / 8%);
+}
+
+.hero {
+  padding: 32px;
+}
+
+.hero h1,
+.lab-section h2,
+.rule-card h3,
+.background-demo h3 {
+  margin-top: 0;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: #3156a6;
+}
+
+.lab-section {
+  margin-top: 24px;
+  padding: 28px;
+}
+
+.hint {
+  margin-bottom: 0;
+  color: #506078;
+}
+
+.spacing-frame {
+  border: 2px dashed #9aacbf;
+  background: #eef3f8;
+  overflow: hidden;
+}
+
+.spacing-demo {
+  margin: 8px 16px 24px 32px;
+  padding: 16px;
+  border: 2px solid #6c8bd5;
+  background: #e7efff;
+}
+
+/* longhand 写在 shorthand 后面，只覆盖左侧这一项。 */
+.spacing-demo--override {
+  margin-left: 48px;
+  background: #f0ebff;
+  border-color: #8e6bd8;
+}
+
+.background-grid,
+.rule-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.background-demo,
+.rule-card {
+  min-height: 140px;
+  padding: 20px;
+  border: 1px solid #ced7e3;
+  border-radius: 14px;
+}
+
+.background-demo--kept {
+  background-color: #fff7ed;
+  background-image: linear-gradient(135deg, rgb(255 237 213 / 85%), rgb(219 234 254 / 85%));
+}
+
+/*
+ * Failure Lab:
+ * background 是 shorthand。下面第二条声明不仅设置颜色，
+ * 还会把没有写出的 background-image 等子属性重置。
+ */
+.background-demo--reset {
+  background-image: linear-gradient(135deg, #dbeafe, #ede9fe);
+  background: #fff7ed;
+}
+
+.rule-card {
+  background: #f8fafc;
+}
+
+.supports-status::after {
+  content: " 未进入 @supports 成功分支";
+  display: inline-block;
+  margin-left: 6px;
+  font-weight: 700;
+  color: #9f1239;
+}
+
+@supports (display: grid) {
+  .supports-status::after {
+    content: " Grid supported";
+    color: #166534;
+  }
+}
+
+@media (min-width: 720px) {
+  .rule-grid,
+  .background-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #eef2f7;
+}
