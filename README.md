@@ -1,109 +1,53 @@
 # Learn Frontend Web
 
-一个从 **完全零基础** 持续成长到 **极其资深前端工程师 / Staff / Principal / 前端架构师** 的长期学习与实践仓库。
+一个从 **完全零基础** 持续成长到 **资深前端工程师、Staff / Principal Frontend Engineer 与前端架构师** 的长期学习与实践仓库。
 
-本仓库不是 API 笔记、框架速成教程或面试八股合集，而是以：
+本仓库不是 API 笔记、框架速成教程或面试八股合集，而是通过：
 
 ```text
-系统课程
+完整课程体系
 + 手把手可复刻过程
 + 每课独立可运行源码
-+ 原理 / 源码
-+ 故障与 Debug
-+ 性能 / 安全 / 可靠性
-+ 顺着学习进度自然出现的综合项目
-+ 架构设计、平台建设与治理
++ 浏览器 / 网络 / Runtime 原理
++ React / Vue 关键源码
++ 故障复现与 Debug
++ 性能 / 安全 / A11Y / 可靠性
++ Stage 综合项目
++ 贯穿式产品持续演进
++ 架构设计、平台建设与技术治理
 ```
 
-构建完整前端学习体系。
+建立前端工程师从实现、原理、工程、生产到架构治理的完整能力链。
 
 ---
 
 ## 当前状态
 
-> 🚧 **Frontend Architect 正式课程已经开始落地。**
+> ✅ **前端架构师课程唯一总纲已经完成。**  
+> 🚧 正式 Stage、Module、Lesson 和配套源码将按照总纲逐步建设。
 
-课程设计继续统一放在 `learn-frontend-web-course/`；正式可学习课程放在 `courses/frontend-architect/`。
+当前已经完成：
 
-当前 React Stage 11 已完成：
-
-```text
-Stage 总纲
-→ 35 个 Owner Module
-→ 1101 个 Lesson 大纲
-→ Dependency / Duplication / Granularity / Knowledge Ceiling 全局复审
-→ 按 Module 拆分课程设计文档
-→ 开始正式逐 Lesson 编写 README 与完整源码
-```
-
-第一篇正式课程已经完成：
-
-- [RE-INTRO-001：网页交互为什么会越来越难维护](./courses/frontend-architect/stage11-react/module11-01-react-foundation/01-web-interaction-complexity/README.md)
+- Stage 00～Stage 30 的完整学习路线。
+- 各 Stage 的阶段目标、Owner Module、综合项目和验收标准。
+- React、Vue、浏览器、工程化、全栈前端、跨端、性能、安全、云交付、架构治理和 AI Native Frontend 的完整覆盖。
+- `Architect Workbench` 贯穿式项目 V0～V15 演进路线。
+- Must / Should / Expert 深度标准。
+- Lesson、Module、Stage 与毕业项目的统一完成标准。
+- 统一教学与课程编写规范。
 
 ---
 
 ## 核心入口
 
-### 课程设计
-
-- [前端架构师唯一总纲](./learn-frontend-web-course/README.md)
+- [前端架构师课程唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
-- [React Stage 11 详细设计](./learn-frontend-web-course/stage11-react/README.md)
 
-`stage11-react/` 是唯一总纲下的 Stage 子级详细设计，不是另一套平行课程体系。
-
-### 正式课程
-
-- [Frontend Architect 正式课程入口](./courses/frontend-architect/README.md)
-- [React Stage 11 正式课程](./courses/frontend-architect/stage11-react/README.md)
-
-所有课程统一遵循：
-
-```text
-Stage
-└── Module
-    └── Lesson
-```
-
-故障复现、源码 Debug、性能分析、综合项目、架构复盘仍然可以出现，但它们在课程结构上全部都是普通 Lesson，不再增加新的层级类型。
+`learn-frontend-web-course/README.md` 是课程唯一总纲。后续 Stage 和 Module 文档只能细化它，不能再创建平行课程体系。
 
 ---
 
-## Stage / Module 组织原则
-
-课程参考 `learn-java-course` 的结构思想：
-
-```text
-Stage = 一个较完整的技术 / 能力领域
-Module = 该领域中的一个独立知识主题
-Lesson = 一个可单独提出、操作、解释和验证的主要问题
-```
-
-因此不会再把同一核心技术人为拆成：
-
-```text
-React 基础 Stage
-→ React 高级 Stage
-→ React 源码 Stage
-```
-
-而是：
-
-```text
-Stage：React 完整体系
-  ↓
-State / Effect / Router / Suspense / SSR / RSC / Fiber / Migration / Architecture ...
-```
-
-React 只学一次，但这一次从零一路学习到源码、性能、服务端、迁移和大型架构。
-
-Vue 同理。
-
----
-
-## 当前总纲
-
-新版总纲当前规划 **Stage 00 ～ Stage 30**：
+## 完整路线
 
 ```text
 Stage 00  开发环境、命令行、Git 与工程师基本功
@@ -139,128 +83,99 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-详细 Stage / Module 设计统一查看：
+每个核心主题只设置一个 Owner Module，从基础使用一直学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
 
-- [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
+---
+
+## 实践体系
+
+```text
+每课可复现实验
+   ↓
+Module Project
+   ↓
+Stage 综合项目
+   ↓
+故障注入与诊断实验
+   ↓
+Architect Workbench 贯穿式项目
+   ↓
+Principal 级毕业项目与架构答辩
+```
+
+贯穿项目会依次经历：
+
+```text
+静态网站
+→ 原生 JavaScript / TypeScript 应用
+→ React 企业控制台
+→ Vue 业务域与迁移实验
+→ Design System
+→ Monorepo 与研发平台
+→ BFF / SSR / Streaming / Edge
+→ PWA / Desktop / Mobile / TV
+→ Realtime / Local-first
+→ Visual Editor / Low-code / Plugin
+→ 性能、安全、可观测与云交付
+→ 多租户与多团队架构
+→ AI Native Workbench
+```
 
 ---
 
 ## 最重要的课程原则
 
-### 1. 一个 Module，一次学透
+### 一个主题，一次学透
 
-同一个知识主题不采用：
+不把同一个知识点人为拆成基础篇、高级篇、原理篇和源码篇。唯一 Owner Module 必须形成完整闭环。
 
-```text
-基础篇
-→ 高级篇
-→ 深入篇
-→ 原理篇
-→ 源码篇
-```
+### 每一课都必须能够完整复刻
 
-而是在唯一 Owner Module 中完成：
+所有代码、命令、文件、运行时机、观察结果和原因都要写清楚，不能只写“在上一课基础上继续”。
 
-```text
-为什么存在
-→ 基础使用
-→ 完整能力
-→ 工程实践
-→ 高级边界
-→ Wrong Way / Failure
-→ Debug
-→ 原理
-→ 源码（适用时）
-→ 性能 / 安全 / A11Y（适用时）
-→ Production Boundary
-→ Trade-off / 架构
-→ 综合实践
-```
+### 每一课最终源码必须独立运行
 
-复杂 Module 可以拆很多 Lesson，但完成后不再通过同名“高级 / 源码课程”补课。
+学习者进入任意 Lesson，都能按照 README 独立安装、启动、构建、测试和验证。
 
-### 2. 每一课都必须能被学生完整复刻
+### 不允许默认学习者已经懂了
 
-需要代码、命令或实验的 Lesson，只允许：
+不能因为内容基础、以前讲过或 IDE 会提示，就省略当前课程真正需要的上下文和操作。
 
-```text
-从零状态开始
-```
+### 范围做减法，解释做加法
 
-或者：
-
-```text
-明确复制上一课最终源码
-→ 验证上一课基线
-→ 再逐步新增 / 修改 / 删除
-```
-
-禁止只写“在上一课基础上继续”然后直接给代码。
-
-### 3. 每一课最终源码必须独立运行
-
-即使当前课从上一课复制演进，当前 Lesson 自己仍然必须保存完整最终源码，可以独立安装、运行、测试和验证。
-
-### 4. 不允许默认读者懂了
-
-不能因为：
-
-```text
-以前讲过
-太简单
-属于常识
-IDE 会提示
-前端应该知道
-```
-
-就省略当前课程真正需要的操作和上下文。
-
-### 5. 教学步骤必须精确到文件和位置
-
-关键步骤必须写清：
-
-```text
-哪个目录
-哪个文件
-创建 / 修改 / 删除
-找到哪一段代码
-在上面 / 下面 / 内部修改什么
-为什么这样改
-什么时候运行
-看到什么
-为什么出现
-理论上叫什么
-```
-
-独立设计能力通过 Challenge / Project / Architecture Exercise 训练，而不是通过把教学文档故意写得不完整训练。
+使用能够证明知识点的最小项目，但必须把现象、原因、边界、错误、Debug 和生产意义解释完整。
 
 ---
 
-## 当前目录
+## 后续目录结构
 
 ```text
 learn-frontend-web/
 ├── README.md
 ├── learn-frontend-web-course/
-│   ├── README.md
-│   ├── FRONTEND_TEACHING_GUIDE.md
-│   └── stage11-react/
-│       ├── README.md
-│       └── module11-xx-*/README.md
+│   ├── README.md                       # 唯一总纲
+│   ├── FRONTEND_TEACHING_GUIDE.md      # 教学规范
+│   └── stageXX-topic/                  # 后续 Stage 详细设计
+│       └── moduleXX-YY-topic/
 └── courses/
-    └── frontend-architect/
-        ├── README.md
-        └── stage11-react/
-            ├── README.md
-            └── module11-01-react-foundation/
-                ├── README.md
-                └── 01-web-interaction-complexity/
-                    ├── README.md
-                    ├── index.html
-                    ├── styles.css
-                    └── app.js
+    └── frontend-architect/             # 后续正式课程与源码
+        └── stageXX-topic/
+            └── moduleXX-YY-topic/
+                └── lesson-name/
 ```
 
-当前阶段的重点：
+正式课程建设顺序、课程边界、贯穿项目版本和每个 Stage 的详细内容，请查看：
 
-> **React Stage 11 大纲已经完成全局复审，正式进入逐 Lesson 建设阶段。每完成一课，就同时交付完整教学 README、独立最终源码和可验证结果。**
+- [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
+
+---
+
+## 最终目标
+
+最终不是只会说：
+
+> “我会 HTML、CSS、JavaScript、React、Vue、Next.js。”
+
+而是能够做到：
+
+> 理解一个复杂 Web 系统为什么这样设计；能够通过浏览器、网络、源码、指标和实验验证判断；知道它会在哪里失败，如何保证性能、安全、可访问、可靠和可演进；也知道什么时候应该主动拒绝或删除不必要的技术复杂度。
