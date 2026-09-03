@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+const html = await readFile(new URL("index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
+assert.match(html, /Combinator Relationship Laboratory/);
+assert.match(html, /class="icon direct-icon"/);
+assert.match(html, /class="icon nested-icon"/);
+assert.match(css, /\.toolbar \.icon\s*\{/);
+assert.match(css, /\.toolbar > \.icon\s*\{/);
+assert.match(css, /\.release-heading \+ p\s*\{/);
+assert.match(css, /\.release-heading ~ p\s*\{/);
+assert.match(css, /\.dashboard \.panel \.panel-body \.title-wrap \.panel-title/);
+assert.match(css, /\.panel-title\s*\{/);
+assert.equal((css.match(/\{/g) ?? []).length, (css.match(/\}/g) ?? []).length);
+console.log("✓ KP003 descendant/child/sibling combinators and DOM-coupling failure lab are complete.");

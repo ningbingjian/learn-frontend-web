@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP003 Combinator Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP003</p>
+      <h1>Combinator Relationship Laboratory</h1>
+      <p>把 DOM 树关系直接映射为 descendant、child、adjacent sibling 与 subsequent sibling selector。</p>
+    </header>
+    <section class="lab-section" aria-labelledby="tree-title">
+      <h2 id="tree-title">实验 A：Descendant vs Child</h2>
+      <div class="toolbar">
+        <span class="icon direct-icon" aria-hidden="true">★</span>
+        <div class="menu"><span class="icon nested-icon" aria-hidden="true">◆</span></div>
+      </div>
+      <p class="hint">`.toolbar .icon` 会覆盖两枚 icon；`.toolbar > .icon` 只匹配 direct child。</p>
+    </section>
+    <section class="lab-section" aria-labelledby="sibling-title">
+      <h2 id="sibling-title">实验 B：Adjacent vs Subsequent Sibling</h2>
+      <div class="release-list">
+        <h3 class="release-heading">Release A</h3>
+        <p class="release-summary adjacent-target">紧邻 h3 的第一个 p。</p>
+        <p class="release-note subsequent-target">同级但不紧邻 h3 的第二个 p。</p>
+      </div>
+    </section>
+    <section class="lab-section" aria-labelledby="coupling-title">
+      <h2 id="coupling-title">Failure Lab：过深 Descendant Coupling</h2>
+      <div class="dashboard"><section class="panel"><div class="panel-body"><div class="title-wrap"><h3 class="panel-title">深层标题</h3></div></div></section></div>
+      <p class="hint">源码保留一条深层 selector，再给出更稳定的 class selector 对照。</p>
+    </section>
+    <section class="lab-section evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Console Evidence</h2>
+      <pre><code>document.querySelectorAll(".toolbar .icon")
+document.querySelectorAll(".toolbar > .icon")
+document.querySelectorAll(".release-heading + p")
+document.querySelectorAll(".release-heading ~ p")
+document.querySelector(".nested-icon").matches(".toolbar > .icon")</code></pre>
+    </section>
+  </main>
+</body>
+</html>
