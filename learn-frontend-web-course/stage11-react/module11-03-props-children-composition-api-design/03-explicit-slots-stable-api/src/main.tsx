@@ -22,25 +22,39 @@ function ReviewShell({
   aside,
   footer,
 }: ReviewShellProps) {
+  const renderedAside = aside == null
+    ? null
+    : <aside className="aside-slot">{aside}</aside>;
+
   return (
     <article className="review-shell">
       <header className="review-shell__header">
         <div>
           <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
-          {summary ? <div className="summary-slot">{summary}</div> : null}
+          {summary == null ? null : (
+            <div className="summary-slot">{summary}</div>
+          )}
         </div>
         <div className="actions-slot" aria-label="Review actions">
           {actions}
         </div>
       </header>
 
-      <div className="review-shell__layout">
+      <div
+        className={
+          renderedAside === null
+            ? 'review-shell__layout review-shell__layout--single'
+            : 'review-shell__layout'
+        }
+      >
         <section className="body-slot">{children}</section>
-        {aside ? <aside className="aside-slot">{aside}</aside> : null}
+        {renderedAside}
       </div>
 
-      {footer ? <footer className="footer-slot">{footer}</footer> : null}
+      {footer == null ? null : (
+        <footer className="footer-slot">{footer}</footer>
+      )}
     </article>
   );
 }
