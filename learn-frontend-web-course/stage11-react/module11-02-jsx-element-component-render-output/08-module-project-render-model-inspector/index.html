@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Render Model Inspector：观察 JSX、React Element、Component Render 与 Host Commit"
+    />
+    <title>RE-1102-008 · Render Model Inspector</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <aside class="host-evidence-shell" aria-labelledby="commit-evidence-title">
+      <div class="host-evidence-heading">
+        <div>
+          <p class="eyebrow">Host Boundary Evidence</p>
+          <h2 id="commit-evidence-title">MutationObserver Commit Evidence</h2>
+        </div>
+        <p>该面板位于 React Root 外，只记录 Root 内真实 DOM mutation。</p>
+      </div>
+      <ol id="commit-evidence" class="commit-evidence-list"></ol>
+    </aside>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

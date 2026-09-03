@@ -35,6 +35,10 @@ jobs:
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/05-pure-render-idempotency-mutation
           - lesson-name: RE-1102-006
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/06-render-vs-commit-host-dom
+          - lesson-name: RE-1102-007
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/07-failure-lab-tag-element-mutation-manual-call
+          - lesson-name: RE-1102-008
+            working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/08-module-project-render-model-inspector
 
     defaults:
       run:
@@ -55,6 +59,9 @@ jobs:
 
       - name: Inspect JSX transform when available
         run: npm run inspect:jsx --if-present
+
+      - name: Verify lesson evidence when available
+        run: npm run verify --if-present
 
       - name: Type check
         run: npm run typecheck

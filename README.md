@@ -33,10 +33,10 @@
 - `Architect Workbench` V0～V15 贯穿式项目路线。
 - 统一教学与课程编写规范。
 - Stage 04 CSS 完整规划及已落地课程。
-- Stage 08 TypeScript 完整规划及首批具体课程。
+- Stage 08 TypeScript 完整规划及已落地具体课程。
 - Stage 11 React 26 个 Owner Module 轻规划。
 - React Module 11.01：**8 / 8** 完成，含 Failure Lab、Strict Mode Debug、渐进迁移 Module Project 与 Review。
-- React Module 11.02：**6 / 8** 已完成，覆盖 JSX Transform、React Element、Component Invocation、Fragment / Empty Node、Pure Render 与 Render / Commit。
+- React Module 11.02：**8 / 8** 完成，覆盖 JSX Transform、React Element、Component Invocation、Fragment / Empty Node、Pure Render、Render / Commit、综合 Failure Lab 与 Render Model Inspector。
 
 ---
 
@@ -110,7 +110,7 @@ learn-frontend-web-course/
 - [RE-1101-007：Failure Lab——重复状态与 DOM 逃生](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape/README.md)
 - [RE-1101-008：Release Console Migration](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration/README.md)
 
-#### Module 11.02：JSX、Element、Component 与 Render Output 🚧 6 / 8
+#### Module 11.02：JSX、Element、Component 与 Render Output ✅ 8 / 8
 
 - [Module 入口](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/README.md)
 - [RE-1102-001：JSX 不是 HTML——从源码看到转换结果](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/01-jsx-source-to-transform/README.md)
@@ -119,6 +119,8 @@ learn-frontend-web-course/
 - [RE-1102-004：JSX Expression、Fragment、Conditional 与 Empty Node](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/04-jsx-expression-fragment-empty-node/README.md)
 - [RE-1102-005：Pure Render、Idempotency 与 Render-time Mutation](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/05-pure-render-idempotency-mutation/README.md)
 - [RE-1102-006：Render vs Commit——从描述到 Host DOM](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/06-render-vs-commit-host-dom/README.md)
+- [RE-1102-007：Failure Lab——错误标签、Element Mutation 与手工调用组件](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/07-failure-lab-tag-element-mutation-manual-call/README.md)
+- [RE-1102-008：Module Project——Render Model Inspector](./learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/08-module-project-render-model-inspector/README.md)
 
 ---
 
@@ -177,14 +179,15 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 → JSX Expression / Fragment / Empty Node
 → Pure Render / Idempotency
 → Render Calculation / Host Commit
+→ Wrong Tag / Element Mutation / Manual Component Call
+→ Render Model Inspector / Module Review
 ```
 
-下一批 React 将收束 Module 11.02：
+下一步 React：
 
 ```text
-综合 Failure Lab
-→ Render Model Inspector Module Project
-→ Module Review
+Module 11.03
+Props、Children、Composition 与 API Design
 ```
 
 ---
