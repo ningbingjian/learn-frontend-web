@@ -1,0 +1,9 @@
+{
+  "name": "css-kp006-specificity-inheritance",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}
