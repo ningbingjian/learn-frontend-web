@@ -158,12 +158,14 @@ releaseButton.disabled = !ready;
 
 ### 为什么发生
 
-`approveNextImperatively()` 修改了业务状态，也更新了部分 DOM：
+`bindImperativePanel()` 中的审批按钮回调修改了业务状态，也更新了部分 DOM：
 
 ```js
-imperativeState.approvedCount += 1;
-refs.count.textContent = String(imperativeState.approvedCount);
-refs.progress.style.width = `${calculateProgress(imperativeState)}%`;
+refs.approveButton.addEventListener('click', () => {
+  state.approvedCount += 1;
+  refs.count.textContent = String(state.approvedCount);
+  refs.progress.style.width = `${progress}%`;
+});
 ```
 
 但它遗漏了摘要区域。
@@ -185,7 +187,7 @@ refs.progress.style.width = `${calculateProgress(imperativeState)}%`;
 
 左侧面板中，审批数量同时存在于：
 
-- `imperativeState.approvedCount`。
+- `bindImperativePanel()` 闭包中的 `state.approvedCount`。
 - 数字卡片的 `textContent`。
 - 摘要文本的 `textContent`。
 - 进度条宽度。
@@ -211,10 +213,10 @@ refs.progress.style.width = `${calculateProgress(imperativeState)}%`;
 右侧面板采用另一种结构：
 
 ```js
-function approveNextDeclaratively() {
-  declarativeState.approvedCount += 1;
-  renderDeclarativePanel();
-}
+refs.approveButton.addEventListener('click', () => {
+  state.approvedCount = Math.min(state.approvedCount + 1, MAX_APPROVALS);
+  render();
+});
 ```
 
 事件处理函数只做两件事：
@@ -225,13 +227,13 @@ function approveNextDeclaratively() {
 所有 DOM 同步集中在：
 
 ```js
-function renderDeclarativePanel() {
-  const view = deriveView(declarativeState);
+function render() {
+  const view = deriveView(state);
 
   refs.count.textContent = String(view.approvedCount);
   refs.progress.style.width = `${view.progress}%`;
   refs.summary.textContent = view.summary;
-  refs.releaseButton.disabled = !view.ready;
+  refs.releaseButton.toggleAttribute('disabled', !view.ready);
 }
 ```
 
@@ -278,7 +280,7 @@ UI = f(State)
 
 不是。
 
-右侧方案只是用原生 JavaScript 模拟了一个非常小的状态驱动渲染模型。它仍然需要我们自己处理：
+右侧方案只是用原生 JavaScript模拟了一个非常小的状态驱动渲染模型。它仍然需要我们自己处理：
 
 - 如何把大型页面拆成可组合的单元。
 - 如何只更新必要的 DOM。
@@ -307,7 +309,7 @@ src/main.js
 2. `deriveView(state)`：所有派生值集中计算。
 3. `bindImperativePanel()`：观察分散写 DOM 的风险。
 4. `bindDeclarativePanel()`：观察事件只更新状态。
-5. `renderDeclarativePanel()`：观察 UI 如何统一从状态生成。
+5. `bindDeclarativePanel()` 内部的 `render()`：观察 UI 如何统一从状态生成。
 6. `checkConsistency()`：观察如何用断言验证 UI。
 
 不要只关注语法。重点画出“数据从哪里来，经过什么计算，最终写到哪里”。
@@ -318,11 +320,11 @@ src/main.js
 
 ### 实验 A：查看状态变化
 
-在 `approveNextImperatively()` 第一行增加断点。
+在 `bindImperativePanel()` 中审批按钮的 `click` 回调第一行增加断点。
 
 点击按钮后观察：
 
-- `imperativeState.approvedCount` 修改前是什么。
+- 闭包中的 `state.approvedCount` 修改前是什么。
 - 修改后是什么。
 - 此时摘要 DOM 是否已经更新。
 
@@ -340,10 +342,10 @@ disabled =
 
 ### 实验 C：制造第二个遗漏
 
-临时注释右侧 `renderDeclarativePanel()` 中更新按钮禁用状态的代码：
+临时注释右侧 `bindDeclarativePanel()` 内部 `render()` 中更新按钮禁用状态的代码：
 
 ```js
-// refs.releaseButton.disabled = !view.ready;
+// refs.releaseButton.toggleAttribute('disabled', !view.ready);
 ```
 
 你会发现集中渲染也可能写错，但错误被限制在一个明确位置，而不是散落在所有事件路径中。
