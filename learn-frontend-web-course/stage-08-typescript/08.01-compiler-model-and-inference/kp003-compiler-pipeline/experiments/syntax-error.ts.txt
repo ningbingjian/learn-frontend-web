@@ -1,0 +1,5 @@
+// 把扩展名改成 .ts 并纳入 include 后，Parser 会首先报告语法错误。
+const broken = {
+  units: 4,
+  unitPrice: 25
+// 故意缺少右花括号
