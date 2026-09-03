@@ -1,4 +1,4 @@
-name: Apply Stage 04 Boundary Fix
+name: Audit Latest Stage 04 Boundary
 
 on:
   push:
@@ -8,245 +8,86 @@ on:
       - ".github/workflows/apply-stage04-boundary-fix.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  apply:
+  audit-latest-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout boundary-fix branch
+      - name: Checkout latest main
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: fix/stage-04-boundary-cleanup
+          ref: main
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Reconstruct and verify replacement archive
+      - name: Audit learner-facing Stage 04 files
         shell: bash
         run: |
           set -euo pipefail
-          cat .stage04-boundary-fix/part-* > /tmp/stage04-fix.b64
-          echo "7c1dc11c0890d45e99fc39038c4d1b90ea32dbe66848bd36c818acd32b6be558  /tmp/stage04-fix.b64" | sha256sum -c -
-          base64 --decode /tmp/stage04-fix.b64 > /tmp/stage04-fix.tar.gz
-          echo "516a7845358e252b88012a0a4cc6dd147a98646577190bd470f915fc20260232  /tmp/stage04-fix.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/stage04-fix.tar.gz -C .
+          cat > /tmp/check-stage04-boundary.mjs <<'NODE'
+          import { readdir, readFile } from "node:fs/promises";
+          import { join, relative, sep } from "node:path";
+          import process from "node:process";
 
-      - name: Replace selector evidence pages with CSS-only HTML
-        shell: bash
-        run: |
-          set -euo pipefail
+          const stageRoot = join(process.cwd(), "learn-frontend-web-course", "stage-04-css");
+          const violations = [];
 
-          cat > learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp001-selector-grammar-basic-selectors/index.html <<'HTML'
-          <!doctype html>
-          <html lang="zh-CN">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>KP001 Selector Grammar Laboratory</title>
-            <link rel="stylesheet" href="./styles.css">
-          </head>
-          <body>
-            <main class="page-shell">
-              <header class="hero">
-                <p class="eyebrow">Stage 04 · Module 04.02 · KP001</p>
-                <h1>Selector Grammar Laboratory</h1>
-                <p>从 Type、Class、ID、Universal、Compound 到 Selector List，使用静态 HTML、CSS 和 DevTools 判断匹配集合。</p>
-              </header>
+          async function walk(directory) {
+            const entries = await readdir(directory, { withFileTypes: true });
+            for (const entry of entries) {
+              const fullPath = join(directory, entry.name);
+              if (entry.isDirectory()) {
+                await walk(fullPath);
+                continue;
+              }
 
-              <section class="lab-section" aria-labelledby="basic-title">
-                <h2 id="basic-title">实验 A：基础 Selector</h2>
-                <div class="card-grid">
-                  <article class="selector-card featured" id="primary-card">
-                    <h3>Primary Card</h3>
-                    <p class="card-copy">同时满足 article、.selector-card、.featured 和 #primary-card。</p>
-                  </article>
-                  <article class="selector-card">
-                    <h3>Normal Card</h3>
-                    <p class="card-copy">只满足 article 与 .selector-card。</p>
-                  </article>
-                </div>
-              </section>
+              const rel = relative(process.cwd(), fullPath).split(sep).join("/");
+              const stageRel = relative(stageRoot, fullPath).split(sep).join("/");
+              const lessonPath = stageRel.split("/").some((part) => part.startsWith("kp"));
 
-              <section class="lab-section" aria-labelledby="compound-title">
-                <h2 id="compound-title">实验 B：Compound 与 Descendant 不一样</h2>
-                <div class="selector-card featured compound-target">
-                  <p>这个元素自己同时拥有 selector-card 与 featured。</p>
-                </div>
-                <div class="selector-card descendant-host">
-                  <div class="featured descendant-target">这个 featured 是 selector-card 的后代。</div>
-                </div>
-              </section>
+              if (lessonPath && /(^|\/)app\.(js|mjs|cjs|ts|tsx|jsx)$/.test(stageRel)) {
+                violations.push(`${rel}: CSS Lesson 不允许业务 app 脚本`);
+              }
 
-              <section class="lab-section" aria-labelledby="list-title">
-                <h2 id="list-title">实验 C：Selector List 与 Invalid Selector</h2>
-                <p class="selector-list-valid">有效 selector list 中的目标。</p>
-                <p class="selector-list-invalid">另一条规则的列表故意包含无效项，因此整条普通列表规则不会应用。</p>
-              </section>
+              if (!/\.(md|html)$/.test(entry.name) || stageRel === "STAGE_BOUNDARY.md") continue;
+              const content = await readFile(fullPath, "utf8");
+              const forbidden = [
+                [/\bdocument\./, "DOM 编程 API"],
+                [/\bwindow\./, "Browser Window 编程 API"],
+                [/\bquerySelector(?:All)?\s*\(/, "DOM Selector 编程 API"],
+                [/\.matches\s*\(/, "Element Match 编程 API"],
+                [/\bgetComputedStyle\s*\(/, "CSSOM 编程 API"],
+                [/\bCSS\.supports\s*\(/, "Web Platform 编程 API"],
+                [/\baddEventListener\s*\(/, "Event 编程 API"],
+                [/\bcreateElement\s*\(/, "DOM 创建 API"],
+                [/\bclassList\./, "DOM Class 编程 API"],
+                [/\bshadowrootmode\b/i, "Declarative Shadow DOM"],
+                [/<script\b/i, "Learner-facing Script Tag"],
+                [/:host\b/, "Shadow DOM Host Selector"],
+              ];
+              for (const [pattern, label] of forbidden) {
+                if (pattern.test(content)) violations.push(`${rel}: 出现 ${label}`);
+              }
+              const infrastructureInstructions = [
+                /创建\s+`?server\.mjs`?/,
+                /创建\s+`?verify\.mjs`?/,
+                /编写\s+`?server\.mjs`?/,
+                /编写\s+`?verify\.mjs`?/,
+                /修改\s+`?server\.mjs`?/,
+                /修改\s+`?verify\.mjs`?/,
+              ];
+              for (const pattern of infrastructureInstructions) {
+                if (pattern.test(content)) violations.push(`${rel}: 把维护脚本写成学习者施工步骤`);
+              }
+            }
+          }
 
-              <section class="lab-section evidence" aria-labelledby="evidence-title">
-                <h2 id="evidence-title">DevTools Evidence</h2>
-                <ol>
-                  <li>在 Elements 中选中 Primary Card，核对它同时命中的 Type、Class、ID 与 Compound 规则。</li>
-                  <li>分别选中 compound-target 和 descendant-target，比较 <code>.selector-card.featured</code> 与 <code>.selector-card .featured</code>。</li>
-                  <li>检查 selector-list-invalid，确认故意损坏的普通 Selector List 没有进入 Matched Styles。</li>
-                </ol>
-              </section>
-            </main>
-          </body>
-          </html>
-          HTML
-
-          cat > learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp002-attribute-selectors/index.html <<'HTML'
-          <!doctype html>
-          <html lang="zh-CN">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>KP002 Attribute Selector Laboratory</title>
-            <link rel="stylesheet" href="./styles.css">
-          </head>
-          <body>
-            <main class="page-shell">
-              <header class="hero">
-                <p class="eyebrow">Stage 04 · Module 04.02 · KP002</p>
-                <h1>Attribute Selector Laboratory</h1>
-                <p>使用 attribute 的存在、精确值、token、连字符、字符串片段与大小写条件控制匹配集合。</p>
-              </header>
-
-              <section class="lab-section" aria-labelledby="state-title">
-                <h2 id="state-title">实验 A：状态属性</h2>
-                <div class="card-grid">
-                  <article class="env-card" data-state="active" data-env="PROD" data-tags="urgent finance">
-                    <h3>Production / Active</h3>
-                    <p>data-state=active，data-env=PROD，data-tags 包含 urgent。</p>
-                  </article>
-                  <article class="env-card" data-state="idle" data-env="staging" data-tags="finance">
-                    <h3>Staging / Idle</h3>
-                    <p>data-state=idle，data-tags 不含 urgent。</p>
-                  </article>
-                </div>
-              </section>
-
-              <section class="lab-section" aria-labelledby="string-title">
-                <h2 id="string-title">实验 B：字符串匹配边界</h2>
-                <ul class="user-list">
-                  <li data-user="admin">admin</li>
-                  <li data-user="administrator">administrator</li>
-                  <li data-user="not-admin">not-admin</li>
-                </ul>
-                <p class="warning">使用 substring 条件时，三个值都可能被误纳入匹配集合。</p>
-              </section>
-
-              <section class="lab-section" aria-labelledby="lang-title">
-                <h2 id="lang-title">实验 C：Hyphen 与 ASCII Case-insensitive</h2>
-                <p lang="zh-CN">lang="zh-CN"</p>
-                <p data-mode="DARK">data-mode="DARK"</p>
-              </section>
-
-              <section class="lab-section evidence" aria-labelledby="evidence-title">
-                <h2 id="evidence-title">DevTools Evidence</h2>
-                <ol>
-                  <li>在 Elements 中逐项选中两个 env-card，核对 Presence、Exact Value 与 Token 规则。</li>
-                  <li>检查三个 data-user 值，观察 substring 条件为何过度匹配。</li>
-                  <li>修改 data-mode 的大小写并刷新，验证带 <code>i</code> 修饰符的规则。</li>
-                </ol>
-              </section>
-            </main>
-          </body>
-          </html>
-          HTML
-
-          cat > learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp003-combinators-relationships/index.html <<'HTML'
-          <!doctype html>
-          <html lang="zh-CN">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>KP003 Combinator Laboratory</title>
-            <link rel="stylesheet" href="./styles.css">
-          </head>
-          <body>
-            <main class="page-shell">
-              <header class="hero">
-                <p class="eyebrow">Stage 04 · Module 04.02 · KP003</p>
-                <h1>Combinator Relationship Laboratory</h1>
-                <p>把 HTML 树关系映射为 descendant、child、adjacent sibling 与 subsequent sibling selector。</p>
-              </header>
-
-              <section class="lab-section" aria-labelledby="tree-title">
-                <h2 id="tree-title">实验 A：Descendant vs Child</h2>
-                <div class="toolbar">
-                  <span class="icon direct-icon" aria-hidden="true">★</span>
-                  <div class="menu"><span class="icon nested-icon" aria-hidden="true">◆</span></div>
-                </div>
-                <p class="hint"><code>.toolbar .icon</code> 覆盖两枚图标；<code>.toolbar &gt; .icon</code> 只匹配直接子元素。</p>
-              </section>
-
-              <section class="lab-section" aria-labelledby="sibling-title">
-                <h2 id="sibling-title">实验 B：Adjacent vs Subsequent Sibling</h2>
-                <div class="release-list">
-                  <h3 class="release-heading">Release A</h3>
-                  <p class="release-summary adjacent-target">紧邻标题的第一个同级段落。</p>
-                  <p class="release-note subsequent-target">同级但不紧邻标题的第二个段落。</p>
-                </div>
-              </section>
-
-              <section class="lab-section" aria-labelledby="coupling-title">
-                <h2 id="coupling-title">Failure Lab：过深 Descendant Coupling</h2>
-                <div class="dashboard"><section class="panel"><div class="panel-body"><div class="title-wrap"><h3 class="panel-title">深层标题</h3></div></div></section></div>
-                <p class="hint">样式表保留一条深层路径规则，并提供稳定的 class 规则作为重构对照。</p>
-              </section>
-
-              <section class="lab-section evidence" aria-labelledby="evidence-title">
-                <h2 id="evidence-title">DevTools Evidence</h2>
-                <ol>
-                  <li>选中 direct-icon 与 nested-icon，比较 descendant 和 child 的命中差异。</li>
-                  <li>选中两个段落，比较 <code>+</code> 与 <code>~</code> 对同级关系的要求。</li>
-                  <li>在 Elements 中给 panel-title 外层再包一层元素，观察深层路径规则的脆弱性。</li>
-                </ol>
-              </section>
-            </main>
-          </body>
-          </html>
-          HTML
-
-      - name: Remove learner-facing future-stage scripts
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -f \
-            learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp008-css-error-recovery-cssom-value-pipeline/app.js \
-            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp004-structural-pseudo-classes/app.js \
-            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp005-functional-relational-pseudo-classes/app.js \
-            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp006-ui-form-focus-pseudo-elements/app.js
-
-      - name: Run Stage 04 boundary audit
-        run: node .github/scripts/check-stage-04-boundary.mjs
-
-      - name: Run all completed Stage 04 lesson checks
-        shell: bash
-        run: |
-          set -euo pipefail
-          while IFS= read -r -d '' package; do
-            lesson_dir="$(dirname "$package")"
-            echo "Checking $lesson_dir"
-            (cd "$lesson_dir" && npm run check)
-          done < <(find learn-frontend-web-course/stage-04-css -mindepth 3 -maxdepth 3 -type f -name package.json -print0 | sort -z)
-
-      - name: Commit applied boundary correction
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/scripts/check-stage-04-boundary.mjs .github/workflows/stage-04-css.yml learn-frontend-web-course/stage-04-css
-          if git diff --cached --quiet; then
-            echo "No boundary-fix changes to commit."
-            exit 0
-          fi
-          git commit -m "fix(css): enforce Stage 04 technology boundaries"
-          git push origin HEAD:fix/stage-04-boundary-cleanup
+          await walk(stageRoot);
+          if (violations.length === 0) {
+            console.log("LATEST MAIN BOUNDARY AUDIT: PASS");
+          } else {
+            console.error(`LATEST MAIN BOUNDARY AUDIT: ${violations.length} violations`);
+            for (const violation of violations) console.error(`- ${violation}`);
+            process.exit(1);
+          }
+          NODE
+          node /tmp/check-stage04-boundary.mjs
