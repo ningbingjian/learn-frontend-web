@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp007-cascade-layer-scope",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}

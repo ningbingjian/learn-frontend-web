@@ -1,7 +1,8 @@
 # Stage 04：CSS、布局、响应式、现代 CSS、动画、Token 与样式架构
 
 > 课程状态：建设中  
-> 当前批次：04.01 的 KP001～KP006 已完成  
+> 当前进度：✅ Module 04.01 已完成（KP001～KP009 / 9）  
+> 下一 Module：04.02 Selector、关系匹配、Pseudo、Nesting 与 Scope  
 > 课程总纲：[../README.md](../README.md)  
 > 教学规范：[../FRONTEND_TEACHING_GUIDE.md](../FRONTEND_TEACHING_GUIDE.md)
 
@@ -11,118 +12,121 @@
 
 Stage 04 是整套前端架构师课程中 **CSS 的唯一完整 Owner Stage**。
 
-这里不会只教“怎样把按钮变成蓝色”，而是从零建立下面这条能力链：
+目标不是只会调 margin、改颜色、抄 Flex 示例，而是形成：
 
 ```text
-看懂一条 CSS 声明
-→ 能让样式稳定进入页面
-→ 能解释级联与最终值
-→ 能推导盒模型和布局结果
-→ 能独立完成 Flex / Grid / 响应式页面
-→ 能处理字体、颜色、动画与主题
-→ 能 Debug 样式污染、溢出、层叠和兼容问题
-→ 能选择并治理大型前端样式架构
+CSS 语言模型
++
+Cascade 心智模型
++
+布局算法
++
+响应式
++
+视觉与动画
++
+Token / Theme
++
+Debug / Performance / A11Y
++
+样式架构与治理
 ```
 
-本阶段结束后，学习者应该能够解释一个布局为什么得到当前结果，而不是依靠反复修改数字“碰运气”。
+最终学习者必须能够解释一个页面为什么得到当前样式和布局结果，而不是反复试值。
 
 ---
 
 ## 2. 前置知识
 
-开始本阶段前，应当已经完成：
+建议已经完成：
 
-- Stage 00：能够使用终端、Node.js、npm、Git 和浏览器 DevTools。
-- Stage 02：理解浏览器如何请求 HTML 与 CSS 资源。
-- Stage 03：能够编写语义正确的 HTML，并理解 DOM、表单和基础 A11Y。
-
-本阶段会继续使用 Stage 03 的语义 HTML，但不会重复讲 HTML 元素体系。
+- Stage 00：开发环境、Terminal、Node.js、Git、DevTools。
+- Stage 02：HTTP、资源请求、MIME、Network。
+- Stage 03：HTML、语义、表单、媒体和基础 A11Y。
 
 ---
 
-## 3. 本阶段的唯一教学边界
+## 3. Stage 04 唯一教学边界
 
 ### Stage 04 完整拥有
 
-- CSS 语法、样式表接入、解析和错误恢复。
-- Cascade、Origin、Specificity、Inheritance、Layer 与最终值。
-- Selector、Pseudo-class、Pseudo-element、Nesting 与作用域。
-- Box Model、Sizing、Intrinsic Size、Overflow 与替换元素。
-- Normal Flow、Formatting Context、Positioning、Stacking Context。
-- Flexbox、Grid、Subgrid 与布局算法。
-- 响应式、媒体查询、容器查询、现代单位和逻辑属性。
-- Typography、Web Font、Color、Background、Mask、Filter 与 Blend。
-- Transform、Transition、Animation、Scroll-driven 与 View Transition。
-- Custom Property、Design Token、Theme 与样式架构。
-- CSS Debug、兼容、性能、A11Y 和治理。
+- CSS Syntax / Stylesheet / CSSOM 基础。
+- Cascade / Origin / Importance / Layer / Specificity / Inheritance / Scope。
+- Selector / Pseudo / Nesting。
+- Box Model / Sizing / Overflow。
+- Normal Flow / Formatting Context / Positioning / Stacking。
+- Flexbox / Grid / Subgrid。
+- Responsive Design / Media Query / Container Query。
+- Unit / Function / Logical Property。
+- Typography / Web Font。
+- Color / Background / Gradient / Filter / Mask / Blend。
+- Transform / Transition / Animation。
+- Scroll-driven Animation / View Transition 的 CSS 侧。
+- Custom Property / Design Token / Theme。
+- CSS Architecture。
+- CSS Debug / Compatibility / Performance / A11Y / Governance。
 
-### 后续 Stage 只做组合应用
+### 后续 Stage 只组合应用
 
-- Stage 09 深入浏览器 Style、Layout、Paint、Composite 与内核机制。
-- Stage 14 在本阶段能力之上建设复杂组件与 Design System。
-- Stage 16 深入 Sass、PostCSS、Bundler 与 CSS 构建工具链。
-- Stage 17 建设 Visual Regression 与完整质量工程。
-- Stage 24 建设生产级 RUM、性能预算与规模治理。
+- Stage 09：Browser Style / Layout / Paint / Composite。
+- Stage 14：Design System 与复杂 UI Engineering。
+- Stage 16：Sass / PostCSS / Bundler / Compiler Toolchain。
+- Stage 17：Visual Regression 与质量工程。
+- Stage 24：生产级性能治理。
 
-后续阶段不得再建立平行的“CSS 高级篇”“CSS 原理篇”或“CSS 架构篇”补课。
+后续不得建立 CSS 基础篇 / 高级篇 / 原理篇 / 架构篇平行路线。
 
 ---
 
-## 4. 学习路线
+## 4. 总体学习路线
 
-本阶段共规划 **14 个 Module、120 个 Lesson（含各 Module Project）和 1 个 Stage 综合项目**。
+Stage 04 共规划：
+
+```text
+14 个 Owner Module
+120 个 Lesson（含 Module Project）
+1 个 Stage 综合项目
+```
 
 ### 第一部分：语言、级联与尺寸基础
 
-| Module | 计划课数 | 核心问题 |
-| --- | ---: | --- |
-| 04.01 CSS 语言、样式表、Cascade、Origin、Specificity、Inheritance 与 Layer | 9 | CSS 怎样进入页面；冲突声明怎样得出最终结果？ |
-| 04.02 Selector、关系匹配、Pseudo、Nesting 与 Scope | 8 | 浏览器怎样确定一条规则匹配哪些元素？ |
-| 04.03 Box Model、Sizing、Intrinsic Size、Replaced Element 与 Overflow | 9 | 一个盒子的最终尺寸为什么是当前结果？ |
+| Module | 计划课数 | 状态 | 核心问题 |
+| --- | ---: | --- | --- |
+| [04.01 CSS 语言、样式表与级联体系](./04.01-css-language-and-stylesheets/) | 9 | ✅ 9/9 | 一条 CSS 怎样进入浏览器并得到最终值？ |
+| 04.02 Selector、关系匹配、Pseudo、Nesting 与 Scope | 8 | ⏳ | 浏览器怎样判断一条规则匹配哪些元素？ |
+| 04.03 Box Model、Sizing、Intrinsic Size、Replaced Element 与 Overflow | 9 | ⏳ | 一个盒子的最终尺寸为什么是当前结果？ |
 
 ### 第二部分：布局算法与响应式
 
-| Module | 计划课数 | 核心问题 |
-| --- | ---: | --- |
-| 04.04 Normal Flow、Formatting Context、Positioning 与 Stacking | 9 | 元素为什么出现在当前位置和层级？ |
-| 04.05 Flexbox 完整布局算法 | 9 | 一维空间如何增长、收缩、换行和对齐？ |
-| 04.06 Grid、Track Sizing、Auto Placement 与 Subgrid | 9 | 二维轨道如何计算和自动放置？ |
-| 04.07 Responsive Design、Media Query 与 Container Query | 8 | 页面与组件如何由内容和环境驱动适配？ |
-| 04.08 Unit、Function、Viewport、Logical Property 与 Writing Mode | 7 | CSS 值相对于什么计算，如何形成流式系统？ |
+| Module | 计划课数 | 状态 | 核心问题 |
+| --- | ---: | --- | --- |
+| 04.04 Normal Flow、Formatting Context、Positioning 与 Stacking | 9 | ⏳ | 元素为什么出现在当前位置与层级？ |
+| 04.05 Flexbox 完整布局算法 | 9 | ⏳ | 一维空间如何增长、收缩、换行和对齐？ |
+| 04.06 Grid、Track Sizing、Auto Placement 与 Subgrid | 9 | ⏳ | 二维轨道如何计算和自动放置？ |
+| 04.07 Responsive Design、Media Query 与 Container Query | 8 | ⏳ | 页面与组件如何由环境和内容驱动适配？ |
+| 04.08 Unit、Function、Viewport、Logical Property 与 Writing Mode | 7 | ⏳ | CSS 值相对于什么计算？ |
 
 ### 第三部分：视觉、排版与运动
 
-| Module | 计划课数 | 核心问题 |
-| --- | ---: | --- |
-| 04.09 Typography、Web Font 与国际化文本布局 | 8 | 字体、行盒、换行和加载如何影响阅读与性能？ |
-| 04.10 Color、Background、Gradient、Filter、Mask 与 Blend | 8 | 如何建立可降级、可访问的现代视觉系统？ |
-| 04.11 Transform、Transition、Animation、Scroll-driven 与 View Transition | 9 | 运动如何正确、流畅、可中断且尊重用户偏好？ |
+| Module | 计划课数 | 状态 | 核心问题 |
+| --- | ---: | --- | --- |
+| 04.09 Typography、Web Font 与国际化文本布局 | 8 | ⏳ | 字体和行盒怎样影响阅读、布局和性能？ |
+| 04.10 Color、Background、Gradient、Filter、Mask 与 Blend | 8 | ⏳ | 如何建立可访问、可降级的现代视觉系统？ |
+| 04.11 Transform、Transition、Animation、Scroll-driven 与 View Transition | 9 | ⏳ | 运动如何正确、流畅、可中断？ |
 
 ### 第四部分：Token、架构与生产治理
 
-| Module | 计划课数 | 核心问题 |
-| --- | ---: | --- |
-| 04.12 Custom Property、Design Token、Theme 与 Multi-brand | 8 | 如何建立可运行时切换、可演进的视觉变量系统？ |
-| 04.13 CSS Architecture 与方案选型 | 9 | BEM、CSS Modules、Utility、CSS-in-JS 等方案怎样取舍？ |
-| 04.14 CSS Debug、Compatibility、Performance、A11Y 与 Governance | 10 | 样式系统出故障后如何定位、修复、预防和治理？ |
+| Module | 计划课数 | 状态 | 核心问题 |
+| --- | ---: | --- | --- |
+| 04.12 Custom Property、Design Token、Theme 与 Multi-brand | 8 | ⏳ | 如何建立可运行时切换的视觉变量体系？ |
+| 04.13 CSS Architecture 与方案选型 | 9 | ⏳ | BEM、Modules、Utility、CSS-in-JS 怎样取舍？ |
+| 04.14 CSS Debug、Compatibility、Performance、A11Y 与 Governance | 10 | ⏳ | 样式系统如何进入生产治理？ |
 
-合计：
-
-```text
-9 + 8 + 9 + 9 + 9 + 9 + 8 + 7 + 8 + 8 + 9 + 8 + 9 + 10 = 120
-```
+合计 120 课。
 
 ---
 
-## 5. 当前建设进度
-
-| Module | 状态 | 已完成 |
-| --- | --- | --- |
-| [04.01 CSS 语言与级联体系](./04.01-css-language-and-stylesheets/) | 🚧 建设中 | KP001～KP006 / 9 |
-| 04.02～04.14 | ⏳ 待建设 | 0 |
-| Stage Project：Responsive UI System | ⏳ 待建设 | 0 |
-
-当前 04.01 已完成：
+## 5. Module 04.01 已完成
 
 1. [KP001：CSS 是什么](./04.01-css-language-and-stylesheets/kp001-what-is-css/)
 2. [KP002：CSS 怎样进入页面](./04.01-css-language-and-stylesheets/kp002-attach-stylesheet/)
@@ -130,141 +134,177 @@ Stage 04 是整套前端架构师课程中 **CSS 的唯一完整 Owner Stage**�
 4. [KP004：Shorthand、Longhand、注释、At-rule 与语法边界](./04.01-css-language-and-stylesheets/kp004-shorthand-longhand-at-rules/)
 5. [KP005：Origin、Importance、Context 与 Source Order](./04.01-css-language-and-stylesheets/kp005-origin-importance-context-source-order/)
 6. [KP006：Specificity、Inheritance 与 CSS-wide Keyword](./04.01-css-language-and-stylesheets/kp006-specificity-inheritance-css-wide-keywords/)
+7. [KP007：Cascade Layer、`@scope`、Scoping Proximity 与 `revert-layer`](./04.01-css-language-and-stylesheets/kp007-cascade-layer-scope-revert-layer/)
+8. [KP008：CSS 错误恢复、CSSOM 与 Value Processing](./04.01-css-language-and-stylesheets/kp008-css-error-recovery-cssom-value-pipeline/)
+9. [KP009：First Stylesheet Diagnostic Lab](./04.01-css-language-and-stylesheets/kp009-first-stylesheet-diagnostic-lab/)
 
-下一批将完成 Module 04.01 最后三课：
+Module 复审：[MODULE_REVIEW.md](./04.01-css-language-and-stylesheets/MODULE_REVIEW.md)
+
+状态：
 
 ```text
-KP007  Cascade Layer、@scope、Scoping Proximity、revert-layer
-KP008  CSS 错误恢复、Styles、Computed、CSSOM 与 Value Processing
-KP009  First Stylesheet Diagnostic Lab
+9 / 9
+100%
+COMPLETE
 ```
 
 ---
 
-## 6. 统一实践方式
+## 6. Module 04.01 能力链
 
-每一课都必须至少留下以下证据中的一种或多种：
+```text
+CSS 是什么
+→ Stylesheet 接入
+→ CSS 语言单位
+→ Shorthand / Longhand / At-rule
+→ Origin / Importance / Context
+→ Specificity / Inheritance
+→ Layer / @scope / revert-layer
+→ Parser / CSSOM / Value Pipeline
+→ 多故障综合诊断
+```
+
+“CSS 不生效”第一版排障链：
+
+```text
+DOM
+→ Network
+→ Parser / CSSOM
+→ Selector Match
+→ Declaration Validity
+→ Origin / Importance / Context
+→ Layer
+→ Specificity
+→ Scoping Proximity
+→ Source Order
+→ Inheritance / Initial
+→ Computed-value Time
+→ Used Value / Layout
+```
+
+---
+
+## 7. 当前实践体系
+
+所有已完成 Lesson 都提供：
+
+```text
+README 手把手复刻
++
+独立源码
++
+npm run check
++
+npm run dev
++
+DevTools / Network / CSSOM Evidence
++
+Failure Lab
++
+Challenge
++
+Mastery Check
+```
+
+Module 04.01 项目额外提供 Broken Baseline、9 Fault Cases、Diagnostic Report、Reference Solution 和 Module Final Review。
+
+---
+
+## 8. Stage Evidence Standard
+
+CSS 课程优先使用：
 
 ```text
 DOM Tree
-Styles Panel
-Computed Style
+Styles
+Computed
 Box Model
 Layout Overlay
-Network Request
+Network
 CSSOM
-ShadowRoot / :host
-Rendering / Performance Trace
+Rendering / Performance
 视觉对照
-自动检查脚本
+自动验证脚本
 ```
 
-每个关键机制采用：
+统一实验链：
 
 ```text
-建立正常基线
-→ 预测结果
-→ 只改变一个变量
-→ 运行并观察
-→ 用 DevTools 收集证据
-→ 解释机制
-→ 制造错误
-→ 修复并回归
-```
-
-所有 Lesson 最终源码独立存在，进入任意 Lesson 后都可以直接：
-
-```bash
-npm run check
-npm run dev
-```
-
-然后访问课程 README 指定的地址完成实验。
-
----
-
-## 7. Stage 综合项目
-
-项目名称：
-
-```text
-Responsive UI System
-```
-
-同时作为贯穿项目：
-
-```text
-Architect Workbench UI Foundation v1
-```
-
-### 页面范围
-
-1. 响应式营销首页。
-2. 内容与文档阅读页。
-3. 企业后台 Dashboard。
-4. 账户与系统设置表单。
-5. UI Component Gallery。
-
-### 强制约束
-
-- 主实现不依赖 Bootstrap、Ant Design、Tailwind 等 UI/CSS 框架。
-- 使用语义 HTML，并继承 Stage 03 的 A11Y 基线。
-- 使用 Cascade Layer 管理 reset、base、token、layout、component、utility、override。
-- 同时使用 Flex、Grid、Subgrid、Media Query 和 Container Query。
-- 支持 Light、Dark、High Contrast、RTL 和 Print。
-- 动画必须支持 `prefers-reduced-motion`。
-- 新特性必须有 `@supports`、自然降级或明确兼容边界。
-- 提交 CSS Architecture ADR、兼容矩阵和生产审计报告。
-
-### 必须注入的故障
-
-```text
-!important 战争
-Specificity 失控
-Shorthand 重置 Longhand
-Flex min-size 导致溢出
-Grid 轨道撑破容器
-Sticky 因祖先 overflow 失效
-z-index 很大但仍然被遮挡
-字体加载造成布局跳动
-Container Query 查询错容器
-Custom Property 在 computed-value 阶段失效
-Reduced Motion 未生效
-RTL 下物理方向属性错误
+建立基线
+→ 预测
+→ 改一个变量
+→ 运行
+→ 收集证据
+→ 解释
+→ 制造故障
+→ 修复
+→ 回归
 ```
 
 ---
 
-## 8. Stage Definition of Done
+## 9. Stage 综合项目
 
-完成 Stage 04 时，学习者必须能够：
+项目：`Responsive UI System`，同时作为 `Architect Workbench UI Foundation v1`。
 
-- 不依靠试值，解释主要布局和尺寸结果。
-- 从 Cascade、Selector、Formatting Context、Sizing 和 Stacking 定位问题。
-- 独立实现复杂 Flex/Grid/响应式界面。
-- 建立字体、颜色、运动、Token 和主题体系。
-- 使用 DevTools 定位样式覆盖、溢出、定位、层叠和性能问题。
-- 比较 CSS 架构方案，并给出约束、Trade-off、迁移和退出策略。
-- 完成 Stage Project 的功能、兼容、A11Y、性能、故障和架构答辩。
+范围：响应式营销页、内容页、企业 Dashboard、设置表单、UI Component Gallery。
+
+强制要求：语义 HTML、Cascade Layer、Flex / Grid / Subgrid、Media / Container Query、Light / Dark / High Contrast / RTL / Print、Reduced Motion、兼容边界、CSS Architecture ADR、故障注入和生产审计。
 
 ---
 
-## 9. 目录约定
+## 10. Stage Definition of Done
+
+最终必须做到：
+
+- 不靠试值解释主要布局结果。
+- 系统分析 Cascade / Box / Sizing / Flow。
+- 独立完成 Flex / Grid / Responsive。
+- 建立 Typography / Color / Motion / Theme。
+- 使用 DevTools 进行 CSS 诊断。
+- 有 Compatibility / A11Y / Performance 意识。
+- 比较样式架构方案。
+- 完成 Responsive UI System 与架构答辩。
+
+---
+
+## 11. 当前目录
 
 ```text
 stage-04-css/
 ├── README.md
-├── 04.01-css-language-and-stylesheets/
-│   ├── README.md
-│   ├── kp001-what-is-css/
-│   ├── kp002-attach-stylesheet/
-│   ├── kp003-rules-declarations-properties-values/
-│   ├── kp004-shorthand-longhand-at-rules/
-│   ├── kp005-origin-importance-context-source-order/
-│   └── kp006-specificity-inheritance-css-wide-keywords/
-├── 04.02-selectors-nesting-and-scope/
-├── ...
-└── project-responsive-ui-system/
+└── 04.01-css-language-and-stylesheets/
+    ├── README.md
+    ├── MODULE_REVIEW.md
+    ├── kp001-what-is-css/
+    ├── kp002-attach-stylesheet/
+    ├── kp003-rules-declarations-properties-values/
+    ├── kp004-shorthand-longhand-at-rules/
+    ├── kp005-origin-importance-context-source-order/
+    ├── kp006-specificity-inheritance-css-wide-keywords/
+    ├── kp007-cascade-layer-scope-revert-layer/
+    ├── kp008-css-error-recovery-cssom-value-pipeline/
+    └── kp009-first-stylesheet-diagnostic-lab/
 ```
 
-每个 Lesson 目录中的 README 是从零复刻教程；同目录源码是最终结果、自动检查和排障对照。
+---
+
+## 12. 下一步
+
+下一批开始 Module 04.02：
+
+```text
+Selector
+→ Combinator
+→ Attribute Selector
+→ Pseudo-class
+→ :is() / :where() / :not()
+→ :has()
+→ Pseudo-element
+→ Native CSS Nesting
+→ Selector Architecture
+```
+
+开始前先写 Module Teaching Contract，再按每批 3 课推进。
+
+Module 04.01 已正式关闭，不再创建同名补课。

@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp008-error-recovery-cssom",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs && node --check app.js"
+  }
+}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KP009 First Stylesheet Diagnostic Lab — Broken Baseline</title>
+<style>.source-order-target{color:#7c3aed}#specificity-zone .state-target{color:#b91c1c}</style>
+<link rel="stylesheet" href="./missing-theme.css"><link rel="stylesheet" href="./styles.css"></head>
+<body><main class="page-shell">
+<header class="hero"><p class="eyebrow">Stage 04 · Module 04.01 · KP009</p><h1>First Stylesheet Diagnostic Lab</h1><p>当前页面故意损坏。不要先打开参考答案。</p><p><a href="./solution.html">完成诊断后再打开 Reference Solution</a></p></header>
+<section class="lab-section"><h2>C01：资源加载症状</h2><p class="theme-target">预期 Theme CSS 会给我特殊样式，但当前没有。</p></section>
+<section class="lab-section"><h2>C02：Source Order 症状</h2><p class="source-order-target">团队以为 Internal CSS 会保留紫色。</p></section>
+<section class="lab-section"><h2>C03：Importance 症状</h2><p class="important-target" style="color: #047857;">Inline style 是绿色，但最终结果不是绿色。</p></section>
+<section class="lab-section" id="specificity-zone"><h2>C04：Specificity 症状</h2><p class="state-target active">状态规则写在后面，却没有得到状态色。</p></section>
+<section class="lab-section inherit-parent"><h2>C05：Inheritance 症状</h2><p class="inherit-child">父级已经设置颜色，但子元素没有继承。</p></section>
+<section class="lab-section"><h2>C06：Invalid Declaration 症状</h2><p class="invalid-declaration-target">某个新 background value 没生效。</p></section>
+<section class="lab-section"><h2>C07：Shorthand Reset 症状</h2><div class="shorthand-target">Gradient 消失了，只剩纯色。</div></section>
+<section class="lab-section"><h2>C08：Cascade Layer 症状</h2><button class="project-button" type="button">业务按钮</button></section>
+<section class="lab-section" id="scope-zone"><h2>C09：Scoping Proximity 症状</h2><div class="outer-scope"><div class="inner-scope"><p class="scope-target">团队以为离 inner scope 更近就一定能赢，但实际没有。</p></div></div></section>
+<section class="lab-section"><h2>提交要求</h2><p>使用 <code>DIAGNOSTIC_REPORT.md</code> 记录症状、证据、根因、最小修复和回归。</p></section>
+</main></body></html>

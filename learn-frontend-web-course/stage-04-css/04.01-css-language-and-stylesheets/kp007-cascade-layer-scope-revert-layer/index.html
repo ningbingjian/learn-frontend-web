@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP007 Cascade Layer / @scope Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP007</p>
+      <h1>Cascade Layer / @scope Laboratory</h1>
+      <p>这一课不再“把选择器写得更重”，而是控制级联顺序本身。</p>
+    </header>
+
+    <section class="lab-section" id="layer-priority">
+      <h2>实验 A：Layer 顺序先于 Specificity</h2>
+      <article class="demo-card" id="layer-card">
+        <p class="layer-priority-target">components 层使用更高 Specificity，但 utilities 层仍应获胜。</p>
+      </article>
+    </section>
+
+    <section class="lab-section" id="unlayered-priority">
+      <h2>实验 B：普通未分层样式高于普通分层样式</h2>
+      <p class="unlayered-target">这段文字在 components 层有规则，但最终由未分层 Author 样式覆盖。</p>
+    </section>
+
+    <section class="lab-section" id="important-layer-order">
+      <h2>实验 C：!important 会反转 Layer 优先顺序</h2>
+      <p class="important-target">components 比 utilities 更早声明；两边都是 !important 时，早声明层获胜。</p>
+    </section>
+
+    <section class="lab-section" id="revert-layer">
+      <h2>实验 D：revert-layer 回到前一个 Layer</h2>
+      <p class="revert-target">overrides 层把 color 设置为 revert-layer，因此回退到 utilities 层。</p>
+    </section>
+
+    <section class="lab-section">
+      <h2>实验 E：@scope 与 Scoping Proximity</h2>
+      <div class="outer-scope">
+        <p>Outer scope root</p>
+        <div class="inner-scope">
+          <p>Inner scope root</p>
+          <p class="scope-target">inner scope 规则写在前面，outer scope 规则写在后面；更近 scope root 仍应获胜。</p>
+        </div>
+      </div>
+      <p class="compat-note">如果浏览器不支持 <code>@scope</code>，该文本会保留灰色 fallback。</p>
+    </section>
+
+    <section class="lab-section">
+      <h2>实验 F：Scope Limit</h2>
+      <div class="article-scope">
+        <p class="scoped-note">我位于 scope root 内，应该获得 scoped 样式。</p>
+        <div class="scope-stop">
+          <p class="scoped-note">我位于 scope limit 内，不应该获得 scoped 样式。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-section evidence">
+      <h2>实验记录</h2>
+      <ol>
+        <li>在 Elements → Styles 中检查 Layer 名称和被划掉的声明。</li>
+        <li>对比实验 A 与实验 C：普通声明和 important 声明的 Layer 顺序相反。</li>
+        <li>检查实验 E：相同 Specificity 下 Scoping Proximity 位于 Source Order 之前。</li>
+        <li>调换 <code>@layer</code> 声明顺序，再刷新验证结果。</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
