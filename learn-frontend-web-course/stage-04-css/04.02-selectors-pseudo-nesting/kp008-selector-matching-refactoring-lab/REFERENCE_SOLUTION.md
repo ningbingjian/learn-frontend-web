@@ -1,109 +1,45 @@
-# REFERENCE_SOLUTION：Selector Matching & Refactoring Lab
+# REFERENCE SOLUTION
 
-> 先完成自己的 `DIAGNOSTIC_REPORT.md` 再阅读。
+## S01 · Invalid Selector List
 
-## S01：Invalid Selector List
+把实验性或非法成员从普通 Selector List 中移除，使 `.selector-list-target` 成为独立有效规则。
 
-Broken：
+## S02 · Attribute Substring Over-match
 
-```css
-.selector-list-target,
-:totally-invalid-pseudo { ... }
-```
+将 `[data-role*="admin"]` 改为 `[data-role="admin"]`，让角色成为离散状态，而不是模糊字符串。
 
-普通 Selector List 中存在无效项，整个 Rule 无效。修复为单独、有效的 `.selector-list-target` Rule。不要用“增加更高权重”处理 Parser 问题。
+## S03 · Broad Descendant Leakage
 
-## S02：Attribute Substring Over-match
+把 `.dashboard .title` 拆成 `.dashboard > .dashboard__title` 与 `.widget__title`，恢复所有权。
 
-`[data-role*="admin"]` 同时匹配 `admin` 和 `superadmin`。角色是离散枚举，应使用 `[data-role="admin"]`。只有需求确实是任意子串时才使用 `*=`。
+## S04 · Structural Position as Business Identity
 
-## S03：Deep / Broad Descendant Coupling
+把 `.release-row:nth-child(2)` 改为 `.release-row[data-state="current"]`。插入其他兄弟不再改变身份。
 
-`.dashboard .title` 会穿透所有后代组件。修复使用稳定组件类：
+## S05 · `:is()` Specificity Trap
 
-```css
-.dashboard > .dashboard__title { ... }
-.panel__title { ... }
-.embedded-widget__title { ... }
-```
+用 `:where()` 建立零权重分组基线，再由普通组件 class 覆盖。
 
-真正的目标是明确样式所有权，而不是单纯把 Selector 写得更长。
+## S06 · `:has()` Direction Error
 
-## S04：Structural Position as Business Identity
+Subject 应是父 `.status-panel`，正确规则为 `.status-panel:has(.status-error)`。
 
-`:nth-child(2)` 表达第二个 DOM Child，不表达“当前版本”。插入提示后 Match Set 会漂移。修复使用：
+## S07 · Hover-only Interaction
 
-```css
-.release-row[data-state="current"]
-```
+基础边框始终可见，Hover 只做增强；键盘路径不依赖 Hover。
 
-并保留 `aria-current="step"` 语义。
+## S08 · Focus Indicator Missing
 
-## S05：`:is()` Specificity Trap
+使用 `:focus-visible` 提供高对比 outline，不无替代地删除焦点指示。
 
-`:is(.action, #legacy-action)` 的 Specificity 取参数最大值，虚构 ID 仍会抬高规则。修复使用 `:where()` 建立零权重基线，或拆分 Legacy Rule。
+## S09 · Generated-content-only Label
 
-## S06：`:has()` Direction Error
+将“删除项目”放入真实 `<span>`，Pseudo-element 只保留装饰警示符号。
 
-需求的 Subject 是 Panel：
+## S10 · Sass Concatenation Mental Model
 
-```css
-.status-panel:has(.status-error)
-```
+把 `&__label` 改为 `& > .notice__label` 或完整类名。Native Nesting 不做字符串拼接。
 
-错误写法 `.status-error:has(.panel)` 检查的是“错误节点是否包含 Panel”，方向相反。
+## S11 · `:scope` Context Misunderstanding
 
-## S07：Hover-only Interaction
-
-Hover 不覆盖键盘、触摸和其他输入。修复至少同时提供：
-
-```css
-.interactive-target:is(:hover, :focus-visible)
-```
-
-交互语义仍应由 HTML 元素和事件模型提供。
-
-## S08：Focus Removal
-
-`outline: none` 在没有替代时会移除关键键盘位置证据。修复提供高对比 `:focus-visible` Indicator，并使用 Tab / Shift+Tab 回归。
-
-## S09：Generated-content-only Label
-
-`::before { content: "删除项目" }` 不应承担必要业务标签。修复把文字放回真实 DOM，Pseudo-element 只保留装饰。禁用 CSS 后按钮仍应可理解。
-
-## S10：Sass Concatenation Mental Model
-
-原生 CSS 不把 `&__label` 转换成 `.notice__label`。修复：
-
-```css
-.notice {
-  & > .notice__label { ... }
-}
-```
-
-或把 `.notice__label` 写成顶层 Rule。
-
-## S11：Scoped Query Boundary
-
-`scopeZone.querySelectorAll(".scope-row")` 包含所有深度。只要直接子元素时使用：
-
-```js
-scopeZone.querySelectorAll(":scope > .scope-row")
-```
-
-`:scope` 是当前 DOM Query 的 Reference Root，不是 `@scope` At-rule。
-
-## 总体重构原则
-
-```text
-Parser 正确
-→ Match Set 准确
-→ Component Ownership 清晰
-→ Business State 不依赖位置
-→ Specificity 可覆盖
-→ Relation 方向明确
-→ Input Modality 完整
-→ 必要语义存在于 DOM
-→ Nesting 可还原
-→ Query Root 明确
-```
+顶层 Stylesheet 不会自动把当前 section 当 scoped query 根。这里真正需要的是 `.scope-zone > .scope-row`。DOM scoped query 留到 Stage 07。

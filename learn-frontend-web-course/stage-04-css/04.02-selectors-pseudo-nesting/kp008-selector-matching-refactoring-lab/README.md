@@ -5,891 +5,258 @@
 | 项目 | 内容 |
 | --- | --- |
 | Stage | Stage 04：CSS 完整体系 |
-| Module | 04.02：Selector、关系匹配、Pseudo、Nesting 与 `:scope` |
+| Module | 04.02：Selector、关系匹配、Pseudo 与 Native Nesting |
 | Lesson | KP008 / Module Project |
-| 深度 | Must + Should + Expert |
-| Pattern | PROJECT-LAB + FAILURE-LAB + DEBUG-LAB + A11Y-LAB + ARCHITECTURE-LAB |
-| 主问题 | 面对一个同时存在 Parser、Match Set、Specificity、关系方向、结构漂移、Nesting 和 A11Y 问题的页面，能否用证据逐项完成最小重构？ |
-| 运行要求 | Node.js 20+，现代浏览器 |
+| 深度 | Must / Should / Expert |
+| 主问题 | 面对多类 Selector 故障，能否建立证据、完成最小修复并制定长期 Contract？ |
+| 学习者技术边界 | 只使用 HTML、CSS、DevTools 与静态页面对照 |
+
+> 边界规则：[STAGE_BOUNDARY.md](../../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. 项目目标
+## 1. 项目文件
 
-这个项目不是让你“把页面调好看”。
-
-你要接管一个故意损坏的 Selector 系统，完成下面的完整工程闭环：
+学习者核心文件：
 
 ```text
-读取 DOM
-→ 拆解 Selector
-→ 预测 Match Set
-→ 用 DevTools / querySelectorAll() / matches() 验证
-→ 区分 Parser、Matching、Cascade 和 A11Y 问题
-→ 找到最小根因
-→ 重构 Selector
-→ 验证交互和语义
-→ 输出 Selector Contract
+index.html       Broken Baseline
+styles.css       Broken CSS
+solution.html    Reference Solution
+solution.css     Fixed CSS
+DIAGNOSTIC_REPORT.md
+REFERENCE_SOLUTION.md
+SELECTOR_CONTRACT.md
 ```
 
-项目同时验证 Module 04.02 的全部能力：
+黑盒基础设施：
 
 ```text
-Basic Selector
-Attribute Selector
-Combinator
-Structural Pseudo-class
-:is() / :where() / :not() / :has()
-UI / Form / Focus State
-Pseudo-element
-Native CSS Nesting / &
-:scope
-Selector Architecture
+package.json
+server.mjs
+verify.mjs
 ```
+
+本项目没有 `app.js`，不要求 DOM API、事件脚本或自动证据面板。
 
 ---
 
-## 2. 项目产物
-
-```text
-kp008-selector-matching-refactoring-lab/
-├── README.md
-├── index.html                 # Broken Baseline
-├── styles.css                 # 故意损坏的 Selector
-├── solution.html              # Reference Solution
-├── solution.css               # 修复后样式
-├── app.js                     # 动态状态与 Match Evidence
-├── DIAGNOSTIC_REPORT.md       # 学习者填写模板
-├── REFERENCE_SOLUTION.md      # 参考根因与修复
-├── SELECTOR_CONTRACT.md       # 生产治理约定
-├── package.json
-├── server.mjs
-└── verify.mjs
-```
-
-`solution.html` 和 `REFERENCE_SOLUTION.md` 不是开始按钮。
-
-正确顺序：
-
-```text
-Broken Baseline
-→ 自己填写 Diagnostic Report
-→ 完成自己的 Fix
-→ 回归
-→ 最后对照 Reference Solution
-```
-
----
-
-## 3. 验收标准
-
-项目必须同时满足：
-
-### 功能
-
-- 所有目标组件匹配正确。
-- 动态插入节点后业务状态不漂移。
-- 错误状态切换后 Parent Panel 正确更新。
-- Scoped Query 只返回目标层级。
-
-### Selector
-
-- Invalid Selector List 被修复。
-- Attribute Selector 不 Over-match。
-- 组件 Selector 不穿透嵌套组件。
-- Business State 不依赖 Child Index。
-- `:is()` 不引入隐藏 ID Specificity。
-- `:has()` Subject / Direction 正确。
-- Native Nesting 可还原为可解释 Selector。
-
-### A11Y
-
-- Keyboard Focus 可见。
-- Hover 不是唯一状态。
-- 必要 Button Label 存在于真实 DOM。
-- 当前步骤保留 `aria-current`。
-- 禁用 CSS 后关键业务信息仍可理解。
-
-### Evidence
-
-- 每个 Case 有预测。
-- 每个 Case 有实际 Match Set。
-- 每个 Case 有最小修复。
-- 至少完成一轮动态回归。
-- `npm run check` 通过。
-
----
-
-## 4. Step 0：从零复制并建立基线
-
-进入 Module 目录：
-
-```bash
-cd learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting
-```
-
-进入项目：
-
-```bash
-cd kp008-selector-matching-refactoring-lab
-```
-
-运行静态验收：
+## 2. 运行方式
 
 ```bash
 npm run check
-```
-
-预期：
-
-```text
-✓ KP008 broken baseline, eleven selector faults, evidence app, reports, solution, and selector contract are complete.
-```
-
-启动：
-
-```bash
 npm run dev
 ```
 
-打开 Broken：
+访问：
 
 ```text
-http://127.0.0.1:4173/index.html
+http://localhost:4173/index.html
+http://localhost:4173/solution.html
 ```
 
-先不要打开 Solution。
-
----
-
-## 5. 调试协议
-
-每个 Case 使用同一张卡：
+工作顺序：
 
 ```text
-1. Symptom
-2. Selector Source
-3. Subject / Candidate
-4. Predicted Match Set
-5. Actual Match Set
-6. Styles / Computed Evidence
-7. Root Cause Category
-8. Minimal Fix
-9. Regression Set
-```
-
-Root Cause 只能先归类，再修：
-
-```text
-Parser
-Match Set
-Specificity / Cascade
-DOM Coupling
-State Modeling
-Input Modality
-Generated Content / Semantics
-Nesting Context
-Scoped Query
-```
-
-禁止一上来：
-
-```text
-加 !important
-加 ID
-复制一条更长 Selector
-删除所有 outline
-改 DOM 直到碰巧生效
+先只看 Broken
+→ 写预测
+→ 收集 DevTools 证据
+→ 自己修复
+→ 最后再打开 Solution 对照
 ```
 
 ---
 
-## 6. S01：Invalid Selector List
-
-Broken：
-
-```css
-.selector-list-target,
-:totally-invalid-pseudo {
-  border: 4px solid blue;
-}
-```
-
-### 预测
-
-不要只问：
-
-> `.selector-list-target` 是否有效？
-
-要问：
-
-> 整个 Selector List 是否能被 Parser 接受？
-
-Ordinary Selector List 中一个无效 Selector 可能让整条 Style Rule 无效。
-
-### Evidence
-
-```js
-document.querySelectorAll(".selector-list-target")
-```
-
-能找到元素，并不证明 CSS Rule 被 Parser 保留。
-
-继续：
-
-1. 选择目标元素。
-2. 查看 Styles。
-3. 搜索 `selector-list-target`。
-4. 查看目标 Border 的 Computed Value。
-5. 在 CSSOM 中搜索对应 Rule。
-
-### Root Cause
+## 3. 十一类故障
 
 ```text
-DOM 正常
-Basic Selector 正常
-Rule Parser 失败
-```
-
-因此增加 Specificity 无意义。
-
----
-
-## 7. S02：Attribute Substring Over-match
-
-Broken：
-
-```css
-[data-role*="admin"] {
-  ...
-}
-```
-
-DOM：
-
-```text
-admin
-superadmin
-editor
-```
-
-### 预测
-
-`*=` 表示字符串中包含目标子串，不表示角色枚举相等。
-
-Console：
-
-```js
-document.querySelectorAll('[data-role*="admin"]')
-```
-
-记录返回数量和元素值。
-
-### 修复决策
-
-数据契约是：
-
-```text
-role ∈ { admin, superadmin, editor }
-```
-
-所以应该使用：
-
-```css
-[data-role="admin"]
-```
-
-Selector 语法必须服从数据模型，而不是凭视觉名称猜。
-
----
-
-## 8. S03：组件边界与 Descendant Leakage
-
-Broken：
-
-```css
-.dashboard .title {
-  color: red;
-}
-```
-
-它匹配 Dashboard 中所有后代 `.title`：
-
-```text
-Dashboard title
-Panel title
-Embedded Widget title
-```
-
-### Evidence
-
-```js
-document.querySelectorAll(".dashboard .title")
-```
-
-逐个打印：
-
-```js
-[...document.querySelectorAll(".dashboard .title")]
-  .map(element => element.className)
-```
-
-### 修复
-
-不是简单改成更长 Selector：
-
-```css
-.dashboard .panel .panel__body .panel__title
-```
-
-而是给每个组件明确样式所有权：
-
-```css
-.dashboard > .dashboard__title
-.panel__title
-.embedded-widget__title
+S01 Invalid Selector List
+S02 Attribute Substring Over-match
+S03 Broad Descendant Leakage
+S04 Structural Position as Business Identity
+S05 :is() Specificity Trap
+S06 :has() Direction Error
+S07 Hover-only Interaction
+S08 Focus Indicator Removal
+S09 Generated-content-only Label
+S10 Sass Concatenation Mental Model
+S11 :scope Context Misunderstanding
 ```
 
 ---
 
-## 9. S04：Structural Position 与业务状态
+## 4. 统一诊断法
 
-Broken：
-
-```css
-.release-list > :nth-child(2) {
-  ...
-}
-```
-
-需求却是：
-
-> 标出当前版本。
-
-DOM 第二个 Child 当前是一条维护提示。
-
-点击“插入提示”后，索引还会继续变化。
-
-### 证据
-
-```js
-[...document.querySelector(".release-list").children]
-  .map((item, index) => ({
-    index: index + 1,
-    className: item.className,
-    state: item.dataset.state
-  }))
-```
-
-### 根因
+对每个 Case 都执行：
 
 ```text
-:nth-child()
-→ 结构身份
-
-data-state / aria-current
-→ 业务状态
+1. 定位目标 HTML
+2. 写出期望 Match Set
+3. 拆解 Selector
+4. 标记 Subject
+5. 标记 Combinator / Pseudo 参数
+6. 在 Styles 中确认规则是否匹配
+7. 如果匹配，判断是否被 Cascade 覆盖
+8. 完成最小修复
+9. 检查其他目标是否被误伤
+10. 记录防复发 Contract
 ```
-
-两者不是同一个问题。
-
-### 修复
-
-```css
-.release-row[data-state="current"] {
-  ...
-}
-```
-
-`aria-current="step"` 继续服务于语义和辅助技术。
 
 ---
 
-## 10. S05：`:is()` Specificity Trap
+## 5. S01～S03：解析、属性与关系
 
-Broken：
+### S01
 
-```css
-.project-shell :is(.action, #legacy-action) {
-  color: red;
-}
+普通 Selector List 中包含非法成员。不要通过“再加一条更强规则”掩盖 Parser 问题。
 
-.project-shell .action.is-safe {
-  color: green;
-}
-```
+### S02
 
-页面没有 `#legacy-action`，但它仍参与 `:is()` 参数最大 Specificity 的计算。
+`[data-role*="admin"]` 把多个仅包含字符串的值一起命中。权限或角色应是 exact contract。
 
-### Evidence
+### S03
 
-在 Styles 中记录：
-
-```text
-两条 Rule 是否都匹配？
-哪条声明被划掉？
-为什么后出现的状态类仍输？
-```
-
-### 修复选项
-
-选项 A：低权重基线：
-
-```css
-.project-shell :where(.action, #legacy-action) {
-  color: gray;
-}
-```
-
-选项 B：拆分 Legacy Rule：
-
-```css
-.project-shell .action { ... }
-#legacy-action { ... }
-```
-
-选项 C：迁移 Legacy ID 到单独 Cascade Layer。
+`.dashboard .title` 把嵌套 Widget 的标题一起选中。重构目标不是单纯缩短 Selector，而是恢复样式所有权。
 
 ---
 
-## 11. S06：`:has()` Subject 与方向
+## 6. S04～S06：结构、Specificity 与方向
 
-Broken：
+### S04
 
-```css
-.status-error:has(.panel)
-```
+`:nth-child(2)` 被错误地当成“当前发布”。插入一个说明元素后身份漂移。
 
-这句话读作：
+### S05
 
-> 选择一个 `.status-error`，它内部必须有 `.panel`。
+`:is(.action, #legacy-action)` 因 ID 参数带来高权重。修复可以使用 `:where()` 或重新设计 Selector List。
 
-真实 DOM 正好相反：Panel 包含 Error。
+### S06
 
-### 正确表达
-
-```css
-.status-panel:has(.status-error)
-```
-
-读作：
-
-> 选择一个 Status Panel，只要它包含 Error 后代。
-
-点击“切换错误状态”验证：
-
-```text
-status-error
-↔
-status-ok
-```
-
-Panel 的 Match Set 应自动变化。
+`.status-error:has(.status-panel)` 把 Subject 写反。应从需要被选中的父面板出发。
 
 ---
 
-## 12. S07 / S08：Input Modality 与 Focus
+## 7. S07～S09：A11Y Boundary
 
-Broken：
+### S07
 
-```css
-.interactive-target:hover {
-  ...
-}
+只有 Hover 状态提供明显反馈，键盘与触屏路径不完整。
 
-.interactive-target:focus {
-  outline: none;
-}
-```
+### S08
 
-### Pointer 测试
+`:focus { outline: none; }` 无替代删除焦点指示。
 
-用鼠标 Hover。
+### S09
 
-### Keyboard 测试
+关键按钮文字只存在于 `content`。关闭 CSS 后按钮没有真实可见文本。
 
-1. 点击地址栏。
-2. 使用 Tab 前进。
-3. 使用 Shift+Tab 后退。
-4. 观察 Interactive Target。
-5. 检查 `document.activeElement`。
-
-### 修复
-
-```css
-.interactive-target:is(:hover, :focus-visible) {
-  ...
-}
-
-.interactive-target:focus-visible {
-  outline: 3px solid orange;
-  outline-offset: 3px;
-}
-```
-
-Hover 和 Focus 可以共享部分视觉，但不能假设只有鼠标用户。
+修复时必须把业务内容放回 HTML。
 
 ---
 
-## 13. S09：Pseudo-element 与关键语义
+## 8. S10：Native Nesting
 
-Broken HTML：
-
-```html
-<button class="danger-action"></button>
+```css
+.notice {
+  &__label {}
+}
 ```
+
+这是 Sass 字符串拼接心智模型，不是 Native CSS Selector 组合。
+
+修复：
+
+```css
+.notice {
+  & > .notice__label {}
+}
+```
+
+---
+
+## 9. S11：`:scope` Boundary
 
 Broken CSS：
 
 ```css
-.danger-action::before {
-  content: "删除项目";
-}
+:scope > .scope-row {}
 ```
 
-页面视觉上似乎有文字，但必要业务标签不应只依赖 Generated Content。
+在普通顶层 Stylesheet 中，不能把当前 `.scope-zone` 想象成某次 DOM Query 的参考根。
 
-### 三个回归
-
-1. 在 Elements 中检查真实 DOM Text。
-2. 禁用 CSS。
-3. 检查 Accessibility Tree / Accessible Name。
-
-### 修复
-
-```html
-<button class="danger-action" type="button">
-  <span>删除项目</span>
-</button>
-```
-
-Pseudo-element 只做装饰：
+当前需求只是文档中的直接父子关系，正确写法：
 
 ```css
-.danger-action::before {
-  content: "⚠ ";
-}
+.scope-zone > .scope-row {}
 ```
+
+`:scope` 在 Element scoped query 中的完整使用延后 Stage 07。
 
 ---
 
-## 14. S10：Native Nesting 与 Sass 迁移
+## 10. 静态回归矩阵
 
-Broken：
+| Case | Broken 页面 | Solution 页面 | 证据 |
+| --- | --- | --- | --- |
+| S01 | Rule 不生效 | Rule 生效 | Styles |
+| S02 | 三项被误选 | 仅 admin | Elements + Styles |
+| S03 | Widget 标题泄漏 | 所有权分离 | Styles |
+| S04 | 身份随位置漂移 | 状态属性稳定 | DOM + Styles |
+| S05 | 普通规则难覆盖 | 低权重基线 | Styles |
+| S06 | 父面板不命中 | 父面板命中 | DOM + Styles |
+| S07 | 仅 Hover | 基础 + Hover | 鼠标 / 键盘 |
+| S08 | 无焦点指示 | Focus Visible | Tab |
+| S09 | CSS 关闭后无文字 | HTML 保留文字 | Disable CSS |
+| S10 | 嵌套规则无效 | 完整类名匹配 | Styles |
+| S11 | 参考根假设错误 | 显式关系 | Styles |
 
-```css
-.notice {
-  &__label {
-    ...
-  }
-}
-```
+---
 
-这不是 Native CSS 的字符串模板。
+## 11. 为什么删除动态 JavaScript
 
-### 修复
-
-```css
-.notice {
-  & > .notice__label {
-    ...
-  }
-}
-```
-
-组合后：
-
-```css
-.notice > .notice__label
-```
-
-### 迁移审计
-
-仓库迁移时搜索：
+旧项目使用脚本：
 
 ```text
-&__
-&--
-&-
+插入 DOM
+切换状态
+统计 Match Count
+读取 Computed Style
+检测 Selector Support
 ```
 
-然后逐项分类：
+这些操作属于 Stage 05、07、09。
+
+当前项目通过：
 
 ```text
-字符串拼接
-Pseudo-class
-State Attribute
-Combinator
-Ancestor Context
+静态 Broken / Solution
++ 手动 HTML / CSS 修改
++ DevTools
 ```
 
-只有后四类可以按真实 Selector 语义迁移。
+仍然完整保留所有 CSS 诊断目标，因此不应把后续技术作为前置。
 
 ---
 
-## 15. S11：`:scope` Query Boundary
+## 12. 项目提交物
 
-Broken 模式使用：
-
-```js
-scopeZone.querySelectorAll(".scope-row")
-```
-
-它包含直接 Row 和 Nested Row。
-
-Solution 模式使用：
-
-```js
-scopeZone.querySelectorAll(":scope > .scope-row")
-```
-
-只包含三条直接 Row。
-
-### Evidence
-
-页面自动输出数量。
-
-再手工运行：
-
-```js
-const root = document.querySelector("#scope-zone");
-
-[...root.querySelectorAll(".scope-row")]
-  .map(item => item.textContent.trim());
-
-[...root.querySelectorAll(":scope > .scope-row")]
-  .map(item => item.firstChild.textContent.trim());
-```
-
-`:scope` 明确当前 Query Root；它不是 `@scope` At-rule。
+1. 完整 `DIAGNOSTIC_REPORT.md`。
+2. 每个 Case 的预测 Match Set。
+3. Styles / Computed / DOM 截图或文字记录。
+4. 自己的修复版 HTML / CSS。
+5. 回归矩阵。
+6. 更新后的 Selector Contract。
+7. 一段 Boundary Review：证明没有依赖未来 Stage 技术。
 
 ---
 
-## 16. 自动 Evidence 面板
+## 13. Definition of Done
 
-`app.js` 根据：
+你必须能够：
 
-```html
-<body data-mode="broken">
-```
-
-或：
-
-```html
-<body data-mode="solution">
-```
-
-选择对应验证 Selector。
-
-输出包括：
-
-```text
-S01 Border Used Value
-S02 Attribute Match Count
-S03 Descendant Match Count
-S04 Current Selector Match Count
-S05 Action Computed Color
-S06 :has() Match Count
-S09 Real DOM textContent
-S10 Notice Label Computed Color
-S11 Scoped Query Count
-```
-
-自动输出不是答案，只是帮助你建立可重复证据。
-
----
-
-## 17. 完整回归矩阵
-
-| Case | Broken 证据 | 修复后预期 |
-| --- | --- | --- |
-| S01 | Target 存在但 Border Rule 不出现 | Border Rule 有效 |
-| S02 | admin 与 superadmin 同时匹配 | 只匹配 admin |
-| S03 | 三层 Title 被统一命中 | 组件各自拥有样式 |
-| S04 | 第二 Child 被选中且插入后漂移 | current state 稳定 |
-| S05 | Safe Rule 被 ID Specificity 压制 | 状态类自然覆盖 |
-| S06 | Error Node 检查错误方向 | Panel 根据后代状态匹配 |
-| S07 | 只有 Mouse Hover | Mouse 与 Keyboard 都有反馈 |
-| S08 | Focus Indicator 消失 | Focus-visible 清晰 |
-| S09 | DOM 中无按钮标签 | 真实 DOM 有标签 |
-| S10 | `&__label` 无效 | 显式真实 Selector |
-| S11 | Query 包含 Nested Row | 只返回 Direct Row |
-
-动态回归：
-
-```text
-切换 Error
-插入 Release Note
-Tab / Shift+Tab
-禁用 CSS
-调整 DOM Wrapper
-重复刷新 Evidence
-```
-
----
-
-## 18. Diagnostic Report
-
-复制模板：
-
-```bash
-cp DIAGNOSTIC_REPORT.md MY_DIAGNOSTIC_REPORT.md
-```
-
-填写要求：
-
-- 不只写“改成什么”。
-- 必须写原 Selector 为什么产生当前 Match Set。
-- 必须区分 Parser 与 Matching。
-- 必须写出 Subject / Anchor。
-- 必须保留最小 Evidence。
-- 必须说明修复后哪些 DOM 变化仍然安全。
-
----
-
-## 19. Selector Contract
-
-项目附带 `SELECTOR_CONTRACT.md`，覆盖：
-
-```text
-Component Identity
-Selector Depth Budget
-Specificity Budget
-State Modeling
-Attribute Selector
-Relation Selector
-Structural Selector
-Native Nesting
-Focus / Input Modality
-Evidence Requirement
-Review Checklist
-```
-
-完成项目后，应根据你自己的结论修改一份团队版本，而不是原样复制。
-
----
-
-## 20. Wrong Way
-
-### Wrong Way A：用更高 Specificity 盖住所有问题
-
-```css
-#app .project-shell .dashboard .panel .title {
-  color: green !important;
-}
-```
-
-它没有修复：
-
-```text
-Parser Error
-Wrong Match Set
-A11Y
-State Modeling
-Nesting Invalidity
-```
-
-### Wrong Way B：一看到 `:has()` 就替代 JavaScript
-
-`:has()` 解决的是 Selector Relation，不是复杂业务状态机、权限和异步流程。
-
-### Wrong Way C：所有状态都改成位置
-
-```css
-:nth-child(...)
-```
-
-位置适合斑马纹、网格周期和纯结构装饰，不适合表达“当前、失败、管理员、已选中”。
-
-### Wrong Way D：Nesting 越深越模块化
-
-缩进深度与模块化没有直接关系。组合后 Selector 仍可能跨越多个组件。
-
----
-
-## 21. Module Final Challenge
-
-在不查看 `solution.css` 的前提下：
-
-1. 创建 `my-solution.html`。
-2. 创建 `my-solution.css`。
-3. 不改 `app.js` 的 Evidence Contract。
-4. 修复全部 11 个 Case。
-5. 给每个 Case 写至少一条 Console 验证。
-6. 完成键盘回归。
-7. 动态插入三次 Release Note。
-8. 动态切换 Error 三次。
-9. 禁用 CSS 后检查业务文本。
-10. 输出你自己的 Selector Contract。
-
-加分项：
-
-- 把 Match Set Evidence 写成浏览器内测试函数。
-- 检测所有复杂 Selector 的返回数量。
-- 为组件 Wrapper 变化添加回归 Fixture。
-- 记录 Nested CSS 在 CSSOM 中的序列化结构。
-
----
-
-## 22. Mastery Check
-
-完成项目后应能回答：
-
-1. DOM 中能找到元素，为什么 CSS Rule 仍可能不存在？
-2. `*=` 为什么容易 Over-match？
-3. Descendant Selector 如何穿透嵌套组件？
-4. `:nth-child()` 为什么不能默认表达业务身份？
-5. `:is()` 参数中不存在的 ID 为什么仍影响 Specificity？
-6. `:where()` 的架构用途是什么？
-7. `:has()` 的 Subject 与 Relative Selector 分别是什么？
-8. Hover-only 为什么是输入模型缺陷？
-9. Focus Indicator 为什么不能无替代移除？
-10. Pseudo-element Content 为什么不应承载必要业务文本？
-11. `&__element` 为什么不是原生 CSS Nesting？
-12. `:scope > child` 与普通 Descendant Query 有什么区别？
-13. Selector Match 问题与 Cascade Winner 问题怎样区分？
-14. Selector Depth Budget 约束的是什么？
-15. 什么时候应放弃复杂 Selector，改用状态属性或组件边界？
-
----
-
-## 23. Definition of Done
-
-必须全部完成：
-
-```text
-[ ] npm run check
-[ ] Broken Baseline 11 个 Case 的预测
-[ ] 11 个 Case 的实际 Evidence
-[ ] 自己的 MY_DIAGNOSTIC_REPORT.md
-[ ] 自己的 my-solution.html / css
-[ ] Mouse 回归
-[ ] Keyboard 回归
-[ ] Dynamic DOM 回归
-[ ] CSS Disabled 回归
-[ ] Selector Contract
-[ ] 与 Reference Solution 差异复盘
-```
-
-通过后，Module 04.02 的 Selector 学习链闭环：
-
-```text
-Grammar
-→ Attribute
-→ Combinator
-→ Structural
-→ Functional / Relational
-→ UI / Form / Focus / Pseudo-element
-→ Native Nesting / :scope
-→ Multi-fault Refactoring Project
-```
-
-下一步进入 Module 04.03：
-
-```text
-Box Model
-Sizing
-Intrinsic Size
-Replaced Element
-Overflow
-```
+- 拆解全部 11 条问题 Selector。
+- 区分 Parser、Match、Cascade 与 HTML Contract。
+- 解释 `:is()`、`:has()`、Nesting 和 `:scope` 边界。
+- 修复 Hover、Focus 与 Generated Content 风险。
+- 证明修复没有扩大误匹配。
+- 在完全不编写 JavaScript 的前提下完成项目。
