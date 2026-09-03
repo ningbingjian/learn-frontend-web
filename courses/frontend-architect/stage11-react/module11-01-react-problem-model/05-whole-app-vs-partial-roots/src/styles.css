@@ -1,0 +1,201 @@
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #1c2538;
+  background: #f1f4f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #7da2ff;
+  outline-offset: 3px;
+}
+
+.legacy-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #d9e0ea;
+  padding: 24px max(24px, calc((100vw - 1180px) / 2));
+  background: #182238;
+  color: #ffffff;
+}
+
+.legacy-header h1,
+.legacy-header p {
+  margin: 0;
+}
+
+.legacy-header button,
+.health-shell__heading button {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  cursor: pointer;
+}
+
+.legacy-label,
+.react-label {
+  margin: 0 0 8px;
+  color: #7280a0;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legacy-header .legacy-label {
+  color: #a9b9da;
+}
+
+.host-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
+  width: min(1180px, calc(100% - 32px));
+  margin: 32px auto 64px;
+}
+
+.legacy-nav,
+.legacy-card,
+.mount-point,
+.health-shell {
+  border: 1px solid #dce3ed;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 40px rgba(40, 55, 84, 0.07);
+}
+
+.legacy-nav {
+  align-self: start;
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.legacy-nav a {
+  color: #315fcf;
+}
+
+.legacy-nav p {
+  margin: 12px 0 0;
+  color: #687386;
+  line-height: 1.6;
+}
+
+.content-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.legacy-card,
+.health-shell {
+  padding: 24px;
+}
+
+.mount-point {
+  min-height: 220px;
+  padding: 24px;
+  border-style: dashed;
+  border-color: #8aa7e8;
+}
+
+.react-card h2,
+.react-card h3,
+.react-card p {
+  margin-top: 0;
+}
+
+.react-card {
+  display: grid;
+  gap: 12px;
+}
+
+.react-card--health {
+  border-radius: 14px;
+  padding: 20px;
+  background: #f7f9fc;
+}
+
+.react-label {
+  color: #315fcf;
+}
+
+.widget-value {
+  font-size: 2.5rem;
+}
+
+.react-card button {
+  justify-self: start;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 15px;
+  background: #315fcf;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.health-shell__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.health-shell__heading h2 {
+  margin: 0;
+}
+
+.health-shell__heading button {
+  border-color: #d7deea;
+  background: #eef2f7;
+  color: #26344f;
+}
+
+#health-root-status {
+  margin-bottom: 0;
+  color: #687386;
+}
+
+@media (max-width: 800px) {
+  .legacy-header,
+  .health-shell__heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .host-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .legacy-nav {
+    position: static;
+  }
+}
