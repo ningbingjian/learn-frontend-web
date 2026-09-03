@@ -21,44 +21,51 @@
 
 ## 当前状态
 
-> 🚧 **Frontend Architect 正式课程正在重新设计。**
+> 🚧 **Frontend Architect 正式课程已经开始落地。**
 
-原 `courses/frontend-architect` 旧课程已经清理。
+课程设计继续统一放在 `learn-frontend-web-course/`；正式可学习课程放在 `courses/frontend-architect/`。
 
-当前先在 `learn-frontend-web-course/` 中把**唯一总纲**和**统一教学规范**设计正确，再按总纲逐 Stage → Module → Lesson 落地正式课程。
+当前 React Stage 11 已完成：
+
+```text
+Stage 总纲
+→ 35 个 Owner Module
+→ 1101 个 Lesson 大纲
+→ Dependency / Duplication / Granularity / Knowledge Ceiling 全局复审
+→ 按 Module 拆分课程设计文档
+→ 开始正式逐 Lesson 编写 README 与完整源码
+```
+
+第一篇正式课程已经完成：
+
+- [RE-INTRO-001：网页交互为什么会越来越难维护](./courses/frontend-architect/stage11-react/module11-01-react-foundation/01-web-interaction-complexity/README.md)
 
 ---
 
-## 核心文档
+## 核心入口
 
-课程设计区只保留两个核心来源：
+### 课程设计
 
 - [前端架构师唯一总纲](./learn-frontend-web-course/README.md)
 - [统一教学与课程编写规范](./learn-frontend-web-course/FRONTEND_TEACHING_GUIDE.md)
+- [React Stage 11 详细设计](./learn-frontend-web-course/stage11-react/README.md)
 
-不再为 React、Vue、浏览器、性能、安全或项目单独建立平行专项大纲。
+`stage11-react/` 是唯一总纲下的 Stage 子级详细设计，不是另一套平行课程体系。
 
-所有内容统一进入一条课程主线：
+### 正式课程
+
+- [Frontend Architect 正式课程入口](./courses/frontend-architect/README.md)
+- [React Stage 11 正式课程](./courses/frontend-architect/stage11-react/README.md)
+
+所有课程统一遵循：
 
 ```text
 Stage
-  ↓
-Module
-  ↓
-Module
-  ↓
-知识已经足够组合
-  ↓
-综合实践 / Failure Lab / Source Lab / Performance Lab
-  ↓
-继续 Module
-  ↓
-阶段综合项目
-  ↓
-下一 Stage
+└── Module
+    └── Lesson
 ```
 
-项目和实验都是正常学习顺序中的节点，不是另一套课程体系。
+故障复现、源码 Debug、性能分析、综合项目、架构复盘仍然可以出现，但它们在课程结构上全部都是普通 Lesson，不再增加新的层级类型。
 
 ---
 
@@ -69,6 +76,7 @@ Module
 ```text
 Stage = 一个较完整的技术 / 能力领域
 Module = 该领域中的一个独立知识主题
+Lesson = 一个可单独提出、操作、解释和验证的主要问题
 ```
 
 因此不会再把同一核心技术人为拆成：
@@ -131,7 +139,7 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-每个 Stage 的详细 Module、自然穿插的综合实践、Failure/Performance/Source Lab 和阶段项目全部直接写在：
+详细 Stage / Module 设计统一查看：
 
 - [learn-frontend-web-course/README.md](./learn-frontend-web-course/README.md)
 
@@ -234,12 +242,25 @@ IDE 会提示
 learn-frontend-web/
 ├── README.md
 ├── learn-frontend-web-course/
-│   ├── README.md                    # 唯一总纲
-│   └── FRONTEND_TEACHING_GUIDE.md   # 唯一教学 / 编写规范
+│   ├── README.md
+│   ├── FRONTEND_TEACHING_GUIDE.md
+│   └── stage11-react/
+│       ├── README.md
+│       └── module11-xx-*/README.md
 └── courses/
-    └── frontend-architect/          # 总纲确认后逐 Stage 正式建设课程
+    └── frontend-architect/
+        ├── README.md
+        └── stage11-react/
+            ├── README.md
+            └── module11-01-react-foundation/
+                ├── README.md
+                └── 01-web-interaction-complexity/
+                    ├── README.md
+                    ├── index.html
+                    ├── styles.css
+                    └── app.js
 ```
 
 当前阶段的重点：
 
-> **先把总纲的广度、深度、Stage/Module 边界和学习顺序确定正确，再正式从 Stage 00 开始逐课建设。**
+> **React Stage 11 大纲已经完成全局复审，正式进入逐 Lesson 建设阶段。每完成一课，就同时交付完整教学 README、独立最终源码和可验证结果。**
