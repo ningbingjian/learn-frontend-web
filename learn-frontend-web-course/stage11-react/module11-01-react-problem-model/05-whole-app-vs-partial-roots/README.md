@@ -71,7 +71,7 @@ React Root B：健康检查组件
 进入：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/05-whole-app-vs-partial-roots
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/05-whole-app-vs-partial-roots
 ```
 
 目录：
