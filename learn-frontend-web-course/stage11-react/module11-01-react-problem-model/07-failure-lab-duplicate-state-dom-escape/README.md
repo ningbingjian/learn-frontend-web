@@ -52,7 +52,7 @@ React Root 外部代码直接修改 Root 内 DOM
 进入：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape
 ```
 
 目录：

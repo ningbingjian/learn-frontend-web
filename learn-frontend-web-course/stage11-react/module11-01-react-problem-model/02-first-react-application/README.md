@@ -52,7 +52,7 @@ Browser DOM
 进入目录：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/02-first-react-application
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/02-first-react-application
 ```
 
 最终目录：

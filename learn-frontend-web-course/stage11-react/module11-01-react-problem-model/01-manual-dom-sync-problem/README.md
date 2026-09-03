@@ -48,7 +48,7 @@ countElement.textContent = '3';
 进入目录：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem
 ```
 
 目录结构：

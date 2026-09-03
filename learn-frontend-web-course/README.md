@@ -1696,32 +1696,28 @@ Vue 只学这一次：从模板与响应式入门一直学习到编译器、Runt
 
 # 12. 目录约定
 
-课程设计目录：
+整个前端课程只使用一个课程根目录：
 
 ```text
 learn-frontend-web-course/
 ├── README.md                       # 唯一总纲
 ├── FRONTEND_TEACHING_GUIDE.md      # 统一教学规范
-└── stageXX-topic/                  # 后续 Stage 详细设计
-    ├── README.md                   # Stage 目标、Module 索引与项目
-    └── moduleXX-YY-topic/
-        └── README.md               # Module 边界、Lesson 索引与验收
-```
-
-正式课程目录：
-
-```text
-courses/frontend-architect/
 └── stageXX-topic/
+    ├── README.md                   # Stage 目标、Module 索引、项目与进度
     └── moduleXX-YY-topic/
+        ├── README.md               # Module 边界、Lesson 索引与验收
         └── lesson-name/
-            ├── README.md
+            ├── README.md           # 具体知识点详细课程
             ├── src/ 或最小源码文件
-            ├── tests/
+            ├── tests/              # 需要时提供
             └── 运行所需配置
 ```
 
-`README.md` 是唯一总纲。Stage 和 Module 文档只能细化总纲，不能创建平行路线或擅自改变 Owner 边界。
+不再维护独立的 `courses/frontend-architect/` 正式课程根目录。
+
+Stage、Module、Lesson、教学 README、完整源码、实验与项目统一在 `learn-frontend-web-course/` 中按层级组织。这样课程设计和实际学习内容使用同一棵树，不存在两套入口或路径映射。
+
+`learn-frontend-web-course/README.md` 是唯一总纲。Stage 和 Module 文档只能细化总纲，不能创建平行路线或擅自改变 Owner 边界。
 
 ---
 

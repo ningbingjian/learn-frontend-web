@@ -62,7 +62,7 @@ Effect cleanup
 进入：
 
 ```bash
-cd courses/frontend-architect/stage11-react/module11-01-react-problem-model/06-strict-mode-debug-baseline
+cd learn-frontend-web-course/stage11-react/module11-01-react-problem-model/06-strict-mode-debug-baseline
 ```
 
 目录：
