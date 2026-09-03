@@ -24,7 +24,7 @@
 ## 当前状态
 
 > ✅ 前端架构师课程唯一总纲已经完成。  
-> 🚧 **Stage 04 CSS 与 Stage 11 React 已经开始正式制作。**
+> 🚧 Stage 04 CSS、Stage 08 TypeScript 与 Stage 11 React 已进入正式课程建设。
 
 当前已经完成：
 
@@ -32,11 +32,53 @@
 - 各 Stage 的阶段目标、Owner Module、综合项目和验收标准；
 - `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
 - 统一教学与课程编写规范；
-- Stage 04 CSS 的 14 个 Owner Module、120 课详细规划；
-- CSS Module 04.01 的 9 课闭环规划，KP001～KP006 共 6 节正式课程已完成；
+- Stage 04 CSS 的完整 Stage / Module 规划及已落地课程；
+- Stage 08 TypeScript 的完整 Stage 规划及首批具体课程；
 - Stage 11 React 的 26 个 Owner Module 轻规划；
-- React Module 11.01 的 8 课闭环规划与第一批 3 节正式课程；
-- 已完成课程均提供独立可运行源码、Failure Lab、DevTools 证据与自动验证方式。
+- React Module 11.01 的 **RE-1101-001 ～ RE-1101-008 共 8 / 8 节具体课程**；
+- React Module 11.01 的 Failure Lab、Strict Mode Debug、局部 Root 实验、Module Project、迁移报告和自动验证脚本；
+- 已完成 Lesson 均直接保存详细 README 与完整可运行源码。
+
+---
+
+## 唯一课程根目录
+
+仓库现在统一采用一个课程根目录：
+
+```text
+learn-frontend-web-course/
+```
+
+不再区分“课程设计目录”和“正式课程目录”。
+
+统一结构：
+
+```text
+learn-frontend-web-course/
+├── README.md                       # 全课程唯一总纲
+├── FRONTEND_TEACHING_GUIDE.md      # 统一教学规范
+└── stageXX-topic/
+    ├── README.md                   # Stage 目标、Module 地图、进度、项目
+    └── moduleXX-YY-topic/
+        ├── README.md               # Module 边界、Lesson 索引、验收
+        └── lesson-name/
+            ├── README.md           # 具体知识点详细课程
+            ├── package.json        # 需要时提供
+            ├── index.html          # 需要时提供
+            ├── src/                # 完整源码
+            ├── tests/              # 需要时提供
+            └── 运行所需配置
+```
+
+也就是：
+
+```text
+总纲
+→ Stage
+→ Module
+→ Lesson
+→ README + 完整源码 + 实验 + 验收
+```
 
 ---
 
@@ -51,23 +93,25 @@
 
 - [CSS Stage 详细设计与课程入口](./learn-frontend-web-course/stage-04-css/README.md)
 - [Module 04.01：CSS 语言、样式表与级联体系](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/README.md)
-- [KP001：CSS 是什么](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp001-what-is-css/README.md)
-- [KP002：CSS 怎样进入页面](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp002-attach-stylesheet/README.md)
-- [KP003：Rule、Selector、Declaration、Property 与 Value](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp003-rules-declarations-properties-values/README.md)
-- [KP004：Shorthand、Longhand、注释、At-rule 与语法边界](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp004-shorthand-longhand-at-rules/README.md)
-- [KP005：Origin、Importance、Context 与 Source Order](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp005-origin-importance-context-source-order/README.md)
-- [KP006：Specificity、Inheritance 与 CSS-wide Keyword](./learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp006-specificity-inheritance-css-wide-keywords/README.md)
+
+### Stage 08：TypeScript
+
+- [TypeScript Stage 课程入口](./learn-frontend-web-course/stage-08-typescript/README.md)
 
 ### Stage 11：React
 
-- [React Stage 详细设计](./learn-frontend-web-course/stage11-react/README.md)
-- [React 正式课程入口](./courses/frontend-architect/stage11-react/README.md)
-- [Module 11.01：React 的问题模型与声明式 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/README.md)
-- [RE-1101-001：手工 DOM 同步为什么会失控](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
-- [RE-1101-002：创建第一个 React 应用](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
-- [RE-1101-003：让状态声明 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
+- [React Stage 详细设计与课程入口](./learn-frontend-web-course/stage11-react/README.md)
+- [Module 11.01：React 的问题模型与声明式 UI](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/README.md)
+- [RE-1101-001：手工 DOM 同步为什么会失控](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
+- [RE-1101-002：创建第一个 React 应用](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
+- [RE-1101-003：让状态声明 UI](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
+- [RE-1101-004：Component Tree 与单向更新流](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/04-component-tree-one-way-flow/README.md)
+- [RE-1101-005：整体应用与局部接入边界](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/05-whole-app-vs-partial-roots/README.md)
+- [RE-1101-006：Strict Mode 与第一套 Debug 基线](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/06-strict-mode-debug-baseline/README.md)
+- [RE-1101-007：Failure Lab——重复状态与 DOM 逃生](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/07-failure-lab-duplicate-state-dom-escape/README.md)
+- [RE-1101-008：Module Project——Release Console Migration](./learn-frontend-web-course/stage11-react/module11-01-react-problem-model/08-module-project-release-console-migration/README.md)
 
-`learn-frontend-web-course/README.md` 是课程唯一总纲。Stage 和 Module 设计只能细化总纲，不能创建平行路线。
+`learn-frontend-web-course/README.md` 是课程唯一总纲。Stage、Module 和 Lesson 只能在这棵课程树中继续细化，不再建立平行课程根目录。
 
 ---
 
@@ -107,53 +151,11 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
-每个核心主题只设置一个 Owner Module，从基础使用一直学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
+每个核心主题只设置一个 Owner Module，从基础使用一路学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
 
 ---
 
-## Stage 04 CSS 路线
-
-```text
-CSS 语言与样式表接入
-→ Shorthand / Longhand / At-rule
-→ Cascade / Origin / Importance / Context / Specificity / Inheritance / Layer
-→ Selector / Pseudo / Nesting / Scope
-→ Box Model / Sizing / Overflow
-→ Normal Flow / Formatting Context / Position / Stacking
-→ Flexbox / Grid / Subgrid
-→ Responsive / Media Query / Container Query
-→ Unit / Function / Logical Property
-→ Typography / Color / Visual Effect
-→ Transform / Transition / Animation
-→ Custom Property / Token / Theme
-→ CSS Architecture / Debug / Compatibility / Performance / A11Y / Governance
-```
-
-CSS 只设置一个完整 Stage，不再拆成基础篇、高级篇、布局篇、原理篇和架构篇。
-
-### 当前建设方式
-
-```text
-先固定 14 个 Owner Module 与 120 课边界
-→ 细化当前 Module Teaching Contract
-→ 每批完成 3 节详细教程与独立源码
-→ 执行 Failure Lab、DevTools 与自动检查
-→ 完成 Module Project 和复审
-→ 再进入下一批
-```
-
-当前 Module 04.01 已完成：
-
-```text
-KP001～KP006 / 9
-= 66.7%
-```
-
-下一批将完成 KP007～KP009，并收束 Module 04.01。
-
----
-
-## Stage 11 React 路线
+## Stage 11 React 当前路线
 
 ```text
 声明式 UI
@@ -169,19 +171,25 @@ KP001～KP006 / 9
 → Library / 大型架构 / 迁移 / 生产治理
 ```
 
-React 只设置一个完整 Stage，不再拆成基础篇、高级篇、性能篇和源码篇。
-
-### 轻规划原则
+当前已经完整完成第一条学习链：
 
 ```text
-先固定 26 个 Owner Module 的知识边界
-→ 只细化当前正在建设的 Module
-→ 每次交付完整 README 与独立可运行源码
-→ 完成 Module Project 和复审
-→ 再细化下一个 Module
+手工 DOM 同步问题
+→ React Root
+→ State 声明 UI
+→ Component Tree 与 State Owner
+→ 整体 / 局部 Root 边界
+→ Strict Mode Debug
+→ 重复 State / DOM Ownership Failure Lab
+→ Release Console Migration
 ```
 
-不预先创建几百个空 Lesson，不用目录数量代替课程质量。
+下一步进入：
+
+```text
+Module 11.02
+JSX、Element、Component 与 Render Output
+```
 
 ---
 
@@ -201,10 +209,10 @@ Architect Workbench 贯穿式项目
 Principal 级毕业项目与架构答辩
 ```
 
-当前已经确定的 Stage 综合项目：
+当前已经确定的 Stage 综合项目包括：
 
-- **Stage 04 — Responsive UI System / Architect Workbench UI Foundation v1**：覆盖响应式营销页、内容页、Dashboard、复杂表单、Component Gallery、主题、RTL、打印、A11Y、兼容与 CSS 架构审查。
-- **Stage 11 — React Enterprise Console**：覆盖路由、复杂表单、Server State、实时数据、Design System、Suspense、SSR/Streaming 实验、测试、性能预算和生产诊断。
+- **Stage 04 — Responsive UI System / Architect Workbench UI Foundation v1**。
+- **Stage 11 — React Enterprise Console**。
 
 ---
 
@@ -237,34 +245,27 @@ Principal 级毕业项目与架构答辩
 ```text
 learn-frontend-web/
 ├── README.md
-├── learn-frontend-web-course/
-│   ├── README.md
-│   ├── FRONTEND_TEACHING_GUIDE.md
-│   ├── stage-04-css/
-│   │   ├── README.md
-│   │   └── 04.01-css-language-and-stylesheets/
-│   │       ├── README.md
-│   │       ├── kp001-what-is-css/
-│   │       ├── kp002-attach-stylesheet/
-│   │       ├── kp003-rules-declarations-properties-values/
-│   │       ├── kp004-shorthand-longhand-at-rules/
-│   │       ├── kp005-origin-importance-context-source-order/
-│   │       └── kp006-specificity-inheritance-css-wide-keywords/
-│   └── stage11-react/
-│       ├── README.md
-│       └── module11-01-react-problem-model/
-│           └── README.md
-└── courses/
-    └── frontend-architect/
+├── .github/
+└── learn-frontend-web-course/
+    ├── README.md
+    ├── FRONTEND_TEACHING_GUIDE.md
+    ├── stage-04-css/
+    ├── stage-08-typescript/
+    └── stage11-react/
         ├── README.md
-        └── stage11-react/
+        └── module11-01-react-problem-model/
             ├── README.md
-            └── module11-01-react-problem-model/
-                ├── README.md
-                ├── 01-manual-dom-sync-problem/
-                ├── 02-first-react-application/
-                └── 03-state-declares-ui/
+            ├── 01-manual-dom-sync-problem/
+            ├── 02-first-react-application/
+            ├── 03-state-declares-ui/
+            ├── 04-component-tree-one-way-flow/
+            ├── 05-whole-app-vs-partial-roots/
+            ├── 06-strict-mode-debug-baseline/
+            ├── 07-failure-lab-duplicate-state-dom-escape/
+            └── 08-module-project-release-console-migration/
 ```
+
+现在只有一个课程根目录：`learn-frontend-web-course/`。Stage、Module、Lesson、README、源码和项目全部在这棵树中维护。
 
 ---
 
