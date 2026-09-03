@@ -32,9 +32,9 @@
 - 各 Stage 的阶段目标、Owner Module、综合项目和验收标准；
 - `Architect Workbench` 贯穿式项目 V0～V15 演进路线；
 - 统一教学与课程编写规范；
-- Stage 11 React 的 26 个 Owner Module 详细规划；
-- Module 11.01 的完整模块设计；
-- 第一批三节 React 正式课程及独立可运行源码。
+- Stage 11 React 的 26 个 Owner Module 轻规划；
+- Module 11.01 的 8 课闭环规划；
+- 第一批 3 节正式课程及独立可运行源码。
 
 ---
 
@@ -49,13 +49,13 @@
 
 - [React Stage 详细设计](./learn-frontend-web-course/stage11-react/README.md)
 - [React 正式课程入口](./courses/frontend-architect/stage11-react/README.md)
-- [Module 11.01：React 的问题模型与声明式 UI](./courses/frontend-architect/stage11-react/module11-01-react-foundation/README.md)
+- [Module 11.01：React 的问题模型与声明式 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/README.md)
 
-### 第一批课程
+### 第一批正式课程
 
-1. [RE-1101-001：交互页面为什么会出现同步遗漏](./courses/frontend-architect/stage11-react/module11-01-react-foundation/01-why-ui-sync-becomes-hard/README.md)
-2. [RE-1101-002：`createRoot` 如何建立 React 管理边界](./courses/frontend-architect/stage11-react/module11-01-react-foundation/02-first-react-root/README.md)
-3. [RE-1101-003：UI 如何成为状态的渲染快照](./courses/frontend-architect/stage11-react/module11-01-react-foundation/03-ui-as-state-snapshot/README.md)
+1. [RE-1101-001：手工 DOM 同步为什么会失控](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/01-manual-dom-sync-problem/README.md)
+2. [RE-1101-002：创建第一个 React 应用](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/02-first-react-application/README.md)
+3. [RE-1101-003：让状态声明 UI](./courses/frontend-architect/stage11-react/module11-01-react-problem-model/03-state-declares-ui/README.md)
 
 `learn-frontend-web-course/README.md` 是课程唯一总纲。Stage 和 Module 设计只能细化总纲，不能创建平行路线。
 
@@ -97,6 +97,8 @@ Stage 29  AI-assisted Development、MCP、AI Native Frontend、Agent UX、安全
 Stage 30  Principal 级综合毕业项目与正式架构答辩
 ```
 
+每个核心主题只设置一个 Owner Module，从基础使用一直学习到高级边界、Debug、原理、关键源码、性能、安全、生产实践和架构取舍。
+
 ---
 
 ## Stage 11 React 路线
@@ -105,17 +107,29 @@ Stage 30  Principal 级综合毕业项目与正式架构答辩
 声明式 UI
 → JSX / Element / Component
 → Props / Composition
-→ State / Queue / Batching
+→ State / Update Queue / Batching
 → Event / Form / List / Key
 → Effect / Ref / Reducer / Context / Custom Hook
-→ Router / Server State / Suspense / Activity / Concurrency / Action
-→ Styling / A11Y / Testing / Performance / React Compiler
+→ Router / Server State / Suspense / Concurrency / Action
+→ Styling / A11Y / Testing / Performance
 → SSR / Streaming / Hydration / Server Boundary
 → Fiber / Reconciler / Scheduler / Hook / DOM Renderer 源码
 → Library / 大型架构 / 迁移 / 生产治理
 ```
 
 React 只设置一个完整 Stage，不再拆成基础篇、高级篇、性能篇和源码篇。
+
+### 轻规划原则
+
+```text
+先固定 26 个 Owner Module 的知识边界
+→ 只细化当前正在建设的 Module
+→ 每次交付完整 README 与独立可运行源码
+→ 完成 Module Project 和复审
+→ 再细化下一个 Module
+```
+
+不预先创建几百个空 Lesson，不用目录数量代替课程质量。
 
 ---
 
@@ -175,18 +189,18 @@ learn-frontend-web/
 │   ├── FRONTEND_TEACHING_GUIDE.md
 │   └── stage11-react/
 │       ├── README.md
-│       └── module11-01-react-foundation/
+│       └── module11-01-react-problem-model/
 │           └── README.md
 └── courses/
     └── frontend-architect/
         ├── README.md
         └── stage11-react/
             ├── README.md
-            └── module11-01-react-foundation/
+            └── module11-01-react-problem-model/
                 ├── README.md
-                ├── 01-why-ui-sync-becomes-hard/
-                ├── 02-first-react-root/
-                └── 03-ui-as-state-snapshot/
+                ├── 01-manual-dom-sync-problem/
+                ├── 02-first-react-application/
+                └── 03-state-declares-ui/
 ```
 
 ---
