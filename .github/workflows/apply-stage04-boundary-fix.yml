@@ -5,19 +5,13 @@ on:
     branches:
       - fix/stage-04-boundary-cleanup
     paths:
-      - ".stage04-boundary-fix/**"
       - ".github/workflows/apply-stage04-boundary-fix.yml"
 
 permissions:
   contents: write
 
-concurrency:
-  group: apply-stage04-boundary-fix
-  cancel-in-progress: false
-
 jobs:
   apply:
-    if: github.event.head_commit.message == 'chore(stage04): launch boundary fix'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout boundary-fix branch
@@ -62,10 +56,7 @@ jobs:
             lesson_dir="$(dirname "$package")"
             echo "Checking $lesson_dir"
             (cd "$lesson_dir" && npm run check)
-          done < <(
-            find learn-frontend-web-course/stage-04-css \
-              -mindepth 3 -maxdepth 3 -type f -name package.json -print0 | sort -z
-          )
+          done < <(find learn-frontend-web-course/stage-04-css -mindepth 3 -maxdepth 3 -type f -name package.json -print0 | sort -z)
 
       - name: Commit applied boundary correction
         shell: bash
@@ -73,10 +64,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            .github/scripts/check-stage-04-boundary.mjs \
-            .github/workflows/stage-04-css.yml \
-            learn-frontend-web-course/stage-04-css
+          git add .github/scripts/check-stage-04-boundary.mjs .github/workflows/stage-04-css.yml learn-frontend-web-course/stage-04-css
           if git diff --cached --quiet; then
             echo "No boundary-fix changes to commit."
             exit 0
