@@ -1,0 +1,56 @@
+name: Stage 04 CSS
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/stage-04-css.yml"
+      - "learn-frontend-web-course/stage-04-css/**"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/stage-04-css.yml"
+      - "learn-frontend-web-course/stage-04-css/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage-04-css-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lesson-check:
+    name: ${{ matrix.lesson }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lesson:
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp001-what-is-css
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp002-attach-stylesheet
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp003-rules-declarations-properties-values
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp004-shorthand-longhand-at-rules
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp005-origin-importance-context-source-order
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp006-specificity-inheritance-css-wide-keywords
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp007-cascade-layer-scope-revert-layer
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp008-css-error-recovery-cssom-value-pipeline
+          - learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp009-first-stylesheet-diagnostic-lab
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp001-selector-grammar-basic-selectors
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp002-attribute-selectors
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp003-combinators-relationships
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp004-structural-pseudo-classes
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp005-functional-relational-pseudo-classes
+          - learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp006-ui-form-focus-pseudo-elements
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run independent lesson check
+        working-directory: ${{ matrix.lesson }}
+        run: npm run check
