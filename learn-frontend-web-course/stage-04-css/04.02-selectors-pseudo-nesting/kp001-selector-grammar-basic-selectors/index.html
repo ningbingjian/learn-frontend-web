@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP001 Selector Grammar Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP001</p>
+      <h1>Selector Grammar Laboratory</h1>
+      <p>从 Type、Class、ID、Universal、Compound 到 Selector List，观察浏览器到底匹配了谁。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="basic-title">
+      <h2 id="basic-title">实验 A：基础 Selector</h2>
+      <div class="card-grid">
+        <article class="selector-card featured" id="primary-card">
+          <h3>Primary Card</h3>
+          <p class="card-copy">同时满足 article、.selector-card、.featured 和 #primary-card。</p>
+        </article>
+        <article class="selector-card">
+          <h3>Normal Card</h3>
+          <p class="card-copy">只满足 article 与 .selector-card。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="compound-title">
+      <h2 id="compound-title">实验 B：Compound 与 Descendant 不一样</h2>
+      <div class="selector-card featured compound-target">
+        <p>这个元素自己同时拥有 selector-card 与 featured。</p>
+      </div>
+      <div class="selector-card descendant-host">
+        <div class="featured descendant-target">这个 featured 是 selector-card 的后代。</div>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="list-title">
+      <h2 id="list-title">实验 C：Selector List 与 Invalid Selector</h2>
+      <p class="selector-list-valid">有效 selector list 中的目标。</p>
+      <p class="selector-list-invalid">它本来想被另一条 selector list 命中，但列表里故意放了 invalid pseudo-class。</p>
+    </section>
+
+    <section class="lab-section evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Console Evidence</h2>
+      <pre><code>document.querySelectorAll("article")
+document.querySelectorAll(".selector-card")
+document.querySelectorAll("#primary-card")
+document.querySelectorAll(".selector-card.featured")
+document.querySelectorAll(".selector-card .featured")
+document.querySelector(".compound-target").matches(".selector-card.featured")</code></pre>
+    </section>
+  </main>
+</body>
+</html>

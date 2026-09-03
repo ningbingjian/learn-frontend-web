@@ -1,0 +1,16 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+const html = await readFile(new URL("index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
+assert.match(html, /Attribute Selector Laboratory/);
+assert.match(html, /data-state="active"/);
+assert.match(html, /data-env="PROD"/);
+assert.match(html, /data-tags="urgent finance"/);
+assert.match(css, /\[data-state\]\s*\{/);
+assert.match(css, /\[data-state="active"\]\s*\{/);
+assert.match(css, /\[data-tags~="urgent"\]\s*\{/);
+assert.match(css, /\[data-env="prod" i\]/);
+assert.match(css, /\[lang\|="zh"\]/);
+assert.match(css, /\[data-user\*="admin"\]/);
+assert.equal((css.match(/\{/g) ?? []).length, (css.match(/\}/g) ?? []).length);
+console.log("✓ KP002 attribute presence/value/token/case and substring over-match lab are complete.");
