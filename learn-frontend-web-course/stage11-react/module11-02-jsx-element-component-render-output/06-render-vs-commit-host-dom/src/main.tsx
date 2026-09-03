@@ -3,20 +3,22 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const container = document.querySelector('#root');
-const hostLog = document.querySelector('#host-log');
+const hostLogNode = document.querySelector('#host-log');
 
 if (!(container instanceof HTMLElement)) {
   throw new Error('缺少 #root 容器。');
 }
 
-if (!(hostLog instanceof HTMLElement)) {
+if (!(hostLogNode instanceof HTMLElement)) {
   throw new Error('缺少 #host-log 容器。');
 }
+
+const hostLogElement = hostLogNode;
 
 function appendHostLine(message: string) {
   const line = document.createElement('p');
   line.textContent = message;
-  hostLog.prepend(line);
+  hostLogElement.prepend(line);
 }
 
 function describeMutation(record: MutationRecord) {
