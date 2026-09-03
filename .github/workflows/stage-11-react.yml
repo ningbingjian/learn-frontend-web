@@ -39,6 +39,12 @@ jobs:
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/07-failure-lab-tag-element-mutation-manual-call
           - lesson-name: RE-1102-008
             working-directory: learn-frontend-web-course/stage11-react/module11-02-jsx-element-component-render-output/08-module-project-render-model-inspector
+          - lesson-name: RE-1103-001
+            working-directory: learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/01-props-readonly-input-contract
+          - lesson-name: RE-1103-002
+            working-directory: learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/02-children-composition-slot
+          - lesson-name: RE-1103-003
+            working-directory: learn-frontend-web-course/stage11-react/module11-03-props-children-composition-api-design/03-explicit-slots-stable-api
 
     defaults:
       run:
