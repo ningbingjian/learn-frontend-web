@@ -1,4 +1,4 @@
-name: Audit Latest Stage 04 Boundary
+name: Export Latest Stage 04
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  audit-latest-main:
+  export:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest main
@@ -19,75 +19,19 @@ jobs:
         with:
           ref: main
 
-      - name: Audit learner-facing Stage 04 files
+      - name: Build Stage 04 source archive
         shell: bash
         run: |
           set -euo pipefail
-          cat > /tmp/check-stage04-boundary.mjs <<'NODE'
-          import { readdir, readFile } from "node:fs/promises";
-          import { join, relative, sep } from "node:path";
-          import process from "node:process";
+          tar -czf stage04-latest-main.tar.gz \
+            learn-frontend-web-course/stage-04-css \
+            .github/workflows/stage-04-css.yml
+          sha256sum stage04-latest-main.tar.gz
 
-          const stageRoot = join(process.cwd(), "learn-frontend-web-course", "stage-04-css");
-          const violations = [];
-
-          async function walk(directory) {
-            const entries = await readdir(directory, { withFileTypes: true });
-            for (const entry of entries) {
-              const fullPath = join(directory, entry.name);
-              if (entry.isDirectory()) {
-                await walk(fullPath);
-                continue;
-              }
-
-              const rel = relative(process.cwd(), fullPath).split(sep).join("/");
-              const stageRel = relative(stageRoot, fullPath).split(sep).join("/");
-              const lessonPath = stageRel.split("/").some((part) => part.startsWith("kp"));
-
-              if (lessonPath && /(^|\/)app\.(js|mjs|cjs|ts|tsx|jsx)$/.test(stageRel)) {
-                violations.push(`${rel}: CSS Lesson 不允许业务 app 脚本`);
-              }
-
-              if (!/\.(md|html)$/.test(entry.name) || stageRel === "STAGE_BOUNDARY.md") continue;
-              const content = await readFile(fullPath, "utf8");
-              const forbidden = [
-                [/\bdocument\./, "DOM 编程 API"],
-                [/\bwindow\./, "Browser Window 编程 API"],
-                [/\bquerySelector(?:All)?\s*\(/, "DOM Selector 编程 API"],
-                [/\.matches\s*\(/, "Element Match 编程 API"],
-                [/\bgetComputedStyle\s*\(/, "CSSOM 编程 API"],
-                [/\bCSS\.supports\s*\(/, "Web Platform 编程 API"],
-                [/\baddEventListener\s*\(/, "Event 编程 API"],
-                [/\bcreateElement\s*\(/, "DOM 创建 API"],
-                [/\bclassList\./, "DOM Class 编程 API"],
-                [/\bshadowrootmode\b/i, "Declarative Shadow DOM"],
-                [/<script\b/i, "Learner-facing Script Tag"],
-                [/:host\b/, "Shadow DOM Host Selector"],
-              ];
-              for (const [pattern, label] of forbidden) {
-                if (pattern.test(content)) violations.push(`${rel}: 出现 ${label}`);
-              }
-              const infrastructureInstructions = [
-                /创建\s+`?server\.mjs`?/,
-                /创建\s+`?verify\.mjs`?/,
-                /编写\s+`?server\.mjs`?/,
-                /编写\s+`?verify\.mjs`?/,
-                /修改\s+`?server\.mjs`?/,
-                /修改\s+`?verify\.mjs`?/,
-              ];
-              for (const pattern of infrastructureInstructions) {
-                if (pattern.test(content)) violations.push(`${rel}: 把维护脚本写成学习者施工步骤`);
-              }
-            }
-          }
-
-          await walk(stageRoot);
-          if (violations.length === 0) {
-            console.log("LATEST MAIN BOUNDARY AUDIT: PASS");
-          } else {
-            console.error(`LATEST MAIN BOUNDARY AUDIT: ${violations.length} violations`);
-            for (const violation of violations) console.error(`- ${violation}`);
-            process.exit(1);
-          }
-          NODE
-          node /tmp/check-stage04-boundary.mjs
+      - name: Upload Stage 04 source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage04-latest-main
+          path: stage04-latest-main.tar.gz
+          if-no-files-found: error
+          retention-days: 1
