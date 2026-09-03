@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP005 Functional and Relational Pseudo-class Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP005</p>
+      <h1>Functional / Relational Pseudo-class Laboratory</h1>
+      <p>验证 <code>:is()</code>、<code>:where()</code>、<code>:not()</code> 与 <code>:has()</code> 的匹配方向和 specificity 边界。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="group-title">
+      <h2 id="group-title">实验一：用 <code>:is()</code> 合并重复 selector</h2>
+      <div class="message-grid">
+        <article class="message info">Info message</article>
+        <article class="message warning">Warning message</article>
+        <article class="message success">Success message</article>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="specificity-title">
+      <h2 id="specificity-title">实验二：<code>:is()</code> 与 <code>:where()</code> 的 specificity</h2>
+      <div class="specificity-is">
+        <p class="message override">`:is(.message, #never-used)` 会携带参数列表中的最高 specificity。</p>
+      </div>
+      <div class="specificity-where">
+        <p class="message override">`:where(.message, #never-used)` 的 specificity 恒为零。</p>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="not-title">
+      <h2 id="not-title">实验三：<code>:not()</code> 排除归档和禁用操作</h2>
+      <div class="action-row">
+        <button class="action" type="button">Deploy</button>
+        <button class="action archived" type="button">Archived</button>
+        <button class="action" aria-disabled="true" type="button">Permission denied</button>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="has-title">
+      <h2 id="has-title">实验四：<code>:has()</code> 从候选元素向后检查关系</h2>
+      <div class="panel-grid">
+        <article class="panel" id="health-panel">
+          <h3>Health panel</h3>
+          <p class="status-ok">All checks pass.</p>
+        </article>
+        <article class="panel">
+          <h3>Release panel</h3>
+          <p class="status-error">Build failed.</p>
+        </article>
+      </div>
+      <ol class="steps">
+        <li class="step">Prepare</li>
+        <li class="step current">Deploy</li>
+        <li class="step">Verify</li>
+      </ol>
+      <button id="toggle-error" type="button">切换 Health panel 的 error 子节点</button>
+      <p class="direction-note">错误方向演示：<code>.status-error:has(.panel)</code> 不会“回头选择父 panel”。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">匹配证据</h2>
+      <pre id="selector-output" aria-live="polite"></pre>
+    </section>
+  </main>
+</body>
+</html>
