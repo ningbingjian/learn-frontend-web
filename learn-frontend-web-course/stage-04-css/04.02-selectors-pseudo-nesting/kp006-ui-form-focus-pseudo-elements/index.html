@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP006 UI, Form, Focus and Pseudo-element Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP006</p>
+      <h1>UI / Form / Focus / Pseudo-element Laboratory</h1>
+      <p>把真实交互状态交给 pseudo-class，把渲染树中的抽象目标交给 pseudo-element。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="interaction-title">
+      <h2 id="interaction-title">实验一：hover、active、focus 与 focus-visible</h2>
+      <p class="link-row">
+        <a class="demo-link" href="#form-title">跳到表单实验</a>
+        <button class="demo-button" type="button">可键盘聚焦的按钮</button>
+      </p>
+      <p class="hint">请分别使用鼠标和 Tab 键，观察焦点指示器何时出现。</p>
+    </section>
+
+    <section class="lab-section focus-card" aria-labelledby="form-title">
+      <h2 id="form-title">实验二：focus-within 与表单状态</h2>
+      <form id="profile-form" novalidate>
+        <label class="field">
+          <span>Email（必填）</span>
+          <input id="email" name="email" type="email" required placeholder="name@example.com">
+        </label>
+        <label class="field">
+          <span>只读环境</span>
+          <input id="environment" name="environment" value="production" readonly>
+        </label>
+        <div class="check-row">
+          <input id="agree" name="agree" type="checkbox">
+          <label for="agree">我已经阅读发布规则</label>
+        </div>
+        <button type="submit">验证表单</button>
+        <button type="button" disabled>禁用操作</button>
+      </form>
+    </section>
+
+    <section class="lab-section" aria-labelledby="pseudo-title">
+      <h2 id="pseudo-title">实验三：pseudo-element 不是普通 DOM 节点</h2>
+      <p class="decorated-status" data-decoration="●">Release status: ready</p>
+      <ol class="milestones">
+        <li>Prepare</li>
+        <li>Deploy</li>
+        <li>Verify</li>
+      </ol>
+      <p class="selection-demo">拖动选择这一段文字，观察 <code>::selection</code>。装饰圆点和列表 marker 都由 pseudo-element 参与渲染，但它们不是普通 Element 节点。</p>
+    </section>
+
+    <section class="lab-section" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">状态与渲染证据</h2>
+      <pre id="selector-output" aria-live="polite"></pre>
+    </section>
+  </main>
+</body>
+</html>
