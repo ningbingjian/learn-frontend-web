@@ -1,0 +1,9 @@
+{
+  "name": "css-kp004-shorthand-longhand",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}
