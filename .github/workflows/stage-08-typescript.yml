@@ -35,6 +35,24 @@ jobs:
             working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp005-annotations-vs-inference
           - lesson-name: KP006
             working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp006-literal-widening
+          - lesson-name: KP007
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp007-contextual-typing
+          - lesson-name: KP008
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp008-assignability-and-compatibility
+          - lesson-name: KP009
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp009-unsafe-assertions
+          - lesson-name: KP010
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.01-compiler-model-and-inference/kp010-type-error-observatory
+          - lesson-name: KP011
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp011-primitives-wrappers-bigint-symbol
+          - lesson-name: KP012
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp012-null-undefined-strict-null-checks
+          - lesson-name: KP013
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp013-any-unknown-never-void
+          - lesson-name: KP014
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp014-object-object-braces-unknown
+          - lesson-name: KP015
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp015-optional-readonly-exact-optional
 
     defaults:
       run:
