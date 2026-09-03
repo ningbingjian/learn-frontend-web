@@ -1,0 +1,15 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+const html = await readFile(new URL("index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
+assert.match(html,/Cascade Layer \/ @scope Laboratory/);
+assert.match(css,/@layer reset, vendor, base, components, utilities, overrides;/);
+assert.match(css,/#layer-card \.layer-priority-target/);
+assert.match(css,/@layer utilities[\s\S]*\.layer-priority-target/);
+assert.match(css,/\.important-target\s*\{[^}]*!important/s);
+assert.match(css,/\.revert-target\s*\{\s*color:\s*revert-layer/);
+assert.match(css,/@scope \(\.inner-scope\)/);
+assert.match(css,/@scope \(\.outer-scope\)/);
+assert.match(css,/@scope \(\.article-scope\) to \(\.scope-stop\)/);
+assert.equal((css.match(/\{/g) ?? []).length,(css.match(/\}/g) ?? []).length);
+console.log("✓ KP007 layer order, important reversal, revert-layer, and @scope experiments are complete.");

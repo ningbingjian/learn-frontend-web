@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "css-kp009-stylesheet-diagnostic-lab",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node verify.mjs"
+  }
+}

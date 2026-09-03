@@ -1,0 +1,63 @@
+@layer reset, vendor, base, components, utilities, overrides;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+}
+
+@layer base {
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #172033;
+    background: #f4f7fb;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+}
+
+@layer components {
+  .page-shell { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+  .hero, .lab-section { padding: 28px; background: #fff; border: 1px solid #d9e1ec; border-radius: 18px; box-shadow: 0 12px 30px rgb(27 39 61 / 8%); }
+  .lab-section { margin-top: 24px; }
+  .hero h1, .lab-section h2 { margin-top: 0; }
+  .eyebrow { margin: 0 0 10px; font-weight: 700; color: #3156a6; }
+  #layer-card .layer-priority-target { color: #b91c1c; }
+  .unlayered-target { color: #b91c1c; }
+  .important-target { color: #1d4ed8 !important; }
+  .revert-target { color: #1d4ed8; }
+  .outer-scope, .inner-scope, .article-scope, .scope-stop { padding: 16px; border: 1px dashed #94a3b8; border-radius: 12px; }
+  .inner-scope, .scope-stop { margin-top: 12px; }
+  .scope-target { color: #475569; font-weight: 700; }
+  .scoped-note { padding: 10px 12px; border-radius: 10px; }
+  .compat-note { margin-bottom: 0; color: #64748b; }
+}
+
+@layer utilities {
+  .layer-priority-target { color: #047857; }
+  .important-target { color: #047857 !important; }
+  .revert-target { color: #047857; }
+}
+
+@layer overrides {
+  .revert-target { color: revert-layer; }
+}
+
+.unlayered-target { color: #7c3aed; }
+
+@scope (.inner-scope) {
+  .scope-target { color: #047857; }
+}
+
+@scope (.outer-scope) {
+  .scope-target { color: #b45309; }
+}
+
+@scope (.article-scope) to (.scope-stop) {
+  .scoped-note { color: #166534; background: #dcfce7; }
+}
+
+@media (min-width: 760px) {
+  @layer components {
+    .evidence ol { columns: 2; column-gap: 32px; }
+  }
+}

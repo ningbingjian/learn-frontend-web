@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP008 CSS Error Recovery / CSSOM / Value Pipeline</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero"><p class="eyebrow">Stage 04 · Module 04.01 · KP008</p><h1>CSS Error Recovery / CSSOM / Value Pipeline</h1><p>同样是“样式没按预期出现”，错误可能发生在完全不同阶段。</p></header>
+    <section class="lab-section"><h2>实验 A：无效 Property Value</h2><p class="invalid-value-demo">第一条 color 合法，第二条 color value 故意无效。</p></section>
+    <section class="lab-section"><h2>实验 B：未知 Property</h2><p class="unknown-property-demo">规则仍存在，但未知 property 不会进入有效声明结果。</p></section>
+    <section class="lab-section"><h2>实验 C：Invalid Selector Rule</h2><p>styles.css 中存在故意无效 pseudo-element selector；检查 CSSOM 是否保留。</p></section>
+    <section class="lab-section computed-parent"><h2>实验 D：Invalid at Computed-value Time</h2><p class="computed-child">父元素 font-size 为 30px；本元素通过 var() 得到不能用于 font-size 的值。</p></section>
+    <section class="lab-section"><h2>实验 E：Declared Value 与 Resolved Value</h2><div class="width-container"><div class="width-target">width: 50%</div></div><p class="hint">样式表声明仍是 50%，但 getComputedStyle() 对 width 通常返回布局后的像素 resolved value。</p></section>
+    <section class="lab-section"><h2>CSSOM 证据面板</h2><pre id="cssom-output">正在读取 CSSOM…</pre></section>
+    <section class="lab-section"><h2>Value Processing Pipeline</h2><ol class="pipeline"><li>Declared Values</li><li>Cascaded Value</li><li>Specified Value</li><li>Computed Value</li><li>Used Value</li><li>Actual Value</li></ol><p><code>getComputedStyle()</code> 返回 resolved value；不保证对所有属性都等同于纯 computed value。</p></section>
+  </main>
+</body>
+</html>
