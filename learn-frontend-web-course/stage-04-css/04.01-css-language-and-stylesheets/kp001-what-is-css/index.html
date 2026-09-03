@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stage 04 KP001：通过一个最小页面理解 CSS 与 HTML 的职责关系。"
+    />
+    <title>KP001｜CSS 是什么</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="lesson-shell">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP001</p>
+
+      <article class="status-card" aria-labelledby="project-title">
+        <p class="status-card__label">Deployment status</p>
+        <h1 id="project-title" class="status-card__title">Architect Workbench</h1>
+        <p class="status-card__summary">
+          HTML 提供标题、段落和链接的语义结构；CSS 决定这些结构怎样排版和呈现。
+        </p>
+        <a class="status-card__action" href="#evidence">查看本页证据</a>
+      </article>
+
+      <section id="evidence" class="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">本页证明什么</h2>
+        <ol>
+          <li>删除 CSS 后，HTML 内容和语义仍然存在。</li>
+          <li>恢复 CSS 后，同一份 DOM 获得间距、颜色、边框和布局。</li>
+          <li>CSS 改变呈现方式，不应该代替正确的 HTML 语义。</li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
