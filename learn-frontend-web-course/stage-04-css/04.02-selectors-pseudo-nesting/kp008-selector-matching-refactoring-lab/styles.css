@@ -1,0 +1,78 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #172033; background: #f4f7fb; }
+.project-shell { width: min(1040px, calc(100% - 32px)); margin-inline: auto; padding-block: 48px 72px; }
+.hero, .case { padding: 24px; border: 1px solid #d9e1ec; border-radius: 16px; background: #fff; }
+.case { margin-block-start: 20px; }
+.hero h1, .case h2 { margin-block-start: 0; }
+.eyebrow { margin: 0 0 8px; font-weight: 800; color: #3156a6; }
+.role-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.role-card, .release-row, .release-note, .scope-row { padding: 10px; border: 1px solid #ccd6e6; }
+button, .action, .interactive-target { display: inline-block; margin-block: 8px; padding: 10px 14px; border-radius: 9px; font: inherit; }
+button { border: 0; color: #fff; background: #3156a6; cursor: pointer; }
+pre { min-height: 220px; overflow: auto; padding: 16px; color: #dbeafe; background: #111827; }
+
+/* S01: ordinary selector list 中一个 invalid selector 使整条 rule 无效。 */
+.selector-list-target,
+:totally-invalid-pseudo {
+  border: 4px solid #2563eb;
+}
+
+/* S02: 误把 substring contains 当成精确角色匹配。 */
+[data-role*="admin"] {
+  color: #fff;
+  background: #b42318;
+}
+
+/* S03: 广泛后代选择器穿透嵌套组件。 */
+.dashboard .title {
+  color: #b42318;
+}
+
+/* S04: 第二个 DOM child 被误当成“当前版本”。 */
+.release-list > :nth-child(2) {
+  font-weight: 800;
+  color: #7c2d12;
+  background: #ffedd5;
+}
+
+/* S05: 虚构 ID 通过 :is() 抬高整条 selector specificity。 */
+.project-shell :is(.action, #legacy-action) {
+  color: #b42318;
+}
+.project-shell .action.is-safe {
+  color: #166534;
+}
+
+/* S06: subject / relation direction 写反。 */
+.status-error:has(.panel) {
+  border: 4px solid #b42318;
+}
+
+/* S07/S08: 只有 hover；focus outline 又被移除。 */
+.interactive-target:hover {
+  color: #fff;
+  background: #2563eb;
+}
+.interactive-target:focus {
+  outline: none;
+}
+
+/* S09: 关键按钮标签只来自 generated content。 */
+.danger-action::before {
+  content: "删除项目";
+}
+
+/* S10: Sass 字符串拼接语法不能直接作为 Native Nesting。 */
+.notice {
+  padding: 14px;
+  border: 1px dashed #d97706;
+
+  &__label {
+    color: #b42318;
+    font-weight: 800;
+  }
+}
+
+.scope-zone { padding: 10px; border: 2px solid #8ca5cf; }
+.scope-row { margin-block: 6px; background: #f8fbff; }
+.nested-row { background: #fff8e8; }
