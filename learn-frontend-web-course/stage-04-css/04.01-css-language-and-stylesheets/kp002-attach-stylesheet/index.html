@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Stage 04 KP002：比较 Inline、Internal 和 External 三种 CSS 接入方式。"
+    />
+    <title>KP002｜CSS 怎样进入页面</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+
+    <style>
+      .method-card--internal {
+        border-color: #c2410c;
+      }
+
+      .load-order-card {
+        background: #fff7ed;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lesson-shell">
+      <p class="eyebrow">Stage 04 · Module 04.01 · KP002</p>
+      <h1>CSS 怎样进入页面</h1>
+      <p class="intro">
+        三张卡片使用三种接入路径；第四张卡片用于观察相同优先级下的加载顺序。
+      </p>
+
+      <section class="method-grid" aria-label="CSS 接入方式对比">
+        <article class="method-card" style="border-color: #6d28d9">
+          <p class="method-card__kind">Inline CSS</p>
+          <h2>写在 style 属性中</h2>
+          <code>style="border-color: #6d28d9"</code>
+        </article>
+
+        <article class="method-card method-card--internal">
+          <p class="method-card__kind">Internal CSS</p>
+          <h2>写在当前 HTML 的 style 元素中</h2>
+          <code>&lt;style&gt; ... &lt;/style&gt;</code>
+        </article>
+
+        <article class="method-card method-card--external">
+          <p class="method-card__kind">External CSS</p>
+          <h2>由 link 元素请求独立 CSS 文件</h2>
+          <code>&lt;link rel="stylesheet" href="./styles.css"&gt;</code>
+        </article>
+      </section>
+
+      <section class="load-order-card" aria-labelledby="order-title">
+        <h2 id="order-title">加载顺序实验</h2>
+        <p>
+          外部样式表先把背景设置成蓝色；后出现的 Internal CSS 使用相同选择器将它覆盖成橙色。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
