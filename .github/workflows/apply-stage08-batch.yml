@@ -1,0 +1,34 @@
+name: Apply Stage 08 Batch
+
+"on":
+  push:
+    branches:
+      - course/typescript-kp007-kp012
+    paths:
+      - tools/apply_stage08_batch.py
+      - .github/workflows/apply-stage08-batch.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: course/typescript-kp007-kp012
+          fetch-depth: 0
+
+      - name: Materialize reviewed course batch
+        run: python tools/apply_stage08_batch.py
+
+      - name: Commit generated course files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "course(ts): complete KP007-KP015"
+          git push origin HEAD:course/typescript-kp007-kp012
