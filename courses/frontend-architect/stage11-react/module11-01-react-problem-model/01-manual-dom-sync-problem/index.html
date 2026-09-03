@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="通过发布准备度面板，对比分散命令式 DOM 更新和集中状态驱动渲染。"
+    />
+    <title>RE-1101-001 · 手工 DOM 同步问题</title>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">Stage 11 · React 完整体系</p>
+        <h1>同一份状态，为什么会显示出两个答案？</h1>
+        <p class="lead">
+          左侧故意保留分散同步漏洞；右侧使用单一状态和集中渲染。按相同顺序操作，再比较结果。
+        </p>
+      </header>
+
+      <section class="comparison-grid" aria-label="DOM 同步方式对比">
+        <article class="panel panel--warning" data-panel="imperative">
+          <div class="panel__heading">
+            <div>
+              <p class="panel__label">对照 A</p>
+              <h2>分散命令式更新</h2>
+            </div>
+            <span class="mode-badge">故障实验</span>
+          </div>
+
+          <p class="panel__description">
+            每个事件处理函数分别修改一组 DOM。通过审批时，摘要区域会被故意遗漏。
+          </p>
+
+          <div class="metrics">
+            <section class="metric">
+              <span class="metric__label">已完成审批</span>
+              <strong class="metric__value" data-role="count">2</strong>
+              <span class="metric__unit">/ 5</span>
+            </section>
+            <section class="metric">
+              <span class="metric__label">服务状态</span>
+              <strong class="metric__value metric__value--text" data-role="status">在线</strong>
+            </section>
+          </div>
+
+          <div class="progress-block">
+            <div class="progress-block__labels">
+              <span>发布准备度</span>
+              <strong data-role="progress-label">40%</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-bar" data-role="progress"></div>
+            </div>
+          </div>
+
+          <p class="summary" data-role="summary">服务在线，仍有 3 项审批未完成。</p>
+
+          <div class="button-row">
+            <button type="button" data-action="approve">通过下一项审批</button>
+            <button type="button" class="button--secondary" data-action="toggle-service">
+              切换服务状态
+            </button>
+          </div>
+
+          <button type="button" class="button--check" data-action="check">检查一致性</button>
+          <p class="diagnostic" data-role="diagnostic" aria-live="polite">
+            尚未执行一致性检查。
+          </p>
+
+          <button type="button" class="release-button" data-role="release" disabled>
+            开始发布
+          </button>
+        </article>
+
+        <article class="panel panel--success" data-panel="declarative">
+          <div class="panel__heading">
+            <div>
+              <p class="panel__label">对照 B</p>
+              <h2>集中状态驱动渲染</h2>
+            </div>
+            <span class="mode-badge mode-badge--success">统一渲染</span>
+          </div>
+
+          <p class="panel__description">
+            事件只修改状态，然后执行统一 render。所有文本、进度和按钮都从当前状态推导。
+          </p>
+
+          <div class="metrics">
+            <section class="metric">
+              <span class="metric__label">已完成审批</span>
+              <strong class="metric__value" data-role="count">2</strong>
+              <span class="metric__unit">/ 5</span>
+            </section>
+            <section class="metric">
+              <span class="metric__label">服务状态</span>
+              <strong class="metric__value metric__value--text" data-role="status">在线</strong>
+            </section>
+          </div>
+
+          <div class="progress-block">
+            <div class="progress-block__labels">
+              <span>发布准备度</span>
+              <strong data-role="progress-label">40%</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-bar" data-role="progress"></div>
+            </div>
+          </div>
+
+          <p class="summary" data-role="summary">服务在线，仍有 3 项审批未完成。</p>
+
+          <div class="button-row">
+            <button type="button" data-action="approve">通过下一项审批</button>
+            <button type="button" class="button--secondary" data-action="toggle-service">
+              切换服务状态
+            </button>
+          </div>
+
+          <button type="button" class="button--check" data-action="check">检查一致性</button>
+          <p class="diagnostic" data-role="diagnostic" aria-live="polite">
+            尚未执行一致性检查。
+          </p>
+
+          <button type="button" class="release-button" data-role="release" disabled>
+            开始发布
+          </button>
+        </article>
+      </section>
+
+      <aside class="mental-model">
+        <p>第一版心智模型</p>
+        <strong>业务状态 → 派生视图 → 统一渲染 → DOM</strong>
+      </aside>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
