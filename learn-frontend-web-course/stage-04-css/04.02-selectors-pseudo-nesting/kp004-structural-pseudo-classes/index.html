@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KP004 Structural Pseudo-class Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">Stage 04 · Module 04.02 · KP004</p>
+      <h1>Structural Pseudo-class Laboratory</h1>
+      <p>用真实 DOM 顺序验证 <code>:first-child</code>、<code>:nth-child()</code>、<code>:nth-of-type()</code> 与 <code>of S</code>。</p>
+    </header>
+
+    <section class="lab-section" aria-labelledby="mixed-title">
+      <h2 id="mixed-title">实验一：child 索引与 type 索引不是一回事</h2>
+      <div class="mixed-children" id="mixed-children">
+        <p class="intro">第 1 个元素子节点：p.intro</p>
+        <article class="build-card" data-name="Build A">第 2 个元素子节点，也是第 1 个 article</article>
+        <aside class="note">第 3 个元素子节点：aside.note</aside>
+        <article class="build-card" data-name="Build B">第 4 个元素子节点，但它是第 2 个 article</article>
+        <article class="build-card" data-name="Build C">第 5 个元素子节点，也是最后一个元素子节点</article>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="queue-title">
+      <h2 id="queue-title">实验二：<code>:nth-child(... of S)</code> 先过滤再编号</h2>
+      <ul class="deployment-queue" id="deployment-queue">
+        <li class="job eligible" data-name="Job A">Job A · eligible</li>
+        <li class="job blocked" data-name="Job B">Job B · blocked</li>
+        <li class="job eligible" data-name="Job C">Job C · eligible</li>
+        <li class="job eligible" data-name="Job D">Job D · eligible</li>
+        <li class="job blocked" data-name="Job E">Job E · blocked</li>
+      </ul>
+      <div class="button-row">
+        <button id="prepend-eligible" type="button">在队首加入 eligible job</button>
+        <button id="reset-queue" type="button">恢复初始队列</button>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="only-title">
+      <h2 id="only-title">实验三：<code>:only-child</code></h2>
+      <div class="single-host">
+        <p>我是父元素中唯一的元素子节点。</p>
+      </div>
+    </section>
+
+    <section class="lab-section" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">匹配证据</h2>
+      <pre id="selector-output" aria-live="polite"></pre>
+    </section>
+  </main>
+</body>
+</html>
