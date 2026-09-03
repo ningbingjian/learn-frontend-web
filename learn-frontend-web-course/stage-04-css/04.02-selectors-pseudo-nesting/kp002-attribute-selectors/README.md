@@ -1,20 +1,23 @@
-# KP002：Attribute Selector——Presence、Value、Token、Substring 与 Case Matching
+# KP002：Attribute Selector——Presence、Value、Token 与字符串匹配
 
 ## 0. 课程信息
 
 | 项目 | 内容 |
 | --- | --- |
-| Module | 04.02 Selector 完整体系 |
+| Stage | Stage 04：CSS 完整体系 |
+| Module | 04.02：Selector、关系匹配、Pseudo 与 Native Nesting |
 | Lesson | KP002 |
 | 深度 | Must / Should |
-| Pattern | BUILD-LAB + FAILURE-LAB |
-| 主问题 | 当状态已经存在于 HTML Attribute 中，怎样准确表达匹配条件？ |
+| 主问题 | 怎样根据元素真实属性匹配，而不把任意字符串包含关系误当成业务状态？ |
+| 学习者技术边界 | HTML + CSS + DevTools |
+
+> 边界规则：[STAGE_BOUNDARY.md](../../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. 本课最终要做出什么
+## 1. 学习目标
 
-完成 **Attribute Selector Laboratory**，系统观察：
+本课覆盖：
 
 ```text
 [attr]
@@ -27,36 +30,25 @@
 [attr="value" i]
 ```
 
-重点不是背操作符，而是回答：这个 Attribute 的数据模型到底是“存在、单值、token list、语言前缀，还是任意字符串”？
+重点不是背符号，而是为每一种匹配方式建立清晰的数据契约。
 
 ---
 
-## 2. 为什么 Attribute Selector 很重要
+## 2. 核心文件与运行
 
-现代组件经常已经有 `aria-expanded`、`data-state`、`aria-invalid`、`lang` 等状态。如果为了 CSS 又复制一套 class，可能制造双状态源。
-
-Attribute selector 可以直接消费已有状态，但它不是万能查询语言。本课会专门制造 `[data-user*="admin"]` 的 over-match 故障。
-
----
-
-## 3. 本课边界
-
-本课讲 Attribute Selector 的匹配语义，不展开 Form state pseudo-class、`:has()` 或完整 A11Y。
-
----
-
-## 4. 起始项目
-
-本课从新的最小项目开始：
+学习者修改：
 
 ```text
-kp002-attribute-selectors/
-├── README.md
-├── index.html
-├── styles.css
-├── package.json
-├── server.mjs
-└── verify.mjs
+index.html
+styles.css
+```
+
+黑盒工具：
+
+```text
+server.mjs
+verify.mjs
+package.json
 ```
 
 运行：
@@ -68,172 +60,234 @@ npm run dev
 
 ---
 
-## 5. Presence Selector
+## 3. Presence Match
 
 ```css
-[data-state] {}
+[data-state] {
+  border-style: solid;
+}
 ```
 
-只问 attribute 是否存在，不关心值。
+它只检查属性是否存在，不关心具体值。
 
----
-
-## 6. Exact Value
-
-```css
-[data-state="active"] {}
-```
-
-要求值准确等于 `active`，不是 substring。
-
----
-
-## 7. Token Match `~=`
-
-HTML：
+下面两个元素都匹配：
 
 ```html
-data-tags="urgent finance"
+<div data-state="active"></div>
+<div data-state=""></div>
 ```
 
-CSS：
+没有 `data-state` 的元素不匹配。
+
+---
+
+## 4. Exact Value Match
+
+```css
+[data-state="active"] {
+  background: #dcfce7;
+}
+```
+
+适合表达离散状态：
+
+```text
+active
+disabled
+loading
+error
+```
+
+它比字符串包含匹配更符合业务语义。
+
+### DevTools 实验
+
+1. 选中 `data-state="active"` 的卡片。
+2. 在 Styles 中确认 exact selector 匹配。
+3. 把属性改为 `inactive`。
+4. 刷新，确认规则退出 Matched Rules。
+
+---
+
+## 5. Token Match `~=`
 
 ```css
 [data-tags~="urgent"] {}
 ```
 
-它针对 whitespace-separated token list。
+`~=` 按空格分隔的 token 集合匹配。
+
+```html
+<div data-tags="urgent finance"></div>
+```
+
+会匹配 `urgent`。
+
+但：
+
+```html
+<div data-tags="urgent-finance"></div>
+```
+
+不会把 `urgent` 当成独立 token。
+
+适用场景是属性本身被设计为 token list，而不是任意文本。
 
 ---
 
-## 8. Hyphen Match `|=`
+## 6. Hyphen Match `|=`
 
 ```css
 [lang|="zh"] {}
 ```
 
-匹配 `zh` 或 `zh-*`，典型场景是语言代码。
+匹配：
 
----
-
-## 9. Case-insensitive Modifier
-
-```css
-[data-env="prod" i] h3 {}
+```text
+zh
+zh-CN
+zh-Hans
 ```
 
-HTML 中即使是 `data-env="PROD"`，ASCII case-insensitive 条件仍可匹配。
+但不会把任意包含 `zh` 的字符串都选中。
 
-不要默认所有业务值都应该忽略大小写；这取决于数据语义。
+它常用于语言标签一类连字符层级值。
 
 ---
 
-## 10. Prefix / Suffix / Substring
+## 7. Prefix、Suffix 与 Substring
 
 ```css
-[data-code^="CN-"] {}
-[href$=".pdf"] {}
+[data-code^="prod-"] {}
+[data-file$=".pdf"] {}
 [data-user*="admin"] {}
 ```
 
-这些本质都是字符串条件，`*=` 尤其容易 over-match。
+分别表示：
 
----
+```text
+以某字符串开头
+以某字符串结尾
+任意位置包含某字符串
+```
 
-## 11. Failure Lab：Substring Over-match
+### Failure Lab：Substring Over-match
 
-页面有：
+```css
+[data-user*="admin"] {}
+```
+
+可能同时匹配：
 
 ```text
 admin
-administrator
-not-admin
+super-admin
+not-an-admin-example
 ```
 
-源码：
+如果业务真正想表达角色，应优先：
+
+```html
+data-role="admin"
+```
+
+以及：
 
 ```css
-[data-user*="admin"] {}
+[data-role="admin"] {}
 ```
 
-Console：
+不要把模糊文本搜索当成状态模型。
 
-```js
-document.querySelectorAll('[data-user*="admin"]')
-```
+---
 
-会匹配多个值，因为 Selector 只判断字符串中是否包含 `admin`，并不理解“用户角色”。
-
-如果数据模型是精确 role，应该用：
+## 8. Case Modifier
 
 ```css
-[data-user="admin"] {}
+[data-env="prod" i] {}
 ```
 
-如果是 token list，才考虑 `~=`。
+`i` 表示 ASCII case-insensitive matching，因此可以匹配：
 
----
-
-## 12. Attribute Selector 与 Class 的 Trade-off
-
-视觉变体使用 class 往往足够；已经存在的机器状态 / DOM 状态使用 attribute 往往更直接。
-
-如果已经存在 `aria-expanded="true"`，不要无意义复制 `class="expanded"`；但 CSS 选中了 ARIA attribute 也不等于已经完成 A11Y 设计。
-
----
-
-## 13. DevTools Evidence
-
-Console：
-
-```js
-document.querySelectorAll("[data-state]").length
-document.querySelectorAll('[data-state="active"]').length
-document.querySelectorAll('[data-tags~="urgent"]').length
-document.querySelectorAll('[data-user*="admin"]').length
+```text
+prod
+PROD
+Prod
 ```
 
-Selector Debug 的核心是比较“预期 match set”和“真实 NodeList”。
+是否应该忽略大小写取决于属性契约，不能因为“方便”就统一加 `i`。
 
 ---
 
-## 14. Wrong Way
+## 9. Attribute 与 Class 的选择
 
-- 把 substring 当 fuzzy business query。
-- 为 CSS 制造 class/data/ARIA 三份重复状态。
-- 用不稳定的内部 attribute 作为组件样式 public API。
+### 适合 Attribute
 
----
+- HTML 原生属性已经表达语义。
+- 组件有明确状态值。
+- 状态值会被测试、样式和语义共同使用。
 
-## 15. Production Boundary
+例如：
 
-大型组件可以约定：class 表达组件身份，`data-state/data-size/data-variant` 表达稳定状态，ARIA/native attribute 表达语义与可访问状态。
+```html
+<section data-state="loading">
+```
 
-关键不是选哪一种，而是状态源清晰、属性语义稳定、selector 不猜字符串。
+### 适合 Class
 
----
+- 只是样式分组。
+- 不需要表达离散数据状态。
+- 现有架构已经建立稳定命名契约。
 
-## 16. 本课只记住 3 件事
-
-1. Attribute operator 必须对应真实数据模型。
-2. `~=` 是 token match，`*=` 只是 substring match。
-3. Attribute selector 能复用已有 DOM state，但不能替代语义设计。
-
----
-
-## 17. Challenge
-
-把 `[data-user*="admin"]` 重构为不会误伤 `administrator` 与 `not-admin` 的 selector；再新增 `.pdf/.csv` 链接，只匹配 `.pdf`，用 `querySelectorAll()` 提交匹配数量证据。
+关键不是“Attribute 更现代”，而是属性是否代表真实状态。
 
 ---
 
-## 18. Mastery Check
+## 10. Evidence Contract
 
-能回答 `[attr]`、`[attr="x"]`、`~=`、`|=`、`^=`、`$=`、`*=`、`i` 的语义，并解释 substring over-match 的根因。
+本课不使用脚本输出 Match Count。
+
+验证方式：
+
+```text
+选中目标元素
+→ 查看其真实属性
+→ 在 Styles 中确认哪条 Attribute Selector 匹配
+→ 手动改变属性值
+→ 刷新
+→ 再次确认
+```
+
+对于 `*=` 的过度匹配，页面中已经同时放置多个相近属性值，直接逐个查看 Matched Rules。
 
 ---
 
-## 19. 参考
+## 11. Production Boundary
 
-- W3C Selectors Level 4：Attribute selectors
-- MDN：Attribute selectors
+- `*=`、`^=`、`$=` 适合字符串结构，不适合模糊表达权限。
+- 状态属性应有有限、文档化的值集合。
+- 大小写敏感性必须由数据契约决定。
+- `data-*` 不自动等于“正确状态模型”。
+- CSS 只能根据已有属性匹配；状态怎样产生属于后续应用逻辑。
+
+---
+
+## 12. Challenge
+
+1. 创建 `data-state="pending"`、`active`、`failed` 三个静态卡片。
+2. 使用 exact selector 分别样式化。
+3. 新增一个 token list 属性并用 `~=` 匹配。
+4. 故意使用 `*=` 造成误匹配。
+5. 改成精确属性契约。
+6. 用 DevTools 记录重构前后的 Matched Rules。
+
+---
+
+## 13. Mastery Check
+
+1. `[attr]` 与 `[attr=""]` 有什么差异？
+2. `~=` 为什么不是普通 substring？
+3. `|=` 适合哪类值？
+4. `*=` 最常见的生产风险是什么？
+5. `i` 修饰符改变了什么？
+6. 什么情况下状态属性比模糊字符串匹配更可靠？

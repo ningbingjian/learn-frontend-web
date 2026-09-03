@@ -1,230 +1,230 @@
-# KP003：Combinator——Descendant、Child、Adjacent 与 Subsequent Sibling
+# KP003：Combinator——Descendant、Child 与 Sibling Relationship
 
 ## 0. 课程信息
 
 | 项目 | 内容 |
 | --- | --- |
-| Module | 04.02 Selector 完整体系 |
+| Stage | Stage 04：CSS 完整体系 |
+| Module | 04.02：Selector、关系匹配、Pseudo 与 Native Nesting |
 | Lesson | KP003 |
 | 深度 | Must / Should |
-| Pattern | BROWSER-MECHANISM-LAB + FAILURE-LAB |
-| 主问题 | Selector 怎样把 DOM 树中的结构关系转换成匹配条件？ |
+| 主问题 | 空格、`>`、`+`、`~` 分别表达什么 DOM 关系，怎样避免深层结构耦合？ |
+| 学习者技术边界 | HTML + CSS + DevTools |
+
+> 边界规则：[STAGE_BOUNDARY.md](../../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. 本课最终要做出什么
-
-完成 **Combinator Relationship Laboratory**，真正区分：
-
-```css
-A B
-A > B
-A + B
-A ~ B
-```
-
-分别表达后代、直接子元素、紧邻后续兄弟元素、任意后续兄弟元素。
-
----
-
-## 2. 为什么 Combinator 是重要基础
-
-很多 CSS bug 看起来像样式污染、组件串色、改 wrapper 全坏，根因其实是 Selector 描述的 DOM relation 比预期更宽或更窄。
-
-`.component .icon` 不是“组件自己的 icon”，而是组件下任意深度的 `.icon` 后代。
-
----
-
-## 3. DOM Tree 心智模型
+## 1. 四类 Combinator
 
 ```text
-.toolbar
-├── .icon.direct-icon
-└── .menu
-    └── .icon.nested-icon
+A B   Descendant
+A > B Child
+A + B Adjacent sibling
+A ~ B Subsequent sibling
 ```
 
-`.toolbar .icon` 匹配两枚 icon；`.toolbar > .icon` 只匹配 direct child。
+Combinator 连接的是 Selector 片段，表达候选元素与其他元素之间的树关系。
 
 ---
 
-## 4. 起始状态
+## 2. 核心文件与运行
 
-本课从零状态创建，运行：
+学习者修改：
+
+```text
+index.html
+styles.css
+```
+
+运行：
 
 ```bash
 npm run check
 npm run dev
 ```
 
+`server.mjs`、`verify.mjs` 只作为黑盒工具存在。
+
 ---
 
-## 5. Descendant Combinator
+## 3. Descendant Combinator
 
 ```css
 .toolbar .icon {}
 ```
 
-空格表示在 `.toolbar` 的后代范围中匹配任意深度 `.icon`。
+匹配：
 
-Console：
-
-```js
-document.querySelectorAll(".toolbar .icon")
+```text
+任意 .icon
+只要它位于 .toolbar 的任意深度后代中
 ```
+
+它不要求直接父子关系。
+
+### Failure Lab：范围过宽
+
+如果 `.toolbar` 内部还有嵌套组件，所有深层 `.icon` 都可能被选中。
+
+诊断：
+
+1. 在 Elements 展开 `.toolbar`。
+2. 分别选中直接 icon 与嵌套 icon。
+3. 在 Styles 中确认二者都匹配 `.toolbar .icon`。
+4. 改成 child selector，再比较。
 
 ---
 
-## 6. Child Combinator
+## 4. Child Combinator
 
 ```css
 .toolbar > .icon {}
 ```
 
-`>` 表示直接 parent-child edge。
+只匹配直接子元素。
 
-```js
-document.querySelectorAll(".toolbar > .icon")
-document.querySelector(".nested-icon").matches(".toolbar > .icon")
+如果结构是：
+
+```html
+<div class="toolbar">
+  <span class="icon direct-icon"></span>
+  <div class="group">
+    <span class="icon nested-icon"></span>
+  </div>
+</div>
 ```
 
-第二条返回 false。
+结果：
+
+```text
+direct-icon 匹配
+nested-icon 不匹配
+```
+
+Child Selector 更严格，但也意味着 HTML 层级变化可能使规则失效。是否使用取决于组件结构是不是稳定契约。
 
 ---
 
-## 7. Descendant vs Child Trade-off
-
-Descendant 对中间 wrapper 不敏感，但匹配范围可能过宽；Child 关系明确，但增加一层 wrapper 后可能不再匹配。
-
-关键问题是：组件 contract 到底承诺哪一种 DOM relation？
-
----
-
-## 8. Adjacent Sibling `+`
+## 5. Adjacent Sibling `+`
 
 ```css
 .release-heading + p {}
 ```
 
-匹配紧接在 `.release-heading` 后面的第一个 `p` element sibling。
+匹配：
+
+```text
+紧跟在 .release-heading 后面的第一个 p 兄弟
+```
+
+要求：
+
+- 同一个父元素；
+- 目标出现在后面；
+- 中间不能隔其他元素；
+- 目标还要满足 `p`。
 
 ---
 
-## 9. Subsequent Sibling `~`
+## 6. Subsequent Sibling `~`
 
 ```css
 .release-heading ~ p {}
 ```
 
-匹配同一个 parent 下，位于 `.release-heading` 后面的所有匹配 `p`。
+匹配同一父元素下，位于 heading 之后的所有 `p` 兄弟。
 
----
+它不是“任意后代”，也不会匹配 heading 之前的兄弟。
 
-## 10. `+` / `~` 都要求 Same Parent
-
-CSS Selector 看 DOM，不看屏幕坐标。目标如果进入另一个 wrapper，即使视觉上仍在标题后面，也不会满足 sibling combinator。
-
-HTML 格式化换行产生的 text node 不会破坏 `h3 + p`；真正影响它的是中间出现另一个 Element。
-
----
-
-## 11. Failure Lab：Descendant Over-match
-
-`.toolbar .icon` 未来如果嵌入第三方 menu component，其中 `.icon` 也会被匹配。
-
-Selector correctness 有两个方向：
+### `+` 与 `~` 对照
 
 ```text
-False Negative
-应该匹配却没匹配
-
-False Positive
-不应该匹配却匹配了
++ 只看紧邻的一个候选位置
+~ 看后续所有满足条件的兄弟
 ```
 
 ---
 
-## 12. Failure Lab：DOM-coupled Deep Selector
-
-源码故意保留：
+## 7. 阅读 Complex Selector
 
 ```css
 .dashboard .panel .panel-body .title-wrap .panel-title {}
 ```
 
-它依赖整个 ancestor chain。删除一层 wrapper 后，即使 `.panel-title` 身份不变也可能失效。
+从右向左提出问题：
 
-对照：
+1. 候选元素是 `.panel-title`。
+2. 它是否位于 `.title-wrap` 后代中？
+3. 该结构是否继续位于 `.panel-body`、`.panel`、`.dashboard` 中？
+
+这条规则虽然可以匹配，但暴露强 DOM Coupling。
+
+如果组件身份已经由 `.panel-title` 清楚表达，长路径可能只是增加脆弱性与 Specificity。
+
+---
+
+## 8. Static Refactor Lab
+
+本课页面同时保留：
 
 ```css
+.dashboard .panel .panel-body .title-wrap .panel-title {}
 .panel-title {}
 ```
 
-后者表达元素身份，而不是当前 DOM 路径。
+操作：
+
+1. 在 Styles 中观察两条规则。
+2. 给 HTML 中间增加一层 wrapper。
+3. 让深层路径因结构变化失效。
+4. 确认稳定 class 仍然匹配。
+5. 判断哪条规则更符合真实所有权。
+
+无需通过脚本修改 DOM；直接编辑 HTML 并刷新更符合当前 Stage 顺序。
 
 ---
 
-## 13. 什么时候关系 Selector 合理
+## 9. Evidence Contract
 
-例如：
-
-```css
-.field > label {}
-.tabs > [role="tab"] {}
-.heading + .summary {}
+```text
+Elements：确认父子 / 祖先 / 兄弟关系
+Styles：确认对应 Complex Selector 是否匹配
+手动移动元素：改变树关系
+刷新：观察 Matched Rules 变化
 ```
 
-如果 DOM relation 本来就是组件 public contract，关系 Selector 很自然。
-
-问题是为了“更精确”把内部实现路径全部写进 Selector。
+不要仅凭颜色判断，因为多条规则可能产生相同视觉。
 
 ---
 
-## 14. Selector Reading Algorithm
+## 10. Production Boundary
 
-看到：
-
-```css
-.dashboard .panel > .header + .summary {}
-```
-
-要逐段明确目标元素、兄弟关系、父子关系和祖先范围，最终匹配的是 `.summary`，不是 `.dashboard`。
-
----
-
-## 15. DevTools / Console Evidence
-
-```js
-document.querySelectorAll(".toolbar .icon")
-document.querySelectorAll(".toolbar > .icon")
-document.querySelectorAll(".release-heading + p")
-document.querySelectorAll(".release-heading ~ p")
-```
-
-再用 `.matches()` 做单元素断言。
+- Descendant Selector 范围更广，不是默认更灵活。
+- Child Selector 依赖直接层级，适合明确结构契约。
+- Sibling Selector 只能表达同父兄弟关系。
+- 四层以上路径通常需要审查 DOM Coupling。
+- 组件身份优先由稳定 class / attribute 表达。
+- 关系确实重要时，Combinator 才是正确工具。
 
 ---
 
-## 16. Performance 边界
+## 11. Challenge
 
-不要把“Selector 越短一定越快”当作未经测量的性能结论。现代浏览器有复杂优化；本阶段优先关注 correctness、maintainability、DOM coupling、style leakage，Style Recalculation / Invalidation 性能测量留到 Stage 09 / 24。
-
----
-
-## 17. 本课只记住 3 件事
-
-1. 空格匹配任意深度 descendant，`>` 只匹配 direct child。
-2. `+` 和 `~` 都要求 same parent；区别是紧邻还是任意后续。
-3. Relation selector 最大工程风险通常是 DOM coupling 与误匹配。
+1. 构造一组直接子元素和嵌套后代。
+2. 分别使用空格和 `>`。
+3. 构造一个标题以及三个后续段落。
+4. 分别使用 `+` 和 `~`。
+5. 手动移动一个元素到不同父节点。
+6. 在 Styles 中记录每条规则的匹配变化。
+7. 把一条五层 Selector 重构成稳定组件 class。
 
 ---
 
-## 18. Challenge
+## 12. Mastery Check
 
-把深层 `.dashboard .panel .panel-body .title-wrap .panel-title` 重构成更稳定 Selector，然后增加/删除 wrapper，用 `element.matches()` 比较旧 Selector 与新 Selector。
-
----
-
-## 19. Mastery Check
-
-能准确回答 descendant/child/adjacent/subsequent sibling 的 DOM 条件、same-parent 限制、text node 影响，以及 deep selector 的工程风险。
+1. Descendant 与 Child 的候选范围有何不同？
+2. `+` 为什么要求同父且紧邻？
+3. `~` 会不会匹配目标之前的兄弟？
+4. 深层 Selector 为什么容易随 DOM 重构失效？
+5. 什么情况下应该保留关系 Selector，而不是一律改成单 class？
