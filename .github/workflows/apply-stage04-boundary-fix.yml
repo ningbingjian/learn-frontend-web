@@ -1,0 +1,85 @@
+name: Apply Stage 04 Boundary Fix
+
+on:
+  push:
+    branches:
+      - fix/stage-04-boundary-cleanup
+    paths:
+      - ".stage04-boundary-fix/**"
+      - ".github/workflows/apply-stage04-boundary-fix.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-stage04-boundary-fix
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.event.head_commit.message == 'chore(stage04): launch boundary fix'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout boundary-fix branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: fix/stage-04-boundary-cleanup
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Reconstruct and verify replacement archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .stage04-boundary-fix/part-* > /tmp/stage04-fix.b64
+          echo "7c1dc11c0890d45e99fc39038c4d1b90ea32dbe66848bd36c818acd32b6be558  /tmp/stage04-fix.b64" | sha256sum -c -
+          base64 --decode /tmp/stage04-fix.b64 > /tmp/stage04-fix.tar.gz
+          echo "516a7845358e252b88012a0a4cc6dd147a98646577190bd470f915fc20260232  /tmp/stage04-fix.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/stage04-fix.tar.gz -C .
+
+      - name: Remove learner-facing future-stage scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f \
+            learn-frontend-web-course/stage-04-css/04.01-css-language-and-stylesheets/kp008-css-error-recovery-cssom-value-pipeline/app.js \
+            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp004-structural-pseudo-classes/app.js \
+            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp005-functional-relational-pseudo-classes/app.js \
+            learn-frontend-web-course/stage-04-css/04.02-selectors-pseudo-nesting/kp006-ui-form-focus-pseudo-elements/app.js
+
+      - name: Run Stage 04 boundary audit
+        run: node .github/scripts/check-stage-04-boundary.mjs
+
+      - name: Run all completed Stage 04 lesson checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' package; do
+            lesson_dir="$(dirname "$package")"
+            echo "Checking $lesson_dir"
+            (cd "$lesson_dir" && npm run check)
+          done < <(
+            find learn-frontend-web-course/stage-04-css \
+              -mindepth 3 -maxdepth 3 -type f -name package.json -print0 | sort -z
+          )
+
+      - name: Commit applied boundary correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            .github/scripts/check-stage-04-boundary.mjs \
+            .github/workflows/stage-04-css.yml \
+            learn-frontend-web-course/stage-04-css
+          if git diff --cached --quiet; then
+            echo "No boundary-fix changes to commit."
+            exit 0
+          fi
+          git commit -m "fix(css): enforce Stage 04 technology boundaries"
+          git push origin HEAD:fix/stage-04-boundary-cleanup
