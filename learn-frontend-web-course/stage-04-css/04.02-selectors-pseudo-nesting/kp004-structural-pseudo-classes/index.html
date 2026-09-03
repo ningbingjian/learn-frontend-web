@@ -3,54 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KP004 Structural Pseudo-class Laboratory</title>
+  <title>KP004 · Structural Pseudo-classes</title>
   <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.js"></script>
 </head>
 <body>
   <main class="page-shell">
     <header class="hero">
       <p class="eyebrow">Stage 04 · Module 04.02 · KP004</p>
       <h1>Structural Pseudo-class Laboratory</h1>
-      <p>用真实 DOM 顺序验证 <code>:first-child</code>、<code>:nth-child()</code>、<code>:nth-of-type()</code> 与 <code>of S</code>。</p>
+      <p>两个静态状态并排展示：不依赖脚本，也能观察兄弟集合变化如何改变结构匹配。</p>
     </header>
 
     <section class="lab-section" aria-labelledby="mixed-title">
-      <h2 id="mixed-title">实验一：child 索引与 type 索引不是一回事</h2>
-      <div class="mixed-children" id="mixed-children">
-        <p class="intro">第 1 个元素子节点：p.intro</p>
-        <article class="build-card" data-name="Build A">第 2 个元素子节点，也是第 1 个 article</article>
-        <aside class="note">第 3 个元素子节点：aside.note</aside>
-        <article class="build-card" data-name="Build B">第 4 个元素子节点，但它是第 2 个 article</article>
-        <article class="build-card" data-name="Build C">第 5 个元素子节点，也是最后一个元素子节点</article>
+      <h2 id="mixed-title">实验 A：Child Index 与 Type Index</h2>
+      <div class="mixed-children">
+        <p class="intro">1 · p.intro</p>
+        <article class="build-card">2 · 第一个 article，同时是第二个元素子节点</article>
+        <aside class="note">3 · aside.note</aside>
+        <article class="build-card">4 · 第二个 article</article>
+        <article class="build-card">5 · 第三个 article，也是最后一个元素子节点</article>
       </div>
     </section>
 
-    <section class="lab-section" aria-labelledby="queue-title">
-      <h2 id="queue-title">实验二：<code>:nth-child(... of S)</code> 先过滤再编号</h2>
-      <ul class="deployment-queue" id="deployment-queue">
-        <li class="job eligible" data-name="Job A">Job A · eligible</li>
-        <li class="job blocked" data-name="Job B">Job B · blocked</li>
-        <li class="job eligible" data-name="Job C">Job C · eligible</li>
-        <li class="job eligible" data-name="Job D">Job D · eligible</li>
-        <li class="job blocked" data-name="Job E">Job E · blocked</li>
-      </ul>
-      <div class="button-row">
-        <button id="prepend-eligible" type="button">在队首加入 eligible job</button>
-        <button id="reset-queue" type="button">恢复初始队列</button>
-      </div>
+    <section class="lab-section comparison" aria-labelledby="filter-title">
+      <h2 id="filter-title">实验 B：`of S` 先过滤再编号</h2>
+
+      <article>
+        <h3>状态 A：原始队列</h3>
+        <ul class="deployment-queue queue-before">
+          <li class="job eligible">Job A · eligible</li>
+          <li class="job blocked">Job B · blocked</li>
+          <li class="job eligible">Job C · eligible</li>
+          <li class="job eligible">Job D · eligible</li>
+          <li class="job blocked">Job E · blocked</li>
+        </ul>
+        <p>第二个 eligible 是 Job C。</p>
+      </article>
+
+      <article>
+        <h3>状态 B：静态模拟队首插入</h3>
+        <ul class="deployment-queue queue-after">
+          <li class="job eligible">New Job · eligible</li>
+          <li class="job eligible">Job A · eligible</li>
+          <li class="job blocked">Job B · blocked</li>
+          <li class="job eligible">Job C · eligible</li>
+          <li class="job eligible">Job D · eligible</li>
+          <li class="job blocked">Job E · blocked</li>
+        </ul>
+        <p>第二个 eligible 变成 Job A。</p>
+      </article>
     </section>
 
     <section class="lab-section" aria-labelledby="only-title">
-      <h2 id="only-title">实验三：<code>:only-child</code></h2>
+      <h2 id="only-title">实验 C：Only Child</h2>
       <div class="single-host">
-        <p>我是父元素中唯一的元素子节点。</p>
+        <p>我是父元素唯一的元素子节点。</p>
       </div>
-    </section>
-
-    <section class="lab-section" aria-labelledby="evidence-title">
-      <h2 id="evidence-title">匹配证据</h2>
-      <pre id="selector-output" aria-live="polite"></pre>
     </section>
   </main>
 </body>

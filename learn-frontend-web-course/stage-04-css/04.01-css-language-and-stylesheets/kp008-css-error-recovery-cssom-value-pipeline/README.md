@@ -1,4 +1,4 @@
-# KP008：CSS 错误恢复、Styles、Computed、CSSOM 与 Value Processing Pipeline
+# KP008：CSS 错误恢复、DevTools 与 Value Processing Pipeline
 
 ## 0. 课程信息
 
@@ -8,602 +8,252 @@
 | Module | 04.01：CSS 语言、样式表与级联体系 |
 | Lesson | KP008 |
 | 深度 | Should / Expert |
-| Pattern | FAILURE-LAB + BROWSER-MECHANISM-LAB |
-| 主问题 | “CSS 没生效”到底可能在哪个阶段失败，DevTools 与 CSSOM 分别能证明什么？ |
-| 运行要求 | Node.js 20+，现代浏览器 |
+| 主问题 | CSS 在哪个阶段失败，为什么“前一条正确声明”有时也不会成为最终回退？ |
+| 学习者技术边界 | HTML + CSS + DevTools；CSSOM 编程接口延后到 Stage 09 |
+
+> 边界规则：[STAGE_BOUNDARY.md](../../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. 本课最终要做出什么
+## 1. 本课最终要建立什么
 
-你会完成一个 **CSS Error Recovery & Value Pipeline Inspector**。
-
-页面故意同时包含：
+你将区分：
 
 ```text
-合法 declaration
-无效 property value
-未知 property
-无效 selector
-var() 的 computed-value-time 失效
-百分比 width
-CSSOM Inspector
+Stylesheet 资源失败
+Rule / Selector 解析失败
+Declaration 解析失败
+Property 不受支持
+Value 对 Property 无效
+Cascade 后在 Computed-value Time 失效
+Used Value 受布局环境影响
+Actual Rendering 受设备和实现影响
 ```
 
-最终建立诊断链：
+并建立值处理主线：
 
 ```text
-资源有没有加载？
-↓
-源码有没有被 parser 接受？
-↓
-selector rule 有没有进入 CSSOM？
-↓
-declaration 有没有被保留？
-↓
-cascade 赢的是谁？
-↓
-specified / computed 阶段发生了什么？
-↓
-layout 得到 used value 是什么？
-↓
-getComputedStyle() 返回的 resolved value 是什么？
+Declared
+→ Cascaded
+→ Specified
+→ Computed
+→ Used
+→ Actual
 ```
 
 ---
 
-## 2. 为什么这课不能只讲 Specificity
+## 2. 核心文件与工具边界
 
-真实排障中会出现：
-
-```text
-Styles 里根本找不到规则
-Styles 里有规则，但某条 declaration 消失
-声明看起来合法，Computed 却不是预期值
-CSSStyleRule 中还是 50%，getComputedStyle() 却变成 px
-```
-
-这些故障可能发生在：
+学习者只修改：
 
 ```text
-Network
-Parser
-Selector Parsing
-Declaration Parsing
-Cascade
-Computed-value Time
-Layout / Used Value
-Rendering
+index.html
+styles.css
 ```
 
-不能全部用 `!important` 处理。
-
----
-
-## 3. 两个关键术语
-
-### CSSOM
-
-```text
-document.styleSheets
-→ CSSStyleSheet
-→ cssRules
-→ CSSStyleRule
-→ CSSStyleDeclaration
-```
-
-### Property Value Processing
-
-```text
-Declared Values
-↓
-Cascaded Value
-↓
-Specified Value
-↓
-Computed Value
-↓
-Used Value
-↓
-Actual Value
-```
-
-JavaScript 常见 `Resolved Value`；`getComputedStyle()` 返回 resolved value，它不保证对所有 property 都严格等同于规范定义的纯 computed value。
-
----
-
-## 4. 起始状态
-
-本课从零创建：
-
-```text
-kp008-css-error-recovery-cssom-value-pipeline/
-├── README.md
-├── index.html
-├── styles.css
-├── app.js
-├── package.json
-├── server.mjs
-└── verify.mjs
-```
-
-`app.js` 只负责收集 CSSOM 证据，不是业务逻辑。
-
----
-
-## 5. Step 0：自动检查与启动
+仓库中的 `package.json`、`server.mjs` 和 `verify.mjs` 是黑盒课程工具，只执行：
 
 ```bash
 npm run check
 npm run dev
 ```
 
-访问：
-
-```text
-http://localhost:4173
-```
-
-自动检查只能证明关键实验条件和 JS 语法存在，不能替代浏览器 parser / CSSOM / layout 观察。
+本课不要求创建 `app.js`，也不使用 CSSOM JavaScript API。
 
 ---
 
-## 6. Step 1：无效 Property Value
+## 3. 实验 A：无效 Declaration 的局部影响
 
 ```css
 .invalid-value-demo {
-  color: #0f766e;
   color: definitely-not-a-color;
+  background: #dbeafe;
+  border: 2px solid #2563eb;
 }
-```
-
-第二条 Property 合法但 Value 不合法。
-
-浏览器应局部恢复：
-
-```text
-第一条合法 color 保留
-第二条无效 declaration 被忽略
-后续 CSS 继续解析
-```
-
-这说明“页面仍有样式”不能证明所有 declarations 都成功。
-
----
-
-## 7. Step 2：未知 Property
-
-```css
-.unknown-property-demo {
-  color: #1d4ed8;
-  definitely-not-a-property: 42;
-}
-```
-
-合法 `color` 继续生效；未知 property 不会作为有效声明结果保留。
-
-使用：
-
-```js
-rule.style.cssText
-```
-
-观察 CSSOM serialization。
-
-关键结论：
-
-> Raw CSS Source 与 parser 之后的 CSSOM 不是完全相同的东西。
-
----
-
-## 8. Step 3：Invalid Selector Rule
-
-故意写：
-
-```css
-.invalid-selector::definitely-not-a-pseudo {
-  color: #be123c;
-}
-```
-
-Selector 本身无效，浏览器无法建立可匹配的 Style Rule，因此整条 rule 会被丢弃。
-
-`app.js` 检查：
-
-```js
-const invalidSelectorRetained = rules.some((rule) =>
-  rule.selectorText?.includes("definitely-not-a-pseudo"),
-);
 ```
 
 预期：
 
-```text
-false
-```
+- `color` 声明无效；
+- `background` 有效；
+- `border` 有效；
+- 整条 Rule 不会因为一个 Value 无效而全部消失。
 
-区分：
+### 观察方法
 
-```text
-selector 无效
-→ 整条 rule 无法成立
-
-某个 declaration 无效
-→ 同一 ruleset 其他合法 declarations 仍可保留
-```
+1. 在 Elements 中选中目标段落。
+2. 在 Styles 中定位 `.invalid-value-demo`。
+3. 观察无效 `color` 的状态。
+4. 打开 Computed，搜索 `color`、`background-color` 与 `border`。
+5. 记录每个最终值的来源。
 
 ---
 
-## 9. Step 4：Invalid at Computed-value Time
+## 4. 实验 B：未知 Property
 
 ```css
-.computed-parent {
-  font-size: 30px;
-}
-
-.computed-child {
-  --lesson-size: tomato;
-  font-size: var(--lesson-size);
+.unknown-property-demo {
+  definitely-not-a-property: 12px;
+  color: #166534;
 }
 ```
 
-Custom Property 中 `tomato` 作为 token sequence 可以存在，但替换到 `font-size` 后变成无效值。
-
-问题不是 parser 立刻发现，而是在更晚的 computed-value 阶段暴露。
-
-`font-size` 是 inherited property，本实验中最终子元素应回到父级 30px 语义。
-
-这类问题容易误判，因为 Styles 中你可能仍看到 `font-size: var(--lesson-size)`。
-
-正确证据链：
+浏览器不认识第一个 Property，因此忽略该 Declaration，但后面的 `color` 仍可使用。
 
 ```text
-Styles
-→ Custom Property
-→ Computed
-→ getComputedStyle()
+Property 不受支持
+≠ Selector 没匹配
+≠ 整个 Stylesheet 失败
 ```
 
 ---
 
-## 10. Step 5：Declared Value 与 Resolved Value
+## 5. 实验 C：非法 Selector 的失败范围
 
 ```css
-.width-container { width: 480px; }
-.width-target { width: 50%; }
+.invalid-selector-target,
+:totally-invalid-pseudo {
+  color: #be123c;
+}
 ```
 
-读取 Style Rule：
+这是普通 Selector List。非法成员会使整个列表无法作为有效规则使用。
 
-```js
-widthRule.style.getPropertyValue("width")
-```
-
-预期仍是：
-
-```text
-50%
-```
-
-读取元素：
-
-```js
-getComputedStyle(widthTarget).width
-```
-
-对 width 这类历史属性，浏览器通常返回布局后的 resolved value；本实验通常约为：
-
-```text
-240px
-```
-
-不要由此推出“getComputedStyle 永远返回 used value”。准确说法是它返回 resolved value，不同 property 的 resolved value 可能对应 computed 或 used value。
-
----
-
-## 11. Step 6：CSSStyleSheet 与 cssRules
-
-```js
-const stylesheet = [...document.styleSheets].find((sheet) =>
-  sheet.href?.endsWith("/styles.css"),
-);
-```
-
-当前实验同源，可以读取：
-
-```js
-stylesheet.cssRules
-```
-
-其中可能是：
-
-```text
-CSSStyleRule
-CSSMediaRule
-CSSLayerBlockRule
-...
-```
-
-它不是原始源码字符串数组。
-
-本课递归收集 Style Rule，只为了观察 parser 实际保留的规则。
-
----
-
-## 12. Step 7：CSSStyleDeclaration 与 Computed Style 的层次差异
-
-```js
-widthRule.style.getPropertyValue("width")
-```
-
-回答：
-
-```text
-某条 CSSStyleRule 里声明了什么？
-```
-
-而：
-
-```js
-getComputedStyle(element).width
-```
-
-回答：
-
-```text
-当前元素在全部级联和布局语境下解析成什么 resolved value？
-```
-
-两者不能混用。
-
----
-
-## 13. Styles / Computed / CSSOM 各看什么
-
-### Styles
-
-```text
-哪些 selector 匹配？
-哪些 declarations 被覆盖？
-来自哪个文件 / 哪一行？
-来自哪个 Layer？
-```
-
-### Computed
-
-```text
-当前 property 最终值是什么？
-继承链是什么？
-```
-
-### CSSOM
-
-```text
-Parser 保留哪些 rules？
-规则声明序列化成什么？
-```
-
-三个证据层不能互相替代。
-
----
-
-## 14. Value Processing：Declared → Actual
-
-### Declared Values
-
-元素/property 的候选有效声明集合。
-
-### Cascaded Value
-
-经过 Origin / Importance / Context / Layer / Specificity / Scope / Order 后胜出的值。
-
-### Specified Value
-
-结合 Cascade、Inheritance、Initial Value 后，为每个元素的每个 property 得到指定值。
-
-### Computed Value
-
-继续处理相对关系、变量替换和规范计算；某些 `var()` 错误在这里暴露。
-
-### Used Value
-
-需要 Layout 环境才能确定的值，例如百分比 width 对 containing block 的实际尺寸。
-
-### Actual Value
-
-Used Value 经过设备和实现限制后的最终近似表现。
-
-### Resolved Value
-
-CSSOM 为 Web Compatibility 暴露的 API 概念；`getComputedStyle()` 返回它。
-
----
-
-## 15. Failure Lab：只看 Styles
-
-如果 Styles 中存在：
+后面存在恢复规则：
 
 ```css
-font-size: var(--lesson-size);
+.invalid-selector-target {
+  color: #1d4ed8;
+}
 ```
 
-不能证明最终 computed value 有效。
+在 Styles 中确认：
 
-Parser 接受不等于 computed-value time 一定有效。
+- 故意损坏的规则没有成为有效 Matched Rule；
+- 恢复规则正常出现；
+- 后续规则不会因为前一条出错而停止解析。
 
 ---
 
-## 16. Failure Lab：只看 Computed
+## 6. Value Processing Pipeline
 
-只看到最终 `rgb(...)`，无法解释：
+### 6.1 Declared Value
+
+源码中出现并能被解析为某 Property 候选的值。
+
+### 6.2 Cascaded Value
+
+匹配声明经过 Origin、Importance、Layer、Specificity、Scope 和 Source Order 后胜出的值。
+
+### 6.3 Specified Value
+
+如果没有 Cascaded Value，浏览器还会考虑继承或初始值。
+
+### 6.4 Computed Value
+
+浏览器把相对表达继续解析，但不一定已经得到最终像素尺寸。
+
+### 6.5 Used Value
+
+布局需要一个真正可使用的值。例如子元素百分比宽度需要结合 Containing Block。
+
+### 6.6 Actual Value
+
+最终呈现还可能受像素取整、字体、设备与实现约束影响。
+
+Stage 09 会深入浏览器内部；本阶段只建立 CSS 规范心智模型。
+
+---
+
+## 7. Invalid at Computed-value Time
+
+```css
+.computed-invalid {
+  --accent: 20px;
+  color: #b45309;
+  color: var(--accent);
+}
+```
+
+关键过程：
+
+1. `var(--accent)` 在语法层面可以被解析。
+2. Cascade 让后出现的 `color` 获胜。
+3. 变量替换后得到 `20px`。
+4. `20px` 不是合法的 `color`。
+5. 失败发生在 Computed-value Time。
+
+不能简单认为浏览器一定回到前一条 `color`。前一条已经在 Cascade 中输掉。
+
+### DevTools 实验
+
+1. 查看 `.computed-invalid` 的 Styles。
+2. 搜索 Computed `color`。
+3. 把 `--accent: 20px` 改为合法颜色。
+4. 观察最终值变化。
+5. 再删除变量，比较“变量缺失”和“变量值类型不合法”。
+
+---
+
+## 8. `var()` Fallback 的边界
+
+```css
+.computed-fallback {
+  color: var(--missing-accent, #0369a1);
+}
+```
+
+Fallback 不等同于“只要目标 Property 不接受替换结果，就自动使用 fallback”。要区分：
 
 ```text
-来自哪条 rule？
-有没有被覆盖的 declaration？
-是不是继承？
-是不是 Layer 结果？
-```
-
-要回到 Styles 追来源。
-
----
-
-## 17. Failure Lab：认为 CSSOM 等于 Raw Source
-
-CSSOM 可能：
-
-```text
-丢弃无效内容
-标准化序列化
-改变空格与表示
-```
-
-所以：
-
-```text
-raw source
-≠
-CSSOM serialization
+变量缺失
+变量自身无效
+替换后对目标 Property 无效
 ```
 
 ---
 
-## 18. 完整排障树
+## 9. CSSOM 的正确位置
 
-以后看到“CSS 不生效”：
+CSSOM 概念有助于理解浏览器不会直接“照着文本画”。
 
-```text
-1. Network：请求 200？MIME 正确？
-2. Parser / CSSOM：stylesheet / rule 是否存在？
-3. Selector：是否匹配？是否无效？
-4. Declaration：property / value 是否有效？
-5. Cascade：Origin / Importance / Context / Layer / Specificity / Scope / Order？
-6. Computed-value Time：var() / 相对值是否失效？
-7. Layout / Rendering：Used Value 为什么是当前结果？
-```
+但 Stylesheet 对象、Rule 集合和通过 JavaScript读取 Computed Style 等编程接口属于 Stage 09。
 
-先定位失败阶段，再改代码。
+Stage 04 使用 DevTools Styles / Computed 获取证据，不要求先学 JavaScript。
 
 ---
 
-## 19. 性能边界
+## 10. Failure Lab
 
-`getComputedStyle()` 不是免费的日志 API。浏览器需要保证 Style 数据足够新，布局相关读取还可能触发同步 Style/Layout 工作。
+1. 把无效 Value 当成整个 Rule 失败。
+2. 把非法 Selector 与非法 Declaration 混为一谈。
+3. 期待 Computed-value Time 自动回到前一条声明。
+4. 用 JavaScript API 代替 CSS 学习。
 
-生产代码避免：
-
-```text
-写 DOM
-→ 读 layout/computed
-→ 再写
-→ 再读
-```
-
-完整 Layout Thrashing 放到性能课程。
+第四项的修复原则是：如果删除编程 API 后仍能用 DevTools完整证明本课，就不应把 API 作为学习前置。
 
 ---
 
-## 20. 安全边界：跨源 Stylesheet
+## 11. Challenge
 
-当前 `index.html / styles.css / app.js` 都来自 `localhost:4173`，可读取 `cssRules`。
+只修改 HTML 与 CSS：
 
-跨 Origin Stylesheet 即使能正常显示，也可能因为 CSSOM 安全边界无法被脚本读取 `cssRules`。
-
-不要把这个限制误判为 Parser 故障。
-
----
-
-## 21. 完整运行与验收
-
-```bash
-npm run check
-npm run dev
-```
-
-自动检查：
-
-```text
-✓ KP008 parse recovery, CSSOM, computed-time invalidation, and value-pipeline evidence are complete.
-```
-
-CSSOM 面板应看到类似：
-
-```text
-width declared in CSSStyleRule: 50%
-width resolved by getComputedStyle(): 240px
-invalid selector retained in CSSOM: false
-computed-child inherited/resolved font-size: 30px
-```
-
-实际像素可能受浏览器布局/缩放影响，但关系应一致。
+1. 创建一条包含三个 Declaration 的 Rule。
+2. 让其中一个 Property 不存在。
+3. 让另一个 Value 无效。
+4. 保留第三个有效声明。
+5. 在 Styles / Computed 中记录失败范围。
+6. 创建一个自定义属性，在替换后让目标 Property 无效。
+7. 修复变量值，再验证最终结果。
 
 ---
 
-## 22. 本课只记住 3 件事
+## 12. Mastery Check
 
-1. **CSS 故障可能发生在 Network、Parser、Cascade、Computed-value Time 或 Layout 等不同阶段。**
-2. **Raw Source、CSSOM、CSSStyleRule 声明和 `getComputedStyle()` 的 resolved value 是不同层次。**
-3. **`getComputedStyle()` 返回 resolved value，不能机械等同于所有属性的规范 computed value。**
-
----
-
-## 23. Challenge
-
-### A：Custom Property 链
-
-建立 `--a → --b → --c`，让最终值不能用于 `width`，预测失败阶段和最终结果。
-
-### B：动态插入 Rule
-
-使用：
-
-```js
-document.styleSheets[0].insertRule(".runtime-rule { color: rebeccapurple; }");
-```
-
-观察 `cssRules / Styles / Computed` 变化。
-
-### C：删除 Rule
-
-使用 `deleteRule()`，记录 CSSOM 改变、DOM 不变但最终样式变化。
-
----
-
-## 24. Mastery Check
-
-1. 无效 selector 与无效 declaration 的错误恢复范围有何不同？
-2. 为什么 `var()` 可能在 parser 阶段没失败，最终 property 仍失效？
-3. `document.styleSheets` 是什么？
-4. `cssRules` 与原始 CSS 文件有何不同？
-5. `CSSStyleRule.style.width` 和 `getComputedStyle().width` 有何不同？
-6. Declared / Cascaded / Specified / Computed / Used / Actual 分别解决什么问题？
-7. Resolved Value 为什么存在？
-8. 为什么跨源 stylesheet 能显示但 `cssRules` 可能不能读？
-
----
-
-## 25. 最终源码
-
-```text
-README.md
-index.html
-styles.css
-app.js
-package.json
-server.mjs
-verify.mjs
-```
-
-当前 Lesson 独立运行，不依赖 KP007。
-
----
-
-## 26. 参考规范
-
-- MDN：CSS Property Value Processing
-- MDN：`getComputedStyle()`
-- CSSOM Specification
-- CSS Cascading and Inheritance
-- CSS Custom Properties
-
-本课重点是把规范术语与真实 DevTools / CSSOM 证据建立对应关系。
+1. 无效 Selector 和无效 Value 的失败范围有什么差异？
+2. Declared、Cascaded、Specified、Computed、Used、Actual 的顺序是什么？
+3. 百分比宽度为什么常要到布局环境中才能得到 Used Value？
+4. Invalid at Computed-value Time 为什么不等于回到前一条声明？
+5. `var()` fallback 能解决哪些情况？
+6. 为什么 Stage 04 讲 CSSOM 概念，却不调用 CSSOM JavaScript API？

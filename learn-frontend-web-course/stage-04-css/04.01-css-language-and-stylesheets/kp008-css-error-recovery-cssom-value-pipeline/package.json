@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
-  "name": "css-kp008-error-recovery-cssom",
+  "name": "css-kp008-error-recovery-value-pipeline",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node verify.mjs && node --check app.js"
+    "check": "node verify.mjs"
   }
 }

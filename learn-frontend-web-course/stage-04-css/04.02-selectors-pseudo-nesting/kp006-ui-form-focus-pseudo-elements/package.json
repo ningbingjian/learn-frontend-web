@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
+  "name": "css-kp006-ui-form-focus-pseudo-elements",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node verify.mjs && node --check app.js"
-  },
-  "name": "css-kp006-ui-form-focus-pseudo-elements"
+    "check": "node verify.mjs"
+  }
 }

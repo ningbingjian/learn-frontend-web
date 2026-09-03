@@ -1,208 +1,185 @@
-# Module 04.01 Final Review
+# Module 04.01 Boundary Review
 
-> Review Type：Scope Review + Depth Review + Evidence Review  
 > Module：CSS 语言、样式表与级联体系  
-> Result：✅ PASS
+> Lesson：KP001～KP009  
+> 当前结论：PASS  
+> 复审依据：[Stage 04 Owner Boundary](../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. Scope Review
-
-### 保留核心范围
+## 1. Review 结论
 
 ```text
-Stylesheet 接入
-CSS 语言单位
-Parser Error Recovery
-Cascade
-Specificity
-Inheritance
-CSS-wide keywords
-Layer
-Scope
-CSSOM
-Value Processing
-Diagnostic Project
+CSS Owner Scope             PASS
+HTML / CSS Reproducibility  PASS
+DevTools Evidence           PASS
+Future-stage Isolation      PASS
+Module Project              PASS
 ```
 
-### 明确不扩张
-
-没有把以下后续主题强行塞入：
-
-- Flex / Grid。
-- 完整 Selector API。
-- CSS Compiler / PostCSS。
-- Browser Style Engine 源码。
-- 完整 Performance Trace。
-- CSS-in-JS 框架 API。
-- Design System 组件体系。
-
-结论：当前范围足以一次学透主题，同时没有抢占后续 Owner Module。
+Module 04.01 可以在不学习 JavaScript、DOM API、CSSOM 编程接口和 Shadow DOM 的前提下完成。
 
 ---
 
-## 2. Depth Review
+## 2. 本次纠偏
 
-### Must
+### KP003
 
-已覆盖：
+过去把 CSSOM JavaScript API 当作语言结构证据。
+
+现在改为：
 
 ```text
-接入
-Rule / Declaration
-Shorthand
-Source Order
-Specificity
-Inheritance
-Styles / Computed
+Elements
+→ Styles
+→ Computed
 ```
 
-### Should
+CSSOM 只保留概念，编程接口后置 Stage 09。
 
-已覆盖：
+### KP005
+
+过去使用 Declarative Shadow DOM 和 `:host` 演示 Encapsulation Context。
+
+现在：
+
+- 删除 Shadow DOM 源码。
+- 删除必做组件实验。
+- 只保留“未来边界”说明。
+- 完整实验后置 Stage 13。
+
+### KP008
+
+过去要求学习者理解：
 
 ```text
-Origin / Importance / Context
+Stylesheet Object
+Rule Collection
+Computed Style API
+JavaScript 递归遍历
+```
+
+现在删除 `app.js`，改为静态 Failure Lab 与 DevTools 证据。
+
+---
+
+## 3. 黑盒基础设施
+
+以下内容仍可存在：
+
+```text
+server.mjs
+verify.mjs
+package.json
+GitHub Actions
+```
+
+理由：它们用于启动与维护课程。
+
+约束：
+
+- 不进入知识点。
+- 不要求编写。
+- 不要求解释。
+- 不进入 Mastery Check。
+- README 明确标为黑盒。
+
+---
+
+## 4. Scope Review
+
+### 已覆盖
+
+- Stylesheet Loading。
+- CSS Syntax。
+- Error Recovery。
+- Cascade。
+- Inheritance。
+- Value Processing。
+- Layer / Scope。
+- DevTools Debug。
+- 综合诊断。
+
+### 后置边界
+
+| 主题 | Owner |
+| --- | --- |
+| JavaScript | Stage 05 |
+| DOM / Event / Form API | Stage 07 |
+| CSSOM / Web Platform 编程接口 | Stage 09 |
+| Shadow DOM / Web Components | Stage 13 |
+| 测试工程 | Stage 17 |
+| CI/CD | Stage 26 |
+
+---
+
+## 5. Evidence Review
+
+每个核心结论可以通过以下一种或多种方式证明：
+
+```text
+Network
+Styles
+Computed
+手动禁用声明
+手动改变源顺序
+手动修改 HTML 属性
+静态 Broken / Fixed 页面对照
+```
+
+没有任何核心结论必须依赖 JavaScript 输出。
+
+---
+
+## 6. Failure Review
+
+Failure Lab 仍覆盖：
+
+```text
+资源失败
+解析失败
+匹配失败
+Declaration 无效
+Importance 误判
 Specificity Debt
-Cascade Layer
-Invalid CSS
-Debug Tree
+Inheritance 误判
+Layer 顺序
+Scope Proximity
+Computed-value-time Failure
 ```
 
-### Expert
-
-已覆盖：
-
-```text
-Layer Architecture
-Important Layer Reversal
-@scope / Scoping Proximity
-CSSOM
-Declared → Actual Value Pipeline
-Resolved Value
-Production Governance
-```
-
-结论：不需要未来再创建同名“CSS Cascade Advanced”补课。
+纠偏没有降低 CSS 深度，只删除了不必要的后续技术依赖。
 
 ---
 
-## 3. Evidence Review
+## 7. Reproducibility
 
-### Network
+学习者进入任意 Lesson 后：
 
-KP002 / KP009：Stylesheet 200 / 404、MIME、URL。
-
-### Styles
-
-KP003～KP009：Rule Matching、Overridden Declaration、Important、Specificity、Layer、Scope。
-
-### Computed
-
-KP001 / KP006 / KP008 / KP009：最终 Property、Inheritance、Computed-value-time Failure、Resolved Width。
-
-### CSSOM
-
-KP003 / KP008：`document.styleSheets`、`CSSStyleSheet`、`cssRules`、`CSSStyleRule.style`。
-
-### Architecture
-
-KP007：Layer Order、Unlayered Priority、Important Reversal、Scope Proximity。
-
-### Project
-
-KP009：9 Fault Cases、Diagnostic Report、Reference Fix、Regression。
-
-结论：所有关键机制都有浏览器或自动检查证据，不只依赖文字断言。
-
----
-
-## 4. Reproducibility Review
-
-所有 Lesson：
-
-```text
+```bash
 npm run check
 npm run dev
 ```
 
-独立运行，没有运行时 `../kpXXX` 源码引用。
-
-Module Project Broken / Solution 也都在 KP009 自己的目录。
-
-Result：PASS。
-
----
-
-## 5. Wrong Way Coverage
-
-已主动覆盖：
-
-- `!important` escalation。
-- Specificity escalation。
-- Wrong Stylesheet URL。
-- Invalid Value。
-- Shorthand Reset。
-- Inheritance Misunderstanding。
-- Layer Order Error。
-- Scope Proximity Misunderstanding。
-- CSSOM / Raw Source Confusion。
-
-Result：PASS。
-
----
-
-## 6. Production Boundary Review
-
-课程已经明确：
+然后只修改：
 
 ```text
-当前 Module 学机制和第一版治理
-↓
-04.14 做 CSS 生产治理
-↓
-Stage 09 做 Browser 内核
-↓
-Stage 24 做性能治理
+index.html
+styles.css
 ```
 
-没有把未来主题提前讲成第二套课程。
-
-Result：PASS。
+即可完成核心练习。
 
 ---
 
-## 7. Final Definition of Done
-
-```text
-[✓] 唯一主题清晰
-[✓] 9 个 Lesson 全部完成
-[✓] Must / Should / Expert 闭环
-[✓] Failure Lab 完整
-[✓] DevTools Evidence 完整
-[✓] CSSOM Evidence 完整
-[✓] Architecture Lab 完整
-[✓] Module Project 完整
-[✓] Broken Baseline 完整
-[✓] Reference Solution 完整
-[✓] Diagnostic Report 完整
-[✓] 每课独立运行
-[✓] Scope Review PASS
-[✓] Depth Review PASS
-[✓] Evidence Review PASS
-```
-
-## Review Result
+## 8. 最终判断
 
 ```text
 Module 04.01
-CSS 语言、样式表与级联体系
-= COMPLETE
+= CSS 主问题完整
++ Evidence 可观察
++ Failure 可复现
++ 无未来 Stage 必修依赖
 ```
 
-下一步：
-
-```text
-Module 04.02
-Selector、关系匹配、Pseudo、Nesting 与 Scope
-```
+因此 Boundary Review 通过。

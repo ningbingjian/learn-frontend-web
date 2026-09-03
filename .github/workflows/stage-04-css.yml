@@ -20,6 +20,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  owner-boundary:
+    name: Owner boundary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enforce Stage 04 owner boundary
+        run: node learn-frontend-web-course/stage-04-css/boundary-check.mjs
+
   lesson-check:
     name: ${{ matrix.lesson }}
     runs-on: ubuntu-latest

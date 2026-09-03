@@ -1,87 +1,96 @@
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, sans-serif; color: #172033; background: #f4f7fb; }
-.project-shell { width: min(1040px, calc(100% - 32px)); margin-inline: auto; padding-block: 48px 72px; }
-.hero, .case { padding: 24px; border: 1px solid #d9e1ec; border-radius: 16px; background: #fff; }
-.case { margin-block-start: 20px; }
-.hero h1, .case h2 { margin-block-start: 0; }
-.eyebrow { margin: 0 0 8px; font-weight: 800; color: #3156a6; }
-.role-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.role-card, .release-row, .release-note, .scope-row { padding: 10px; border: 1px solid #ccd6e6; }
-button, .action, .interactive-target { display: inline-block; margin-block: 8px; padding: 10px 14px; border-radius: 9px; font: inherit; }
-button { border: 0; color: #fff; background: #3156a6; cursor: pointer; }
-pre { min-height: 220px; overflow: auto; padding: 16px; color: #dbeafe; background: #111827; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f3f6fb;
+}
+.page-shell { width: min(1040px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+.hero, .lab-section {
+  margin-block: 20px;
+  padding: 24px;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  background: #fff;
+}
+.eyebrow { color: #475569; font-weight: 700; }
+.widget, .release-row, .inserted-note, .status-panel, .notice, .scope-row {
+  margin-block: 10px;
+  padding: 12px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+}
+a, button { font: inherit; }
 
-/* S01: 拆除 invalid selector，规则保持原子和可验证。 */
+/* S01 */
 .selector-list-target {
-  border: 4px solid #2563eb;
+  border: 4px solid #16a34a;
 }
 
-/* S02: 角色是离散枚举，使用 exact match。 */
+/* S02 */
 [data-role="admin"] {
-  color: #fff;
-  background: #166534;
+  background: #dcfce7;
 }
 
-/* S03: 组件身份与必要关系明确，不穿透嵌套 Widget。 */
+/* S03 */
 .dashboard > .dashboard__title {
-  color: #1e3a8a;
+  color: #1d4ed8;
 }
-.panel__title {
+.widget__title {
   color: #166534;
 }
-.embedded-widget__title {
-  color: #7c2d12;
-}
 
-/* S04: 当前版本是业务状态，不是 DOM 位置。 */
+/* S04 */
 .release-row[data-state="current"] {
-  font-weight: 800;
-  color: #fff;
-  background: #2563eb;
+  background: #fef3c7;
+  border-color: #d97706;
 }
 
-/* S05: :where() 把基线条件权重降为 0，状态类可自然覆盖。 */
-.project-shell :where(.action, #legacy-action) {
-  color: #4b5563;
+/* S05 */
+.specificity-zone :where(.action, #legacy-action) {
+  color: #475569;
 }
-.project-shell .action.is-safe {
+.specificity-zone .action {
   color: #166534;
 }
 
-/* S06: Panel 是 subject，:has() 检查其后代。 */
-.status-panel:has(.status-error) {
-  border: 4px solid #b42318;
+/* S06 */
+@supports selector(.status-panel:has(.status-error)) {
+  .status-panel:has(.status-error) {
+    outline: 4px solid #dc2626;
+    background: #fef2f2;
+  }
 }
 
-/* S07/S08: Pointer 与 Keyboard 都有可见反馈。 */
-.interactive-target:is(:hover, :focus-visible) {
-  color: #fff;
-  background: #2563eb;
+/* S07 / S08 */
+.interactive-target {
+  display: inline-block;
+  padding: 10px 12px;
+  border: 2px solid #2563eb;
+  border-radius: 8px;
 }
-.interactive-target:focus-visible,
-button:focus-visible,
-a:focus-visible,
-pre:focus-visible {
-  outline: 3px solid #f59e0b;
+.interactive-target:hover {
+  background: #dbeafe;
+}
+.interactive-target:focus-visible {
+  outline: 4px solid #f59e0b;
   outline-offset: 3px;
 }
 
-/* S09: generated content 只保留装饰，不承担业务标签。 */
+/* S09 */
 .danger-action::before {
   content: "⚠ ";
 }
 
-/* S10: 在 Native Nesting 中显式写真实 Selector，不做字符串拼接。 */
+/* S10 */
 .notice {
-  padding: 14px;
-  border: 1px solid #86b99a;
-
   & > .notice__label {
     color: #166534;
-    font-weight: 800;
+    font-weight: 700;
   }
 }
 
-.scope-zone { padding: 10px; border: 2px solid #8ca5cf; }
-.scope-row { margin-block: 6px; background: #f8fbff; }
-.nested-row { background: #fff8e8; }
+/* S11 */
+.scope-zone > .scope-row {
+  border-color: #7c3aed;
+}

@@ -1,221 +1,100 @@
-# DIAGNOSTIC_REPORT：Selector Matching & Refactoring Lab
+# DIAGNOSTIC REPORT
 
-> 使用方法：先运行 Broken Baseline，再逐项填写。不要先复制 `REFERENCE_SOLUTION.md`。  
-> 每项必须包含“预测 → 证据 → 根因 → 最小修复 → 回归”。
+> 使用本模板完成 Broken Baseline 的证据记录。证据仅来自 HTML、CSS、DevTools 与静态 Broken / Solution 对照。
 
-## 项目信息
+## S01 · Invalid Selector List
 
-- 学习者：
-- 日期：
-- 浏览器与版本：
-- Git Commit：
-- Broken URL：`http://127.0.0.1:4173/index.html`
-- Solution URL：`http://127.0.0.1:4173/solution.html`
+- 症状：
+- 预测 Match Set：
+- Elements / Styles 证据：
+- 根因：
+- 最小修复：
+- 回归：
 
-## Evidence 规则
+## S02 · Attribute Substring Over-match
 
-每个 Case 至少保留两类证据：
+- 症状：
+- 实际被误选的属性值：
+- Styles 证据：
+- 根因：
+- 最小修复：
+- 回归：
 
-```text
-DevTools Styles / Computed
-querySelectorAll() / matches()
-键盘操作
-DOM Tree
-CSS.supports()
-getComputedStyle()
-```
+## S03 · Broad Descendant Leakage
 
----
+- 症状：
+- 被误伤的嵌套组件：
+- DOM 关系：
+- 根因：
+- 最小修复：
+- 回归：
 
-## S01：Invalid Selector List
+## S04 · Structural Position as Business Identity
 
-### 症状
+- 症状：
+- 插入说明元素后的兄弟集合：
+- 根因：
+- 稳定状态契约：
+- 回归：
 
-### Selector 源码拆解
+## S05 · `:is()` Specificity Trap
 
-### 预测 Match Set
+- 症状：
+- 两条 Selector 的权重推导：
+- Styles 证据：
+- 最小修复：
+- 回归：
 
-### 实际 Evidence
+## S06 · `:has()` Direction Error
 
-### Root Cause
+- Subject：
+- 参数关系方向：
+- 真实 DOM：
+- 最小修复：
+- 回归：
 
-### 最小修复
+## S07 · Hover-only Interaction
 
-### 回归检查
+- 键盘路径症状：
+- 必要反馈：
+- 修复：
+- 回归：
 
----
+## S08 · Focus Indicator Missing
 
-## S02：Attribute Substring Over-match
+- Tab 操作结果：
+- Styles 证据：
+- 修复：
+- 回归：
 
-### 症状
+## S09 · Generated-content-only Label
 
-### 预测 Match Set
+- 关闭 CSS 后的内容：
+- HTML 语义问题：
+- 修复：
+- 回归：
 
-### 实际 Match Set
+## S10 · Sass Concatenation Mental Model
 
-### Root Cause
+- 错误源码：
+- 期望组合结果：
+- 原生 Nesting 实际边界：
+- 修复：
+- 回归：
 
-### 精确建模方案
+## S11 · `:scope` Context Misunderstanding
 
-### 回归检查
+- 错误假设：
+- Stylesheet 中的参考根：
+- 当前真正需要表达的关系：
+- 修复：
+- 未来 Stage 边界：
 
----
+## 总结
 
-## S03：Deep / Broad Descendant Coupling
-
-### 组件所有权
-
-### 当前 Selector
-
-### 被误伤节点
-
-### DevTools Evidence
-
-### 最小重构
-
-### DOM 包装层变化回归
-
----
-
-## S04：Structural Position as Business Identity
-
-### 当前 sibling set
-
-### `:nth-child()` 计数过程
-
-### 动态插入前结果
-
-### 动态插入后结果
-
-### Root Cause
-
-### 语义状态修复
-
-### 回归检查
-
----
-
-## S05：`:is()` Specificity Trap
-
-### Selector 参数
-
-### 最大 Specificity 来源
-
-### 哪条声明获胜
-
-### Styles Evidence
-
-### 低权重修复
-
-### 回归检查
-
----
-
-## S06：`:has()` Direction Error
-
-### Subject / Anchor
-
-### Relative Selector
-
-### 当前错误方向
-
-### 正确关系
-
-### 动态状态切换 Evidence
-
-### 回归检查
-
----
-
-## S07：Hover-only Interaction
-
-### Pointer Evidence
-
-### Keyboard Evidence
-
-### 缺失状态
-
-### 修复
-
-### 回归检查
-
----
-
-## S08：Focus Removal
-
-### Active Element
-
-### 当前 Focus Indicator
-
-### A11Y 风险
-
-### 最小修复
-
-### 键盘回归
-
----
-
-## S09：Generated-content-only Label
-
-### DOM 中真实文本
-
-### Pseudo-element 内容
-
-### Accessibility Tree 观察
-
-### 修复
-
-### 禁用 CSS 回归
-
----
-
-## S10：Sass Concatenation Mental Model
-
-### 原始 Nested Source
-
-### 期待生成的 Selector
-
-### 浏览器实际解析
-
-### Root Cause
-
-### Native CSS 修复
-
-### 迁移扫描规则
-
----
-
-## S11：Scoped Query Boundary
-
-### Query Root
-
-### 普通后代 Query 数量
-
-### `:scope > ...` 数量
-
-### 被多算节点
-
-### 修复
-
-### 回归检查
-
----
-
-## 最终 Selector Contract 摘要
-
-- Component Identity：
-- State Modeling：
-- Relation Selector：
-- Structural Selector：
-- Nesting Depth：
-- Specificity Budget：
-- Focus / A11Y：
-- Evidence Requirement：
-
-## 最终结论
-
-### 重构前最主要风险
-
-### 重构后的可维护性变化
-
-### 仍需进入后续 Module 解决的问题
+- 哪些故障属于 Parser？
+- 哪些属于 Match Set？
+- 哪些属于 Specificity？
+- 哪些属于 HTML / State Contract？
+- 哪些属于 A11Y？
+- 哪些属于未来 Stage 技术误用？

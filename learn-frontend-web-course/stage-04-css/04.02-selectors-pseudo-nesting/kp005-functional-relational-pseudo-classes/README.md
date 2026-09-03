@@ -1,651 +1,269 @@
-# KP005：`:is()`、`:where()`、`:not()` 与 `:has()`——函数式和关系选择
+# KP005：`:is()`、`:where()`、`:not()` 与 `:has()`
 
 ## 0. 课程信息
 
 | 项目 | 内容 |
 | --- | --- |
 | Stage | Stage 04：CSS 完整体系 |
-| Module | 04.02：Selector、关系匹配、Pseudo、Nesting 与 `:scope` |
+| Module | 04.02：Selector、关系匹配、Pseudo 与 Native Nesting |
 | Lesson | KP005 |
 | 深度 | Should / Expert |
-| Pattern | BROWSER-MECHANISM-LAB + FAILURE-LAB |
-| 主问题 | 函数式 pseudo-class 怎样改变匹配集合、关系方向和 specificity？ |
-| 运行要求 | Node.js 20+，支持 Selectors Level 4 主流能力的现代浏览器 |
+| 主问题 | Functional / Relational Pseudo-class 怎样影响匹配、方向与 Specificity？ |
+| 学习者技术边界 | 静态 HTML + CSS + DevTools；不通过脚本切换状态 |
+
+> 边界规则：[STAGE_BOUNDARY.md](../../STAGE_BOUNDARY.md)
 
 ---
 
-## 1. 本课最终要做出什么
-
-你会完成一个 **Functional / Relational Pseudo-class Laboratory**：
-
-- 使用 `:is()` 合并重复 selector。
-- 使用 `:where()` 添加过滤条件但保持零 specificity。
-- 使用 `:not()` 排除归档和禁用操作。
-- 使用 `:has()` 根据后代或相邻兄弟状态匹配候选元素。
-- 动态切换子节点状态，观察 `:has()` 匹配实时变化。
-- 故意写反 `:has()` 的关系方向，证明它不会“向上返回父节点”。
-
-页面会输出每条 selector 的：
+## 1. 四个 Pseudo-class 的职责
 
 ```text
-匹配数量
-匹配对象
-:has() selector support
+:is()     多个可选条件，减少重复
+:where()  与 :is() 类似，但自身 Specificity 为零
+:not()    排除满足参数的候选
+:has()    让 Subject 根据关联元素是否存在而匹配
 ```
+
+它们不是同一类“语法糖”。每一个都改变 Selector 的表达方式和维护边界。
 
 ---
 
-## 2. 本课解决什么问题
+## 2. 核心文件与运行
 
-### 重复 selector
+学习者只修改：
 
-```css
-.message.info,
-.message.warning,
-.message.success {
-  padding: 16px;
-}
+```text
+index.html
+styles.css
 ```
 
-可以用：
+运行：
+
+```bash
+npm run check
+npm run dev
+```
+
+`server.mjs`、`verify.mjs` 是黑盒工具。
+
+---
+
+## 3. `:is()`
 
 ```css
 :is(.message.info, .message.warning, .message.success) {
-  padding: 16px;
+  background: #eff6ff;
 }
 ```
 
-但 `:is()` 不只是缩短代码，它还会影响 specificity。
+它等价于把三个完整条件组合为一个 Selector 参数列表，减少重复声明。
 
-### 低 specificity 过滤
+### Specificity 边界
 
 ```css
-:where(.message, #never-used) {}
+.specificity-is :is(.message, #never-used) {
+  color: red;
+}
 ```
 
-无论参数中出现 class 还是 ID，`:where()` 的 specificity 都是零。
+即使 `#never-used` 在当前页面没有匹配，它仍可能抬高 `:is()` 的 Specificity。
 
-### 排除集合
+因此后面的普通 class 规则不一定能覆盖。
+
+在 Styles 中展开两条声明，按 04.01 的 Specificity 模型解释胜负。
+
+---
+
+## 4. `:where()`
+
+```css
+.specificity-where :where(.message, #never-used) {
+  color: red;
+}
+```
+
+`:where()` 自身贡献零 Specificity。
+
+这使它适合：
+
+```text
+低权重基线
+可覆盖默认样式
+组件内部宽松约束
+```
+
+对比页面中的 `:is()` 与 `:where()` 区域，观察相同参数列表为何产生不同覆盖结果。
+
+---
+
+## 5. `:not()`
 
 ```css
 .action:not(.archived, [aria-disabled="true"]) {}
 ```
 
-表示：
+Subject 仍然是 `.action`。
+
+参数表示需要排除的条件：
 
 ```text
-匹配 .action
-且不匹配 .archived
-且不匹配 [aria-disabled="true"]
+是 action
+并且
+不是 archived
+并且
+没有 aria-disabled=true
 ```
 
-### 关系选择
+`:not()` 不会“删除元素”，只改变 Match Set。
+
+### Boundary
+
+当排除条件越来越多时，优先审查状态模型是否过于隐式。明确的状态属性有时比巨大的 `:not()` 更容易维护。
+
+---
+
+## 6. `:has()`
 
 ```css
 .panel:has(.status-error) {}
 ```
 
-候选元素是 `.panel`。
+Subject 是 `.panel`。
 
-浏览器检查：
+参数描述：
 
 ```text
-这个 panel 是否存在匹配 .status-error 的后代？
+以当前 panel 为锚点
+检查其关系范围内是否存在 .status-error
 ```
 
-命中后，最终被选择的仍然是 `.panel`。
+页面提供两个静态面板：
+
+```text
+健康面板：包含 .status-ok
+异常面板：包含 .status-error
+```
+
+无需点击按钮或编写 DOM 脚本，也能完整证明父元素关系匹配。
 
 ---
 
-## 3. 边界
+## 7. CSS 自己的兼容边界
 
-### 本课完整拥有
+本课使用：
 
-- `:is(<forgiving-selector-list>)`
-- `:where(<forgiving-selector-list>)`
-- `:not(<complex-real-selector-list>)`
-- `:has()` 的关系心智模型
-- `:is()` / `:not()` / `:has()` 的 specificity 参数影响
-- `:where()` 零 specificity
-- Relative Selector 与 anchor element
-- `:has(+ sibling)` 前一兄弟关系
-- `:has()` 方向错误 Failure Lab
-- 关系选择与状态 class 的取舍
+```css
+@supports selector(.panel:has(.status-error)) {
+  .panel:has(.status-error) {
+    /* progressive enhancement */
+  }
+}
+```
 
-### 本课不展开
+这是 CSS 条件规则。
 
-- `@scope` at-rule：04.01。
-- `:scope` pseudo-class：KP007。
-- Native Nesting：KP007。
-- 完整 Selector Engine 与 style invalidation 性能：Stage 09 / Stage 24。
-- JavaScript DOM Traversal API：Stage 07。
+Stage 04 不要求通过 JavaScript Web Platform API 检测 Selector 支持。
 
 ---
 
-## 4. 项目结构
+## 8. Previous Sibling Pattern
+
+```css
+.step:has(+ .step.current) {}
+```
+
+Subject 是每一个 `.step`。
+
+相对 Selector `+ .step.current` 检查：
 
 ```text
-kp005-functional-relational-pseudo-classes/
-├── README.md
-├── index.html
-├── styles.css
-├── app.js
-├── package.json
-├── server.mjs
-└── verify.mjs
+当前 step 后面紧邻的兄弟
+是否是 current step
 ```
+
+因此它可以选中 current 之前的相邻步骤。
+
+这是理解 `:has()` 方向的好例子：Selector 仍匹配当前 Subject，而参数从 Subject 出发描述关系。
 
 ---
 
-## 5. Step 0：创建和运行
-
-```bash
-npm run check
-npm run dev
-```
-
-打开：
-
-```text
-http://localhost:4173
-```
-
-先在 Console 验证浏览器是否支持：
-
-```js
-CSS.supports("selector(:has(*))")
-```
-
-预期在当前主流现代浏览器中为：
-
-```text
-true
-```
-
-课程仍要求理解渐进增强边界：如果目标环境不支持某个 selector，不应假设整套 UI 必须依赖它才能操作。
-
----
-
-## 6. Step 1：使用 `:is()` 合并重复表达
-
-HTML：
-
-```html
-<div class="message-grid">
-  <article class="message info">Info message</article>
-  <article class="message warning">Warning message</article>
-  <article class="message success">Success message</article>
-</div>
-```
-
-CSS：
+## 9. Failure Lab：方向写反
 
 ```css
-:is(.message.info, .message.warning, .message.success) {
-  padding: 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 12px;
-}
+.status-error:has(.panel) {}
 ```
 
-匹配逻辑：
+这条规则把 `.status-error` 当 Subject，并检查它内部是否有 `.panel`。
 
-```text
-候选元素匹配参数列表中的任意一个 selector
-→ :is() 成功
-```
-
-Console：
-
-```js
-document.querySelectorAll(
-  ":is(.message.info, .message.warning, .message.success)"
-)
-```
-
-预期 `length === 3`。
-
-### Forgiving Selector List
-
-`:is()` 和 `:where()` 使用 forgiving selector list。
-
-核心差异：
-
-```text
-普通 selector list
-→ 其中一项 invalid，整条 selector list invalid
-
-:is() / :where() 参数
-→ 丢弃 invalid 项
-→ 其余有效项仍可参与匹配
-```
-
-不要把这个结论扩展成“所有函数式 pseudo-class 都 forgiving”。
-
----
-
-## 7. Step 2：观察 `:is()` 的 specificity 陷阱
-
-本课故意写：
-
-```css
-.specificity-is :is(.message, #never-used) {
-  color: #be123c;
-}
-
-.specificity-is .message.override {
-  color: #047857;
-}
-```
-
-虽然页面中不存在 `#never-used`，但 `:is()` 的 specificity 由参数列表中最具体的 selector 决定。
-
-因此第一条包含 ID 级 specificity。
-
-预期：
-
-```text
-文字仍然是第一条规则的红色
-后写的 .message.override 没有获胜
-```
-
-这是一种常见 Specificity Debt：
-
-```text
-把一个高 specificity selector 放入 :is()
-→ 整个 :is() 所在 selector 的覆盖成本升高
-```
-
-### Wrong Way
-
-```css
-:is(.button, #app) {}
-```
-
-只为了“顺便支持 #app”而混入 ID，可能让普通 `.button` 匹配也携带不必要的高 specificity。
-
----
-
-## 8. Step 3：使用 `:where()` 明确低权重意图
-
-```css
-.specificity-where :where(.message, #never-used) {
-  color: #be123c;
-}
-
-.specificity-where .message.override {
-  color: #047857;
-}
-```
-
-`:where()`：
-
-```text
-匹配能力与 :is() 相似
-但它本身和参数对 specificity 的贡献恒为 0
-```
-
-因此后面的 `.message.override` 可以自然覆盖。
-
-适用场景：
-
-- Reset。
-- Base Style。
-- Design System 默认值。
-- 容器过滤。
-- 希望业务方容易覆盖的组件基线。
-
-示例：
-
-```css
-:where(.prose h1, .prose h2, .prose h3) {
-  line-height: 1.2;
-}
-```
-
----
-
-## 9. Step 4：使用 `:not()` 排除不应参与的对象
-
-```css
-.action:not(.archived, [aria-disabled="true"]) {
-  border-color: #2563eb;
-  color: #1d4ed8;
-  font-weight: 750;
-}
-```
-
-匹配：
-
-```text
-.action
-AND NOT .archived
-AND NOT [aria-disabled="true"]
-```
-
-Console：
-
-```js
-document.querySelectorAll(
-  ".action:not(.archived, [aria-disabled='true'])"
-)
-```
-
-预期只匹配 Deploy。
-
-### 注意
-
-`:not()` 不会“删除元素”。
-
-它只是在 selector matching 阶段排除候选元素。
-
-### 反例
-
-```css
-div:not(span) {}
-```
-
-所有 `div` 本来就不是 `span`，这条 selector 只是增加复杂度和 specificity，没有增加有效信息。
-
----
-
-## 10. Step 5：建立 `:has()` anchor 心智模型
-
-```css
-.panel:has(.status-error) {
-  border-color: #dc2626;
-  background: #fef2f2;
-}
-```
-
-分解：
+实际 HTML 恰好相反：
 
 ```text
 .panel
-→ anchor / subject candidate
-
-:has(.status-error)
-→ 以当前 panel 为锚点
-→ 检查相对 selector 是否存在匹配
-
-最终选中的仍然是 panel
+└── .status-error
 ```
 
-这常被口语化称为“父选择器”，但更准确的心智模型是：
+所以不会命中父面板。
 
-```text
-关系 pseudo-class
-候选元素根据相关元素的存在与关系决定是否匹配
-```
-
-`:has()` 不局限于后代关系。
-
----
-
-## 11. Step 6：使用相邻兄弟关系选择前一项
-
-```css
-.step:has(+ .step.current) {
-  background: #dbeafe;
-  outline: 2px solid #2563eb;
-}
-```
-
-它表示：
-
-```text
-候选 .step
-→ 它后面紧邻的兄弟是否是 .step.current？
-```
-
-因此可以选择当前步骤的前一步。
-
-对比：
-
-```css
-.step.current + .step {}
-```
-
-后者选择的是当前步骤后面的一个兄弟。
-
-关系方向完全不同。
-
----
-
-## 12. Step 7：Failure Lab——把 `:has()` 当成向上查询
-
-错误规则：
-
-```css
-.status-error:has(.panel) {
-  text-decoration: line-through;
-}
-```
-
-开发者可能错误地理解为：
-
-> 选择拥有这个 `.status-error` 的 `.panel`。
-
-真实含义：
-
-```text
-候选是 .status-error
-→ 检查其内部或指定相对关系中是否存在 .panel
-```
-
-当前 `.status-error` 内部没有 `.panel`，所以匹配 0 个。
-
-正确表达：
+修复：
 
 ```css
 .panel:has(.status-error) {}
 ```
 
-先写最终想要选择的主体，再在 `:has()` 中写关系条件。
+诊断步骤：
 
-诊断口诀：
+1. 先标记 Subject。
+2. 从 Subject 出发画关系箭头。
+3. 对照真实 DOM。
+4. 在 Styles 中确认修复前后规则是否匹配。
+
+---
+
+## 10. Static State Design
+
+过去版本用脚本把 `.status-ok` 改成 `.status-error`。
+
+现在页面同时提供两个静态状态，原因是：
 
 ```text
-:has() 左边是谁
-最终被选择的就是谁
+CSS 只负责根据已有状态匹配
+状态怎样由应用逻辑产生
+属于后续 JavaScript / DOM Stage
 ```
+
+学习者仍可手动修改 class 并刷新，验证 Match Set 会变化。
 
 ---
 
-## 13. Step 8：动态状态变化
+## 11. Performance 与 Governance Boundary
 
-按钮逻辑会在 Health panel 中切换：
-
-```text
-.status-ok
-↔
-.status-error
-```
-
-当状态变为 error：
-
-```text
-.panel:has(.status-error) 开始匹配
-```
-
-恢复 ok：
-
-```text
-匹配消失
-```
-
-证据区通过：
-
-```js
-document.querySelectorAll(".panel:has(.status-error)")
-```
-
-输出当前匹配数量。
-
-这证明 `:has()` 基于当前 DOM 和状态动态参与 selector matching。
+- 不因为 `:has()` 强大就替代所有组件状态。
+- 关系需求真实存在时才使用 Relational Selector。
+- `:where()` 适合低权重基线，但要写清覆盖意图。
+- `:is()` 参数中混入 ID 前评估 Specificity Debt。
+- 复杂参数列表需要兼容与可读性审查。
+- 浏览器 Selector Engine 与 Style Invalidation 深入后置 Stage 09 / 24。
 
 ---
 
-## 14. Specificity 收束
+## 12. Challenge
 
-简化规则：
+只修改 HTML / CSS：
 
-```text
-:is()
-→ 取参数中最高 specificity
-
-:not()
-→ 取参数中最高 specificity
-
-:has()
-→ 取参数中最高 specificity
-
-:where()
-→ 恒为 0
-```
-
-外部 selector 仍继续累加。
-
-例如：
-
-```css
-.panel:has(#critical)
-```
-
-包含：
-
-```text
-.panel 的 class specificity
-+
-#critical 的 ID specificity
-```
-
-需要低权重时，可以组合：
-
-```css
-.panel:has(:where(.status-error, .status-warning)) {}
-```
-
-但不要为了技巧而技巧；先保证 selector 表达清晰。
+1. 增加第三个面板，内部包含 warning 状态。
+2. 用 `:is()` 合并 error 与 warning 的公共样式。
+3. 用 `:where()` 建立可覆盖基线。
+4. 用 `:not()` 排除 archived 操作。
+5. 用 `:has()` 选择包含 warning 的父面板。
+6. 故意把 Subject 写反，再用 DOM Tree + Styles 定位。
 
 ---
 
-## 15. 完整运行与验收
+## 13. Mastery Check
 
-```bash
-npm run check
-npm run dev
-```
-
-验收：
-
-- 三个 message 被 `:is()` 共同匹配。
-- `:is(.message, #never-used)` 演示高 specificity 陷阱。
-- `:where()` 默认样式可被 `.message.override` 覆盖。
-- `:not()` 只匹配可用 action。
-- Release panel 因 error 子节点被 `:has()` 匹配。
-- Health panel 可动态进入和退出匹配集合。
-- `:has(+ .step.current)` 命中当前步骤前一项。
-- 错误方向 selector 匹配数量为 0。
-
----
-
-## 16. Wrong Way
-
-### Wrong Way 1：把 `:has()` 用于所有父子样式
-
-如果给父元素增加稳定状态类更直接：
-
-```html
-<section class="panel panel--error">
-```
-
-就不必强行：
-
-```css
-.panel:has(.deep .nested .error-icon) {}
-```
-
-### Wrong Way 2：在 `:is()` 中混入不必要 ID
-
-会提高所有匹配分支的覆盖成本。
-
-### Wrong Way 3：用 `:not()` 枚举所有未来状态
-
-```css
-.button:not(.loading, .disabled, .hidden, .archived, .pending) {}
-```
-
-状态继续增加后容易遗漏。更稳定的模型可能是明确 `.button[data-interactive="true"]`。
-
-### Wrong Way 4：只看视觉，不验证 match set
-
-`:has()` 可能匹配成功但被 Cascade 覆盖，也可能没有匹配却由其他规则产生相同视觉。
-
-必须使用 `querySelectorAll()` 或 DevTools Matched Rules。
-
----
-
-## 17. Production Boundary
-
-优先使用 `:has()` 的条件：
-
-- 需求本质就是关系。
-- HTML 语义不能直接表达该视觉状态。
-- 不需要为了 CSS 再复制一份 JavaScript 状态。
-- 目标浏览器支持满足产品约束。
-- Selector 范围可控且可以测试。
-
-优先使用状态 class / attribute 的条件：
-
-- 状态由业务数据或权限决定。
-- 需要跨组件、跨渲染边界传递。
-- 需要稳定 API。
-- 需要兼容更老环境。
-- 复杂 `:has()` 会与深层 DOM 强耦合。
-
----
-
-## 18. 本课只记住 3 件事
-
-1. `:is()`、`:not()`、`:has()` 会从参数得到 specificity，`:where()` 始终为零。
-2. `:has()` 左侧是最终候选元素，参数描述相对于它的关系。
-3. 关系选择是工具，不应代替稳定的业务状态模型和组件边界。
-
----
-
-## 19. Challenge
-
-实现：
-
-```text
-表单组中存在 invalid 字段时突出整个组
-当前步骤的前一步标记为 completed-candidate
-卡片中不存在图片时采用 text-only 布局
-```
-
-要求：
-
-- 至少使用一次 `:has()`。
-- 至少使用一次 `:where()` 降低默认样式 specificity。
-- 输出每条 selector 的匹配集合。
-- 写出不用 `:has()` 的替代方案和 Trade-off。
-
----
-
-## 20. Mastery Check
-
-- 为什么 `:is(.card, #never)` 可能产生 ID 级 specificity？
-- `:where()` 为什么适合 Base Style？
-- `:not()` 是删除节点还是排除匹配？
-- `.panel:has(.error)` 最终选择谁？
-- `.step:has(+ .current)` 与 `.current + .step` 各自选择谁？
-- 什么时候应该改用状态 class？
-
----
-
-## 21. 标准依据
-
-- W3C Selectors Level 4：`:is()`、`:not()`、`:where()`、`:has()`。
-- 普通 selector list 与 forgiving selector list 的错误处理边界。
-- 课程中的每个结论均要求通过 `querySelectorAll()`、DevTools 或真实状态变化验证。
+1. `:is()` 与 `:where()` 最大的 Specificity 差异是什么？
+2. `:not()` 的 Subject 是参数中的元素吗？
+3. `.panel:has(.error)` 最终匹配谁？
+4. `.step:has(+ .step.current)` 为什么能选中前一个兄弟？
+5. 判断 `:has()` 方向时应该先标记什么？
+6. 为什么静态状态足以教学本课 CSS 机制？

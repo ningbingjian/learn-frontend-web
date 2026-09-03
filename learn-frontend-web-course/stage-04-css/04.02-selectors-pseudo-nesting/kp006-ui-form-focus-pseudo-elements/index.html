@@ -3,61 +3,66 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KP006 UI, Form, Focus and Pseudo-element Laboratory</title>
+  <title>KP006 · UI Form Focus and Pseudo-elements</title>
   <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.js"></script>
 </head>
 <body>
   <main class="page-shell">
     <header class="hero">
       <p class="eyebrow">Stage 04 · Module 04.02 · KP006</p>
-      <h1>UI / Form / Focus / Pseudo-element Laboratory</h1>
-      <p>把真实交互状态交给 pseudo-class，把渲染树中的抽象目标交给 pseudo-element。</p>
+      <h1>UI / Form / Focus Pseudo-class & Pseudo-element Laboratory</h1>
+      <p>使用浏览器原生交互：Tab、点击、输入与勾选即可产生状态，不需要脚本监听事件。</p>
     </header>
 
     <section class="lab-section" aria-labelledby="interaction-title">
-      <h2 id="interaction-title">实验一：hover、active、focus 与 focus-visible</h2>
-      <p class="link-row">
-        <a class="demo-link" href="#form-title">跳到表单实验</a>
-        <button class="demo-button" type="button">可键盘聚焦的按钮</button>
-      </p>
-      <p class="hint">请分别使用鼠标和 Tab 键，观察焦点指示器何时出现。</p>
+      <h2 id="interaction-title">实验 A：Hover、Active、Focus 与 Focus Visible</h2>
+      <div class="action-row">
+        <a class="interactive-target" href="#form-lab">键盘 Tab 可聚焦链接</a>
+        <button class="interactive-target" type="button">按住鼠标观察 active</button>
+      </div>
+      <p class="hint">分别用鼠标点击和键盘 Tab 进入，观察 :focus 与 :focus-visible 的差异。</p>
     </section>
 
-    <section class="lab-section focus-card" aria-labelledby="form-title">
-      <h2 id="form-title">实验二：focus-within 与表单状态</h2>
-      <form id="profile-form" novalidate>
-        <label class="field">
-          <span>Email（必填）</span>
-          <input id="email" name="email" type="email" required placeholder="name@example.com">
+    <section class="lab-section focus-card" id="form-lab" aria-labelledby="form-title">
+      <h2 id="form-title">实验 B：Focus Within 与表单状态</h2>
+      <form>
+        <label>
+          邮箱（required）
+          <input type="email" name="email" required placeholder="name@example.com">
         </label>
-        <label class="field">
-          <span>只读环境</span>
-          <input id="environment" name="environment" value="production" readonly>
+
+        <label>
+          只读编号
+          <input type="text" value="CSS-0402" readonly>
         </label>
-        <div class="check-row">
-          <input id="agree" name="agree" type="checkbox">
-          <label for="agree">我已经阅读发布规则</label>
-        </div>
-        <button type="submit">验证表单</button>
-        <button type="button" disabled>禁用操作</button>
+
+        <label class="check-row">
+          <input type="checkbox" name="agreement">
+          我已阅读课程边界
+        </label>
+
+        <button type="submit">提交并触发浏览器原生校验</button>
+        <button type="button" disabled>原生 disabled 按钮</button>
+        <span class="fake-disabled" aria-disabled="true">仅样式模拟，不是真 disabled</span>
       </form>
     </section>
 
     <section class="lab-section" aria-labelledby="pseudo-title">
-      <h2 id="pseudo-title">实验三：pseudo-element 不是普通 DOM 节点</h2>
-      <p class="decorated-status" data-decoration="●">Release status: ready</p>
-      <ol class="milestones">
-        <li>Prepare</li>
-        <li>Deploy</li>
-        <li>Verify</li>
-      </ol>
-      <p class="selection-demo">拖动选择这一段文字，观察 <code>::selection</code>。装饰圆点和列表 marker 都由 pseudo-element 参与渲染，但它们不是普通 Element 节点。</p>
+      <h2 id="pseudo-title">实验 C：Pseudo-element</h2>
+      <p class="decorated-status">部署状态正常</p>
+      <ul class="marker-list">
+        <li>before / after 用于装饰</li>
+        <li>marker 样式化列表标记</li>
+        <li>selection 样式化选中文本</li>
+      </ul>
+      <p class="critical-message"><span>关键业务文字必须存在于 HTML 中</span></p>
     </section>
 
-    <section class="lab-section" aria-labelledby="evidence-title">
-      <h2 id="evidence-title">状态与渲染证据</h2>
-      <pre id="selector-output" aria-live="polite"></pre>
+    <section class="lab-section failure-zone" aria-labelledby="failure-title">
+      <h2 id="failure-title">Failure Lab</h2>
+      <button class="focus-removed" type="button">错误示例：移除 outline 且没有替代</button>
+      <p class="generated-only" aria-label="删除项目"></p>
+      <p>上面空段落只依靠 generated content 显示文字，复制、无障碍与内容语义都不可靠。</p>
     </section>
   </main>
 </body>

@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
+  "name": "css-kp004-structural-pseudo-classes",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node verify.mjs && node --check app.js"
-  },
-  "name": "css-kp004-structural-pseudo-classes"
+    "check": "node verify.mjs"
+  }
 }

@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
+  "name": "css-kp005-functional-relational-pseudo-classes",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node verify.mjs && node --check app.js"
-  },
-  "name": "css-kp005-functional-relational-pseudo-classes"
+    "check": "node verify.mjs"
+  }
 }
