@@ -59,6 +59,12 @@ jobs:
             working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp017-tuple-named-optional-rest
           - lesson-name: KP018
             working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp018-literal-union-as-const
+          - lesson-name: KP019
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp019-enum-const-enum-object-constant
+          - lesson-name: KP020
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp020-index-signature-record-no-unchecked-indexed-access
+          - lesson-name: KP021
+            working-directory: learn-frontend-web-course/stage-08-typescript/08.02-basic-types-and-modeling/kp021-freshness-excess-property-satisfies
 
     defaults:
       run:
